@@ -752,7 +752,7 @@
    "text": "grazie anche a Lei arrivederci",
    "tokens": [
     {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
-    {"analyses": ["anche ADV"], "flags": ["unresolved"], "kind": "word", "lemma": "anche", "span": [7, 12], "surface": "anche", "trailing": " "},
+    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [7, 12], "surface": "anche", "trailing": " "},
     {"analyses": ["a PRE"], "detections": ["g:simple-prepositions", "g:stressed-pronouns"], "item": "w:a", "kind": "word", "lemma": "a", "span": [13, 14], "surface": "a", "trailing": " "},
     {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:stressed-pronouns", "g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [15, 18], "surface": "Lei", "trailing": " "},
     {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [19, 30], "surface": "arrivederci"}
@@ -775,7 +775,7 @@
    "text": "grazie anche a Lei",
    "tokens": [
     {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
-    {"analyses": ["anche ADV"], "flags": ["unresolved"], "kind": "word", "lemma": "anche", "span": [7, 12], "surface": "anche", "trailing": " "},
+    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [7, 12], "surface": "anche", "trailing": " "},
     {"analyses": ["a PRE"], "detections": ["g:simple-prepositions", "g:stressed-pronouns"], "item": "w:a", "kind": "word", "lemma": "a", "span": [13, 14], "surface": "a", "trailing": " "},
     {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:stressed-pronouns", "g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [15, 18], "surface": "Lei"}
    ]

@@ -666,10 +666,6 @@
    ]
   },
   {
-   "detections": [
-    {"point": "g:question-words", "tokens": [0, 0]},
-    {"point": "g:irregular-movement", "tokens": [1, 1]}
-   ],
    "expansion": 1,
    "model": false,
    "norm": "come stai",
@@ -680,15 +676,11 @@
    "role": "answer",
    "text": "come stai",
    "tokens": [
-    {"analyses": ["come WH"], "detections": ["g:question-words"], "flags": ["unresolved"], "kind": "word", "lemma": "come", "span": [0, 4], "surface": "come", "trailing": " "},
-    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "detections": ["g:irregular-movement"], "flags": ["unresolved"], "kind": "word", "lemma": "stare", "span": [5, 9], "surface": "stai"}
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [0, 4], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [5, 9], "surface": "stai"}
    ]
   },
   {
-   "detections": [
-    {"point": "g:question-words", "tokens": [0, 0]},
-    {"point": "g:irregular-movement", "tokens": [1, 1]}
-   ],
    "expansion": 2,
    "model": false,
    "norm": "come sta",
@@ -699,8 +691,8 @@
    "role": "answer",
    "text": "come sta",
    "tokens": [
-    {"analyses": ["come WH"], "detections": ["g:question-words"], "flags": ["unresolved"], "kind": "word", "lemma": "come", "span": [0, 4], "surface": "come", "trailing": " "},
-    {"analyses": ["stare ASP:impr+pres+2+s", "stare ASP:ind+pres+3+s", "stare VER:ind+pres+3+s"], "detections": ["g:irregular-movement"], "flags": ["unresolved"], "kind": "word", "lemma": "stare", "span": [5, 8], "surface": "sta"}
+    {"analyses": ["come WH"], "chunk": "c:come-sta", "kind": "word", "lemma": "come", "span": [0, 4], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:impr+pres+2+s", "stare ASP:ind+pres+3+s", "stare VER:ind+pres+3+s"], "chunk": "c:come-sta", "kind": "word", "lemma": "stare", "span": [5, 8], "surface": "sta"}
    ]
   },
   {
@@ -922,10 +914,6 @@
    ]
   },
   {
-   "detections": [
-    {"point": "g:question-words", "tokens": [1, 1]},
-    {"point": "g:irregular-movement", "tokens": [2, 2]}
-   ],
    "expansion": 1,
    "model": false,
    "norm": "ciao come stai",
@@ -937,8 +925,8 @@
    "text": "ciao come stai",
    "tokens": [
     {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
-    {"analyses": ["come WH"], "detections": ["g:question-words"], "flags": ["unresolved"], "kind": "word", "lemma": "come", "span": [5, 9], "surface": "come", "trailing": " "},
-    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "detections": ["g:irregular-movement"], "flags": ["unresolved"], "kind": "word", "lemma": "stare", "span": [10, 14], "surface": "stai"}
+    {"analyses": ["come WH"], "chunk": "c:come-stai", "kind": "word", "lemma": "come", "span": [5, 9], "surface": "come", "trailing": " "},
+    {"analyses": ["stare ASP:ind+pres+2+s", "stare VER:impr+pres+2+s", "stare VER:ind+pres+2+s"], "chunk": "c:come-stai", "kind": "word", "lemma": "stare", "span": [10, 14], "surface": "stai"}
    ]
   },
   {

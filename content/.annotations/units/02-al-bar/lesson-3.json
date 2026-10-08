@@ -8,7 +8,7 @@
    "role": "line",
    "text": "Pronto?",
    "tokens": [
-    {"analyses": ["pronto ADJ:pos+m+s"], "flags": ["new"], "gloss": "hello? (on the phone)", "kind": "word", "lemma": "pronto", "span": [0, 6], "surface": "Pronto"},
+    {"analyses": ["pronto INT"], "flags": ["synthetic"], "gloss": "hello? (on the phone)", "item": "w:pronto", "kind": "word", "lemma": "pronto", "span": [0, 6], "surface": "Pronto"},
     {"kind": "punct", "span": [6, 7], "surface": "?"}
    ]
   },
