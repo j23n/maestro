@@ -3,8 +3,8 @@ import LearningCore
 import Observation
 
 // The final A1 check (docs/05 § Final A1 check, docs/06 §20): five sections modelled on CILS A1 with check-mode
-// rules (one attempt per item, no hints, no feedback until the end), speaking always recorded, a result with an
-// indicative pass of 7/12 per section, and the examiner export. The engine scores (`CheckScoring.scoreFinal`); this
+// rules (one attempt per item, no hints, no feedback until the end), speaking always recorded, a result with the
+// pack's indicative pass per section (7 of 12), and the examiner export. The engine scores (`CheckScoring.scoreFinal`); this
 // plays the items through the same exercise models as lessons. Platform-neutral and tested.
 
 @MainActor
@@ -107,14 +107,22 @@ final class FinalCheckLog {
 
     init(recordings: SpeakingRecordings?) { self.recordings = recordings }
 
-    /// The event sink's write: attempts are kept, and a pending recording of the same exercise takes the event's ID.
+    /// The event sink's write: attempts are kept, and a pending recording of the same exercise takes the event's ID
+    /// (not a skip's: a recording the learner gave up on is discarded with the other pending ones).
     func append(_ event: Event) {
         guard case .attempt(let a) = event.payload else { return }
-        let recording = a.mode == .spoken ? recordings?.attach(attemptID: event.id, exercise: a.exerciseId) : nil
-        answers[a.exerciseId, default: []].append(.init(attemptId: event.id, attempt: a, recording: recording))
+        let spoken = a.mode == .spoken && a.outcome != .skipped
+        let recording = spoken ? recordings?.attach(attemptID: event.id, exercise: a.exerciseId) : nil
+        answers[a.exerciseId, default: []].append(
+            .init(attemptId: event.id, attempt: a, recording: recording?.lastPathComponent))
     }
 
-    var recordingURLs: [URL] { answers.values.flatMap { $0.compactMap(\.recording) }.sorted { $0.path < $1.path } }
+    /// The sitting's recordings on disk.
+    var recordingURLs: [URL] {
+        guard let directory = recordings?.directory else { return [] }
+        return answers.values.flatMap { $0.compactMap(\.recording) }.sorted()
+            .map { directory.appendingPathComponent($0) }
+    }
 }
 
 /// The final check's words (docs/06 §20, docs/07 § Copy).
@@ -128,15 +136,33 @@ enum FinalCheckCopy {
         + "examiner can listen to them; the recordings stay on this device."
     static let noSpeech = "Speaking isn't available on this device, so the speaking section is left out."
     static let disclaimer = "This is a practice check, not an official certificate."
-    static let passRule = "Indicative pass: 7 of 12 in every section."
+    /// "Indicative pass: 7 of 12 in every section." with the pack's pass mark.
+    static func passRule(passMark: Double, max: Double = 12) -> String {
+        "Indicative pass: \(CheckResultContent.number(passMark)) of \(CheckResultContent.number(max)) in every section."
+    }
     static let exportLine =
         "Your answers, writing and recordings in one file for an examiner. Nothing is uploaded: you choose where "
-        + "to send it."
-    static let exportFailed = "The export couldn't be saved on this device."
+        + "to send it. Once it's sent, the recordings are deleted from this device."
+    static let exportUnsaved = "The export couldn't be saved on this device, so its recordings were deleted."
+    static let exportShared = "Sent. Your recordings are deleted from this device."
+    static let exportCancelled =
+        "Not sent. Your recordings stay on this device for 30 days after the check, so you can export again."
+    static let exportFailed = "The export couldn't be made on this device."
+    static let leaveMessage = "Your answers so far won't be scored, and your recordings are deleted."
+
+    /// The line under the result after **Export for examiner**, or before it (nil).
+    static func exportStatus(_ result: AppModel.ExaminerExportResult?) -> String {
+        switch result {
+        case nil: exportLine
+        case .shared?: exportShared
+        case .cancelled?: exportCancelled
+        case .failed?: exportFailed
+        }
+    }
 }
 
-/// The final check's result screen (docs/06 §20): per-section scores out of 12, the indicative pass, the line that
-/// it isn't a certificate.
+/// The final check's result screen (docs/06 §20): per-section scores out of 12, the indicative pass (the pack's pass
+/// mark), the line that it isn't a certificate.
 struct FinalCheckResultContent: Sendable, Equatable {
     struct Section: Sendable, Equatable {
         let title: String
@@ -149,14 +175,19 @@ struct FinalCheckResultContent: Sendable, Equatable {
 
     let indicativePass: Bool
     let headline: String
+    /// "Indicative pass: 7 of 12 in every section." with the pack's pass mark (`indicativePassPerSection`).
+    let passRule: String
     let sections: [Section]
 
-    init(result: FinalCheckResult, titles: [String: String]) {
+    init(result: FinalCheckResult, titles: [String: String], passMark: Double) {
+        let max = result.sections.first?.max ?? 12
+        let n = CheckResultContent.number
         indicativePass = result.indicativePass
         headline =
             result.indicativePass
             ? "You reached the indicative A1 pass in every section."
-            : "Not every section reached 7 of 12 yet."
+            : "Not every section reached \(n(passMark)) of \(n(max)) yet."
+        passRule = FinalCheckCopy.passRule(passMark: passMark, max: max)
         sections = result.sections.map { s in
             Section(
                 title: titles[s.id] ?? s.id.capitalized,

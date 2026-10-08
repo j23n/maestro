@@ -80,6 +80,7 @@ pack: check-content
 
 mini-pack:
 	$(CONTENT) build --mini
+	$(UV) run $(PYPROJECT) python -m itcontent.pack.assessment_fixture
 
 pack-release:
 	$(CONTENT) build --release --allow-partial

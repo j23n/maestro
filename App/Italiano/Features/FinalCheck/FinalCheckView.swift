@@ -2,8 +2,8 @@ import LearningCore
 import SwiftUI
 
 /// The final A1 check (docs/06 §20): the intro with the five sections, the items with check-mode rules (speaking
-/// always recorded), then the result with the indicative pass and **Export for examiner**, which opens the share
-/// sheet with the zip (docs/12). Presented over the app from the final review unit.
+/// always recorded), then the result with the indicative pass and **Export for examiner**, which builds the zip and
+/// opens the share sheet (docs/12). Presented over the app from the final review unit.
 struct FinalCheckHost: View {
     let deps: AppDependencies
     let onDismiss: () -> Void
@@ -18,7 +18,7 @@ struct FinalCheckHost: View {
     var body: some View {
         Group {
             if let outcome {
-                FinalCheckResultView(content: outcome.result, export: outcome.export, onDone: onDismiss)
+                FinalCheckResultView(content: outcome.result, export: outcome.export, deps: deps, onDone: onDismiss)
             } else if let launch, let services {
                 switch launch.model.phase {
                 case .intro:
@@ -51,7 +51,7 @@ struct FinalCheckHost: View {
                         Button("Keep going", role: .cancel) {}
                             .accessibilityIdentifier("final.keepGoing")
                     } message: {
-                        Text("Your answers so far won't be scored, and its recordings are deleted.")
+                        Text(FinalCheckCopy.leaveMessage)
                     }
                 case .finished:
                     ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -151,17 +151,21 @@ struct FinalCheckIntroView: View {
                 .accessibilityIdentifier("final.start")
             Button("Not now", action: onClose)
                 .buttonStyle(.dsSecondary)
+                .keyboardShortcut(.cancelAction)
                 .accessibilityIdentifier("final.notNow")
         }
     }
 }
 
-/// The result (docs/06 §20): each section out of 12 with the indicative pass, the practice-check line, and the
-/// examiner export in the share sheet.
+/// The result (docs/06 §20): each section out of 12 with the indicative pass, the practice-check line, and
+/// **Export for examiner**.
 struct FinalCheckResultView: View {
     let content: FinalCheckResultContent
-    let export: URL?
+    /// The sitting's record (nil when it couldn't be saved on this device).
+    let export: ExaminerExport?
+    let deps: AppDependencies
     let onDone: () -> Void
+    @State private var exportResult: AppModel.ExaminerExportResult?
 
     var body: some View {
         AssessmentPage(
@@ -192,20 +196,16 @@ struct FinalCheckResultView: View {
                     .accessibilityIdentifier("final.section.\(n)")
                 }
             }
-            Text(FinalCheckCopy.passRule).dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
+            Text(content.passRule).dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
             Text(FinalCheckCopy.disclaimer).dsFont(Tokens.TypeScale.uiCallout).fontWeight(.semibold)
                 .foregroundStyle(Color.ds.ink)
                 .accessibilityIdentifier("final.disclaimer")
-            Text(export == nil ? FinalCheckCopy.exportFailed : FinalCheckCopy.exportLine)
+            Text(export == nil ? FinalCheckCopy.exportUnsaved : FinalCheckCopy.exportStatus(exportResult))
                 .dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.secondary)
+                .accessibilityIdentifier("final.exportStatus")
         } buttons: {
-            if let export {
-                ShareLink(item: export) {
-                    Label("Export for examiner", systemImage: "square.and.arrow.up")
-                }
-                .buttonStyle(.dsSecondary)
-                .accessibilityLabel(Text("Export for examiner"))
-                .accessibilityIdentifier("final.export")
+            if let export, exportResult != .shared {
+                ExaminerExportButton(export: export, deps: deps) { exportResult = $0 }
             }
             Button("Done", action: onDone)
                 .buttonStyle(.dsPrimary)
@@ -215,50 +215,65 @@ struct FinalCheckResultView: View {
     }
 }
 
-/// The final review unit's way into the final check (docs/05 § Final A1 check: once Unit 12 is completed), and the
-/// latest examiner export while it is kept.
-private struct FinalCheckEntry: ViewModifier {
-    let app: AppModel
-    let unit: UnitID
-    let onStart: () -> Void
+/// **Export for examiner**: builds the zip and opens the share sheet through `ExportSharing`; the app deletes the
+/// recordings only when the share completes (docs/12).
+struct ExaminerExportButton: View {
+    let export: ExaminerExport
+    let deps: AppDependencies
+    let onResult: (AppModel.ExaminerExportResult) -> Void
+    @State private var sharing = false
 
-    func body(content: Content) -> some View {
-        if app.offersFinalCheck(in: unit) {
-            content.safeAreaInset(edge: .top, spacing: 0) {
-                Card {
-                    VStack(alignment: .leading, spacing: Tokens.Space.m) {
-                        Text(FinalCheckCopy.title).dsFont(Tokens.TypeScale.uiTitle).foregroundStyle(Color.ds.ink)
-                            .accessibilityAddTraits(.isHeader)
-                        Text(FinalCheckCopy.introBody).dsFont(Tokens.TypeScale.uiCallout)
-                            .foregroundStyle(Color.ds.secondary)
-                        Button("Take the final check", action: onStart)
-                            .buttonStyle(.dsPrimary)
-                            .accessibilityIdentifier("final.open")
-                        if let export = app.latestExaminerExport {
-                            ShareLink(item: export) {
-                                Label("Export for examiner", systemImage: "square.and.arrow.up")
-                            }
-                            .buttonStyle(.dsSecondary)
-                            .accessibilityLabel(Text("Export for examiner"))
-                            .accessibilityIdentifier("final.export")
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .readableColumn()
-                .padding(.vertical, Tokens.Space.m)
-                .background(Color.ds.background)
+    var body: some View {
+        Button {
+            sharing = true
+            Task {
+                let result = await deps.app.exportForExaminer(export, sharing: deps.exportSharing)
+                sharing = false
+                onResult(result)
             }
-        } else {
-            content
+        } label: {
+            Label("Export for examiner", systemImage: "square.and.arrow.up")
         }
+        .buttonStyle(.dsSecondary)
+        .disabled(sharing)
+        .accessibilityLabel(Text("Export for examiner"))
+        .accessibilityIdentifier("final.export")
     }
 }
 
-extension View {
-    /// In the final review unit: the final A1 check's card at the top (nothing elsewhere).
-    func finalCheckEntry(app: AppModel, unit: UnitID, onStart: @escaping () -> Void) -> some View {
-        modifier(FinalCheckEntry(app: app, unit: unit, onStart: onStart))
+/// The final review unit's card for the final check (docs/05 § Final A1 check: once Unit 12 is completed), inside
+/// the unit overview's scrolling content: **Take the final check**, and **Export for examiner** for the newest
+/// sitting still kept on this device (looked up when the sittings change, not on every render).
+struct FinalCheckCard: View {
+    let deps: AppDependencies
+    let unit: UnitID
+    let onStart: () -> Void
+    @State private var pending: ExaminerExport?
+    @State private var exportResult: AppModel.ExaminerExportResult?
+
+    var body: some View {
+        if deps.app.offersFinalCheck(in: unit) {
+            Card {
+                VStack(alignment: .leading, spacing: Tokens.Space.m) {
+                    Text(FinalCheckCopy.title).dsFont(Tokens.TypeScale.uiTitle).foregroundStyle(Color.ds.ink)
+                        .accessibilityAddTraits(.isHeader)
+                    Text(FinalCheckCopy.introBody).dsFont(Tokens.TypeScale.uiCallout)
+                        .foregroundStyle(Color.ds.secondary)
+                    Button("Take the final check", action: onStart)
+                        .buttonStyle(.dsPrimary)
+                        .accessibilityIdentifier("final.open")
+                    if let pending {
+                        ExaminerExportButton(export: pending, deps: deps) { exportResult = $0 }
+                    }
+                    if let exportResult {
+                        Text(FinalCheckCopy.exportStatus(exportResult)).dsFont(Tokens.TypeScale.uiCallout)
+                            .foregroundStyle(Color.ds.secondary)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .task(id: deps.app.finalCheckFilesChanged) { pending = await deps.app.pendingExaminerExport() }
+        }
     }
 }
 

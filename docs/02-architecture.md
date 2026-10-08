@@ -14,7 +14,7 @@ italiano/
 │  │  ├─ Features/              Onboarding, Today, Course, Unit, LessonPlayer, Steps/*, Review,
 │  │  │                         Checks, Placement, FinalCheck (incl. the examiner export's zip writer),
 │  │  │                         Words, Settings, Debug
-│  │  ├─ Platform/              AudioPlayer, SpeechService, CloudSync, Notifications, Telemetry
+│  │  ├─ Platform/              AudioPlayer, SpeechService, CloudSync, Notifications, Telemetry, Sharing
 │  │  └─ Resources/             Fonts, Assets.xcassets (mascot), Content/ (content.sqlite + Audio/)
 │  ├─ ItalianoTests/            Swift Testing: view models, snapshot tests
 │  └─ ItalianoUITests/          XCUITest flows (also used for Mac screenshots)
@@ -25,7 +25,7 @@ italiano/
 ├─ content/                     YAML course sources (see docs/03)
 ├─ reviews/                     the content lead's review files (inbox/, never edited) and per-unit ledgers (docs/04)
 ├─ schemas/                     content-pack.sql (normative) and JSON Schemas for YAML
-├─ fixtures/                    fsrs/, grading/, packs/ (tiny test packs), replay/
+├─ fixtures/                    fsrs/, grading/, packs/ (tiny test packs), replay/, export/
 ├─ design/                      tokens.json, fonts, mascot SVGs, reference screens, canvas source
 ├─ docs/                        these specs
 └─ .claude/, .github/, .mcp.json
@@ -102,7 +102,7 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
 
 - One `WindowGroup` scene. On macOS, also a `Settings` scene with the same settings view, and the Mac menus in `docs/07` § Navigation.
 - Navigation: `TabView` with `.tabViewStyle(.sidebarAdaptable)` and tabs Today, Course, Words, Settings: a tab bar on iPhone, adaptable on iPad, a sidebar on Mac. The lesson player is presented full-screen: `fullScreenCover` on iOS and iPadOS; on macOS (which has no full-screen cover) the window's content switches to the player, with Esc and a close button to leave.
-- A dependency container (`AppDependencies`, injected via `@Environment`) holds `PackReader`, `LearnerStore`, `Planner`, `AudioPlaying`, `SpeechRecognizing`, `SyncControlling`, `TelemetryUploading`, `Clock`, `NotificationScheduling` and `AppConfig`. Previews and tests use fakes.
+- A dependency container (`AppDependencies`, injected via `@Environment`) holds `PackReader`, `LearnerStore`, `Planner`, `AudioPlaying`, `SpeechRecognizing`, `SyncControlling`, `TelemetryUploading`, `Clock`, `NotificationScheduling`, `ExportSharing` and `AppConfig`. Previews and tests use fakes.
 - View models are `@MainActor @Observable`. Long work (replay, pack queries) runs off the main actor in `Storage`.
 - Platform adapters sit behind protocols so the Simulator, previews and tests work without a microphone, speech assets or iCloud.
 
@@ -113,6 +113,7 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
 | `SyncControlling` | `SyncDriver` over `CloudSync`, the CKSyncEngine delegate (`docs/08`); created only when `ITA_SYNC_ENABLED` and `ITA_ICLOUD_ENTITLEMENT` are YES | `DisabledSync` ("Sync off in this build", also for previews); the tests run `SyncDriver` against a fake engine and in-memory private databases, two devices at a time |
 | `TelemetryUploading` | URLSession batch upload (`docs/12`) | records requests |
 | `NotificationScheduling` | UNUserNotificationCenter | records schedules |
+| `ExportSharing` | `SystemExportSharing`: `UIActivityViewController` (its `completionWithItemsHandler`) on iOS and iPadOS, `NSSharingServicePicker` and the chosen service's delegate on macOS; reports whether the share completed (`docs/12` § Final check export) | answers a scripted outcome and keeps the shared files |
 | `WritingHintProviding` (optional) | FoundationModels, behind availability and a flag | none |
 
 ### App configuration

@@ -180,6 +180,16 @@ struct ConversationView: View {
                         .accessibilityIdentifier("conv.type")
                     }
                     if model.canSpeak { micButton }
+                    if model.canSkip {
+                        // A check never dead-ends on a mic or recogniser that fails (docs/05 § Stepped feedback).
+                        Button("Skip — can't speak now") {
+                            if speech.isListening { speech.stop() }
+                            model.skip()
+                            onContinue()
+                        }
+                        .buttonStyle(.dsSecondarySmall)
+                        .accessibilityIdentifier("conv.skip")
+                    }
                     Button("Hear \(characterName) again") { playCurrentLine() }
                         .buttonStyle(.dsSecondarySmall)
                         .disabled(!audio.canPlay(model.node?.audioId))
@@ -243,7 +253,7 @@ struct TalkView: View {
             pointsList
             if showingResult, model.result != nil, model.isAssessment {
                 // Checks show nothing about the answer until the end (docs/06 § 18).
-                Text("Answer recorded.").dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.secondary)
+                Text(model.answeredLine).dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.secondary)
                 ContinueButton(action: onContinue)
             } else if showingResult, model.result != nil {
                 resultSection
@@ -327,6 +337,17 @@ struct TalkView: View {
                 .accessibilityLabel(Text(speech.isListening ? "Stop recording" : "Record"))
                 .accessibilityIdentifier("talk.mic")
                 Spacer()
+            }
+            if model.canSkip {
+                // A check never dead-ends on a mic or recogniser that fails (docs/05 § Stepped feedback).
+                Button("Skip — can't speak now") {
+                    if speech.isListening { speech.stop() }
+                    model.skip()
+                    onContinue()
+                }
+                .buttonStyle(.dsSecondarySmall)
+                .frame(maxWidth: .infinity)
+                .accessibilityIdentifier("talk.skip")
             }
         }
     }

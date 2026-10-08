@@ -399,7 +399,7 @@ These three are used inside many lesson types (story questions, listening, readi
 - **First miss:** show the matching `near` hint, else `hint_en`, and the help chips. **Second miss:** "You could say: …" — the learner repeats or types it, or taps Continue — and the conversation follows the first intent's `next`.
 - **Modes:** in practice, typing is allowed. In the unit check, speech is required when available, typing is hidden and the section is excluded on devices without speech.
 - **Events:** one `attempt` per turn (`exerciseId` + `turnId`), with no targets and no FSRS update; check score = goals completed.
-- IDs: `conv.line.<n>`, `conv.mic`, `conv.type`, `conv.replay`, `conv.english`, `conv.goal.<id>`, `conv.help.<n>`.
+- IDs: `conv.line.<n>`, `conv.mic`, `conv.type`, `conv.replay`, `conv.english`, `conv.goal.<id>`, `conv.help.<n>`, `conv.skip` (checks only, § 18).
 
 ### 13 · Talk about it (format `talk`)
 
@@ -420,7 +420,7 @@ These three are used inside many lesson types (story questions, listening, readi
 - Show the points as a checklist before recording (scaffolding).
 - After recording, show the transcript, the points found (ticks), the model answer with audio, and **Try again**.
 - Typing is allowed in practice when speech is unavailable. No FSRS. The transcript is stored in the attempt's `response` (≤ 2,000 characters; never uploaded in telemetry).
-- IDs: `talk.mic`, `talk.type`, `talk.point.<id>`, `talk.model`, `talk.tryAgain`.
+- IDs: `talk.mic`, `talk.type`, `talk.point.<id>`, `talk.model`, `talk.tryAgain`, `talk.skip` (checks only, § 18).
 
 ### 14 · Guided writing (format `writing`)
 
@@ -498,7 +498,7 @@ sections:
   - {id: speaking, title_en: Speaking, exercises: [...]}   # conversation (speech) + talk
 ```
 
-- **Check mode:** one attempt per item, no hints, no feedback until the end (talk shows only "Answer recorded." and Continue, writing only Continue; neither offers Try again); listening plays twice. Each item has a `score` (default 1); the file sets `pass: {overall, section_min}`; listening items carry their audio in `audio_text`.
+- **Check mode:** one attempt per item, no hints, no feedback until the end (talk shows only "Answer saved." and Continue — "Answer recorded." in the final check, where spoken answers are recorded — and writing only Continue; neither offers Try again); listening plays twice. Talk and conversation offer **Skip — can't speak now** (`talk.skip`, `conv.skip`; outcome `skipped`, `docs/05` § Stepped feedback), so a microphone or recogniser that fails never blocks a check: a skipped talk earns nothing, a skipped conversation keeps the goals already reached. Each item has a `score` (default 1); the file sets `pass: {overall, section_min}`; listening items carry their audio in `audio_text`.
 - **Intro screen:** sections, about 15–20 minutes, and "No hints in the check — just do your best".
 - **Result screen:** overall and per-section scores, can-dos reached (ticks), "Review your mistakes" (each wrong item with the answer and rule), **Continue to Unit N+1**, and "Retake tomorrow" if failed. Scoring is in `docs/05`.
 - About 18–20 items, covering every can-do of the unit and all four skills.
@@ -515,13 +515,13 @@ sections:
 ### 20 · Final A1 check (session)
 
 - Five sections modelled on CILS A1 (listening, reading, structures, writing, speaking), 12 points each, with check-mode rules. Sections come from `assessments` (`final`).
-- **Where:** a card at the top of the final review unit's overview ("Final A1 check", **Take the final check**) once it is available and the pack can run it (`docs/05` § Final A1 check); it also offers the latest export while it is kept.
-- **Intro:** the five sections (a section the device can't take reads "Not on this device", with a line saying speaking is left out), about 45 minutes, one try per question, and that spoken answers are recorded and stay on the device. **Start** and **Not now**. When the items need words the learner never met, Start first shows the mini-preview ("Before we go on", `minipreview.*`).
-- **Sitting:** the assessment chrome (close, progress, `n / total`, the section's title). Close asks "Leave the final check?": leaving scores nothing and deletes the sitting's recordings.
+- **Where:** a card under the title of the final review unit's overview, scrolling with it ("Final A1 check", **Take the final check**), once it is available and the pack can run it (`docs/05` § Final A1 check); it also offers **Export for examiner** for the newest sitting still kept on the device.
+- **Intro:** the five sections (a section the device can't take reads "Not on this device", with a line saying speaking is left out), about 45 minutes, one try per question, and that spoken answers are recorded and stay on the device. **Start** (Return) and **Not now** (Esc). When the items need words the learner never met, Start first shows the mini-preview ("Before we go on", `minipreview.*`).
+- **Sitting:** the assessment chrome (close, progress, `n / total`, the section's title). Close asks "Leave the final check?" ("Your answers so far won't be scored, and your recordings are deleted."): leaving scores nothing and deletes the sitting's recordings.
 - Speaking items always record to m4a (`docs/09`), whatever the recording setting.
-- **Result:** per-section score out of 12 with a tick at the indicative pass of ≥ 7/12 ("Not taken" for an excluded section), the line "Indicative pass: 7 of 12 in every section.", and "This is a practice check, not an official certificate."
-- **Export for examiner:** when the check ends the app writes `final-check-<installId>-<date>.zip` (`responses.json`, `writing/*.txt`, `speaking/*.m4a`, `README.txt`; contents in `docs/12`); **Export for examiner** opens the share sheet with it. Nothing uploads automatically.
-- IDs: `final.open`, `final.intro`, `final.section.<id>` (intro), `final.start`, `final.notNow`, `final.leave`, `final.keepGoing`, `final.result`, `final.section.<n>` (result), `final.disclaimer`, `final.export`, `final.done`, plus `player.close`, `player.progress`, `assessment.section`.
+- **Result:** per-section score out of 12 with a tick at the indicative pass (the pack's `indicativePassPerSection`, 7: "Not taken" for an excluded section), the line "Indicative pass: 7 of 12 in every section." with the pack's number, and "This is a practice check, not an official certificate."
+- **Export for examiner:** creates `final-check-<installId>-<date>-<time>.zip` (`responses.json`, `writing/*.txt`, `speaking/*.m4a`, `README.txt`; contents and when files are deleted in `docs/12`) and opens the share sheet with it. A line under the result says what happened: sent (the recordings are deleted from the device), or not sent (they stay for 30 days, so the learner can export again). Nothing uploads automatically.
+- IDs: `final.open`, `final.intro`, `final.section.<id>` (intro), `final.start`, `final.notNow`, `final.leave`, `final.keepGoing`, `final.result`, `final.section.<n>` (result), `final.disclaimer`, `final.export`, `final.exportStatus`, `final.done`, plus `player.close`, `player.progress`, `assessment.section`.
 
 ## Opener and Use
 

@@ -14,6 +14,9 @@ final class AppDependencies {
     let audioPlayer: any AudioPlaying
     let speech: any SpeechRecognizing
     let notifications: any NotificationScheduling
+    /// The share sheet that reports how it ended: the examiner export deletes recordings only after a completed
+    /// share (docs/12).
+    let exportSharing: any ExportSharing
     /// Reminders, study telemetry, text size and the Debug menu (platform-neutral, `AppServices`).
     let services: AppServices
     /// The content lead's review mode (M6.10): only in builds with `ITA_REVIEW_MODE = YES`, and active only on a
@@ -24,14 +27,15 @@ final class AppDependencies {
 
     init(
         config: AppConfig, app: AppModel, audioPlayer: any AudioPlaying, speech: any SpeechRecognizing,
-        notifications: any NotificationScheduling, telemetry: StudyTelemetry? = nil, debug: DebugMenuModel? = nil,
-        review: ReviewMode? = nil
+        notifications: any NotificationScheduling, exportSharing: any ExportSharing, telemetry: StudyTelemetry? = nil,
+        debug: DebugMenuModel? = nil, review: ReviewMode? = nil
     ) {
         self.config = config
         self.app = app
         self.audioPlayer = audioPlayer
         self.speech = speech
         self.notifications = notifications
+        self.exportSharing = exportSharing
         services = AppServices(
             config: config, app: app, notifications: notifications, telemetry: telemetry, debug: debug,
             speech: speech)
@@ -74,7 +78,8 @@ final class AppDependencies {
             osMajorVersion: ProcessInfo.processInfo.operatingSystemVersion.majorVersion, logger: TelemetryLogger())
         return AppDependencies(
             config: config, app: app, audioPlayer: AVAudioPlayback(), speech: speech,
-            notifications: UserNotificationScheduler(), telemetry: telemetry, debug: debug,
+            notifications: UserNotificationScheduler(), exportSharing: SystemExportSharing(), telemetry: telemetry,
+            debug: debug,
             review: ReviewMode(
                 config: config, arguments: ProcessInfo.processInfo.arguments,
                 store: FileReviewDraftStore.orUnavailable { try .inApplicationSupport() },
@@ -109,7 +114,8 @@ final class AppDependencies {
                     learnerURL: FileManager.default.temporaryDirectory
                         .appendingPathComponent("preview-learner.sqlite"),
                     clock: SystemClock(), ids: SystemUUIDSource(), platform: DevicePlatform.current)),
-            audioPlayer: FakeAudioPlayer(), speech: FakeSpeechRecognizer(), notifications: FakeNotificationScheduler())
+            audioPlayer: FakeAudioPlayer(), speech: FakeSpeechRecognizer(), notifications: FakeNotificationScheduler(),
+            exportSharing: FakeExportSharing())
     }
 }
 

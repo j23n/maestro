@@ -118,9 +118,11 @@ struct CourseView: View {
 /// The unit overview, which is also the unit's opener step (`Unit.png`, docs/06 § Opener and Use): unit number,
 /// Italian title and English subtitle, the can-dos (ticked when reached), the unit's stories, notes and tasks with
 /// their state, and **Continue with …**.
-struct UnitView: View {
+struct UnitView<Accessory: View>: View {
     let overview: UnitOverview
     let onOpenStep: (StepID) -> Void
+    /// Shown under the title, in the scrolling content (the final review unit's final-check card).
+    @ViewBuilder var accessory: () -> Accessory
 
     var body: some View {
         VStack(spacing: 0) {
@@ -134,6 +136,7 @@ struct UnitView: View {
                         Text(overview.titleEn).dsFont(Tokens.TypeScale.translation).italic()
                             .foregroundStyle(Color.ds.secondary)
                     }
+                    accessory()
                     if !overview.canDos.isEmpty { canDos }
                     steps
                 }
@@ -204,5 +207,11 @@ struct UnitView: View {
                 if n + 1 < overview.rows.count { Divider() }
             }
         }
+    }
+}
+
+extension UnitView where Accessory == EmptyView {
+    init(overview: UnitOverview, onOpenStep: @escaping (StepID) -> Void) {
+        self.init(overview: overview, onOpenStep: onOpenStep, accessory: { EmptyView() })
     }
 }

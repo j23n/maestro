@@ -109,10 +109,11 @@ extension AppModel {
         return events
     }
 
-    /// At launch, after the stores are open: placement's offer and the final check's 30-day clean-up.
+    /// At launch, after the stores are open: placement's offer and the final check's clean-up (30 days, other
+    /// learner databases).
     func prepareAssessments() async {
         await restorePlacementOffer()
-        purgeExpiredRecordings()
+        await purgeFinalCheckFiles()
     }
 }
 
