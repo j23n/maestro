@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Generate App/Italiano/DesignSystem/Tokens.swift from design/tokens.json (docs/07: keep the two in sync).
+"""Generate App/Italiano/DesignSystem/Tokens.swift from design/tokens.json (docs/07: keep the two in sync), and the
+asset catalog's colour sets that Info.plist and the build settings name: AccentColor (`accent`) and LaunchBackground
+(`background`, the launch screen's colour: it matches the loading screen RootView draws next, task M6.2).
 
-Usage: python3 scripts/gen-tokens.py           # write Tokens.swift
-       python3 scripts/gen-tokens.py --check   # exit 1 if Tokens.swift is stale (run by make lint-guards)
+Usage: python3 scripts/gen-tokens.py           # write Tokens.swift and the colour sets
+       python3 scripts/gen-tokens.py --check   # exit 1 if any of them is stale (run by make lint-guards)
 
-The generated file imports Foundation only (plain values), so it also compiles on Linux; the SwiftUI mapping
+The generated Swift imports Foundation only (plain values), so it also compiles on Linux; the SwiftUI mapping
 (dynamic light/dark colours, fonts) lives in the hand-written DesignSystem/Tokens+SwiftUI.swift.
 """
 
@@ -18,6 +20,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "design" / "tokens.json"
 OUT = ROOT / "App" / "Italiano" / "DesignSystem" / "Tokens.swift"
+ASSETS = ROOT / "App" / "Italiano" / "Resources" / "Assets.xcassets"
+# Colour set name → token. Asset catalogs can't refer to tokens, so these files are generated too.
+COLOR_SETS = {"AccentColor": "accent", "LaunchBackground": "background"}
 
 
 def ident(name: str) -> str:
@@ -70,7 +75,7 @@ def generate(tokens: dict) -> str:
             f"            family: .{family}, size: {num(s['size'])}, weight: {s['weight']}, "
             f"lineHeight: {num(line) if line is not None else 'nil'},"
         )
-        out.append(f'            italic: {"true" if s.get("italic") else "false"}, relativeTo: .{s["relativeTo"]})')
+        out.append(f"            italic: {'true' if s.get('italic') else 'false'}, relativeTo: .{s['relativeTo']})")
     out.append("    }")
     for group in ("space", "radius", "border"):
         out.append("")
@@ -114,17 +119,52 @@ def generate(tokens: dict) -> str:
     return "\n".join(out) + "\n"
 
 
+def color_set(light: str, dark: str) -> str:
+    """An asset catalog colour set (Contents.json) with a light and a dark (luminosity) appearance."""
+
+    def color(hex_value: str) -> dict:
+        h = hex_value.lstrip("#").upper()
+        return {
+            "color-space": "srgb",
+            "components": {"alpha": "1.000", "red": f"0x{h[0:2]}", "green": f"0x{h[2:4]}", "blue": f"0x{h[4:6]}"},
+        }
+
+    doc = {
+        "colors": [
+            {"color": color(light), "idiom": "universal"},
+            {
+                "appearances": [{"appearance": "luminosity", "value": "dark"}],
+                "color": color(dark),
+                "idiom": "universal",
+            },
+        ],
+        "info": {"author": "xcode", "version": 1},
+    }
+    return json.dumps(doc, indent=2) + "\n"
+
+
+def outputs(tokens: dict) -> dict[Path, str]:
+    colors = tokens["color"]
+    files = {OUT: generate(tokens)}
+    for name, token in COLOR_SETS.items():
+        files[ASSETS / f"{name}.colorset" / "Contents.json"] = color_set(colors["light"][token], colors["dark"][token])
+    return files
+
+
 def main(argv: list[str]) -> int:
-    text = generate(json.loads(SRC.read_text(encoding="utf-8")))
+    files = outputs(json.loads(SRC.read_text(encoding="utf-8")))
     if "--check" in argv:
-        if not OUT.exists() or OUT.read_text(encoding="utf-8") != text:
-            print(f"{OUT.relative_to(ROOT)} is stale: run python3 scripts/gen-tokens.py", file=sys.stderr)
+        stale = [path for path, text in files.items() if not path.exists() or path.read_text(encoding="utf-8") != text]
+        for path in stale:
+            print(f"{path.relative_to(ROOT)} is stale: run python3 scripts/gen-tokens.py", file=sys.stderr)
+        if stale:
             return 1
         print("tokens in sync")
         return 0
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(text, encoding="utf-8")
-    print(f"wrote {OUT.relative_to(ROOT)}")
+    for path, text in files.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+        print(f"wrote {path.relative_to(ROOT)}")
     return 0
 
 
