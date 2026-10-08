@@ -124,11 +124,13 @@ final class ConversationModel {
         guard let n = node, !isFinished else { return }
         lines.append(Line(id: lines.count, speaker: .learner, italian: nil, text: text, english: nil))
         let outcome: AttemptOutcome = matched != nil ? .correct : .wrong
+        let goalsAfter = goalsDone.union([matched?.goal].compactMap { $0 })
         sink?.record(AttemptDraft(
             exerciseID: payload.id, turnID: n.id, format: .conversation, attemptIndex: min(missesAtNode + 1, 2),
             outcome: outcome, targets: [],
             response: mode == .typed ? ExercisePayload.clip(text, format: .conversation) : text, mode: mode,
-            latencyMs: clock.latencyMs(), feedbackShown: missesAtNode > 0 ? .hint : .none))
+            latencyMs: clock.latencyMs(), feedbackShown: missesAtNode > 0 ? .hint : .none,
+            checkAnswer: .goals(completed: goalsAfter.count, total: conversation.goals.count)))
         response = ""
         if let m = matched {
             if let g = m.goal { goalsDone.insert(g) }
@@ -197,7 +199,8 @@ final class TalkModel {
         sink?.record(AttemptDraft(
             exerciseID: payload.id, turnID: nil, format: .talk, attemptIndex: min(attempts, 2), outcome: outcome,
             targets: [], response: ExercisePayload.clip(transcript, format: .talk), mode: mode,
-            latencyMs: clock.latencyMs(), feedbackShown: attempts > 1 ? .hint : .none))
+            latencyMs: clock.latencyMs(), feedbackShown: attempts > 1 ? .hint : .none,
+            checkAnswer: .points(found: r.found.count, required: r.required)))
         clock.restart()
     }
 
@@ -263,10 +266,14 @@ final class WritingModel {
             passed = r.passed && wordCountOK
             response = text
         }
+        let checked = fieldValid.compactMap { $0 }
+        let answer: CheckAnswer = isForm
+            ? .points(found: checked.filter { $0 }.count, required: checked.count)
+            : .points(found: result?.found.count ?? 0, required: result?.required ?? 0)
         sink?.record(AttemptDraft(
             exerciseID: payload.id, turnID: nil, format: .writing, attemptIndex: 1, outcome: passed ? .correct : .wrong,
             targets: [], response: ExercisePayload.clip(response, format: .writing), mode: .typed,
-            latencyMs: clock.latencyMs(), feedbackShown: .none))
+            latencyMs: clock.latencyMs(), feedbackShown: .none, checkAnswer: answer))
     }
 
     static func validate(_ value: String, field: ExerciseBody.FormField, env: ExerciseEnvironment) -> Bool {

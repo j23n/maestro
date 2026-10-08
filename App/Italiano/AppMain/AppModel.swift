@@ -203,13 +203,16 @@ final class AppModel {
         let sessionID: String
         let startedAt: Int64
         let kind: SessionKind
+        /// Unit checks: the answers to score when the check step completes.
+        let checkRecorder: CheckRecorder?
     }
 
     /// Loads the step's lesson (or the unit-level step) and resumes it from the attempts already stored.
-    func launch(step: StepID) async throws(PackError) -> PlayerLaunch? {
+    func launch(step: StepID, fresh: Bool = false) async throws(PackError) -> PlayerLaunch? {
         guard let reader, let factory, let state else { return nil }
         let bundle = try await LessonLoader.bundle(for: step, reader: reader)
-        let answered = bundle.steps.reduce(into: Set<ExerciseID>()) { set, s in
+        // `fresh`: a retake starts from the first page whatever was answered before.
+        let answered = fresh ? [] : bundle.steps.reduce(into: Set<ExerciseID>()) { set, s in
             set.formUnion(state.stepProgress(s.id)?.finalExercises ?? [])
         }
         let isCheck = bundle.steps.contains { $0.payload.kind == .check }
@@ -221,9 +224,12 @@ final class AppModel {
         let environment = ExerciseEnvironment(
             context: isCheck ? .check : .lesson, profile: profile, knownForms: knownForms,
             nowMs: { clock.nowMs() }, canSpeak: canSpeak)
+        let recorder: CheckRecorder? = isCheck ? CheckRecorder() : nil
+        if let recorder { sink.onRecord = { recorder.record($0) } }
         return PlayerLaunch(
             model: LessonPlayerModel(bundle: bundle, answered: answered, startingAt: step), environment: environment,
-            sink: sink, sessionID: sessionID, startedAt: env.clock.nowMs(), kind: isCheck ? .check : .lesson)
+            sink: sink, sessionID: sessionID, startedAt: env.clock.nowMs(), kind: isCheck ? .check : .lesson,
+            checkRecorder: recorder)
     }
 
     /// Step events for a move in the player: `stepCompleted`, then the new step's introductions and
@@ -247,6 +253,27 @@ final class AppModel {
         }
         write(events)
         return missing
+    }
+
+    /// Scores a finished unit check (docs/05 § Checks) and writes `checkCompleted`: can-dos, focus items for the
+    /// wrong answers and the unit's completion follow from it in replay. Speaking sections are excluded when the
+    /// device can't take them.
+    @discardableResult
+    func completeCheck(_ launch: PlayerLaunch) -> CheckResultContent? {
+        guard let recorder = launch.checkRecorder, let content, let factory,
+              let check = content.check(forUnit: launch.model.bundle.unitID)
+        else { return nil }
+        let excluded = canSpeak ? [] : check.speechOnlySections(content: content)
+        let result = CheckScoring.score(check: check, answers: recorder.answers, excludedSections: excluded,
+                                        content: content)
+        write(factory.checkCompleted(result.payload))
+        var titles: [String: String] = [:]
+        for step in launch.model.bundle.steps {
+            if case .check(_, _, let sections) = step.payload {
+                for s in sections { titles[s.id] = s.titleEn }
+            }
+        }
+        return CheckResultContent(result: result, titles: titles, words: words)
     }
 
     /// The mini-preview's Continue: the missing pairs are introduced `via: catchup`.

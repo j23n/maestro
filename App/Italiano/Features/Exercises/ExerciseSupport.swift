@@ -26,6 +26,9 @@ struct AttemptDraft: Sendable, Equatable {
     let mode: AnswerMode
     let latencyMs: Int
     let feedbackShown: FeedbackMachine.FeedbackShown
+    /// What a unit check scores for this exercise when it isn't the outcome alone: points found (talk, writing),
+    /// or goals completed (conversation). The check recorder keeps the latest one per exercise (docs/05 § Checks).
+    var checkAnswer: CheckAnswer? = nil
 }
 
 @MainActor

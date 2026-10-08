@@ -90,10 +90,13 @@ struct PlayerHost: View {
     @State private var miniPreview: MiniPreviewRequest?
     @State private var failed = false
     @State private var openedAt = Date()
+    @State private var checkResult: CheckResultContent?
 
     var body: some View {
         Group {
-            if let launch, let services {
+            if let checkResult {
+                CheckResultView(content: checkResult, onDone: finish, onRetake: retake)
+            } else if let launch, let services {
                 LessonPlayerView(
                     model: launch.model, services: services, env: launch.environment, sink: launch.sink,
                     onStepChange: { change in
@@ -102,7 +105,7 @@ struct PlayerHost: View {
                             miniPreview = MiniPreviewRequest(step: started, pairs: missing)
                         }
                     },
-                    onClose: finish, onFinish: finish)
+                    onClose: finish, onFinish: { launch.kind == .check ? showCheckResult() : finish() })
             } else if failed {
                 MissingContentPage(onContinue: onDismiss)
             } else {
@@ -119,9 +122,9 @@ struct PlayerHost: View {
         }
     }
 
-    private func load() async {
+    private func load(fresh: Bool = false) async {
         do {
-            guard let l = try await deps.app.launch(step: step) else {
+            guard let l = try await deps.app.launch(step: step, fresh: fresh) else {
                 failed = true
                 return
             }
@@ -136,6 +139,20 @@ struct PlayerHost: View {
         } catch {
             failed = true
         }
+    }
+
+    private func showCheckResult() {
+        guard let launch, let result = deps.app.completeCheck(launch) else { return finish() }
+        checkResult = result
+    }
+
+    /// A retake is a fresh sitting of the check (a new session; every answer is scored again).
+    private func retake() {
+        if let launch { deps.app.endSession(launch, activeSeconds: Int(Date().timeIntervalSince(openedAt))) }
+        checkResult = nil
+        launch = nil
+        openedAt = Date()
+        Task { await load(fresh: true) }
     }
 
     private func finish() {
@@ -241,6 +258,20 @@ struct ReviewHost: View {
                 nothingToDo = true
             }
         }
+    }
+
+    private func showCheckResult() {
+        guard let launch, let result = deps.app.completeCheck(launch) else { return finish() }
+        checkResult = result
+    }
+
+    /// A retake is a fresh sitting of the check (a new session; every answer is scored again).
+    private func retake() {
+        if let launch { deps.app.endSession(launch, activeSeconds: Int(Date().timeIntervalSince(openedAt))) }
+        checkResult = nil
+        launch = nil
+        openedAt = Date()
+        Task { await load(fresh: true) }
     }
 
     private func finish() { finishThen(onDismiss) }

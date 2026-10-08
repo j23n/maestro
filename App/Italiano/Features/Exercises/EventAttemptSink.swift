@@ -10,6 +10,8 @@ final class EventAttemptSink: AttemptSink {
     let sessionID: String
     /// The step on screen; nil in review sessions.
     var stepID: StepID?
+    /// Sees every draft before it becomes an event (the unit check's recorder).
+    var onRecord: ((AttemptDraft) -> Void)?
     private let write: @MainActor (Event) -> Void
 
     init(factory: EventFactory, context: AttemptContext, sessionID: String, stepID: StepID? = nil,
@@ -23,6 +25,7 @@ final class EventAttemptSink: AttemptSink {
     }
 
     func record(_ d: AttemptDraft) {
+        onRecord?(d)
         let event = factory.attempt(
             exerciseId: d.exerciseID, turnId: d.turnID, format: d.format, context: context, stepId: stepID,
             sessionId: sessionID, attemptIndex: d.attemptIndex, outcome: d.outcome,

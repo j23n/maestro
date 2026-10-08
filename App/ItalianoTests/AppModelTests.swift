@@ -146,6 +146,32 @@ import Testing
         #expect((app.state?.memory.count ?? 0) > 0)
     }
 
+    @Test func theUnitCheckScoresAndIsRecorded() async throws {
+        let app = model()
+        await app.start()
+        let launch = try #require(try await app.launch(step: "u02.step-check"))
+        #expect(launch.kind == .check && launch.environment.context == .check)
+        launch.sink.stepID = launch.model.currentStep?.id
+        var answered = 0
+        var guardCount = 0
+        while !launch.model.isFinished, guardCount < 60 {
+            if let p = launch.model.currentExercise,
+               let h = ExerciseHostModel.make(p, env: launch.environment, sink: launch.sink)
+            {
+                answerSomehow(h)
+                answered += 1
+            }
+            _ = launch.model.advance()
+            guardCount += 1
+        }
+        #expect(answered > 0)
+        let result = try #require(app.completeCheck(launch))
+        #expect(!result.sections.isEmpty && result.overall.hasSuffix("%"))
+        await app.settle()
+        let unit = try #require(app.state?.units["u02"])
+        #expect(unit.checkScore != nil)
+    }
+
     @Test func generatedCardsBecomePayloads() throws {
         let recall = GeneratedRecallCard(exerciseId: "gen:recall:w:caffe", itemId: "w:caffe", promptEn: "coffee",
                                          answer: "{il|un} [caffè]", near: [])
