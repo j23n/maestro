@@ -1,9 +1,9 @@
 # Unit 0 task (docs/06 §12, §13; C3 draft). The unit spec asks for one conversation (a neighbor on the stairs) and a
 # talk (say hello, say your name and spell it); Unit 0 has no writing or relay task. Everything said to you avoids
 # gendered forms (no benvenuto/benvenuta), because the learner's gender varies.
-# Letter names (emme, erre…) are not items yet, so no gated string can spell: the talk's model shows the greeting and
-# the name, the prompt shows how to spell, and the spelling point accepts the vowel letters and the letter names
-# Morph-it! knows (open question for the content lead, see PROGRESS.md).
+# Spelling is left out of the talk until Unit 0 teaches the alphabet: letter-name items need pipeline changes first
+# (docs/13 § Proposed changes, 2026-10-08, letter names). Then the talk gets back a spell point that accepts
+# consonant letter names only, and the model 'Buongiorno! Marco: emme, a, erre, ci, o.'
 id: u00.task
 review: {status: draft, by: null, date: null, hash: null}
 
@@ -25,7 +25,7 @@ conversations:
         say: "Buongiorno!"
         en: "Good morning!"
         expect:
-          - {intent: greet, goal: greet, accept: ["buongiorno"], next: n2}
+          - {intent: greet, goal: greet, accept: ["buongiorno( come va)"], next: n2}
         near:
           - {answer: "buonasera", hint: "It's nine in the morning. Which greeting fits?"}
           - {answer: "ciao", hint: "You don't know your neighbor yet. Ciao is for friends."}
@@ -50,6 +50,7 @@ conversations:
         en: "How's it going?"
         expect:
           - {intent: answer, goal: answer, accept: ["(ah )bene( grazie)", "(ah )bene grazie e Lei"], next: n4}
+        near: [{answer: "(ah )bene grazie e tu", hint: "You don't know your neighbor, and e tu is for friends. Leave it out."}]
         help: ["Bene, grazie!"]
         hint_en: "Say you're fine, thanks."
       n4:
@@ -60,6 +61,8 @@ conversations:
             goal: bye
             accept:
               - "(grazie )buona giornata( arrivederci)"
+              - "grazie e buona giornata( arrivederci)"
+              - "(grazie )buona giornata anche a Lei"
               - "(grazie )arrivederci( buona giornata)"
               - "grazie( anche a Lei)( arrivederci)"
             next: end
@@ -76,12 +79,11 @@ conversations:
 talk:
   id: u00.task.talk
   format: talk
-  tags: [cd:spell-name, cd:greet-farewell, sy:ss.alphabet]
-  prompt_en: "Someone at a desk needs your name. Say hello, say your first name, then spell it letter by letter, the Italian way (for example, Marco: emme, a, erre, ci, o)."
+  tags: [cd:greet-farewell, sy:ss.greetings-register]
+  prompt_en: "Someone at a desk needs your name. Say hello and say your first name."
   points:
-    - {id: greet, en: "Say hello", accept: ["{buongiorno|buonasera|ciao}"]}
+    - {id: greet, en: "Say hello", accept: ["{buongiorno|buonasera}"]}
     - {id: name, en: "Say your first name", accept: ["{NAME}"]}
-    - {id: spell, en: "Spell it letter by letter", accept: ["{a|e|i|o}", "{erre|esse|doppia}"]}
-  pass: 2
+  pass: 1
   model: "Buongiorno! Marco."
   duration_s: {min: 5, max: 60}

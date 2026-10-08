@@ -46,9 +46,9 @@ sections:
         targets: [{item: s:alphabet, skill: listen}]
         tags: [cd:spell-name, sy:ss.alphabet]
         question: which-word
-        pair: [effe, esse]
-        play: esse
-        glosses: {effe: "the letter F", esse: "the letter S"}
+        pair: [emme, enne]
+        play: emme
+        glosses: {emme: "the letter M", enne: "the letter N"}
 
   - id: reading
     title_en: Reading
@@ -86,7 +86,7 @@ sections:
         format: cloze
         targets: [{item: c:per-favore, skill: recall}]
         tags: [cd:politeness, sy:ex.cils-structures]
-        text: "Buonasera! Un taxi, [[per favore]]."
+        text: "Buonasera! Taxi, [[per favore]]."
         prompt_en: "Good evening! A taxi, please."
       - id: u00.check.09
         format: recall
@@ -94,12 +94,13 @@ sections:
         tags: [cd:greet-farewell, sy:ss.greetings-register]
         prompt_en: "Good evening! (you walk into a shop at seven in the evening)"
         answer: "buonasera"
+        near: [{answer: "buona sera", outcome: correctWithNote, hint: "Right! It's usually written as one word: buonasera."}]
       - id: u00.check.10
         format: recall
         targets: [{item: c:non-capisco, skill: recall}]
-        tags: [cd:dont-understand, sy:fn.dont-understand, sy:gr.negation]
+        tags: [cd:dont-understand, sy:fn.dont-understand]
         prompt_en: "Sorry, I don't understand. (to someone you don't know)"
-        answer: "scusi non capisco( può ripetere)( per favore)"
+        answer: "{scusi|mi scusi} non capisco( può ripetere)( per favore)"
         near: [{answer: "scusa non capisco( può ripetere)( per favore)", hint: "You don't know this person. Scusa is for friends."}]
 
   - id: speaking
@@ -110,11 +111,11 @@ sections:
         score: 2
         with: ch:extra
         register: lei
-        title: {en: "Meet a neighbor in the evening"}
+        title: {en: "Meet a neighbor late in the evening"}
         tags: [cd:greet-farewell, cd:dont-understand, sy:ex.cils-dialogue]
         goals:
           - {id: greet, en: "Say good evening"}
-          - {id: clarify, en: "Say you don't understand"}
+          - {id: clarify, en: "Say you don't understand (your neighbor talks fast)"}
           - {id: answer, en: "Say how you are"}
           - {id: bye, en: "Say good night"}
         start: n1
@@ -135,6 +136,7 @@ sections:
                   - "(scusi )non capisco( può ripetere)( per favore)"
                   - "(scusi )può ripetere( per favore)"
                 next: n3
+              - {intent: answer-now, goal: answer, accept: ["(ah )bene( grazie)", "(ah )bene grazie e Lei"], next: n4}
             help: []
           n3:
             say: "Come va?"
@@ -152,11 +154,11 @@ sections:
       - id: u00.check.12
         format: talk
         score: 2
-        tags: [cd:spell-name, sy:ss.alphabet, sy:ex.cils-monologue]
-        prompt_en: "Say hello, then say your first name and spell it letter by letter, the Italian way."
+        tags: [cd:greet-farewell, sy:ss.greetings-register, sy:ex.cils-monologue]
+        prompt_en: "You arrive at a desk in the evening. Say hello and say your first name."
         points:
-          - {id: greet, en: "Say hello", accept: ["{buongiorno|buonasera|ciao}"]}
-          - {id: spell, en: "Spell your name", accept: ["{a|e|i|o}", "{erre|esse|doppia}"]}
-        pass: 2
+          - {id: greet, en: "Say hello", accept: ["{buonasera|buongiorno}"]}
+          - {id: name, en: "Say your first name", accept: ["{NAME}"]}
+        pass: 1
         model: "Buonasera! Marco."
         duration_s: {min: 3, max: 45}
