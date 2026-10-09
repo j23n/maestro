@@ -241,7 +241,7 @@ sections:
         points:
           - {id: intro, en: "Introduce Marco", accept: ["{ti presento|Le presento|questo è} Marco"]}
           - {id: nationality, en: "His nationality", accept: ["{è|lui è} canadese"]}
-          - {id: city, en: "Where he's from", accept: ["{è|lui è} di Toronto", "{abita|lui abita} a Toronto", "{è|lui è} nato a Toronto"]}
+          - {id: city, en: "Where he's from", accept: ["(lui )(è )di Toronto", "{abita|lui abita} a Toronto", "{è|lui è} nato a Toronto"]}
         pass: 2
         model: "Ti presento Marco. È canadese, di Toronto."
         duration_s: {min: 3, max: 45}

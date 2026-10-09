@@ -1783,14 +1783,55 @@
   },
   {
    "detections": [
-    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]}
    ],
    "expansion": 0,
    "model": false,
-   "norm": "è di toronto",
-   "of": 2,
+   "norm": "lui è di toronto",
+   "of": 4,
    "path": "sections[3].exercises[1].points[2].accept[0]",
-   "pattern": "{è|lui è} di Toronto",
+   "pattern": "(lui )(è )di Toronto",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "lui è di Toronto",
+   "tokens": [
+    {"analyses": ["lui PRO-PERS-3-M-S"], "detections": ["g:subject-pronouns"], "item": "w:lui", "kind": "word", "lemma": "lui", "span": [0, 3], "surface": "lui", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [6, 8], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [9, 16], "surface": "Toronto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "lui di toronto",
+   "of": 4,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "(lui )(è )di Toronto",
+   "ref": "u01.check.17",
+   "role": "point",
+   "text": "lui di Toronto",
+   "tokens": [
+    {"analyses": ["lui PRO-PERS-3-M-S"], "detections": ["g:subject-pronouns"], "item": "w:lui", "kind": "word", "lemma": "lui", "span": [0, 3], "surface": "lui", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [4, 6], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [7, 14], "surface": "Toronto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [1, 1]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "è di toronto",
+   "of": 4,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "(lui )(è )di Toronto",
    "ref": "u01.check.17",
    "role": "point",
    "text": "è di Toronto",
@@ -1802,23 +1843,20 @@
   },
   {
    "detections": [
-    {"point": "g:subject-pronouns", "tokens": [0, 0]},
-    {"point": "g:simple-prepositions", "tokens": [2, 2]}
+    {"point": "g:simple-prepositions", "tokens": [0, 0]}
    ],
-   "expansion": 1,
+   "expansion": 3,
    "model": false,
-   "norm": "lui è di toronto",
-   "of": 2,
+   "norm": "di toronto",
+   "of": 4,
    "path": "sections[3].exercises[1].points[2].accept[0]",
-   "pattern": "{è|lui è} di Toronto",
+   "pattern": "(lui )(è )di Toronto",
    "ref": "u01.check.17",
    "role": "point",
-   "text": "lui è di Toronto",
+   "text": "di Toronto",
    "tokens": [
-    {"analyses": ["lui PRO-PERS-3-M-S"], "detections": ["g:subject-pronouns"], "item": "w:lui", "kind": "word", "lemma": "lui", "span": [0, 3], "surface": "lui", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
-    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [6, 8], "surface": "di", "trailing": " "},
-    {"kind": "name", "span": [9, 16], "surface": "Toronto"}
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [0, 2], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [3, 10], "surface": "Toronto"}
    ]
   },
   {
