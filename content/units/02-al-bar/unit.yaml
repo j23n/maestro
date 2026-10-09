@@ -34,7 +34,7 @@ grammar:
 - {id: 'g:lei-questions', status: R}
 - {id: 'g:piacere-chunk', status: chunk}
 chunks: vorrei, prendo, avete…?, quant'è?, quanto costa?, al bar; mi piace, ti piace?, Le piace?; senta; cosa prende?
-  (R)
+  (R); alla cassa (R, CL6)
 items:
   new_words: 55-65
   topics: ['topic:food-drink', 'topic:shopping']
@@ -44,7 +44,7 @@ sounds: ['s:double-consonants']
 texts:
   stories: {count: 3, words: 100-200, new_token_max: 0.05}
   listening: [dialogue, phone]
-  real_world: [menu, receipt]
+  real_world: [menu, receipt, sign]       # sign: Lesson 2's chalkboard (CL36)
 tasks:
   conversation:
   - {id: u02.task.conv1, brief: Order breakfast from Giulia}

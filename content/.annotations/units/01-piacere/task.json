@@ -14506,9 +14506,9 @@
    "role": "point",
    "text": "vu doppia vu",
    "tokens": [
-    {"analyses": ["vu NOUN-F:p", "vu NOUN-F:s"], "flags": ["synthetic"], "item": "w:vu", "kind": "word", "lemma": "vu", "span": [0, 2], "surface": "vu", "trailing": " "},
+    {"chunk": "c:doppia-vu", "kind": "word", "span": [0, 2], "surface": "vu", "trailing": " "},
     {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "chunk": "c:doppia-vu", "kind": "word", "span": [3, 9], "surface": "doppia", "trailing": " "},
-    {"chunk": "c:doppia-vu", "kind": "word", "span": [10, 12], "surface": "vu"}
+    {"analyses": ["vu NOUN-F:p", "vu NOUN-F:s"], "flags": ["synthetic"], "item": "w:vu", "kind": "word", "lemma": "vu", "span": [10, 12], "surface": "vu"}
    ]
   },
   {

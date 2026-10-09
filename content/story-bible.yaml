@@ -83,7 +83,7 @@ characters:
     u00_roles: "Federica, a neighbor of yours, who knocks at your door the morning after Marco arrives and spells her name (u00.l3, CL26, CL27); the taxi driver (u00.l1, u00.l2) and Marco's neighbor stay unnamed"
 
 places:
-  - {name: Bar Aurora, kind: fictional, note: near the coworking space}
+  - {name: Bar Aurora, kind: fictional, note: "near the coworking space; a neighbourhood bar: you order at the counter and pay Giulia alla cassa afterwards, getting lo scontrino (CL6); counter prices on the menu in u02.task (CL6); the chalkboard shows the day's breakfast offer, cappuccino e cornetto 2,50 on the day of u02.l2 (CL36)"}
   - {name: Il Cortile, kind: fictional, note: "the coworking space where Sara works and Marco rents a desk (CL14)"}
   - {name: Scuola Arcobaleno, kind: fictional, note: "the language school where you take an Italian course (Unit 1 registration form; CL14)"}
   - {name: Signora Rossi's building, kind: fictional, note: "street named when Unit 6 needs an address, never a real Bologna street (CL14); Marco's small flat, later (Unit 9) a bigger flat on the third floor (al terzo piano = US fourth floor)"}
@@ -107,9 +107,10 @@ timeline:
 facts_to_check:
   - {unit: u02, fact: "CHECKED (CL6): Bar Aurora prices (caffè 1,20, cappuccino 1,60, cornetto 1,40, spremuta 3,20) are plausible counter prices (al banco) for a Bologna neighbourhood bar in 2026; table service costs more"}
   - {unit: u02, fact: "CHECKED (CL5): many people in Bologna and the north say brioche for a cornetto; the w:cornetto note says so, and Giulia says cornetto"}
-  - {unit: u02, fact: "CHECKED (CL6): at Bar Aurora you order at the counter and pay Giulia at the till (la cassa) afterwards, getting the receipt (lo scontrino); busy bars in the centre often want you to pay at the till first and show the receipt at the counter (Unit 2 culture note)"}
-  - {unit: u02, fact: "CHECKED (CL13): ordering \"un latte\" at an Italian bar gets a glass of milk; the coffee drink is a latte macchiato (u02.l2 story #4–6, ex09, ex10, ex20; u02.l3 story #15–16, q2; the w:latte note)"}
-  - {unit: u02, fact: "CHECKED (CL13): a bar receipt in Unit 2 shows the bar's name, the lines, Totale, Contanti and Resto (a simplified documento commerciale)"}
+  - {unit: u02, fact: "CHECKED (CL6): at Bar Aurora you order at the counter and pay Giulia at the till (la cassa) afterwards, getting the receipt (lo scontrino); busy bars in the centre often want you to pay at the till first and show the receipt at the counter (Unit 2 culture note: u02.l3.note; Marco è alla cassa, u02.l3.story#19)"}
+  - {unit: u02, fact: "CL36: a neighbourhood bar's chalkboard offers a breakfast deal, cappuccino e cornetto 2,50 (the content lead's example), against 3,00 for the two at counter prices (u02.l2 story #11–14, u02.l2.chalkboard)"}
+  - {unit: u02, fact: "CHECKED (CL13): ordering \"un latte\" at an Italian bar gets a glass of milk; the coffee drink is a latte macchiato (u02.l2 story #4–6, ex09, ex10, ex20; the w:latte note)"}
+  - {unit: u02, fact: "CHECKED (CL13): a bar receipt in Unit 2 shows the bar's name, the lines, Totale, Contanti and Resto (a simplified documento commerciale; u02.l3.receipt, u02.check.receipt)"}
   - {unit: u06, fact: "Thursday-afternoon closing of food shops in Bologna, before writing opening-hours signs"}
   - {unit: u07, fact: "Mercato delle Erbe hours and closing day; stallholders pick the produce; quantities in etti"}
   - {unit: u09, fact: "floor numbering: terzo piano is the US fourth floor; gloss it"}
