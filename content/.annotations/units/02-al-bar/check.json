@@ -2809,15 +2809,15 @@
    "path": "sections[3].exercises[2].nodes.n2.say",
    "ref": "u02.check.18/n2",
    "role": "say",
-   "text": "Ecco! Le piace il cappuccino?",
+   "text": "Allora? Le piace il cappuccino?",
    "tokens": [
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "Ecco"},
-    {"kind": "punct", "span": [4, 5], "surface": "!", "trailing": " "},
-    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [6, 8], "surface": "Le", "trailing": " "},
-    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [9, 14], "surface": "piace", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [15, 17], "surface": "il", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [18, 28], "surface": "cappuccino"},
-    {"kind": "punct", "span": [28, 29], "surface": "?"}
+    {"analyses": ["allora ADV"], "item": "w:allora", "kind": "word", "lemma": "allora", "span": [0, 6], "surface": "Allora"},
+    {"kind": "punct", "span": [6, 7], "surface": "?", "trailing": " "},
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [8, 10], "surface": "Le", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [11, 16], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [17, 19], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [20, 30], "surface": "cappuccino"},
+    {"kind": "punct", "span": [30, 31], "surface": "?"}
    ]
   }
  ],

@@ -227,8 +227,8 @@ sections:
             near: [{answer: "(buongiorno )({vorrei|prendo} )due cappuccino( {per favore|grazie})", outcome: almost, hint: "Two cappuccinos: change the last vowel for more than one."}]
             help: []
           n2:
-            say: "Ecco! Le piace il cappuccino?"
-            en: "Here you are! Do you like the cappuccino?"
+            say: "Allora? Le piace il cappuccino?"
+            en: "Well? Do you like the cappuccino?"
             expect:
               - {intent: like, goal: like, accept: ["sì mi piace( è buono)", "sì grazie mi piace( è buono)", "(sì )mi piace molto( è buono)", "(sì )(grazie )è buono", "mi piace( è buono)"], next: end}
             near: [{answer: "(sì )ti piace", hint: "Ti piace asks a question. Talk about yourself: I like it."}]

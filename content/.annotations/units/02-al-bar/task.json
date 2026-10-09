@@ -1327,15 +1327,15 @@
    "path": "conversations[0].nodes.n3.say",
    "ref": "u02.task.conv1/n3",
    "role": "say",
-   "text": "Ecco! Le piace il cornetto?",
+   "text": "Allora? Le piace il cornetto?",
    "tokens": [
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "Ecco"},
-    {"kind": "punct", "span": [4, 5], "surface": "!", "trailing": " "},
-    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [6, 8], "surface": "Le", "trailing": " "},
-    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [9, 14], "surface": "piace", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [15, 17], "surface": "il", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [18, 26], "surface": "cornetto"},
-    {"kind": "punct", "span": [26, 27], "surface": "?"}
+    {"analyses": ["allora ADV"], "item": "w:allora", "kind": "word", "lemma": "allora", "span": [0, 6], "surface": "Allora"},
+    {"kind": "punct", "span": [6, 7], "surface": "?", "trailing": " "},
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [8, 10], "surface": "Le", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [11, 16], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [17, 19], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [20, 28], "surface": "cornetto"},
+    {"kind": "punct", "span": [28, 29], "surface": "?"}
    ]
   },
   {
@@ -1637,15 +1637,15 @@
    "path": "conversations[0].nodes.n3b.say",
    "ref": "u02.task.conv1/n3b",
    "role": "say",
-   "text": "Ecco! Le piace il cappuccino?",
+   "text": "Allora? Le piace il cappuccino?",
    "tokens": [
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "Ecco"},
-    {"kind": "punct", "span": [4, 5], "surface": "!", "trailing": " "},
-    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [6, 8], "surface": "Le", "trailing": " "},
-    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [9, 14], "surface": "piace", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [15, 17], "surface": "il", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [18, 28], "surface": "cappuccino"},
-    {"kind": "punct", "span": [28, 29], "surface": "?"}
+    {"analyses": ["allora ADV"], "item": "w:allora", "kind": "word", "lemma": "allora", "span": [0, 6], "surface": "Allora"},
+    {"kind": "punct", "span": [6, 7], "surface": "?", "trailing": " "},
+    {"analyses": ["la ART-F:p", "le PRO-PERS-CLI-3-F-P", "le PRO-PERS-CLI-3-F-S"], "chunk": "c:le-piace", "kind": "word", "span": [8, 10], "surface": "Le", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:le-piace", "kind": "word", "lemma": "piacere", "span": [11, 16], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [17, 19], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [20, 30], "surface": "cappuccino"},
+    {"kind": "punct", "span": [30, 31], "surface": "?"}
    ]
   },
   {
@@ -3410,6 +3410,75 @@
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
     {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [15, 18], "surface": "una", "trailing": " "},
     {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [19, 27], "surface": "spremuta"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "due caffè",
+   "of": 4,
+   "path": "talk.points[1].accept[1]",
+   "pattern": "due {caffè|cappuccini|cornetti|spremute}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "due caffè",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [4, 9], "surface": "caffè"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "due cappuccini",
+   "of": 4,
+   "path": "talk.points[1].accept[1]",
+   "pattern": "due {caffè|cappuccini|cornetti|spremute}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "due cappuccini",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [4, 14], "surface": "cappuccini"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "due cornetti",
+   "of": 4,
+   "path": "talk.points[1].accept[1]",
+   "pattern": "due {caffè|cappuccini|cornetti|spremute}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "due cornetti",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [4, 12], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "due spremute",
+   "of": 4,
+   "path": "talk.points[1].accept[1]",
+   "pattern": "due {caffè|cappuccini|cornetti|spremute}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "due spremute",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:p"], "detections": ["g:noun-plural"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremute"}
    ]
   },
   {

@@ -40,16 +40,16 @@ conversations:
         help: ["Un cornetto, per favore.", "No, grazie."]
         hint_en: "Order something to eat, or say no thanks."
       n3:
-        say: "Ecco! Le piace il cornetto?"
-        en: "Here you are! Do you like the croissant?"
+        say: "Allora? Le piace il cornetto?"
+        en: "Well? Do you like the croissant?"
         expect:
           - {intent: like, goal: like, accept: ["sì mi piace( è buono)", "sì grazie mi piace( è buono)", "(sì )mi piace molto( è buono)", "(sì )(grazie )è buono", "mi piace( è buono)"], next: n4}
         near: [{answer: "(sì )ti piace", hint: "Ti piace asks a question. Talk about yourself: I like it."}]
         help: ["Sì, mi piace! È buono."]
         hint_en: "Say you like it."
       n3b:
-        say: "Ecco! Le piace il cappuccino?"
-        en: "Here you are! Do you like the cappuccino?"
+        say: "Allora? Le piace il cappuccino?"
+        en: "Well? Do you like the cappuccino?"
         expect:
           - {intent: like, goal: like, accept: ["sì mi piace( è buono)", "sì grazie mi piace( è buono)", "(sì )mi piace molto( è buono)", "(sì )(grazie )è buono", "mi piace( è buono)"], next: n4b}
         near: [{answer: "(sì )ti piace", hint: "Ti piace asks a question. Talk about yourself: I like it."}]
@@ -97,7 +97,7 @@ talk:
   prompt_en: "You're at Bar Aurora. Greet Giulia, order something for you and a friend, and ask the price."
   points:
     - {id: greet, en: "Greet Giulia", accept: ["{buongiorno|buonasera}"]}
-    - {id: order, en: "Order two things", accept: ["{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}"]}
+    - {id: order, en: "Order two things", accept: ["{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}", "due {caffè|cappuccini|cornetti|spremute}"]}
     - {id: price, en: "Ask the price", accept: ["{quant'è|quanto è|quanto costa}"]}
   pass: 2
   model: "Buongiorno! Vorrei un cappuccino e una spremuta, per favore. Quant'è?"
