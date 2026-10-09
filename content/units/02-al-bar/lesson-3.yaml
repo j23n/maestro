@@ -2,7 +2,7 @@
 # Prices follow the Bar Aurora menu in task.yaml (caffè 1,20 · cappuccino 1,60 · spremuta 3,20 · cornetto 1,40). You
 # order at the counter and pay Giulia alla cassa afterwards, getting the change (Ecco il resto) and the receipt (CL6,
 # CL35). Shape as in the golden sample (lesson-1.yaml), plus a phone call (listening), the receipt (real-world reading,
-# CL13e: the bar's name, the lines, Totale, Contanti, Resto) and a second use at the till.
+# CL13e: the bar's name, the lines, Totale, Contanti, Resto) and a repeat-after-me block (CL21).
 # Story line references (#n) are 1-based.
 id: u02.l3
 title: {it: "Mi piace!", en: "I like it!"}
@@ -428,8 +428,43 @@ steps:
         word: arancia
         answer: single
 
-  # 9 · Use: order for you and Sara at the counter. Two cappuccini 3,20 + two cornetti 2,80 = sei euro (Bar Aurora menu,
-  #      task.yaml), paid at the till afterwards (step 10, CL6).
+  # 9 · Say it like Marco and Sara: a repeat-after-me block of story lines (fluency, CL21)
+  - kind: practice
+    id: u02.l3.step-practice-2
+    block:
+      - id: u02.l3.ex40
+        format: repeat
+        targets: [{item: c:avete, skill: speak}]
+        tags: [sy:cefr.oral-production, cd:order-food-drink]
+        source: u02.l3.story#7
+        say: "Scusi, avete ancora cornetti?"
+      - id: u02.l3.ex41
+        format: repeat
+        targets: [{item: w:cornetto, skill: speak}]
+        tags: [sy:cefr.oral-production, sy:cefr.phonological-control]
+        source: u02.l3.story#9
+        say: "Due cornetti, Giulia, per favore!"
+      - id: u02.l3.ex42
+        format: repeat
+        targets: [{item: c:ti-piace, skill: speak}]
+        tags: [sy:cefr.oral-production, sy:fn.likes-wants]
+        source: u02.l3.story#13
+        say: "E ti piace il caffè italiano?"
+      - id: u02.l3.ex43
+        format: repeat
+        targets: [{item: c:mi-piace, skill: speak}]
+        tags: [sy:cefr.oral-production, sy:fn.likes-wants]
+        source: u02.l3.story#18
+        say: "Sì! Mi piace Bologna, e mi piace il bar Aurora."
+      - id: u02.l3.ex45
+        format: repeat
+        targets: [{item: w:resto, skill: speak}]
+        tags: [sy:cefr.oral-production, cd:ask-price-pay]
+        source: u02.l3.story#23
+        say: "Grazie! Ecco il resto: quaranta centesimi."
+
+  # 10 · Use: order for you and Sara at the counter. Two cappuccini 3,20 + two cornetti 2,80 = sei euro (Bar Aurora menu,
+  #      task.yaml), paid at the till afterwards (step 11, CL6).
   - kind: use
     id: u02.l3.step-use
     exercise:
@@ -487,7 +522,7 @@ steps:
           en: "Here you are: two cappuccinos and two croissants. Enjoy your breakfast!"
           final: true
 
-  # 10 · Use: pay at the till afterwards (CL6): sei euro for the order above, a ten-euro note, quattro euro back with
+  # 11 · Use: pay at the till afterwards (CL6): sei euro for the order above, a ten-euro note, quattro euro back with
   #      Ecco il resto (CL35). The goodbye is the register turn (CL37: a Lei goodbye is required).
   - kind: use
     id: u02.l3.step-use-2

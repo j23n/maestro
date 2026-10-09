@@ -1,20 +1,24 @@
-# Unit 2 task (docs/06 §12, §13, §15). DRAFT. It uses the seed items plus a few that Lessons 2–3 will
-# introduce (w:certo, c:quanto-costa, numbers to 100). Unit 2 has no writing task (see unit.yaml).
-# Prices come from the Bar Aurora menu below; every price said anywhere in Unit 2 must match it.
+# Unit 2 task (docs/06 §12, §13, §15). DRAFT. It uses items from all three lessons. Unit 2 has no writing task (see
+# unit.yaml). Prices come from the Bar Aurora menu below; every price said anywhere in Unit 2 must match it (the only
+# other price is the day's breakfast offer on Lesson 2's chalkboard, CL36).
 id: u02.task
 review: {status: draft, by: null, date: null, hash: null}
 
 conversations:
+  # Order at the counter, then pay Giulia at the end (CL6). Prices: cappuccino 1,60 + cornetto 1,40 = tre euro, or the
+  # cappuccino alone. Five turns: the unit's ordering, likes and paying, with the Lei goodbye as the register turn (CL37).
   - id: u02.task.conv1
     format: conversation
     with: ch:giulia
     register: lei
     title: {en: "Order breakfast from Giulia"}
-    tags: [cd:order-food-drink, cd:ask-price-pay]
+    tags: [cd:order-food-drink, cd:ask-price-pay, sy:fn.likes-wants]
     goals:
       - {id: drink, en: "Order a cappuccino"}
       - {id: food, en: "Order something to eat, or say no thanks"}
+      - {id: like, en: "Say you like it"}
       - {id: price, en: "Ask how much it is"}
+      - {id: bye, en: "Pay and say goodbye"}
     start: n1
     nodes:
       n1:
@@ -23,7 +27,7 @@ conversations:
         expect:
           - intent: order-drink
             goal: drink
-            accept: ["(buongiorno )(vorrei )un cappuccino( per favore)", "(buongiorno )(vorrei )un cappuccino grazie"]
+            accept: ["(buongiorno )({vorrei|prendo} )un cappuccino( per favore)", "(buongiorno )({vorrei|prendo} )un cappuccino grazie"]
             next: n2
         help: ["Vorrei un cappuccino, per favore."]
         hint_en: "Order a cappuccino."
@@ -31,31 +35,59 @@ conversations:
         say: "Certo. E da mangiare?"
         en: "Of course. Anything to eat?"
         expect:
-          - {intent: order-food, goal: food, accept: ["(vorrei )un cornetto( per favore)", "{sì|e}( vorrei) un cornetto( per favore)", "(sì )un cornetto grazie"], next: n3}
-          - {intent: nothing-to-eat, goal: food, accept: ["no grazie"], next: n3b}
+          - {intent: order-food, goal: food, accept: ["(vorrei )un cornetto( per favore)", "{sì|e}( {vorrei|prendo}) un cornetto( per favore)", "(sì )un cornetto grazie", "prendo un cornetto( {per favore|grazie})", "(scusi )avete {cornetti|un cornetto}"], next: n3}
+          - {intent: nothing-to-eat, goal: food, accept: ["no grazie", "no grazie solo il cappuccino", "solo il cappuccino( grazie)"], next: n3b}
         help: ["Un cornetto, per favore.", "No, grazie."]
         hint_en: "Order something to eat, or say no thanks."
       n3:
-        say: "Ecco!"
-        en: "Here you are!"
+        say: "Ecco! Le piace il cornetto?"
+        en: "Here you are! Do you like the croissant?"
         expect:
-          - {intent: ask-price, goal: price, accept: ["(grazie )(scusi ){quant'è|quanto è|quanto costa}"], next: end}
-        help: ["Grazie! Quant'è?"]
-        hint_en: "Ask how much it is."
+          - {intent: like, goal: like, accept: ["sì mi piace( è buono)", "sì grazie mi piace( è buono)", "(sì )mi piace molto( è buono)", "(sì )(grazie )è buono", "mi piace( è buono)"], next: n4}
+        near: [{answer: "(sì )ti piace", hint: "Ti piace asks a question. Talk about yourself: I like it."}]
+        help: ["Sì, mi piace! È buono."]
+        hint_en: "Say you like it."
       n3b:
-        say: "Ecco!"
-        en: "Here you are!"
+        say: "Ecco! Le piace il cappuccino?"
+        en: "Here you are! Do you like the cappuccino?"
         expect:
-          - {intent: ask-price, goal: price, accept: ["(grazie )(scusi ){quant'è|quanto è|quanto costa}"], next: end2}
-        help: ["Grazie! Quant'è?"]
+          - {intent: like, goal: like, accept: ["sì mi piace( è buono)", "sì grazie mi piace( è buono)", "(sì )mi piace molto( è buono)", "(sì )(grazie )è buono", "mi piace( è buono)"], next: n4b}
+        near: [{answer: "(sì )ti piace", hint: "Ti piace asks a question. Talk about yourself: I like it."}]
+        help: ["Sì, mi piace! È buono."]
+        hint_en: "Say you like it."
+      n4:
+        say: "Bene!"
+        en: "Good!"
+        expect:
+          - {intent: ask-price, goal: price, accept: ["(grazie )(scusi ){quant'è|quanto è|quanto costa}"], next: n5}
+        help: ["Scusi, quant'è?"]
         hint_en: "Ask how much it is."
-      end:                                  # cappuccino 1,60 + cornetto 1,40
-        say: "Tre euro, grazie. Buona giornata!"
-        en: "Three euros, thanks. Have a good day!"
-        final: true
-      end2:                                 # cappuccino only
-        say: "Un euro e sessanta, grazie. Buona giornata!"
-        en: "€1.60, thanks. Have a good day!"
+      n4b:
+        say: "Bene!"
+        en: "Good!"
+        expect:
+          - {intent: ask-price, goal: price, accept: ["(grazie )(scusi ){quant'è|quanto è|quanto costa}"], next: n5b}
+        help: ["Scusi, quant'è?"]
+        hint_en: "Ask how much it is."
+      n5:                                   # cappuccino 1,60 + cornetto 1,40
+        say: "Tre euro, grazie."
+        en: "Three euros, thanks."
+        expect:
+          - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie"], next: end}
+        near: [{answer: "(ecco )(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
+        help: ["Ecco. Grazie, arrivederci!"]
+        hint_en: "Pay (\"here you are\") and say goodbye."
+      n5b:                                  # cappuccino only
+        say: "Un euro e sessanta, grazie."
+        en: "€1.60, thanks."
+        expect:
+          - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie"], next: end}
+        near: [{answer: "(ecco )(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
+        help: ["Ecco. Grazie, arrivederci!"]
+        hint_en: "Pay (\"here you are\") and say goodbye."
+      end:
+        say: "Grazie! Buona giornata!"
+        en: "Thank you! Have a good day!"
         final: true
 
 talk:

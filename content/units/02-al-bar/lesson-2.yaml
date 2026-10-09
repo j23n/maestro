@@ -1,8 +1,8 @@
 # Unit 2, Lesson 2. DRAFT (C5) for the content lead: numbers to 100 and prices.
 # Prices follow the Bar Aurora menu in task.yaml (caffè 1,20 · cappuccino 1,60 · spremuta 3,20 · cornetto 1,40), plus
 # the day's breakfast offer on the chalkboard (CL36): cappuccino e cornetto 2,50. You order at the counter and pay
-# Giulia afterwards (CL6). Shape as in the golden sample (lesson-1.yaml), plus a real-world reading (the chalkboard)
-# and a listening dialogue. Story line references (#n) are 1-based.
+# Giulia afterwards (CL6). Shape as in the golden sample (lesson-1.yaml), plus a real-world reading (the chalkboard),
+# a listening dialogue and a repeat-after-me block (CL21). Story line references (#n) are 1-based.
 id: u02.l2
 title: {it: "Quanto costa?", en: "How much is it?"}
 scene: Marco nearly orders a glass of milk at Bar Aurora, asks Giulia the prices, takes the day's breakfast offer and buys Sara a coffee
@@ -409,7 +409,42 @@ steps:
         word: buono
         answer: single
 
-  # 8 · Use: get Giulia's attention, ask a price, order, pay. Cornetto 1,40 (Bar Aurora menu, task.yaml).
+  # 8 · Say it like Marco and Giulia: a repeat-after-me block of story lines (fluency, CL21)
+  - kind: practice
+    id: u02.l2.step-practice-2
+    block:
+      - id: u02.l2.ex34
+        format: repeat
+        targets: [{item: c:quanto-costa, skill: speak}]
+        tags: [sy:cefr.oral-production, cd:ask-price-pay]
+        source: u02.l2.story#8
+        say: "Quanto costa un cornetto?"
+      - id: u02.l2.ex35
+        format: repeat
+        targets: [{item: w:cinquanta, skill: speak}]
+        tags: [sy:cefr.oral-production, cd:ask-price-pay]
+        source: u02.l2.story#11
+        say: "Ma oggi la colazione è due euro e cinquanta!"
+      - id: u02.l2.ex36
+        format: repeat
+        targets: [{item: w:colazione, skill: speak}]
+        tags: [sy:cefr.oral-production, cd:order-food-drink]
+        source: u02.l2.story#14
+        say: "Allora la colazione, per favore!"
+      - id: u02.l2.ex37
+        format: repeat
+        targets: [{item: w:settanta, skill: speak}]
+        tags: [sy:cefr.oral-production, sy:cefr.phonological-control]
+        source: u02.l2.story#24
+        say: "Tre euro e settanta."
+      - id: u02.l2.ex38
+        format: repeat
+        targets: [{item: w:buono, skill: speak}]
+        tags: [sy:cefr.oral-production, sy:fn.likes-wants]
+        source: u02.l2.story#22
+        say: "Sì! E anche il cornetto è buono."
+
+  # 9 · Use: get Giulia's attention, ask a price, order, pay. Cornetto 1,40 (Bar Aurora menu, task.yaml).
   - kind: use
     id: u02.l2.step-use
     exercise:

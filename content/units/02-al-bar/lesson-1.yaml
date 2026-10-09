@@ -1,7 +1,8 @@
 # GOLDEN SAMPLE: Unit 2, Lesson 1. The reference for the content format and for a lesson's shape
-# (preview → story → note → practice → sounds → use). Drafted for the handoff: the Italian must be
-# reviewed by the content lead before it is approved. It uses only items from the seed files in
-# content/items/u00–u02.yaml. Story line references (#n) are 1-based.
+# (preview → story → note → practice → listening → sounds → repeat-after-me → use; the listening and the
+# repeat block keep the unit's strands in their bands, CL21). Drafted for the handoff: the Italian must be
+# reviewed by the content lead before it is approved. It uses only items from content/items/u00–u02.yaml.
+# At Bar Aurora you order at the counter and pay Giulia afterwards (CL6). Story line references (#n) are 1-based.
 id: u02.l1
 title: {it: "Un cappuccino, per favore", en: "A cappuccino, please"}
 scene: Marco's first breakfast at Bar Aurora; Giulia uses Lei; Sara drops in and orders too
@@ -257,7 +258,38 @@ steps:
         near: [{answer: "scusa", hint: "You and Giulia use Lei. Which form goes with Lei?"}]
         audio_after: true
 
-  # 5 · Sounds: double consonants from the scene (rule 11: hearing is tested, saying is not machine-checked).
+  # 5 · Listening: another customer at the counter (audio first; the transcript opens after the questions).
+  #     A caffè only: un euro e venti, paid at the end (CL6). Only Lesson 1 words and numbers to 20.
+  - kind: listening
+    id: u02.l1.step-listening
+    text:
+      id: u02.l1.dialogue
+      kind: dialogue
+      lines:
+        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Buongiorno! Cosa prende?", en: "Good morning! What will you have?"}
+        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Buongiorno! Un caffè, per favore.", en: "Good morning! A coffee, please."}
+        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Un caffè. E da mangiare?", en: "A coffee. Anything to eat?"}
+        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "No, grazie.", en: "No, thanks."}
+        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Ecco il caffè!", en: "Here's your coffee!"}
+        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Grazie! Mmm, buono! Quant'è?", en: "Thanks! Mmm, good! How much is it?"}
+        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Un euro e venti.", en: "€1.20."}
+        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Ecco. Buona giornata!", en: "Here you go. Have a good day!"}
+    plays: unlimited
+    exercises:
+      - id: u02.l1.ex27
+        format: choice
+        tags: [cd:order-food-drink, sy:cefr.oral-comprehension]
+        question_en: "What does the customer have?"
+        options: ["Just a coffee", "A coffee and a croissant", "A cappuccino"]
+        answer: 0
+      - id: u02.l1.ex28
+        format: choice
+        tags: [cd:ask-price-pay, sy:cefr.oral-comprehension]
+        question_en: "How much does the customer pay?"
+        options: ["€1.20", "€2.20", "€20.00"]
+        answer: 0
+
+  # 6 · Sounds: double consonants from the scene (rule 11: hearing is tested, saying is not machine-checked).
   #     The answers mix single and double, so always picking "double" doesn't pass.
   - kind: sounds
     id: u02.l1.step-sounds
@@ -287,7 +319,36 @@ steps:
         play: pena
         glosses: {pena: "sorrow; penalty", penna: pen}
 
-  # 6 · Use: one tiny task in the story's situation, spoken or typed. Marco's order, so the price is fixed:
+  # 7 · Say it like Marco: a repeat-after-me block of story lines (fluency, CL21). Not retrievals (docs/04 § Check 3).
+  - kind: practice
+    id: u02.l1.step-practice-2
+    block:
+      - id: u02.l1.ex29
+        format: repeat
+        targets: [{item: w:cornetto, skill: speak}]
+        tags: [sy:cefr.oral-production, cd:order-food-drink]
+        source: u02.l1.story#7
+        say: "Ah, grazie! Un cornetto, per favore."
+      - id: u02.l1.ex30
+        format: repeat
+        targets: [{item: c:e-lei, skill: speak}]
+        tags: [sy:cefr.oral-production, cd:choose-tu-lei]
+        source: u02.l1.story#9
+        say: "No, sono canadese. E Lei?"
+      - id: u02.l1.ex31
+        format: repeat
+        targets: [{item: w:oggi, skill: speak}]
+        tags: [sy:cefr.oral-production, cd:order-food-drink]
+        source: u02.l1.story#16
+        say: "No, grazie. Oggi vorrei una spremuta."
+      - id: u02.l1.ex32
+        format: repeat
+        targets: [{item: c:buona-giornata, skill: speak}]
+        tags: [sy:cefr.oral-production, cd:ask-price-pay]
+        source: u02.l1.story#21
+        say: "Ecco. Grazie e buona giornata!"
+
+  # 8 · Use: one tiny task in the story's situation, spoken or typed. Marco's order, so the price is fixed:
   #     cappuccino 1,60 + cornetto 1,40 = tre euro (Bar Aurora menu, task.yaml).
   - kind: use
     id: u02.l1.step-use
