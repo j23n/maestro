@@ -2375,15 +2375,13 @@
    "path": "steps[8].exercise.nodes.n3.say",
    "ref": "u00.l1.ex34/n3",
    "role": "say",
-   "text": "Ok! Bene! Come va?",
+   "text": "Ok! Come va?",
    "tokens": [
     {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "Ok"},
     {"kind": "punct", "span": [2, 3], "surface": "!", "trailing": " "},
-    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [4, 8], "surface": "Bene"},
-    {"kind": "punct", "span": [8, 9], "surface": "!", "trailing": " "},
-    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [10, 14], "surface": "Come", "trailing": " "},
-    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [15, 17], "surface": "va"},
-    {"kind": "punct", "span": [17, 18], "surface": "?"}
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [4, 8], "surface": "Come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [9, 11], "surface": "va"},
+    {"kind": "punct", "span": [11, 12], "surface": "?"}
    ]
   },
   {

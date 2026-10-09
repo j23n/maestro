@@ -52,8 +52,8 @@ steps:
         format: true-false
         targets: [{item: c:benvenuto, skill: listen}]
         tags: [cd:greet-farewell, sy:cefr.oral-comprehension]
-        statement_en: "The neighbor welcomes Marco to the building."
-        answer: true
+        statement_en: "The neighbor and Marco already know each other."
+        answer: false
 
   # 2 · Preview: the alphabet, first half (CL38): A to M. Names that are also words carry ~letter.
   - kind: preview
@@ -255,7 +255,7 @@ steps:
         targets: [{item: w:ics, skill: listen}]
         tags: [cd:spell-name, sy:ss.alphabet, sy:cefr.international-words]
         question_en: "The last line has the letters of words from other languages. Which of these words has one of them?"
-        options: ["taxi", "ciao", "grazie"]
+        options: ["taxi", "hotel", "bar"]
         answer: 0
 
   # 7 · Practice: whole names and words, with both halves. First the alphabet's lines again, said along with the audio

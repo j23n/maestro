@@ -464,8 +464,8 @@ steps:
           help: ["No, grazie."]
           hint_en: "You're not going to a hotel. Say no."
         n3:
-          say: "Ok! Bene! Come va?"
-          en: "OK! Fine! How's it going?"
+          say: "Ok! Come va?"
+          en: "OK! How's it going?"
           expect:
             - {intent: fine, goal: fine, accept: ["bene( grazie)", "(ok )bene grazie( e Lei)"], next: n4}
           near: [{answer: "bene grazie e tu", hint: "You don't know the driver, and e tu is for friends. Leave it out."}]
