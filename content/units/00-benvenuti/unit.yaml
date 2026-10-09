@@ -39,7 +39,7 @@ items:
 recycle_from: []
 sounds: ['s:alphabet', 's:pure-vowels', 's:c-g-front', 's:double-consonants']
 texts:
-  stories: {count: 2, words: 60-120, new_token_max: 0.05}
+  stories: {count: 2, words: 40-120, new_token_max: 0.05}   # 40, not 60: docs/13 CL18
   listening: [dialogue, announcement]
   real_world: [sign, list]
 tasks:

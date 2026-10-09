@@ -27,7 +27,8 @@ grammar:
 - {id: 'g:predicative-agreement', status: P}
 - {id: 'g:molto', status: P}
 chunks: si chiamano; ho … anni; quanti anni hai?; ho fame, ho sete, ho freddo, ho caldo (not sono freddo); in questa
-  foto c'è…
+  foto c'è…; numbers 21–99 for ages (ventuno, trentotto, ventitré; the ten drops its vowel before uno and otto, and
+  -tré takes an accent; Unit 2 taught only the tens, docs/13 CL20)
 items:
   new_words: 55-70
   topics: ['topic:family', 'topic:feelings', 'topic:animals']

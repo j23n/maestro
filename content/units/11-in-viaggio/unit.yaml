@@ -62,5 +62,6 @@ check:
   sections: [listening, reading, writing, speaking]
 notes: 'Station announcements are for recognition. Use the real present-tense formulas (è in partenza dal binario…,
   è in arrivo al binario…, viaggia con dieci minuti di ritardo); anything else beyond A1 needs an allow: line with
-  a reason.'
+  a reason. Marco says Lei to Zia Rosa until she says "Dammi del tu, siamo parenti!" in the Lesson 1 story (story-bible
+  switch point, docs/13 CL4). The village is Roncovento (fictional, CL14).'
 review: {status: draft, by: null, date: null, hash: null}

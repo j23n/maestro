@@ -1,17 +1,18 @@
 # Story bible: the single source of facts for every episode (docs/03, check 5).
 # The checker reads `characters` and `registers`; the content-critic subagent reads all of it.
-# DRAFT for content-lead sign-off (C1). Items marked TBD are open; don't invent them in drafts.
+# DRAFT for sign-off. The content-lead decisions of 9 Oct 2026 (docs/13 § Content lead decisions, CL1–CL21) are
+# written in; items still marked TBD are open, so don't invent them in drafts.
 review: {status: draft, by: null, date: null, hash: null}
 
 setting:
-  city: Bologna                    # Q2 in docs/13: Bologna (default) or a fictional town
+  city: Bologna                    # Q2 decided (docs/13 CL15): Bologna; real places are fact-checked
   season_span: early September to early December, one year (no year named)
   principle: Keep the plot thin. The story recycles language; no decorative subplots (cohesion rule 10).
 
 characters:
   - id: ch:marco
     name: Marco
-    surname: TBD (content lead; an Emilian surname fits his family history)
+    surname: Lenzi                   # CL14: common in the Apennines south of Bologna; spelled aloud in Unit 0
     age: 29
     from: Toronto, Canada
     nationality: canadese
@@ -21,19 +22,19 @@ characters:
     stay: three months in Bologna, renting a small flat in Signora Rossi's building
     character: friendly, curious, a bit clumsy with the language, keen to find his family's village
     first_unit: u00
-    # Proposed in C3 (Unit 1 drafts, critic fixes); content lead to confirm.
+    # Confirmed by the content lead (docs/13 CL16).
     born: Toronto (Unit 1 Lesson 2, "Sono nato e abito a Toronto")
     home: lives in Toronto; in Bologna only for the three-month stay, so drafts say "sono a Bologna", never "abito a Bologna"
-    arrival: "lands late in the evening (u00.l1); u01.l1 is the next day (Signora Rossi on the stairs that morning, the listening that evening); u01.l2 must be that same day for \"Sono arrivato a Bologna ieri\" to hold (open question: if u01.l2 is the following morning, ieri goes)"
+    arrival: "lands late in the evening and takes a taxi from the airport rank (u00.l1; the same unnamed driver in u00.l2, fare diciotto euro); an unnamed neighbor greets him the next morning (u00.l2); u01.l1 is that same day (Signora Rossi on the stairs that morning, the listening that evening); u01.l2 is the following morning at Il Cortile (\"Sono appena arrivato a Bologna\", never ieri)"
   - id: ch:rossi
     name: Signora Rossi
     first_name: Anna (rarely used)
     age: 72
     role: Marco's landlady; lives in the same building
-    character: warm, direct, talks about food and the neighborhood
+    character: warm, direct, talks about food and the neighborhood; says tu to anyone younger than her (CL3)
     pets: a cat, Mimì
     first_unit: u01
-    # Proposed in C3 (Unit 1 drafts, critic fixes); content lead to confirm.
+    # Confirmed by the content lead (docs/13 CL16).
     from: Bologna (Unit 1 Lessons 1 and 3, "Sono di Bologna", "Anche io sono di Bologna")
     pet_facts: Mimì is female and bolognese (Unit 1, "E lei è Mimì!", "Mimì è bolognese!")
   - id: ch:sara
@@ -43,7 +44,7 @@ characters:
     from: Bologna
     character: lively, likes concerts and cycling; Giulia's friend
     first_unit: u01
-    # Proposed in C3 (Unit 1 drafts, critic fixes); content lead to confirm.
+    # Confirmed by the content lead (docs/13 CL16).
     born: Bologna; lives in Bologna (Unit 1 Lesson 2, "Sono nata e abito a Bologna. Sono bolognese!")
   - id: ch:giulia
     name: Giulia
@@ -56,13 +57,14 @@ characters:
     name: Luca
     age: 9
     role: Giulia's son
-    character: asks a lot of questions; birthday in November (date TBD, used in Unit 10)
+    character: asks a lot of questions; birthday on 14 November (quattordici; Unit 10, CL14)
     first_unit: u03
   - id: ch:zia-rosa
     name: Zia Rosa
     age: 80
-    role: Marco's grandmother's cousin, in the village
+    role: Marco's grandmother's cousin, in the village (Roncovento)
     first_unit: u11
+    register_note: Marco says Lei until she says "Dammi del tu, siamo parenti!" in the Unit 11 lesson 1 story (CL4)
   - id: ch:you
     name: you (the learner)
     role: a newcomer in the same neighbourhood, with your own name and gender (from onboarding)
@@ -72,19 +74,19 @@ characters:
   - id: ch:extra
     name: minor roles (passer-by, stallholder, shop assistant, ticket clerk, pharmacist, receptionist, waiter, tobacconist)
     rule: strangers and staff use Lei with Marco and with you; each minor role gets a fresh name if named at all
-    # Proposed in C3 (Unit 1 drafts); content lead to confirm.
+    # Confirmed by the content lead (docs/13 CL15): the receptionist stays unnamed, and lines avoid agreeing with them.
     u01_roles: "the coworking space's receptionist (unnamed, gender not fixed; u01.l2); Hugo, a French neighbor born in Canada (u01.check.02); Lucía Ortega, a Spanish classmate at the language school (u01.l3 form); Emma Clarke, an English classmate there (u01.check.06)"
 
 places:
   - {name: Bar Aurora, kind: fictional, note: near the coworking space}
-  - {name: the coworking space, kind: fictional, note: "name TBD (content lead)"}
-  - {name: the language school, kind: fictional, note: "where you take an Italian course (Unit 1 registration form); name TBD"}
-  - {name: Signora Rossi's building, kind: fictional, note: "street TBD; Marco's small flat, later (Unit 9) a bigger flat on the third floor (al terzo piano = US fourth floor)"}
+  - {name: Il Cortile, kind: fictional, note: "the coworking space where Sara works and Marco rents a desk (CL14)"}
+  - {name: Scuola Arcobaleno, kind: fictional, note: "the language school where you take an Italian course (Unit 1 registration form; CL14)"}
+  - {name: Signora Rossi's building, kind: fictional, note: "street named when Unit 6 needs an address, never a real Bologna street (CL14); Marco's small flat, later (Unit 9) a bigger flat on the third floor (al terzo piano = US fourth floor)"}
   - {name: the arcades (i portici), kind: real, note: fact-checked by the content lead}
   - {name: Mercato delle Erbe, kind: real, note: "Unit 7, Via Ugo Bassi; set the scene on a weekday or Saturday morning (see facts_to_check)"}
   - {name: Piazza Maggiore, kind: real}
   - {name: Bologna Centrale station, kind: real, note: Unit 11}
-  - {name: the village, kind: fictional, note: "name TBD (Q12); regional train plus bus from Bologna"}
+  - {name: Roncovento, kind: fictional, note: "the family's village in the Apennines south of Bologna (Q12, CL14); regional train plus bus from Bologna"}
 
 timeline:
   - {units: [u00, u01, u02], when: first days of September, arc: arrival}
@@ -95,20 +97,22 @@ timeline:
   - {units: [u12], when: early December, arc: farewell}
 
 # Real-world facts the content lead verifies before the units that use them are approved (Q2).
-# Drafts must not add new real-world facts without adding them here.
+# Drafts must not add new real-world facts without adding them here. "CHECKED" facts were verified on 9 Oct 2026
+# (docs/13 CL5, CL6, CL13, with sources); the rest are still open.
 facts_to_check:
-  - {unit: u02, fact: "Bar Aurora prices (caffè 1,20, cappuccino 1,60, cornetto 1,40, spremuta 3,20) are plausible for Bologna in 2026; counter prices (al banco) are lower than table service"}
-  - {unit: u02, fact: "cornetto vs brioche: many Bologna bars say brioche; decide whether Giulia mentions it (recognise only)"}
-  - {unit: u02, fact: "paying at the cash desk and the receipt (scontrino) as a culture note"}
-  - {unit: u02, fact: "ordering \"un latte\" at an Italian bar gets a glass of milk; the coffee drink is a latte macchiato (u02.l2 story #4–6, ex09, ex10, ex20; u02.l3 story #15–16, q2; the w:latte note)"}
+  - {unit: u02, fact: "CHECKED (CL6): Bar Aurora prices (caffè 1,20, cappuccino 1,60, cornetto 1,40, spremuta 3,20) are plausible counter prices (al banco) for a Bologna neighbourhood bar in 2026; table service costs more"}
+  - {unit: u02, fact: "CHECKED (CL5): many people in Bologna and the north say brioche for a cornetto; the w:cornetto note says so, and Giulia says cornetto"}
+  - {unit: u02, fact: "CHECKED (CL6): at Bar Aurora you order at the counter and pay Giulia at the till (la cassa) afterwards, getting the receipt (lo scontrino); busy bars in the centre often want you to pay at the till first and show the receipt at the counter (Unit 2 culture note)"}
+  - {unit: u02, fact: "CHECKED (CL13): ordering \"un latte\" at an Italian bar gets a glass of milk; the coffee drink is a latte macchiato (u02.l2 story #4–6, ex09, ex10, ex20; u02.l3 story #15–16, q2; the w:latte note)"}
+  - {unit: u02, fact: "CHECKED (CL13): a bar receipt in Unit 2 shows the bar's name, the lines, Totale, Contanti and Resto (a simplified documento commerciale)"}
   - {unit: u06, fact: "Thursday-afternoon closing of food shops in Bologna, before writing opening-hours signs"}
   - {unit: u07, fact: "Mercato delle Erbe hours and closing day; stallholders pick the produce; quantities in etti"}
   - {unit: u09, fact: "floor numbering: terzo piano is the US fourth floor; gloss it"}
   - {unit: u11, fact: "Bologna Centrale platforms (incl. the underground high-speed platforms), train-plus-bus route to an Apennine village, validating paper regional tickets"}
   - {unit: u12, fact: "cover charge (coperto) on restaurant bills; tipping not expected"}
-  - {unit: u00, fact: "taxi fare: a licensed taxi from Bologna airport to a flat in town, late in the evening, costs diciotto euro (u00.l2.ride and its exercises); quick sources give 15-20 euros to the centre plus night, airport and luggage supplements. If that's too low, the fare becomes venti euro, paid with a twenty and no change (losing the diciotto/diciassette listening scene)"}
-  - {unit: u00, fact: "at the airport taxi rank, licensed drivers wait in line and don't call out to passengers; the passenger walks up to the first taxi (u00.l1.taxi-stand)"}
-  - {unit: u01, fact: "Italian language-school registration forms: is the residence field labeled Città, Città di residenza or Residenza? (u01.l3 form, u01.task.write, u01.check.06, u01.check.15 use Città)"}
+  - {unit: u00, fact: "CHECKED (CL13): taxi fare: a licensed taxi from Bologna airport to a flat in town, late in the evening, costs diciotto euro (u00.l2.ride and its exercises); Bologna's 2025 tariff starts at about 12,80 euros from the airport plus about 1,45 euros a km and a 3,15-euro night supplement, so 18-20 euros; diciotto stays"}
+  - {unit: u00, fact: "CHECKED (CL13): at the airport taxi rank, licensed drivers wait in line and don't call out to passengers; the passenger walks up to the first taxi (u00.l1.taxi-stand)"}
+  - {unit: u01, fact: "CHECKED (CL13): Italian language-school registration forms label the residence field Città (u01.l3 form, u01.task.write, u01.check.06, u01.check.15)"}
 
 # Who says tu or Lei to whom (check 5). `units` is an inclusive range [from, to] or `all`.
 # Precedence when several rows match a (speaker, addressee) pair: an exact pair wins, then (exact speaker, '*'),
@@ -119,7 +123,7 @@ facts_to_check:
 registers:
   - {from: ch:rossi, to: ch:marco, register: tu, units: all, note: an older person may say tu to a younger one}
   - {from: ch:marco, to: ch:rossi, register: lei, units: all}
-  - {from: ch:rossi, to: ch:you, register: tu, units: all, note: "assumes a learner younger than her; content lead to confirm"}
+  - {from: ch:rossi, to: ch:you, register: tu, units: all, note: "she says tu to anyone younger than her (CL3)"}
   - {from: ch:you, to: ch:rossi, register: lei, units: all}
   - {from: ch:rossi, to: ch:sara, register: tu, units: all}
   - {from: ch:sara, to: ch:rossi, register: lei, units: all}
@@ -138,13 +142,20 @@ registers:
   - {from: ch:giulia, to: ch:sara, register: tu, units: all}
   - {from: ch:sara, to: ch:giulia, register: tu, units: all}
   - {from: ch:luca, to: '*', register: tu, units: all, note: a child says tu to people he knows}
-  - {from: ch:luca, to: ch:rossi, register: lei, units: all, note: a polite nine-year-old to a 72-year-old neighbor; content lead to confirm}
+  - {from: ch:luca, to: ch:rossi, register: lei, units: all, note: "a polite nine-year-old to a 72-year-old neighbor (confirmed, CL11)"}
+  - {from: ch:luca, to: ch:zia-rosa, register: lei, units: all, note: CL11}
   - {from: ch:luca, to: ch:extra, register: lei, units: all}
   - {from: '*', to: ch:luca, register: tu, units: all}
   - {from: ch:extra, to: ch:luca, register: tu, units: all}
   - {from: ch:zia-rosa, to: ch:marco, register: tu, units: all}
-  - {from: ch:marco, to: ch:zia-rosa, register: tu, units: all, note: "family; content lead may prefer Lei until she says Dammi del tu! (use a switch point)"}
+  - {from: ch:marco, to: ch:zia-rosa, register: lei, then: tu, switch_at: u11.l1.step-story, units: all, note: "Lei until she says Dammi del tu, siamo parenti! (CL4)"}
   - {from: ch:zia-rosa, to: ch:you, register: tu, units: all}
   - {from: ch:you, to: ch:zia-rosa, register: lei, units: all}
+  - {from: ch:zia-rosa, to: ch:giulia, register: tu, units: all, note: CL11}
+  - {from: ch:giulia, to: ch:zia-rosa, register: lei, units: all}
+  - {from: ch:zia-rosa, to: ch:sara, register: tu, units: all, note: CL11}
+  - {from: ch:sara, to: ch:zia-rosa, register: lei, units: all}
+  - {from: ch:zia-rosa, to: ch:rossi, register: lei, units: all, note: two older women who have just met (CL11)}
+  - {from: ch:rossi, to: ch:zia-rosa, register: lei, units: all}
   - {from: ch:extra, to: '*', register: lei, units: all}
   - {from: '*', to: ch:extra, register: lei, units: all}

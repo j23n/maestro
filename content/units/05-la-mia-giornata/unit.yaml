@@ -32,7 +32,8 @@ grammar:
 - {id: 'g:frequency-adverbs', status: P}
 - {id: 'g:negation-mai-niente', status: P}
 - {id: 'g:adverbs-time-place', status: P}
-chunks: sono le otto, è l'una, alle otto; ci diamo del tu? (R)
+chunks: sono le otto, è l'una, alle otto; ci diamo del tu? (R); bevo…, bevi…? (a colazione bevo un caffè; the verb bere
+  stays R in Unit 8, docs/13 CL2)
 items:
   new_words: 55-70
   topics: ['topic:daily-routine', 'topic:objects']
