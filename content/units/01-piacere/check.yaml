@@ -53,8 +53,8 @@ sections:
             - {speaker: ch:extra, to: ch:marco, register: lei, it: "Piacere, Marco! Lei è americano?", en: "Nice to meet you, Marco! Are you American?"}
             - {speaker: ch:marco, to: ch:extra, register: lei, it: "No, sono canadese, di Toronto.", en: "No, I'm Canadian, from Toronto."}
         plays: 2
-        question_en: "What does Marco say about himself?"
-        options: ["He's Canadian, from Toronto", "He's American", "He's new in Toronto"]
+        question_en: "What does Sara do?"
+        options: ["She introduces Marco", "She asks Marco's name", "She says goodbye"]
         answer: 0
       - id: u01.check.04
         format: dictation
@@ -78,14 +78,29 @@ sections:
         format: true-false
         targets: [{item: w:citta, skill: read}]
         tags: [cd:give-personal-details, sy:fn.forms]
-        source: {text: u01.l3.form}
-        statement_en: "Lucía lives in Madrid."
+        source:
+          text:              # a check text that isn't audio has no ID pattern of its own (docs/03 § IDs): unit-level task pattern
+            id: u01.task.classmate-form
+            kind: real_world
+            title: {en: "Language school: registration form"}
+            layout:
+              type: form
+              title: "Scuola di italiano – Iscrizione"
+              fields:
+                - {label: Nome, value: Emma}
+                - {label: Cognome, value: Clarke}
+                - {label: Nazionalità, value: inglese}
+                - {label: Luogo di nascita, value: "Manchester (Inghilterra)"}
+                - {label: Città, value: Bologna}
+                - {label: Email, value: emma.clarke@example.com}
+              ignore: ["Scuola di italiano – Iscrizione", Emma, Clarke, "Manchester (Inghilterra)", emma.clarke@example.com]
+        statement_en: "Emma lives in Manchester."
         answer: false
       - id: u01.check.07
         format: choice
         targets: [{item: c:le-presento, skill: read}, {item: g:tu-lei, skill: read}]
         tags: [cd:introduce-others, cd:choose-tu-lei]
-        prompt_it: "Signora, Le presento Marco."
+        prompt_it: "Buongiorno! Le presento Marco."
         question_en: "Who is the speaker talking to?"
         options: ["Someone they call Lei", "A close friend", "Marco"]
         answer: 0
@@ -95,7 +110,7 @@ sections:
         tags: [cd:say-where-from, sy:gr.subject-pronouns]
         prompt_it: "Lui è canadese, ma lei è italiana."
         question_en: "What does this say?"
-        options: ["He's Canadian and she's Italian", "She's Canadian and he's Italian", "They're both Italian"]
+        options: ["He's Canadian, but she's Italian", "She's Canadian, but he's Italian", "They're both Italian"]
         answer: 0
       - id: u01.check.09
         format: match
@@ -106,7 +121,7 @@ sections:
           - {item: c:luogo-di-nascita, skill: read}
           - {item: w:citta, skill: read}
         tags: [cd:give-personal-details, sy:fn.forms]
-        pairs: [["Nome", "first name"], ["Cognome", "surname"], ["Nazionalità", "nationality"], ["Luogo di nascita", "place of birth"], ["Città", "city"]]
+        pairs: [["Nome", "first name"], ["Cognome", "last name"], ["Nazionalità", "nationality"], ["Luogo di nascita", "place of birth"], ["Città", "city"]]
       - id: u01.check.10
         format: choice
         targets: [{item: g:negation-non, skill: read}]
@@ -141,19 +156,19 @@ sections:
         format: sentence-building
         targets: [{item: w:ma, skill: recall}, {item: g:conjunctions, skill: recall}, {item: g:simple-prepositions, skill: recall}]
         tags: [cd:say-where-from, sy:gr.conjunctions]
-        prompt_en: "I live in Bologna, but I'm Canadian. (Marco)"
-        tiles: [abito a, Bologna, ma, sono, canadese]
+        prompt_en: "I'm in Bologna, but I'm Canadian. (Marco)"
+        tiles: [sono, a, Bologna, ma, sono, canadese]
         distractors: [in]
-        answer: ["abito a Bologna ma sono canadese"]
+        answer: ["sono a Bologna ma sono canadese"]
       - id: u01.check.15
         format: writing
         kind: form
         score: 2
         tags: [cd:give-personal-details, sy:fn.forms, sy:ex.celi-form-postcard]
-        prompt_en: "You're joining Sara's coworking space. Fill in the sign-up card."
+        prompt_en: "At the coworking space where Sara works, visitors fill in a card. Fill in yours."
         fields:
           - {label_it: Nome, label_en: First name, type: text}
-          - {label_it: Cognome, label_en: Surname, type: text}
+          - {label_it: Cognome, label_en: Last name, type: text}
           - {label_it: Nazionalità, label_en: Nationality, type: text, accept: ["{ME.nationality}"]}
           - {label_it: Luogo di nascita, label_en: Place of birth, type: text}
           - {label_it: Città, label_en: "City (where you live now)", type: text}
@@ -172,6 +187,7 @@ sections:
           - {id: name, en: "Say your name"}
           - {id: from, en: "Say where you're from"}
           - {id: live, en: "Say where you live"}
+          - {id: bye, en: "Say goodbye politely"}
         start: n1
         nodes:
           n1:
@@ -199,21 +215,31 @@ sections:
               - intent: live
                 goal: live
                 accept: ["(io )abito a Bologna", "(io )abito {ME.home}", "a Bologna", "(io )abito a {NAME}", "(io )abito in {NAME}"]
+                next: n4
+            help: []
+          n4:
+            say: "Bene, grazie. Buona giornata!"
+            en: "Good, thank you. Have a good day!"
+            expect:
+              - intent: bye
+                goal: bye
+                accept: ["arrivederci", "grazie arrivederci", "(grazie )arrivederci {e buona giornata|buona giornata|a presto}", "(grazie )buona giornata", "(grazie )a presto"]
                 next: end
+            near: [{answer: "(grazie )ciao", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}]
             help: []
           end:
-            say: "Bene, grazie. Arrivederci!"
-            en: "Good, thank you. Goodbye!"
+            say: "Arrivederci!"
+            en: "Goodbye!"
             final: true
       - id: u01.check.17
         format: talk
         score: 2
         tags: [cd:introduce-others, sy:ex.cils-monologue]
-        prompt_en: "Introduce your friend Marco to a new colleague: who he is, his nationality and his city."
+        prompt_en: "Introduce your friend Marco to a new colleague: who he is, his nationality and where he's from."
         points:
           - {id: intro, en: "Introduce Marco", accept: ["{ti presento|Le presento|questo è} Marco"]}
           - {id: nationality, en: "His nationality", accept: ["{è|lui è} canadese"]}
-          - {id: city, en: "His city", accept: ["{è|lui è} di Toronto", "{abita|lui abita} a Toronto", "{è|lui è} nato a Toronto"]}
+          - {id: city, en: "Where he's from", accept: ["{è|lui è} di Toronto", "{abita|lui abita} a Toronto", "{è|lui è} nato a Toronto"]}
         pass: 2
         model: "Ti presento Marco. È canadese, di Toronto."
         duration_s: {min: 3, max: 45}

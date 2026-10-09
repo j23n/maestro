@@ -21,6 +21,10 @@ characters:
     stay: three months in Bologna, renting a small flat in Signora Rossi's building
     character: friendly, curious, a bit clumsy with the language, keen to find his family's village
     first_unit: u00
+    # Proposed in C3 (Unit 1 drafts, critic fixes); content lead to confirm.
+    born: Toronto (Unit 1 Lesson 2, "Sono nato e abito a Toronto")
+    home: lives in Toronto; in Bologna only for the three-month stay, so drafts say "sono a Bologna", never "abito a Bologna"
+    arrival: "lands late in the evening (u00.l1); u01.l1 is the next day (Signora Rossi on the stairs that morning, the listening that evening); u01.l2 must be that same day for \"Sono arrivato a Bologna ieri\" to hold (open question: if u01.l2 is the following morning, ieri goes)"
   - id: ch:rossi
     name: Signora Rossi
     first_name: Anna (rarely used)
@@ -29,6 +33,9 @@ characters:
     character: warm, direct, talks about food and the neighborhood
     pets: a cat, Mimì
     first_unit: u01
+    # Proposed in C3 (Unit 1 drafts, critic fixes); content lead to confirm.
+    from: Bologna (Unit 1 Lessons 1 and 3, "Sono di Bologna", "Anche io sono di Bologna")
+    pet_facts: Mimì is female and bolognese (Unit 1, "E lei è Mimì!", "Mimì è bolognese!")
   - id: ch:sara
     name: Sara
     age: 31
@@ -36,6 +43,8 @@ characters:
     from: Bologna
     character: lively, likes concerts and cycling; Giulia's friend
     first_unit: u01
+    # Proposed in C3 (Unit 1 drafts, critic fixes); content lead to confirm.
+    born: Bologna; lives in Bologna (Unit 1 Lesson 2, "Sono nata e abito a Bologna. Sono bolognese!")
   - id: ch:giulia
     name: Giulia
     age: 36
@@ -58,9 +67,13 @@ characters:
     name: you (the learner)
     role: a newcomer in the same neighbourhood, with your own name and gender (from onboarding)
     first_unit: u00
+    # C3 (Unit 1): drafts don't say where the learner works; you meet Sara at the coworking space and may visit it.
+    work: not stated (don't assert that the learner works at the coworking space)
   - id: ch:extra
     name: minor roles (passer-by, stallholder, shop assistant, ticket clerk, pharmacist, receptionist, waiter, tobacconist)
     rule: strangers and staff use Lei with Marco and with you; each minor role gets a fresh name if named at all
+    # Proposed in C3 (Unit 1 drafts); content lead to confirm.
+    u01_roles: "the coworking space's receptionist (unnamed, gender not fixed; u01.l2); Hugo, a French neighbor born in Canada (u01.check.02); Lucía Ortega, a Spanish classmate at the language school (u01.l3 form); Emma Clarke, an English classmate there (u01.check.06)"
 
 places:
   - {name: Bar Aurora, kind: fictional, note: near the coworking space}
@@ -95,6 +108,7 @@ facts_to_check:
   - {unit: u12, fact: "cover charge (coperto) on restaurant bills; tipping not expected"}
   - {unit: u00, fact: "taxi fare: a licensed taxi from Bologna airport to a flat in town, late in the evening, costs diciotto euro (u00.l2.ride and its exercises); quick sources give 15-20 euros to the centre plus night, airport and luggage supplements. If that's too low, the fare becomes venti euro, paid with a twenty and no change (losing the diciotto/diciassette listening scene)"}
   - {unit: u00, fact: "at the airport taxi rank, licensed drivers wait in line and don't call out to passengers; the passenger walks up to the first taxi (u00.l1.taxi-stand)"}
+  - {unit: u01, fact: "Italian language-school registration forms: is the residence field labeled Città, Città di residenza or Residenza? (u01.l3 form, u01.task.write, u01.check.06, u01.check.15 use Città)"}
 
 # Who says tu or Lei to whom (check 5). `units` is an inclusive range [from, to] or `all`.
 # Precedence when several rows match a (speaker, addressee) pair: an exact pair wins, then (exact speaker, '*'),

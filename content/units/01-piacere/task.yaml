@@ -41,12 +41,12 @@ conversations:
           - intent: origin
             goal: from
             accept:
-              - "(piacere )(io )sono {ME.nationality}"
-              - "(piacere )(io )sono di {NAME}"
-              - "(piacere )(io )sono {ME.nationality} di {NAME}"
-              - "(piacere )(io )sono {ME.nationality} e abito {ME.home}"
+              - "(piacere )(signora )(io )sono {ME.nationality}"
+              - "(piacere )(signora )(io )sono di {NAME}"
+              - "(piacere )(signora )(io )sono {ME.nationality} di {NAME}"
+              - "(piacere )(signora )(io )sono {ME.nationality} e abito {ME.home}"
             next: n3
-        near: [{answer: "(io )sono di {ME.country}", hint: "For a country, use your nationality: sono + nationality."}]
+        near: [{answer: "(piacere )(signora )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}", hint: "For a country, use your nationality: sono + nationality."}]
         help: ["Piacere, signora! Sono…", "Sono di…"]
         hint_en: "Say your nationality, or your city with di."
       n3:
@@ -59,6 +59,8 @@ conversations:
               - "(bene )(grazie )e Lei( come sta)( signora)"
               - "(bene )(grazie )(signora )come sta"
               - "(bene )(grazie )e Lei signora come sta"
+              - "(bene )(grazie )signora e Lei( come sta)"
+              - "(bene )(grazie )e Lei come va( signora)"
             next: n4
         near:
           - {answer: "(bene )(grazie )e tu( come stai)", hint: "Signora Rossi says tu to you, but you answer with Lei."}
@@ -74,6 +76,7 @@ conversations:
             accept:
               - "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)"
               - "(sì )ci vediamo( signora)( arrivederci)"
+              - "arrivederci signora {buona giornata|a presto}"
             next: end
         near: [{answer: "ciao( signora)", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}]
         help: ["Arrivederci, signora!"]
@@ -106,7 +109,7 @@ conversations:
             goal: name
             accept: ["(ciao )mi chiamo {NAME}", "(ciao )(io )sono {NAME}", "(ciao )(io )mi chiamo {NAME}( piacere)", "{NAME}"]
             next: n2
-        near: [{answer: "(ciao )mi chiamo {NAME} e Lei( come si chiama)", hint: "Sara is your age, and you met at work: use tu."}]
+        near: [{answer: "(ciao )mi chiamo {NAME} e Lei( come si chiama)", hint: "Sara says tu to you: answer with tu."}]
         help: ["Ciao! Mi chiamo…"]
         hint_en: "Say your name."
       n2:
@@ -115,9 +118,9 @@ conversations:
         expect:
           - intent: origin
             goal: from
-            accept: ["(io )sono {ME.nationality}", "(io )sono di {NAME}", "(io )sono {ME.nationality} di {NAME}"]
+            accept: ["(io )sono {ME.nationality}", "(io )sono di {NAME}", "(io )sono {ME.nationality} di {NAME}", "piacere (io )sono {ME.nationality}", "piacere (io )sono di {NAME}"]
             next: n3
-        near: [{answer: "(io )sono di {ME.country}", hint: "For a country, use your nationality: sono + nationality."}]
+        near: [{answer: "(piacere )(io )sono di {Canada|Italia|America|Stati Uniti|Inghilterra|Francia|Spagna|Australia|Irlanda}", hint: "For a country, use your nationality: sono + nationality."}]
         help: ["Sono…", "Sono di…"]
         hint_en: "Say your nationality, or your city with di."
       n3:
@@ -163,7 +166,7 @@ conversations:
         expect:
           - intent: bye
             goal: bye
-            accept: ["{ciao|ci vediamo|a presto|ciao ci vediamo|ciao a presto|sì ci vediamo}( Sara)"]
+            accept: ["{ciao|ci vediamo|a presto|ciao ci vediamo|ciao a presto|sì ci vediamo}( Sara)", "ciao Sara {a presto|ci vediamo}", "arrivederci( Sara)"]
             next: end
         help: ["Ciao, a presto!"]
         hint_en: "Say goodbye."
@@ -183,7 +186,7 @@ talk:
     - {id: live, en: "Where you live", accept: ["abito {ME.home}", "abito a {NAME}", "abito in {NAME}"]}
     - {id: born, en: "Where you were born", accept: ["sono {m:nato|f:nata} {a|in} {NAME}"]}
   pass: 3
-  model: "Ciao! Mi chiamo Marco e sono canadese. Sono nato a Toronto e abito a Toronto, in Canada."
+  model: "Ciao! Mi chiamo Marco e sono canadese. Sono nato e abito a Toronto, in Canada."
   duration_s: {min: 10, max: 90}
 
 writing:
@@ -194,7 +197,7 @@ writing:
   prompt_en: "You're signing up for an Italian course at the language school. Fill in the registration form."
   fields:
     - {label_it: Nome, label_en: First name, type: text}
-    - {label_it: Cognome, label_en: Surname, type: text}
+    - {label_it: Cognome, label_en: Last name, type: text}
     - {label_it: Nazionalità, label_en: Nationality, type: text, accept: ["{ME.nationality}"]}
     - {label_it: Luogo di nascita, label_en: Place of birth, type: text}
     - {label_it: Città, label_en: "City (where you live now)", type: text}
