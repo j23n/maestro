@@ -66,7 +66,8 @@ def test_unit_runs_and_the_band_line():
 
 
 def test_the_live_bands_are_the_content_leads():
-    """CL21: input and output 15–35%, fluency 10–35%, language focus 15–60% in Units 0–2 and 15–50% from Unit 3."""
+    """CL21: input and output 15–35%, fluency 10–35%, language focus 15–60% in Units 0–2 and 15–50% from Unit 3;
+    CL39: Unit 0's input from 10% and its language focus up to 65%."""
     bands = yamlio.load(paths.ROOT / CHECKER)["strands"]["bands"]
     order = load_course(paths.ROOT).unit_order()
 
@@ -75,10 +76,11 @@ def test_the_live_bands_are_the_content_leads():
         return bound_for(b["min"], unit, order, -1.0), bound_for(b["max"], unit, order, -1.0)
 
     for unit in order:
-        assert band("input", unit) == (0.15, 0.35)
+        assert band("input", unit) == (0.10 if unit == "u00" else 0.15, 0.35), unit
         assert band("output", unit) == (0.15, 0.35)
         assert band("fluency", unit) == (0.10, 0.35)
-        assert band("language-focus", unit) == (0.15, 0.60 if unit in ("u00", "u01", "u02") else 0.50), unit
+        ceiling = 0.65 if unit == "u00" else 0.60 if unit in ("u01", "u02") else 0.50
+        assert band("language-focus", unit) == (0.15, ceiling), unit
     assert order["u99"] > order["u03"]  # the final review takes the later ceiling
 
 

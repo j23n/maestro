@@ -21,10 +21,10 @@ strands:                        # check 3 · strand balance (docs/04; CL21): eac
                                 # estimated minutes must be within its band [min, max]. A bound is a share, or a map
                                 # {unit: share} whose shares each hold from their unit on, in course order
   bands:
-    input: {min: 0.15, max: 0.35}
+    input: {min: {u00: 0.10, u01: 0.15}, max: 0.35}                # CL39: 10% in Unit 0
     output: {min: 0.15, max: 0.35}
     fluency: {min: 0.10, max: 0.35}
-    language-focus: {min: 0.15, max: {u00: 0.60, u03: 0.50}}  # 60% in Units 0–2, 50% from Unit 3 on
+    language-focus: {min: 0.15, max: {u00: 0.65, u01: 0.60, u03: 0.50}}  # 65% in Unit 0 (CL39), 60% in Units 1–2, 50% from Unit 3
   by_kind:                      # step kind or exercise format → strand
     story: input
     listening: input
