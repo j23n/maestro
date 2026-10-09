@@ -156,11 +156,11 @@ sections:
         score: 2
         tags: [cd:greet-farewell, cd:spell-name, sy:ss.greetings-register, sy:ss.alphabet, sy:ex.cils-monologue]
         prompt_en: "You arrive at a desk in the evening. Say hello, say your first name and spell it."
-        lemmas: {a: w:a~letter, ci: w:ci~letter, di: w:di~letter, o: w:o~letter, ti: w:ti~letter}
+        lemmas: {a: w:a~letter, e: w:e~letter, i: w:i~letter, o: w:o~letter, ci: w:ci~letter, di: w:di~letter, ti: w:ti~letter, vi: w:vu}
         points:
           - {id: greet, en: "Say hello", accept: ["{buonasera|buongiorno}"]}
-          - {id: name, en: "Say your first name", accept: ["{NAME}"]}
-          - {id: spell, en: "Spell your name, letter by letter", accept: ["{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}"]}
+          - {id: spell, en: "Spell your first name, letter by letter", accept: ["{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|zeta} {a|e|i|o|u|ipsilon}"]}
+          - {id: spell-more, en: "Spell it to the last letter", accept: ["{a|e|i|o|u|ipsilon|doppia} {bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|zeta}"]}
         pass: 2
         model: "Buonasera! Marco: emme, a, erre, ci, o."
         duration_s: {min: 3, max: 45}

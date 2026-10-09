@@ -642,9 +642,9 @@
    "expansion": 0,
    "model": true,
    "norm": "vu",
-   "of": 2,
+   "of": 4,
    "path": "items[63].recall_answer",
-   "pattern": "{vu|la vu}",
+   "pattern": "{vu|la vu|vi|la vi}",
    "ref": "w:vu",
    "role": "recall_answer",
    "text": "vu",
@@ -656,15 +656,89 @@
    "expansion": 1,
    "model": false,
    "norm": "la vu",
-   "of": 2,
+   "of": 4,
    "path": "items[63].recall_answer",
-   "pattern": "{vu|la vu}",
+   "pattern": "{vu|la vu|vi|la vi}",
    "ref": "w:vu",
    "role": "recall_answer",
    "text": "la vu",
    "tokens": [
     {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 1, "item": "w:vu", "kind": "word", "lemma": "la", "span": [0, 2], "surface": "la", "trailing": " "},
     {"analyses": ["vu NOUN-F:p", "vu NOUN-F:s"], "flags": ["synthetic"], "item": "w:vu", "kind": "word", "lemma": "vu", "span": [3, 5], "surface": "vu"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "vi",
+   "of": 4,
+   "path": "items[63].recall_answer",
+   "pattern": "{vu|la vu|vi|la vi}",
+   "ref": "w:vu",
+   "role": "recall_answer",
+   "text": "vi",
+   "tokens": [
+    {"analyses": ["vi ADV", "vi PRO-PERS-CLI-2-F-P", "vi PRO-PERS-CLI-2-M-P"], "flags": ["unresolved"], "kind": "word", "lemma": "vi", "span": [0, 2], "surface": "vi"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "la vi",
+   "of": 4,
+   "path": "items[63].recall_answer",
+   "pattern": "{vu|la vu|vi|la vi}",
+   "ref": "w:vu",
+   "role": "recall_answer",
+   "text": "la vi",
+   "tokens": [
+    {"analyses": ["la PRO-PERS-CLI-3-F-S"], "flags": ["unresolved"], "kind": "word", "lemma": "la", "span": [0, 2], "surface": "la", "trailing": " "},
+    {"analyses": ["vi ADV", "vi PRO-PERS-CLI-2-F-P", "vi PRO-PERS-CLI-2-M-P"], "flags": ["unresolved"], "kind": "word", "lemma": "vi", "span": [3, 5], "surface": "vi"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
+   "norm": "doppia vu",
+   "of": 3,
+   "path": "items[64].recall_answer",
+   "pattern": "{doppia vu|vu doppia|doppia vi}",
+   "ref": "c:doppia-vu",
+   "role": "recall_answer",
+   "text": "doppia vu",
+   "tokens": [
+    {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "chunk": "c:doppia-vu", "kind": "word", "span": [0, 6], "surface": "doppia", "trailing": " "},
+    {"chunk": "c:doppia-vu", "kind": "word", "span": [7, 9], "surface": "vu"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "vu doppia",
+   "of": 3,
+   "path": "items[64].recall_answer",
+   "pattern": "{doppia vu|vu doppia|doppia vi}",
+   "ref": "c:doppia-vu",
+   "role": "recall_answer",
+   "text": "vu doppia",
+   "tokens": [
+    {"analyses": ["vu NOUN-F:p", "vu NOUN-F:s"], "flags": ["synthetic"], "item": "w:vu", "kind": "word", "lemma": "vu", "span": [0, 2], "surface": "vu", "trailing": " "},
+    {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "chunk": "c:doppia", "kind": "word", "span": [3, 9], "surface": "doppia"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "doppia vi",
+   "of": 3,
+   "path": "items[64].recall_answer",
+   "pattern": "{doppia vu|vu doppia|doppia vi}",
+   "ref": "c:doppia-vu",
+   "role": "recall_answer",
+   "text": "doppia vi",
+   "tokens": [
+    {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "chunk": "c:doppia-vu", "kind": "word", "span": [0, 6], "surface": "doppia", "trailing": " "},
+    {"analyses": ["vi ADV", "vi PRO-PERS-CLI-2-F-P", "vi PRO-PERS-CLI-2-M-P"], "chunk": "c:doppia-vu", "kind": "word", "lemma": "vi", "span": [7, 9], "surface": "vi"}
    ]
   },
   {

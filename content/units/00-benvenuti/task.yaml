@@ -1,9 +1,13 @@
 # Unit 0 task (docs/06 §12, §13; C3 draft). The unit spec asks for one conversation (a neighbor on the stairs) and a
 # talk (say hello, say your name and spell it); Unit 0 has no writing or relay task. Everything said to you avoids
 # gendered forms (no benvenuto/benvenuta), because the learner's gender varies.
-# The talk's spell point accepts consonant letter names only, since a vowel's name is also a word (a, e, o): one of them
-# in the answer counts as spelling. The talk's `lemmas:` read the spelled a and o, and ci, di and ti, as letters
-# (u00.l3 teaches the alphabet).
+# The talk has three points, pass 2 (CL24): the greeting and two spelling points, so it can't be passed without
+# spelling (a name point would match any answer). The matcher finds each point anywhere in the answer on its own, so
+# the spelling points are pairs of letter names that only a spelled word has: `spell` is a consonant's name followed by
+# a vowel's (emme, a), `spell-more` a consonant's name after a vowel's or after doppia (a, erre; doppia esse). Every
+# spelled name has one of the two; spelling a name with two consonants finds both. Ipsilon counts on both sides
+# (Bryn, Lynn), and vi is accepted for V (CL23). The talk's `lemmas:` read the spelled vowels, ci, di, ti and vi as
+# letters (u00.l3 teaches the alphabet).
 id: u00.task
 review: {status: draft, by: null, date: null, hash: null}
 
@@ -81,11 +85,11 @@ talk:
   format: talk
   tags: [cd:greet-farewell, cd:spell-name, sy:ss.greetings-register, sy:ss.alphabet]
   prompt_en: "Someone at a desk needs your name. Say hello, say your first name and spell it."
-  lemmas: {a: w:a~letter, ci: w:ci~letter, di: w:di~letter, o: w:o~letter, ti: w:ti~letter}
+  lemmas: {a: w:a~letter, e: w:e~letter, i: w:i~letter, o: w:o~letter, ci: w:ci~letter, di: w:di~letter, ti: w:ti~letter, vi: w:vu}
   points:
     - {id: greet, en: "Say hello", accept: ["{buongiorno|buonasera}"]}
-    - {id: name, en: "Say your first name", accept: ["{NAME}"]}
-    - {id: spell, en: "Spell your name, letter by letter", accept: ["{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}"]}
+    - {id: spell, en: "Spell your first name, letter by letter", accept: ["{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|zeta} {a|e|i|o|u|ipsilon}"]}
+    - {id: spell-more, en: "Spell it to the last letter", accept: ["{a|e|i|o|u|ipsilon|doppia} {bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|zeta}"]}
   pass: 2
   model: "Buongiorno! Marco: emme, a, erre, ci, o."
   duration_s: {min: 5, max: 60}

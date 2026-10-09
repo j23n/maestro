@@ -556,7 +556,7 @@
    "role": "answer",
    "text": "vi, e, enne, ti, i",
    "tokens": [
-    {"analyses": ["vi ADV", "vi PRO-PERS-CLI-2-F-P", "vi PRO-PERS-CLI-2-M-P"], "flags": ["unresolved"], "kind": "word", "lemma": "vi", "span": [0, 2], "surface": "vi"},
+    {"analyses": ["vu NOUN-F:p", "vu NOUN-F:s"], "flags": ["synthetic"], "item": "w:vu", "kind": "word", "lemma": "vu", "span": [0, 2], "surface": "vi"},
     {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
     {"analyses": ["e NOUN-F:p", "e NOUN-F:s"], "flags": ["synthetic"], "item": "w:e~letter", "kind": "word", "lemma": "e", "span": [4, 5], "surface": "e"},
     {"kind": "punct", "span": [5, 6], "surface": ",", "trailing": " "},

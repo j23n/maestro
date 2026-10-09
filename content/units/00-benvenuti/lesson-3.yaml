@@ -207,7 +207,7 @@ steps:
         tags: [cd:spell-name, sy:ss.alphabet]
         prompt_en: 'Spell "venti" (20), letter by letter.'
         hint: "Use the Italian names of the letters, with commas between them."
-        lemmas: {e: w:e~letter, ti: w:ti~letter, i: w:i~letter}
+        lemmas: {e: w:e~letter, ti: w:ti~letter, i: w:i~letter, vi: w:vu}
         answer: "{vu, e, enne, ti, i|vi, e, enne, ti, i}"
         audio_after: true
 
