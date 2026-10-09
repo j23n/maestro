@@ -423,7 +423,7 @@ steps:
       title: {en: "Pay the taxi driver"}
       tags: [cd:dont-understand, cd:count-to-20, cd:greet-farewell]
       goals:
-        - {id: clarify, en: "Say you don't understand"}
+        - {id: clarify, en: "Say sorry, you don't understand"}
         - {id: price, en: "Say the price back to check it"}
         - {id: bye, en: "Say good night"}
       start: n1
@@ -435,12 +435,12 @@ steps:
             - intent: clarify
               goal: clarify
               accept:
-                - "(scusi )non capisco( può ripetere)( per favore)"
-                - "(scusi )può ripetere( per favore)"
+                - "{scusi|mi scusi} non capisco( può ripetere)( per favore)"
+                - "{scusi|mi scusi} può ripetere( per favore)"
               next: n2
           near: [{answer: "scusa( non capisco)( può ripetere)( per favore)", hint: "You don't know the driver. Scusa or scusi?"}]
           help: ["Scusi, non capisco. Può ripetere?"]
-          hint_en: "You didn't catch the price. Say you don't understand."
+          hint_en: "You didn't catch the price. Say sorry, you don't understand."
         n2:
           say: "Diciotto. Diciotto euro."
           en: "Eighteen. Eighteen euros."

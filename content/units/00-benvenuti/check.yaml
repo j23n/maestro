@@ -115,7 +115,7 @@ sections:
         tags: [cd:greet-farewell, cd:dont-understand, sy:ex.cils-dialogue]
         goals:
           - {id: greet, en: "Say good evening"}
-          - {id: clarify, en: "Say you don't understand (your neighbor talks fast)"}
+          - {id: clarify, en: "Say sorry, you don't understand (your neighbor talks fast)"}
           - {id: answer, en: "Say how you are"}
           - {id: bye, en: "Say good night"}
         start: n1
@@ -133,8 +133,8 @@ sections:
               - intent: clarify
                 goal: clarify
                 accept:
-                  - "(scusi )non capisco( può ripetere)( per favore)"
-                  - "(scusi )può ripetere( per favore)"
+                  - "{scusi|mi scusi} non capisco( può ripetere)( per favore)"
+                  - "{scusi|mi scusi} può ripetere( per favore)"
                 next: n3
               - {intent: answer-now, goal: answer, accept: ["(ah )bene( grazie)", "(ah )bene grazie e Lei"], next: n4}
             help: []
