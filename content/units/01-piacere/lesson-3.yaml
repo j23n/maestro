@@ -169,7 +169,7 @@ steps:
         targets: [{item: c:puoi-ripetere, skill: recall}]
         tags: [cd:dont-understand, cd:choose-tu-lei]
         prompt_en: "Sorry, can you say that again? (to Sara)"
-        answer: "{scusa puoi ripetere|puoi ripetere|Sara puoi ripetere|scusa non capisco puoi ripetere|puoi ripetere per favore|scusa Sara non capisco puoi ripetere|scusa Sara puoi ripetere|scusa Sara non capisco puoi ripetere per favore}"
+        answer: "{scusa puoi ripetere|(scusa )(Sara )(non capisco )puoi ripetere( per favore)|Sara( scusa)( non capisco) puoi ripetere( per favore)}"
         near:
           - {answer: "(scusi )può ripetere( per favore)", hint: "Può is the Lei form. You and Sara say tu."}
           - {answer: "scusi puoi ripetere( per favore)", hint: "Scusi is for people you call Lei. Which word goes with tu?"}
@@ -233,7 +233,7 @@ steps:
         targets: [{item: c:a-presto, skill: recall}]
         tags: [cd:greet-farewell]
         prompt_en: "See you soon, Signora!"
-        answer: "{a presto signora|a presto|arrivederci a presto|arrivederci signora a presto}"
+        answer: "{a presto signora|a presto|arrivederci a presto|arrivederci signora a presto|a presto signora buona giornata|a presto signora arrivederci}"
         audio_after: true
     mix:
       - id: u01.l3.ex17
@@ -370,7 +370,7 @@ steps:
         context_it: "Lenzi? Scusi, come si scrive?"
         prompt_en: "You're Marco. Spell your last name, letter by letter."
         hint: "Use the Italian names of the letters, with commas between them."
-        answer: "elle, e, enne, zeta, i"
+        answer: "{elle, e, enne, zeta, i|Lenzi elle, e, enne, zeta, i}"
         audio_after: true
       - id: u01.l3.ex42
         format: choice
@@ -721,6 +721,7 @@ steps:
               accept:
                 - "a presto signora buona giornata"
                 - "(grazie )arrivederci( signora)( {a presto|buona giornata})"
+                - "a presto( signora) arrivederci( signora)"
                 - "(a presto )(grazie )(signora )buona giornata( signora)( arrivederci)"
               next: end
           near:

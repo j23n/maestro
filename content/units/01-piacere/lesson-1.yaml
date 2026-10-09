@@ -240,7 +240,7 @@ steps:
         targets: [{item: c:puo-ripetere, skill: recall}]
         tags: [cd:dont-understand, cd:choose-tu-lei]
         prompt_en: "Sorry, can you say that again? (to Signora Rossi)"
-        answer: "{scusi può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora scusi può ripetere( per favore)}"
+        answer: "{scusi può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|scusi signora non capisco può ripetere( per favore)|signora scusi può ripetere( per favore)}"
         near:
           - {answer: "({scusa|scusi} )puoi ripetere( per favore)", hint: "Puoi is the tu form. Signora Rossi gets Lei."}
           - {answer: "scusa( non capisco) può ripetere( per favore)", hint: "Scusa is for people you call tu. Which word goes with Lei?"}

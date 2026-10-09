@@ -207,7 +207,7 @@ sections:
             expect:
               - intent: origin
                 goal: from
-                accept: ["(io )sono {ME.nationality}", "(io )sono di {NAME}", "(io )sono {ME.nationality} di {NAME}"]
+                accept: ["(io )sono {ME.nationality}", "(io )sono di {NAME}", "(io )sono {ME.nationality} di {NAME}", "piacere (io )sono {ME.nationality}( di {NAME})", "piacere (io )sono di {NAME}"]
                 next: n3
             help: []
           n3:
@@ -225,7 +225,7 @@ sections:
             expect:
               - intent: bye
                 goal: bye
-                accept: ["arrivederci", "grazie arrivederci", "(grazie )arrivederci {e buona giornata|buona giornata|a presto}", "(grazie )(a presto )buona giornata( arrivederci)", "(grazie )a presto arrivederci"]
+                accept: ["arrivederci", "grazie arrivederci", "(grazie )arrivederci {e buona giornata|buona giornata|a presto}", "(grazie )(a presto )buona giornata( arrivederci)", "(grazie )a presto arrivederci", "arrivederci( e) grazie"]
                 next: end
             near: [{answer: "(grazie )ciao", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}]
             help: []
