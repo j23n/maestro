@@ -17,7 +17,10 @@ What is measured (and always reported in check.md / `content report`):
 - **Grammar spiral:** every point is detected or targeted in at least `grammar_spiral_later_units_min` later units
   (points of the last two teaching units: in the final review). Judged once every later unit is complete.
 - **Strand balance:** estimated minutes per strand from `durations_seconds` and `strands.by_kind` (the check is
-  assessment and isn't counted), each strand within `min_share`–`max_share`.
+  assessment and isn't counted), each strand within its band in `strands.bands` (CL21). A band's bound is a share, or
+  `{unit: share}` whose shares each hold from their unit on in course order (language focus: 60% in Units 0–2, 50%
+  from Unit 3). A story or listening text counts its words read (`story_per_word`) and heard (`audio_per_word`); a
+  listening text is heard twice (`LISTENING_PLAYS`).
 - **Story length:** each story text's word count (non-punctuation tokens) within its unit spec's `texts.stories.words`.
 
 Unit-level findings (recycling, strand balance) need a complete unit; an incomplete one gets one *pending* line.
@@ -52,6 +55,8 @@ PLAIN_ROLES = frozenset(
 )
 CONTENT_POS = frozenset({"noun", "verb", "adj", "adv"})
 STRANDS = ("input", "language-focus", "output", "fluency")
+LISTENING_PLAYS = 2  # a listening text is heard twice (CL21); a story once
+DEFAULT_BAND = (0.15, 0.35)
 
 
 def _map(x: Any) -> dict[str, Any]:
@@ -103,6 +108,7 @@ class UnitStats:
     id: str
     complete: bool
     seconds: dict[str, float] = field(default_factory=lambda: dict.fromkeys(STRANDS, 0.0))
+    bands: dict[str, tuple[float, float]] = field(default_factory=dict)  # strand → (min, max) share in this unit
     content_tokens: int = 0
     earlier_tokens: int = 0
 
@@ -140,6 +146,32 @@ def is_p(status: Any) -> bool:
     return status == "P" or (isinstance(status, dict) and status.get("recall") == "P")
 
 
+def _share(x: Any) -> float | None:
+    return float(x) if isinstance(x, int | float) and not isinstance(x, bool) else None
+
+
+def bound_for(value: Any, unit: str, order: dict[str, int], default: float) -> float:
+    """One bound of a strand band for one unit: a share, or `{unit: share}` whose shares each hold from their unit on
+    (course order). Keys outside the course are ignored here (`Recycling.bands` reports them)."""
+    share = _share(value)
+    if share is not None:
+        return share
+    steps: list[tuple[int, float]] = []
+    for key, x in _map(value).items():
+        v = _share(x)
+        if key in order and v is not None:
+            steps.append((order[key], v))
+    if not steps:
+        return default
+    steps.sort()
+    here = order.get(unit, len(order))
+    out = steps[0][1]
+    for start, v in steps:
+        if start <= here:
+            out = v
+    return out
+
+
 class Recycling:
     def __init__(self, ctx: CheckContext) -> None:
         self.ctx = ctx
@@ -155,6 +187,34 @@ class Recycling:
     def threshold(self, key: str, default: float) -> float:
         v = self.cfg.get(key, default)
         return float(v) if isinstance(v, int | float) else default
+
+    def bands(self) -> dict[str, dict[str, Any]]:
+        """`strands.bands`, after reporting the bounds a unit map can't place: a unit outside the course, or a first
+        key that isn't the course's first unit (the shares would leave the units before it unbounded)."""
+        ctx = self.ctx
+        bands = _map(_map(ctx.checker.get("strands")).get("bands"))
+        checker = ctx.course.singles.get("checker")
+        loc = Loc(checker.rel if checker else "content/checker.yaml", ("strands", "bands"))
+        first = ctx.unit_ids[0] if ctx.unit_ids else None
+        for strand in STRANDS:
+            for side in ("min", "max"):
+                value = _map(bands.get(strand)).get(side)
+                if not isinstance(value, dict) or not value:
+                    continue
+                where = loc.child(strand, side)
+                unknown = sorted(str(k) for k in value if k not in ctx.unit_index)
+                if unknown:
+                    ctx.add("error", 3, "strands", where, f"{', '.join(unknown)}: not a unit of course.yaml")
+                known = sorted((k for k in value if k in ctx.unit_index), key=ctx.unit_index.__getitem__)
+                if known and known[0] != first:
+                    ctx.add(
+                        "error",
+                        3,
+                        "strands",
+                        where,
+                        f"the {strand} {side} share starts at {known[0]}; start it at the course's first unit, {first}",
+                    )
+        return {strand: _map(bands.get(strand)) for strand in STRANDS}
 
     # ------------------------------------------------------------ items
 
@@ -271,8 +331,15 @@ class Recycling:
             v = dur.get(key, default)
             return float(v) if isinstance(v, int | float) else default
 
+        bands = self.bands()
         for ui, u in enumerate(ctx.course.units):
             st = UnitStats(u.id, u.complete)
+            for strand in STRANDS:
+                band = bands[strand]
+                st.bands[strand] = (
+                    bound_for(band.get("min"), u.id, ctx.unit_index, DEFAULT_BAND[0]),
+                    bound_for(band.get("max"), u.id, ctx.unit_index, DEFAULT_BAND[1]),
+                )
 
             def put(kind: str, seconds: float, st: UnitStats = st) -> None:
                 strand = by_kind.get(kind)
@@ -292,6 +359,9 @@ class Recycling:
                         if kind == "story":
                             story_words += words
                         put(kind, words * secs("story_per_word"))
+                        if kind in ("story", "listening"):  # heard as well as read; a listening text twice
+                            plays = LISTENING_PLAYS if kind == "listening" else 1
+                            put(kind, plays * words * secs("audio_per_word"))
                         n = len(_seq(step.get("questions")) or _seq(step.get("exercises")))
                         put("comprehension", n * secs("comprehension"))
                     elif kind == "note":
@@ -344,9 +414,9 @@ class Recycling:
                     f"{u.id}: {st.recycled:.0%} of the content words in its texts come from earlier units "
                     f"({st.earlier_tokens} of {st.content_tokens}); aim for at least {share_min:.0%}",
                 )
-            lo, hi = float(strands.get("min_share", 0.15)), float(strands.get("max_share", 0.35))
             for strand in STRANDS:
                 share = st.share(strand)
+                lo, hi = st.bands[strand]
                 if st.total and not lo <= share <= hi:
                     ctx.add(
                         "warning",
@@ -354,7 +424,8 @@ class Recycling:
                         "strands",
                         spec_loc,
                         f"{u.id}: {strand} is {share:.0%} of the estimated {st.total / 60:.0f} minutes "
-                        f"({st.seconds[strand] / 60:.0f} min); each strand should be {lo:.0%}–{hi:.0%}",
+                        f"({st.seconds[strand] / 60:.0f} min); its band in {u.id} is {lo:.0%}–{hi:.0%} "
+                        "(checker.yaml strands.bands)",
                     )
 
     def stories(self) -> None:
