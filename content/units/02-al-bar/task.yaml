@@ -91,6 +91,6 @@ relay:
           - title: Colazione
             rows:
               - {name: cornetto, price: "1,40"}
-        ignore: [Caffetteria, Colazione]
+        ignore: [Caffetteria]
   friend_en: "I'm waiting outside. How much is a cappuccino in there?"
   answer_en: {type: price, value: 1.60}

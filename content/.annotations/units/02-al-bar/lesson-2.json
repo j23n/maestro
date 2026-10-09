@@ -66,27 +66,27 @@
   {
    "detections": [
     {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [3, 3]},
-    {"point": "g:simple-prepositions", "tokens": [4, 4]},
-    {"point": "g:indefinite-article", "tokens": [6, 6]}
+    {"point": "g:simple-prepositions", "tokens": [5, 5]},
+    {"point": "g:indefinite-article", "tokens": [7, 7]}
    ],
    "path": "steps[1].text.lines[4].it",
    "ref": "u02.l2.story#5",
    "role": "line",
-   "text": "Un latte? Ma in Italia un latte è solo latte!",
+   "text": "Un latte? Guardi, in Italia un latte è solo latte!",
    "tokens": [
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "Un", "trailing": " "},
     {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [3, 8], "surface": "latte"},
     {"kind": "punct", "span": [8, 9], "surface": "?", "trailing": " "},
-    {"analyses": ["ma CON"], "detections": ["g:conjunctions"], "item": "w:ma", "kind": "word", "lemma": "ma", "span": [10, 12], "surface": "Ma", "trailing": " "},
-    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [13, 15], "surface": "in", "trailing": " "},
-    {"kind": "name", "span": [16, 22], "surface": "Italia", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [23, 25], "surface": "un", "trailing": " "},
-    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [26, 31], "surface": "latte", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [32, 33], "surface": "è", "trailing": " "},
-    {"analyses": ["solare VER:ind+pres+1+s", "solo ADJ:pos+m+s", "solo ADV"], "flags": ["new", "recognise"], "gloss": "just", "kind": "word", "span": [34, 38], "surface": "solo", "trailing": " "},
-    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [39, 44], "surface": "latte"},
-    {"kind": "punct", "span": [44, 45], "surface": "!"}
+    {"analyses": ["guardare VER:ind+pres+2+s", "guardare VER:sub+pres+1+s", "guardare VER:sub+pres+2+s", "guardare VER:sub+pres+3+s"], "flags": ["new", "recognise"], "gloss": "look (formal)", "kind": "word", "lemma": "guardare", "span": [10, 16], "surface": "Guardi"},
+    {"kind": "punct", "span": [16, 17], "surface": ",", "trailing": " "},
+    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [18, 20], "surface": "in", "trailing": " "},
+    {"kind": "name", "span": [21, 27], "surface": "Italia", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [28, 30], "surface": "un", "trailing": " "},
+    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [31, 36], "surface": "latte", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [37, 38], "surface": "è", "trailing": " "},
+    {"analyses": ["solare VER:ind+pres+1+s", "solo ADJ:pos+m+s", "solo ADV"], "flags": ["new", "recognise"], "gloss": "just", "kind": "word", "span": [39, 43], "surface": "solo", "trailing": " "},
+    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [44, 49], "surface": "latte"},
+    {"kind": "punct", "span": [49, 50], "surface": "!"}
    ]
   },
   {
@@ -185,42 +185,79 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [0, 0]},
     {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:numbers-to-100", "tokens": [3, 3]}
+    {"point": "g:numbers-to-100", "tokens": [3, 3]},
+    {"point": "g:conjunctions", "tokens": [5, 5]},
+    {"point": "g:conjunctions", "tokens": [12, 12]},
+    {"point": "g:numbers-to-100", "tokens": [13, 13]}
    ],
    "path": "steps[1].text.lines[10].it",
    "ref": "u02.l2.story#11",
    "role": "line",
-   "text": "Un euro e sessanta.",
+   "text": "Un euro e sessanta. Ma oggi la colazione è due euro e cinquanta!",
    "tokens": [
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "Un", "trailing": " "},
     {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [3, 7], "surface": "euro", "trailing": " "},
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [8, 9], "surface": "e", "trailing": " "},
     {"analyses": ["sessanta DET-NUM-CARD", "sessanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:sessanta", "kind": "word", "lemma": "sessanta", "span": [10, 18], "surface": "sessanta"},
-    {"kind": "punct", "span": [18, 19], "surface": "."}
+    {"kind": "punct", "span": [18, 19], "surface": ".", "trailing": " "},
+    {"analyses": ["ma CON"], "detections": ["g:conjunctions"], "item": "w:ma", "kind": "word", "lemma": "ma", "span": [20, 22], "surface": "Ma", "trailing": " "},
+    {"analyses": ["oggi ADV"], "item": "w:oggi", "kind": "word", "lemma": "oggi", "span": [23, 27], "surface": "oggi", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 8, "item": "w:colazione", "kind": "word", "lemma": "la", "span": [28, 30], "surface": "la", "trailing": " "},
+    {"analyses": ["colazione NOUN-F:s"], "item": "w:colazione", "kind": "word", "lemma": "colazione", "span": [31, 40], "surface": "colazione", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [41, 42], "surface": "è", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [43, 46], "surface": "due", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [47, 51], "surface": "euro", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [52, 53], "surface": "e", "trailing": " "},
+    {"analyses": ["cinquanta DET-NUM-CARD", "cinquanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:cinquanta", "kind": "word", "lemma": "cinquanta", "span": [54, 63], "surface": "cinquanta"},
+    {"kind": "punct", "span": [63, 64], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[1].text.lines[11].it",
+   "ref": "u02.l2.story#12",
+   "role": "line",
+   "text": "La colazione?",
+   "tokens": [
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 1, "item": "w:colazione", "kind": "word", "lemma": "la", "span": [0, 2], "surface": "La", "trailing": " "},
+    {"analyses": ["colazione NOUN-F:s"], "item": "w:colazione", "kind": "word", "lemma": "colazione", "span": [3, 12], "surface": "colazione"},
+    {"kind": "punct", "span": [12, 13], "surface": "?"}
    ]
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [2, 2]}
+    {"point": "g:conjunctions", "tokens": [3, 3]}
    ],
-   "path": "steps[1].text.lines[11].it",
-   "ref": "u02.l2.story#12",
+   "path": "steps[1].text.lines[12].it",
+   "ref": "u02.l2.story#13",
    "role": "line",
-   "text": "Bene. Un cornetto, per favore.",
+   "text": "Sì: cappuccino e cornetto!",
    "tokens": [
-    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
-    {"kind": "punct", "span": [4, 5], "surface": ".", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [6, 8], "surface": "Un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [9, 17], "surface": "cornetto"},
-    {"kind": "punct", "span": [17, 18], "surface": ",", "trailing": " "},
-    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [19, 22], "surface": "per", "trailing": " "},
-    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [23, 29], "surface": "favore"},
-    {"kind": "punct", "span": [29, 30], "surface": "."}
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ":", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [4, 14], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [17, 25], "surface": "cornetto"},
+    {"kind": "punct", "span": [25, 26], "surface": "!"}
    ]
   },
   {
-   "path": "steps[1].text.lines[12].it",
-   "ref": "u02.l2.story#13",
+   "path": "steps[1].text.lines[13].it",
+   "ref": "u02.l2.story#14",
+   "role": "line",
+   "text": "Allora la colazione, per favore!",
+   "tokens": [
+    {"analyses": ["allora ADV"], "item": "w:allora", "kind": "word", "lemma": "allora", "span": [0, 6], "surface": "Allora", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 2, "item": "w:colazione", "kind": "word", "lemma": "la", "span": [7, 9], "surface": "la", "trailing": " "},
+    {"analyses": ["colazione NOUN-F:s"], "item": "w:colazione", "kind": "word", "lemma": "colazione", "span": [10, 19], "surface": "colazione"},
+    {"kind": "punct", "span": [19, 20], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [21, 24], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [25, 31], "surface": "favore"},
+    {"kind": "punct", "span": [31, 32], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[1].text.lines[14].it",
+   "ref": "u02.l2.story#15",
    "role": "line",
    "text": "Ecco Sara.",
    "tokens": [
@@ -230,8 +267,8 @@
    ]
   },
   {
-   "path": "steps[1].text.lines[13].it",
-   "ref": "u02.l2.story#14",
+   "path": "steps[1].text.lines[15].it",
+   "ref": "u02.l2.story#16",
    "role": "line",
    "text": "Ciao, Marco! Come va?",
    "tokens": [
@@ -248,8 +285,8 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "path": "steps[1].text.lines[14].it",
-   "ref": "u02.l2.story#15",
+   "path": "steps[1].text.lines[16].it",
+   "ref": "u02.l2.story#17",
    "role": "line",
    "text": "Bene! Sara, un caffè?",
    "tokens": [
@@ -263,8 +300,8 @@
    ]
   },
   {
-   "path": "steps[1].text.lines[15].it",
-   "ref": "u02.l2.story#16",
+   "path": "steps[1].text.lines[17].it",
+   "ref": "u02.l2.story#18",
    "role": "line",
    "text": "Sì, grazie!",
    "tokens": [
@@ -279,8 +316,8 @@
     {"point": "g:conjunctions", "tokens": [0, 0]},
     {"point": "g:indefinite-article", "tokens": [1, 1]}
    ],
-   "path": "steps[1].text.lines[16].it",
-   "ref": "u02.l2.story#17",
+   "path": "steps[1].text.lines[18].it",
+   "ref": "u02.l2.story#19",
    "role": "line",
    "text": "E un caffè, per favore.",
    "tokens": [
@@ -300,8 +337,8 @@
     {"point": "g:conjunctions", "tokens": [7, 7]},
     {"point": "g:indefinite-article", "tokens": [8, 8]}
    ],
-   "path": "steps[1].text.lines[17].it",
-   "ref": "u02.l2.story#18",
+   "path": "steps[1].text.lines[19].it",
+   "ref": "u02.l2.story#20",
    "role": "line",
    "text": "Ecco: un cappuccino, un cornetto e un caffè.",
    "tokens": [
@@ -319,8 +356,8 @@
    ]
   },
   {
-   "path": "steps[1].text.lines[18].it",
-   "ref": "u02.l2.story#19",
+   "path": "steps[1].text.lines[20].it",
+   "ref": "u02.l2.story#21",
    "role": "line",
    "text": "Mmm! Buono, il caffè!",
    "tokens": [
@@ -337,8 +374,8 @@
    "detections": [
     {"point": "g:conjunctions", "tokens": [2, 2]}
    ],
-   "path": "steps[1].text.lines[19].it",
-   "ref": "u02.l2.story#20",
+   "path": "steps[1].text.lines[21].it",
+   "ref": "u02.l2.story#22",
    "role": "line",
    "text": "Sì! E anche il cornetto è buono.",
    "tokens": [
@@ -354,8 +391,8 @@
    ]
   },
   {
-   "path": "steps[1].text.lines[20].it",
-   "ref": "u02.l2.story#21",
+   "path": "steps[1].text.lines[22].it",
+   "ref": "u02.l2.story#23",
    "role": "line",
    "text": "Scusi, quant'è?",
    "tokens": [
@@ -368,72 +405,46 @@
   },
   {
    "detections": [
-    {"point": "g:conjunctions", "tokens": [2, 2]}
-   ],
-   "path": "steps[1].text.lines[21].it",
-   "ref": "u02.l2.story#22",
-   "role": "line",
-   "text": "Quattro euro e venti.",
-   "tokens": [
-    {"analyses": ["quattro DET-NUM-CARD", "quattro PRO-NUM"], "item": "w:quattro", "kind": "word", "lemma": "quattro", "span": [0, 7], "surface": "Quattro", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [8, 12], "surface": "euro", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
-    {"analyses": ["venti DET-NUM-CARD", "venti PRO-NUM"], "item": "w:venti", "kind": "word", "lemma": "venti", "span": [15, 20], "surface": "venti"},
-    {"kind": "punct", "span": [20, 21], "surface": "."}
-   ]
-  },
-  {
-   "path": "steps[1].text.lines[22].it",
-   "ref": "u02.l2.story#23",
-   "role": "line",
-   "text": "Ecco cinque euro.",
-   "tokens": [
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "Ecco", "trailing": " "},
-    {"analyses": ["cinque DET-NUM-CARD", "cinque PRO-NUM"], "item": "w:cinque", "kind": "word", "lemma": "cinque", "span": [5, 11], "surface": "cinque", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [12, 16], "surface": "euro"},
-    {"kind": "punct", "span": [16, 17], "surface": "."}
-   ]
-  },
-  {
-   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]},
     {"point": "g:numbers-to-100", "tokens": [3, 3]}
    ],
    "path": "steps[1].text.lines[23].it",
    "ref": "u02.l2.story#24",
    "role": "line",
-   "text": "Grazie! Ecco ottanta centesimi.",
+   "text": "Tre euro e settanta.",
    "tokens": [
-    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
-    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [8, 12], "surface": "Ecco", "trailing": " "},
-    {"analyses": ["ottanta DET-NUM-CARD", "ottanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:ottanta", "kind": "word", "lemma": "ottanta", "span": [13, 20], "surface": "ottanta", "trailing": " "},
-    {"analyses": ["centesimo ADJ:pos+m+p", "centesimo NOUN-M:p"], "flags": ["new", "recognise"], "gloss": "cents", "kind": "word", "lemma": "centesimo", "span": [21, 30], "surface": "centesimi"},
-    {"kind": "punct", "span": [30, 31], "surface": "."}
+    {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [0, 3], "surface": "Tre", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [4, 8], "surface": "euro", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
+    {"analyses": ["settanta DET-NUM-CARD", "settanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:settanta", "kind": "word", "lemma": "settanta", "span": [11, 19], "surface": "settanta"},
+    {"kind": "punct", "span": [19, 20], "surface": "."}
    ]
   },
   {
    "path": "steps[1].text.lines[24].it",
    "ref": "u02.l2.story#25",
    "role": "line",
-   "text": "Grazie! Arrivederci.",
+   "text": "Ecco. Grazie, arrivederci!",
    "tokens": [
-    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
-    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [8, 19], "surface": "Arrivederci"},
-    {"kind": "punct", "span": [19, 20], "surface": "."}
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "Ecco"},
+    {"kind": "punct", "span": [4, 5], "surface": ".", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [6, 12], "surface": "Grazie"},
+    {"kind": "punct", "span": [12, 13], "surface": ",", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci"},
+    {"kind": "punct", "span": [25, 26], "surface": "!"}
    ]
   },
   {
    "path": "steps[1].text.lines[25].it",
    "ref": "u02.l2.story#26",
    "role": "line",
-   "text": "Arrivederci! Buona giornata!",
+   "text": "Grazie! Buona giornata!",
    "tokens": [
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "Arrivederci"},
-    {"kind": "punct", "span": [11, 12], "surface": "!", "trailing": " "},
-    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [13, 18], "surface": "Buona", "trailing": " "},
-    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [19, 27], "surface": "giornata"},
-    {"kind": "punct", "span": [27, 28], "surface": "!"}
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [8, 13], "surface": "Buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [14, 22], "surface": "giornata"},
+    {"kind": "punct", "span": [22, 23], "surface": "!"}
    ]
   },
   {
@@ -737,18 +748,19 @@
   },
   {
    "detections": [
-    {"point": "g:conjunctions", "tokens": [2, 2]}
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:numbers-to-100", "tokens": [3, 3]}
    ],
-   "fragment": [133, 153],
+   "fragment": [133, 152],
    "path": "steps[2].body[2].p",
    "ref": "u02.l2.note",
    "role": "note",
-   "text": "quattro euro e venti",
+   "text": "tre euro e settanta",
    "tokens": [
-    {"analyses": ["quattro DET-NUM-CARD", "quattro PRO-NUM"], "item": "w:quattro", "kind": "word", "lemma": "quattro", "span": [0, 7], "surface": "quattro", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [8, 12], "surface": "euro", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
-    {"analyses": ["venti DET-NUM-CARD", "venti PRO-NUM"], "item": "w:venti", "kind": "word", "lemma": "venti", "span": [15, 20], "surface": "venti"}
+    {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [0, 3], "surface": "tre", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [4, 8], "surface": "euro", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
+    {"analyses": ["settanta DET-NUM-CARD", "settanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:settanta", "kind": "word", "lemma": "settanta", "span": [11, 19], "surface": "settanta"}
    ]
   },
   {
@@ -809,85 +821,48 @@
    ]
   },
   {
-   "path": "steps[3].text.layout.sections[0].rows[0].name",
-   "ref": "u02.l2.menu",
+   "path": "steps[3].text.layout.lines[0]",
+   "ref": "u02.l2.chalkboard",
    "role": "layout",
-   "text": "caffè",
+   "text": "Buongiorno!",
    "tokens": [
-    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [0, 5], "surface": "caffè"}
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "Buongiorno"},
+    {"kind": "punct", "span": [10, 11], "surface": "!"}
    ]
   },
   {
-   "path": "steps[3].text.layout.sections[0].rows[0].price",
-   "ref": "u02.l2.menu",
+   "path": "steps[3].text.layout.lines[1]",
+   "ref": "u02.l2.chalkboard",
    "role": "layout",
-   "text": "1,20",
+   "text": "Oggi",
    "tokens": [
-    {"kind": "number", "span": [0, 4], "surface": "1,20"}
+    {"analyses": ["oggi ADV"], "item": "w:oggi", "kind": "word", "lemma": "oggi", "span": [0, 4], "surface": "Oggi"}
    ]
   },
   {
-   "path": "steps[3].text.layout.sections[0].rows[1].name",
-   "ref": "u02.l2.menu",
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "path": "steps[3].text.layout.lines[2]",
+   "ref": "u02.l2.chalkboard",
    "role": "layout",
-   "text": "cappuccino",
+   "text": "Colazione: cappuccino e cornetto",
    "tokens": [
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [0, 10], "surface": "cappuccino"}
+    {"analyses": ["colazione NOUN-F:s"], "item": "w:colazione", "kind": "word", "lemma": "colazione", "span": [0, 9], "surface": "Colazione"},
+    {"kind": "punct", "span": [9, 10], "surface": ":", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [11, 21], "surface": "cappuccino", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [24, 32], "surface": "cornetto"}
    ]
   },
   {
-   "path": "steps[3].text.layout.sections[0].rows[1].price",
-   "ref": "u02.l2.menu",
+   "path": "steps[3].text.layout.lines[3]",
+   "ref": "u02.l2.chalkboard",
    "role": "layout",
-   "text": "1,60",
+   "text": "2,50 €",
    "tokens": [
-    {"kind": "number", "span": [0, 4], "surface": "1,60"}
-   ]
-  },
-  {
-   "path": "steps[3].text.layout.sections[0].rows[2].name",
-   "ref": "u02.l2.menu",
-   "role": "layout",
-   "text": "spremuta",
-   "tokens": [
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [0, 8], "surface": "spremuta"}
-   ]
-  },
-  {
-   "path": "steps[3].text.layout.sections[0].rows[2].price",
-   "ref": "u02.l2.menu",
-   "role": "layout",
-   "text": "3,20",
-   "tokens": [
-    {"kind": "number", "span": [0, 4], "surface": "3,20"}
-   ]
-  },
-  {
-   "path": "steps[3].text.layout.sections[1].rows[0].name",
-   "ref": "u02.l2.menu",
-   "role": "layout",
-   "text": "cornetto",
-   "tokens": [
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [0, 8], "surface": "cornetto"}
-   ]
-  },
-  {
-   "path": "steps[3].text.layout.sections[1].rows[0].price",
-   "ref": "u02.l2.menu",
-   "role": "layout",
-   "text": "1,40",
-   "tokens": [
-    {"kind": "number", "span": [0, 4], "surface": "1,40"}
-   ]
-  },
-  {
-   "path": "steps[3].text.layout.title",
-   "ref": "u02.l2.menu",
-   "role": "layout",
-   "text": "Bar Aurora",
-   "tokens": [
-    {"analyses": ["bar NOUN-M:p", "bar NOUN-M:s"], "flags": ["allowlisted"], "gloss": "café; bar", "kind": "word", "lemma": "bar", "span": [0, 3], "surface": "Bar", "trailing": " "},
-    {"kind": "name", "span": [4, 10], "surface": "Aurora"}
+    {"kind": "number", "span": [0, 4], "surface": "2,50", "trailing": " "},
+    {"kind": "punct", "span": [5, 6], "surface": "€"}
    ]
   },
   {
@@ -2261,23 +2236,6 @@
     {"point": "g:numbers-to-100", "tokens": [0, 0]}
    ],
    "expansion": 0,
-   "model": true,
-   "norm": "settanta",
-   "of": 1,
-   "path": "steps[4].block[8].answer",
-   "pattern": "settanta",
-   "ref": "u02.l2.ex12",
-   "role": "answer",
-   "text": "settanta",
-   "tokens": [
-    {"analyses": ["settanta DET-NUM-CARD", "settanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:settanta", "kind": "word", "lemma": "settanta", "span": [0, 8], "surface": "settanta"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:numbers-to-100", "tokens": [0, 0]}
-   ],
-   "expansion": 0,
    "model": false,
    "norm": "sessanta",
    "of": 1,
@@ -2310,11 +2268,63 @@
     {"point": "g:numbers-to-100", "tokens": [3, 3]}
    ],
    "expansion": 0,
+   "gap": [3, 3],
+   "model": true,
+   "norm": "settanta",
+   "of": 1,
+   "path": "steps[4].block[8].text",
+   "pattern": "settanta",
+   "ref": "u02.l2.ex12",
+   "role": "cloze",
+   "text": "Tre euro e settanta.",
+   "tokens": [
+    {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [0, 3], "surface": "Tre", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [4, 8], "surface": "euro", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
+    {"analyses": ["settanta DET-NUM-CARD", "settanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:settanta", "kind": "word", "lemma": "settanta", "span": [11, 19], "surface": "settanta"},
+    {"kind": "punct", "span": [19, 20], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [7, 7]},
+    {"point": "g:numbers-to-100", "tokens": [8, 8]}
+   ],
+   "expansion": 0,
+   "gap": [3, 3],
+   "model": true,
+   "norm": "colazione",
+   "of": 1,
+   "path": "steps[4].block[9].text",
+   "pattern": "colazione",
+   "ref": "u02.l2.ex33",
+   "role": "cloze",
+   "text": "Ma oggi la colazione è due euro e cinquanta!",
+   "tokens": [
+    {"analyses": ["ma CON"], "detections": ["g:conjunctions"], "item": "w:ma", "kind": "word", "lemma": "ma", "span": [0, 2], "surface": "Ma", "trailing": " "},
+    {"analyses": ["oggi ADV"], "item": "w:oggi", "kind": "word", "lemma": "oggi", "span": [3, 7], "surface": "oggi", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 3, "item": "w:colazione", "kind": "word", "lemma": "la", "span": [8, 10], "surface": "la", "trailing": " "},
+    {"analyses": ["colazione NOUN-F:s"], "item": "w:colazione", "kind": "word", "lemma": "colazione", "span": [11, 20], "surface": "colazione", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [21, 22], "surface": "è", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [23, 26], "surface": "due", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [27, 31], "surface": "euro", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [32, 33], "surface": "e", "trailing": " "},
+    {"analyses": ["cinquanta DET-NUM-CARD", "cinquanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:cinquanta", "kind": "word", "lemma": "cinquanta", "span": [34, 43], "surface": "cinquanta"},
+    {"kind": "punct", "span": [43, 44], "surface": "!"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:numbers-to-100", "tokens": [3, 3]}
+   ],
+   "expansion": 0,
    "focus": [3],
    "model": true,
    "norm": "due euro e ottanta",
    "of": 5,
-   "path": "steps[4].block[9].answer",
+   "path": "steps[4].block[10].answer",
    "pattern": "{due euro e [ottanta]|due euro e ottanta centesimi|due euro ottanta|due( e) ottanta}",
    "ref": "u02.l2.ex13",
    "role": "answer",
@@ -2335,7 +2345,7 @@
    "model": false,
    "norm": "due euro e ottanta centesimi",
    "of": 5,
-   "path": "steps[4].block[9].answer",
+   "path": "steps[4].block[10].answer",
    "pattern": "{due euro e [ottanta]|due euro e ottanta centesimi|due euro ottanta|due( e) ottanta}",
    "ref": "u02.l2.ex13",
    "role": "answer",
@@ -2356,7 +2366,7 @@
    "model": false,
    "norm": "due euro ottanta",
    "of": 5,
-   "path": "steps[4].block[9].answer",
+   "path": "steps[4].block[10].answer",
    "pattern": "{due euro e [ottanta]|due euro e ottanta centesimi|due euro ottanta|due( e) ottanta}",
    "ref": "u02.l2.ex13",
    "role": "answer",
@@ -2376,7 +2386,7 @@
    "model": false,
    "norm": "due e ottanta",
    "of": 5,
-   "path": "steps[4].block[9].answer",
+   "path": "steps[4].block[10].answer",
    "pattern": "{due euro e [ottanta]|due euro e ottanta centesimi|due euro ottanta|due( e) ottanta}",
    "ref": "u02.l2.ex13",
    "role": "answer",
@@ -2395,7 +2405,7 @@
    "model": false,
    "norm": "due ottanta",
    "of": 5,
-   "path": "steps[4].block[9].answer",
+   "path": "steps[4].block[10].answer",
    "pattern": "{due euro e [ottanta]|due euro e ottanta centesimi|due euro ottanta|due( e) ottanta}",
    "ref": "u02.l2.ex13",
    "role": "answer",
@@ -2413,7 +2423,7 @@
    "model": false,
    "norm": "due euro e otto",
    "of": 1,
-   "path": "steps[4].block[9].near[0].answer",
+   "path": "steps[4].block[10].near[0].answer",
    "pattern": "due euro e otto",
    "ref": "u02.l2.ex13",
    "role": "near",
@@ -2433,7 +2443,7 @@
    "model": false,
    "norm": "due euro e diciotto",
    "of": 1,
-   "path": "steps[4].block[9].near[1].answer",
+   "path": "steps[4].block[10].near[1].answer",
    "pattern": "due euro e diciotto",
    "ref": "u02.l2.ex13",
    "role": "near",
@@ -2449,7 +2459,7 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "path": "steps[4].block[10].say",
+   "path": "steps[4].block[11].say",
    "ref": "u02.l2.ex14",
    "role": "say",
    "text": "Senta, quanto costa un cappuccino?",
@@ -2472,7 +2482,7 @@
     {"point": "g:conjunctions", "tokens": [7, 7]},
     {"point": "g:numbers-to-100", "tokens": [8, 8]}
    ],
-   "path": "steps[4].block[11].say",
+   "path": "steps[4].block[12].say",
    "ref": "u02.l2.ex15",
    "role": "say",
    "text": "Trenta, cinquanta, settanta, novanta e cento.",
@@ -2491,7 +2501,7 @@
   },
   {
    "model": true,
-   "path": "steps[4].block[12].answer[0]",
+   "path": "steps[4].block[13].answer[0]",
    "ref": "u02.l2.ex16",
    "role": "answer",
    "text": "oggi sono al bar",
@@ -2504,7 +2514,7 @@
   },
   {
    "model": false,
-   "path": "steps[4].block[12].answer[1]",
+   "path": "steps[4].block[13].answer[1]",
    "ref": "u02.l2.ex16",
    "role": "answer",
    "text": "sono al bar oggi",
@@ -2516,7 +2526,7 @@
    ]
   },
   {
-   "path": "steps[4].block[12].distractors[0]",
+   "path": "steps[4].block[13].distractors[0]",
    "ref": "u02.l2.ex16",
    "role": "tile",
    "text": "sei",
@@ -2525,7 +2535,7 @@
    ]
   },
   {
-   "path": "steps[4].block[12].tiles[0]",
+   "path": "steps[4].block[13].tiles[0]",
    "ref": "u02.l2.ex16",
    "role": "tile",
    "text": "oggi",
@@ -2534,7 +2544,7 @@
    ]
   },
   {
-   "path": "steps[4].block[12].tiles[1]",
+   "path": "steps[4].block[13].tiles[1]",
    "ref": "u02.l2.ex16",
    "role": "tile",
    "text": "sono",
@@ -2543,7 +2553,7 @@
    ]
   },
   {
-   "path": "steps[4].block[12].tiles[2]",
+   "path": "steps[4].block[13].tiles[2]",
    "ref": "u02.l2.ex16",
    "role": "tile",
    "text": "al bar",
@@ -2556,7 +2566,7 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [6, 6]}
    ],
-   "path": "steps[4].block[13].say",
+   "path": "steps[4].block[14].say",
    "ref": "u02.l2.ex17",
    "role": "say",
    "text": "Senta, scusi! Quanto costa un cornetto?",
@@ -3028,12 +3038,12 @@
    "path": "steps[5].text.lines[2].it",
    "ref": "u02.l2.dialogue#3",
    "role": "line",
-   "text": "E un cappuccino?",
+   "text": "E un cornetto?",
    "tokens": [
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "E", "trailing": " "},
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [2, 4], "surface": "un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [5, 15], "surface": "cappuccino"},
-    {"kind": "punct", "span": [15, 16], "surface": "?"}
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [5, 13], "surface": "cornetto"},
+    {"kind": "punct", "span": [13, 14], "surface": "?"}
    ]
   },
   {
@@ -3045,76 +3055,75 @@
    "path": "steps[5].text.lines[3].it",
    "ref": "u02.l2.dialogue#4",
    "role": "line",
-   "text": "Un euro e sessanta.",
+   "text": "Un euro e quaranta.",
    "tokens": [
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "Un", "trailing": " "},
     {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [3, 7], "surface": "euro", "trailing": " "},
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [8, 9], "surface": "e", "trailing": " "},
-    {"analyses": ["sessanta DET-NUM-CARD", "sessanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:sessanta", "kind": "word", "lemma": "sessanta", "span": [10, 18], "surface": "sessanta"},
+    {"analyses": ["quaranta DET-NUM-CARD", "quaranta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:quaranta", "kind": "word", "lemma": "quaranta", "span": [10, 18], "surface": "quaranta"},
     {"kind": "punct", "span": [18, 19], "surface": "."}
    ]
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]}
+    {"point": "g:indefinite-article", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
    "path": "steps[5].text.lines[4].it",
    "ref": "u02.l2.dialogue#5",
    "role": "line",
-   "text": "Un cappuccino, per favore.",
+   "text": "Una spremuta e un cornetto, per favore.",
    "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "Un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino"},
-    {"kind": "punct", "span": [13, 14], "surface": ",", "trailing": " "},
-    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [15, 18], "surface": "per", "trailing": " "},
-    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [19, 25], "surface": "favore"},
-    {"kind": "punct", "span": [25, 26], "surface": "."}
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "Una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [15, 17], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [18, 26], "surface": "cornetto"},
+    {"kind": "punct", "span": [26, 27], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [28, 31], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [32, 38], "surface": "favore"},
+    {"kind": "punct", "span": [38, 39], "surface": "."}
    ]
   },
   {
-   "detections": [
-    {"point": "g:conjunctions", "tokens": [0, 0]}
-   ],
    "path": "steps[5].text.lines[5].it",
    "ref": "u02.l2.dialogue#6",
    "role": "line",
-   "text": "E da mangiare?",
+   "text": "Ecco!",
    "tokens": [
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "E", "trailing": " "},
-    {"analyses": ["da PRE"], "chunk": "c:da-mangiare", "kind": "word", "lemma": "da", "span": [2, 4], "surface": "da", "trailing": " "},
-    {"analyses": ["mangiare VER:inf+pres"], "chunk": "c:da-mangiare", "kind": "word", "lemma": "mangiare", "span": [5, 13], "surface": "mangiare"},
-    {"kind": "punct", "span": [13, 14], "surface": "?"}
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "Ecco"},
+    {"kind": "punct", "span": [4, 5], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[5].text.lines[6].it",
+   "ref": "u02.l2.dialogue#7",
+   "role": "line",
+   "text": "Grazie! Quant'è?",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [8, 14], "surface": "Quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [14, 15], "surface": "è"},
+    {"kind": "punct", "span": [15, 16], "surface": "?"}
    ]
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]}
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:numbers-to-100", "tokens": [3, 3]}
    ],
-   "path": "steps[5].text.lines[6].it",
-   "ref": "u02.l2.dialogue#7",
-   "role": "line",
-   "text": "Un cornetto, grazie.",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "Un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto"},
-    {"kind": "punct", "span": [11, 12], "surface": ",", "trailing": " "},
-    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [13, 19], "surface": "grazie"},
-    {"kind": "punct", "span": [19, 20], "surface": "."}
-   ]
-  },
-  {
    "path": "steps[5].text.lines[7].it",
    "ref": "u02.l2.dialogue#8",
    "role": "line",
-   "text": "Ecco! Tre euro, grazie.",
+   "text": "Quattro euro e sessanta.",
    "tokens": [
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "Ecco"},
-    {"kind": "punct", "span": [4, 5], "surface": "!", "trailing": " "},
-    {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [6, 9], "surface": "Tre", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [10, 14], "surface": "euro"},
-    {"kind": "punct", "span": [14, 15], "surface": ",", "trailing": " "},
-    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [16, 22], "surface": "grazie"},
-    {"kind": "punct", "span": [22, 23], "surface": "."}
+    {"analyses": ["quattro DET-NUM-CARD", "quattro PRO-NUM"], "item": "w:quattro", "kind": "word", "lemma": "quattro", "span": [0, 7], "surface": "Quattro", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [8, 12], "surface": "euro", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
+    {"analyses": ["sessanta DET-NUM-CARD", "sessanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:sessanta", "kind": "word", "lemma": "sessanta", "span": [15, 23], "surface": "sessanta"},
+    {"kind": "punct", "span": [23, 24], "surface": "."}
    ]
   },
   {

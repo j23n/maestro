@@ -1161,6 +1161,15 @@
    ]
   },
   {
+   "path": "relay.source.text.layout.sections[1].title",
+   "ref": "u02.task.menu",
+   "role": "layout",
+   "text": "Colazione",
+   "tokens": [
+    {"analyses": ["colazione NOUN-F:s"], "item": "w:colazione", "kind": "word", "lemma": "colazione", "span": [0, 9], "surface": "Colazione"}
+   ]
+  },
+  {
    "path": "relay.source.text.layout.title",
    "ref": "u02.task.menu",
    "role": "layout",

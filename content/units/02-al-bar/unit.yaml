@@ -44,7 +44,7 @@ sounds: ['s:double-consonants']
 texts:
   stories: {count: 3, words: 100-200, new_token_max: 0.05}
   listening: [dialogue, phone]
-  real_world: [menu, receipt]
+  real_world: [menu, receipt, sign]       # sign: Lesson 2's chalkboard (CL36)
 tasks:
   conversation:
   - {id: u02.task.conv1, brief: Order breakfast from Giulia}

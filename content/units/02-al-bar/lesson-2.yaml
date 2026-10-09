@@ -1,23 +1,25 @@
 # Unit 2, Lesson 2. DRAFT (C5) for the content lead: numbers to 100 and prices.
-# Prices follow the Bar Aurora menu in task.yaml (caffè 1,20 · cappuccino 1,60 · spremuta 3,20 · cornetto 1,40).
-# Shape as in the golden sample (lesson-1.yaml), plus a real-world reading (the menu) and a listening dialogue.
-# Story line references (#n) are 1-based.
+# Prices follow the Bar Aurora menu in task.yaml (caffè 1,20 · cappuccino 1,60 · spremuta 3,20 · cornetto 1,40), plus
+# the day's breakfast offer on the chalkboard (CL36): cappuccino e cornetto 2,50. You order at the counter and pay
+# Giulia afterwards (CL6). Shape as in the golden sample (lesson-1.yaml), plus a real-world reading (the chalkboard)
+# and a listening dialogue. Story line references (#n) are 1-based.
 id: u02.l2
 title: {it: "Quanto costa?", en: "How much is it?"}
-scene: Marco nearly orders a glass of milk at Bar Aurora, asks Giulia the prices and buys Sara a coffee
+scene: Marco nearly orders a glass of milk at Bar Aurora, asks Giulia the prices, takes the day's breakfast offer and buys Sara a coffee
 review: {status: draft, by: null, date: null, hash: null}
 
 steps:
-  # 1 · Preview: the chunks first, then the tens (numbers are a closed set: two short batches)
+  # 1 · Preview: the chunks and breakfast first, then the tens (numbers are a closed set: two short batches).
+  #     Thirteen items, one over the guide: the eight tens are one system (see the Unit 2 report).
   - kind: preview
     id: u02.l2.step-preview
     batches:
-      - [c:senta, c:al-bar, w:latte, c:quanto-costa]
+      - [c:senta, c:al-bar, w:latte, c:quanto-costa, w:colazione]
       - [w:trenta, w:quaranta, w:cinquanta, w:sessanta]
       - [w:settanta, w:ottanta, w:novanta, w:cento]
 
-  # 2 · Read and listen. Marco's order: cappuccino 1,60 + cornetto 1,40 + Sara's caffè 1,20 = quattro euro e venti;
-  #     he pays with five euros and gets eighty cents back.
+  # 2 · Read and listen. Marco: the breakfast offer (cappuccino e cornetto) 2,50 + Sara's caffè 1,20 = tre euro e
+  #     settanta, paid at the end (CL6). *Guardi* is Giulia's Lei form (CL35); *solo* is taught in Lesson 3.
   - kind: story
     id: u02.l2.step-story
     text:
@@ -29,14 +31,16 @@ steps:
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Senta, scusi! Buongiorno!", en: "Excuse me! Good morning!"}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Buongiorno! Cosa prende oggi?", en: "Good morning! What will you have today?"}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Vorrei un latte, per favore.", en: "I'd like a latte, please."}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un latte? Ma in Italia un latte è solo latte!", en: 'A latte? But in Italy, "un latte" is just milk!', recognise: [solo], gloss: {solo: just}}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un latte? Guardi, in Italia un latte è solo latte!", en: 'A latte? Look, in Italy "un latte" is just milk!', recognise: [Guardi, solo], gloss: {Guardi: "look (formal)", solo: just}}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Oh! No, no. Vorrei un cappuccino, per favore.", en: "Oh! No, no. I'd like a cappuccino, please."}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un cappuccino! E da mangiare?", en: "A cappuccino! Anything to eat?"}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Quanto costa un cornetto?", en: "How much is a croissant?"}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un euro e quaranta.", en: "€1.40."}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "E il cappuccino?", en: "And the cappuccino?"}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un euro e sessanta.", en: "€1.60."}
-        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Bene. Un cornetto, per favore.", en: "Good. A croissant, please."}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Un euro e sessanta. Ma oggi la colazione è due euro e cinquanta!", en: "€1.60. But today, breakfast is €2.50!"}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "La colazione?", en: "Breakfast?"}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Sì: cappuccino e cornetto!", en: "Yes: a cappuccino and a croissant!"}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Allora la colazione, per favore!", en: "Breakfast, then, please!"}
         - {speaker: narrator, it: "Ecco Sara.", en: "Here comes Sara."}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ciao, Marco! Come va?", en: "Hi, Marco! How's it going?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Bene! Sara, un caffè?", en: "Fine! Sara, a coffee?"}
@@ -46,11 +50,9 @@ steps:
         - {speaker: ch:sara, it: "Mmm! Buono, il caffè!", en: "Mmm! The coffee's good!"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì! E anche il cornetto è buono.", en: "Yes! And the croissant's good too."}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, quant'è?", en: "Excuse me, how much is it?"}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Quattro euro e venti.", en: "€4.20."}
-        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Ecco cinque euro.", en: "Here's five euros."}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Grazie! Ecco ottanta centesimi.", en: "Thanks! Here's eighty cents.", recognise: [centesimi], gloss: {centesimi: cents}}
-        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Grazie! Arrivederci.", en: "Thanks! Goodbye."}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Arrivederci! Buona giornata!", en: "Goodbye! Have a good day!"}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Tre euro e settanta.", en: "€3.70."}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Ecco. Grazie, arrivederci!", en: "Here you go. Thanks, goodbye!"}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Grazie! Buona giornata!", en: "Thank you! Have a good day!"}
     questions:
       - id: u02.l2.q1
         format: choice
@@ -61,14 +63,14 @@ steps:
       - id: u02.l2.q2
         format: choice
         tags: [cd:ask-price-pay]
-        question_en: "How much is a croissant at Bar Aurora?"
-        options: ["€1.40", "€1.60", "€4.20"]
+        question_en: "How much is a croissant on its own at Bar Aurora?"
+        options: ["€1.40", "€1.60", "€2.50"]
         answer: 0
       - id: u02.l2.q3
         format: choice
         tags: [cd:ask-price-pay]
         question_en: "What does Marco's order come to?"
-        options: ["€4.20", "€5.00", "€0.80"]      # the total; he hands over €5 and gets €0.80 back
+        options: ["€3.70", "€2.50", "€4.20"]      # €2.50 is the offer alone; €4.20 is the three things without the offer
         answer: 0
 
   # 3 · Note: the tens and how prices are said, from the story's own lines
@@ -92,46 +94,45 @@ steps:
             - ["80", "**ottanta**"]
             - ["90", "**novanta**"]
             - ["100", "**cento**"]
-      - p: A price is the euros, then *e*, then the cents, and people usually don't say the word for cents. *Un euro e sessanta* is €1.60, and *quattro euro e venti* is €4.20.
-      - examples: [u02.l2.story#9, u02.l2.story#11, u02.l2.story#22]
+      - p: A price is the euros, then *e*, then the cents, and people usually don't say the word for cents. *Un euro e sessanta* is €1.60, and *tre euro e settanta* is €3.70.
+      - examples: [u02.l2.story#9, u02.l2.story#11, u02.l2.story#24]
       - tip: "*Sessanta* (60) and *settanta* (70) sound alike: 60 has a double s, 70 a double t."
 
-  # 4 · Real-world reading: the price list on the counter (same prices as the task menu)
+  # 4 · Real-world reading: the chalkboard at the counter with the day's breakfast offer (CL36). Not the task's menu:
+  #     the story's prices (cornetto 1,40 + cappuccino 1,60 = 3,00) against the offer (2,50).
   - kind: reading
     id: u02.l2.step-reading
     text:
-      id: u02.l2.menu
+      id: u02.l2.chalkboard
       kind: real_world
+      title: {en: "The chalkboard at Bar Aurora"}
       layout:
-        type: menu
-        title: Bar Aurora
-        sections:
-          - title: Caffetteria
-            rows:
-              - {name: caffè, price: "1,20"}
-              - {name: cappuccino, price: "1,60"}
-              - {name: spremuta, price: "3,20"}
-          - title: Colazione
-            rows:
-              - {name: cornetto, price: "1,40"}
-        ignore: [Caffetteria, Colazione]
+        type: sign
+        style: info
+        lines:
+          - "Buongiorno!"
+          - "Oggi"
+          - "Colazione: cappuccino e cornetto"
+          - "2,50 €"
     exercises:
       - id: u02.l2.ex01
-        format: true-false
-        tags: [cd:ask-price-pay, sy:cefr.reading]
-        statement_en: "At Bar Aurora, a croissant costs less than a cappuccino."
-        answer: true
+        format: choice
+        targets: [{item: w:colazione, skill: read}]
+        tags: [cd:order-food-drink, sy:cefr.reading]
+        question_en: "What do you get with today's breakfast offer?"
+        options: [A cappuccino and a croissant, A coffee and a croissant, A cappuccino and a fresh orange juice]
+        answer: 0
       - id: u02.l2.ex02
         format: choice
         tags: [cd:pass-on-prices, sy:cefr.mediation]
-        question_en: "A friend who doesn't read Italian asks: \"How much is a fresh orange juice here?\" What do you tell them?"
-        options: ["€3.20", "€1.20", "€1.60"]
+        question_en: "A friend who doesn't read Italian asks: \"How much is the breakfast deal on the board?\" What do you tell them?"
+        options: ["€2.50", "€3.00", "€1.60"]
         answer: 0
       - id: u02.l2.ex03
         format: choice
-        tags: [sy:cefr.reading]
-        question_en: "What's the cheapest thing on the menu?"
-        options: [A coffee, A croissant, A cappuccino]
+        tags: [cd:ask-price-pay, sy:cefr.reading]
+        question_en: "A cappuccino is €1.60 and a croissant €1.40. How much do you save with today's offer?"
+        options: ["€0.50", "€2.50", "€1.10"]
         answer: 0
 
   # 5 · Practice: a block on the new material (story lines first), then a mix with Units 0–2.
@@ -218,16 +219,25 @@ steps:
         tags: [sy:gr.cardinal-numbers]
         pairs: [["trenta", "30"], ["quaranta", "40"], ["cinquanta", "50"], ["settanta", "70"], ["novanta", "90"], ["cento", "100"]]
       - id: u02.l2.ex12
-        format: recall
-        targets: [{item: w:settanta, skill: recall}]
-        tags: [sy:gr.cardinal-numbers]
-        prompt_en: "seventy"
-        answer: "settanta"
+        format: cloze
+        targets: [{item: g:numbers-to-100, skill: recall}, {item: w:settanta, skill: recall}]
+        tags: [cd:ask-price-pay]
+        source: u02.l2.story#24
+        text: "Tre euro e [[settanta]]."
+        prompt_en: "€3.70."
         hint: "It starts like sette."
+        rule: "Tens from 40 to 90 end in -anta: quaranta, cinquanta, sessanta… (30 is trenta)."
         near:
           - {answer: sessanta, hint: "Sessanta is 60. Seventy comes from sette."}
-          - {answer: diciassette, hint: "Diciassette is 17. You need the tens."}
-        audio_after: true
+          - {answer: diciassette, hint: "Diciassette is 17. You need the tens: 70."}
+      - id: u02.l2.ex33
+        format: cloze
+        targets: [{item: w:colazione, skill: recall}]
+        tags: [cd:order-food-drink, sy:tp.food-drink]
+        source: u02.l2.story#11
+        text: "Ma oggi la [[colazione]] è due euro e cinquanta!"
+        prompt_en: "But today, breakfast is €2.50!"
+        hint: "The word on the board: breakfast."
       - id: u02.l2.ex13
         format: recall
         targets: [{item: g:numbers-to-100, skill: recall}, {item: w:ottanta, skill: recall}]
@@ -335,7 +345,7 @@ steps:
         audio_after: true
 
   # 6 · Listening: another customer at the counter (audio first; the transcript opens after the questions).
-  #     Spremuta 3,20 and cappuccino 1,60 asked; cappuccino + cornetto = tre euro.
+  #     Spremuta 3,20 + cornetto 1,40 = quattro euro e sessanta, paid at the end (CL6); not today's offer.
   - kind: listening
     id: u02.l2.step-listening
     text:
@@ -344,12 +354,12 @@ steps:
       lines:
         - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Buongiorno! Quanto costa una spremuta?", en: "Good morning! How much is a fresh orange juice?"}
         - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Tre euro e venti.", en: "€3.20."}
-        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "E un cappuccino?", en: "And a cappuccino?"}
-        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Un euro e sessanta.", en: "€1.60."}
-        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Un cappuccino, per favore.", en: "A cappuccino, please."}
-        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "E da mangiare?", en: "Anything to eat?"}
-        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Un cornetto, grazie.", en: "A croissant, thanks."}
-        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Ecco! Tre euro, grazie.", en: "Here you are! Three euros, thanks."}
+        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "E un cornetto?", en: "And a croissant?"}
+        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Un euro e quaranta.", en: "€1.40."}
+        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Una spremuta e un cornetto, per favore.", en: "A fresh orange juice and a croissant, please."}
+        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Ecco!", en: "Here you are!"}
+        - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Grazie! Quant'è?", en: "Thanks! How much is it?"}
+        - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Quattro euro e sessanta.", en: "€4.60."}
         - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Ecco. Buona giornata!", en: "Here you go. Have a good day!"}
     plays: unlimited
     exercises:
@@ -357,18 +367,18 @@ steps:
         format: choice
         tags: [cd:order-food-drink, sy:cefr.oral-comprehension]
         question_en: "What does the customer order?"
-        options: ["A cappuccino and a croissant", "A fresh orange juice and a croissant", "A fresh orange juice and a cappuccino"]
+        options: ["A fresh orange juice and a croissant", "A cappuccino and a croissant", "Just a fresh orange juice"]
         answer: 0
       - id: u02.l2.ex27
         format: true-false
         tags: [cd:ask-price-pay, sy:cefr.oral-comprehension]
-        statement_en: "A fresh orange juice costs €3.20."
-        answer: true
+        statement_en: "A croissant costs €1.60."
+        answer: false
       - id: u02.l2.ex28
         format: choice
         tags: [cd:ask-price-pay, sy:cefr.oral-comprehension]
         question_en: "How much does the customer pay?"
-        options: ["€3.00", "€3.20", "€4.80"]
+        options: ["€4.60", "€4.70", "€3.20"]
         answer: 0
 
   # 7 · Sounds: double consonants (rule 11). Answers mix single and double.
