@@ -166,7 +166,7 @@ The owner asked agents to treat the handoff as a starting point: where it was wr
 - Choice options are Italian unless the Italian is the stimulus (story, listening or reading steps, or an exercise with `prompt_it`, `audio_text` or `source`), which fits every seed exercise (see Proposed changes).
 
 **Pack payloads (M2.1)**
-- The JSON inside the pack tables has a contract, `schemas/pack-payloads.schema.json`, with examples; the builder validates against it and LearningCore decodes it. Patterns travel as `{source, expansions}`; a cloze gap's source is its content.
+- The JSON inside the pack tables has a contract, `schemas/pack-payloads.schema.json`, with examples; the builder validates against it and LearningCore decodes it. Patterns travel as `{source, expansions, spelling}` (`spelling` since CL40: null unless the pattern spells with letter names); a cloze gap's source is its content.
 - Dev packs carry `meta.review_files` (`{idPrefix: {file, hash}}`) for the app's review mode. Review-comment categories are the kebab-case keys `italian-error`, `naturalness`, `level`, `answer-key`, `hint-or-rule`, `english`, `culture-or-facts`, `audio`, `other`.
 
 **Grading (M2.3–M2.6)**

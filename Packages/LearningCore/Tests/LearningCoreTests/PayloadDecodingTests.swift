@@ -22,8 +22,20 @@ import Testing
             case (.cloze, .cloze(let c)):
                 #expect(try c.gapPattern().expansions(profile: .unspecified).first?.text == "un")
                 #expect(c.before.rebuilt == c.before.text && c.after.rebuilt == c.after.text)
-            case (.recall, .recall(let r)):
+            case (.recall, .recall(let r)) where p.id == "u02.l1.ex04":
                 #expect(try r.answer.parsed().firstExpansion(profile: .unspecified)?.text == "un cornetto")
+                #expect(r.answer.spelling == nil)
+            case (.recall, .recall(let r)):
+                // CL40: Unit 0's spelled recall as the pack builds it: each name with its letter, doppia's null.
+                #expect(p.id == "u00.l3.ex22")
+                let spelling = [
+                    SpellingName(name: "doppia", letter: nil), SpellingName(name: "erre", letter: "R"),
+                    SpellingName(name: "esse", letter: "S"), SpellingName(name: "i", letter: "I"),
+                    SpellingName(name: "o", letter: "O"),
+                ]
+                #expect(r.answer.spelling == spelling)
+                #expect(try r.answer.parsed().spelling == spelling)
+                #expect(p.near.count == 1 && p.near.allSatisfy { $0.answer.spelling == nil })  // near-misses never spell
             case (.sentenceBuilding, .sentenceBuilding(let s)):
                 let order = s.shuffledTiles(exerciseID: p.id)
                 #expect(order.sorted() == (s.tiles + s.distractors).sorted())

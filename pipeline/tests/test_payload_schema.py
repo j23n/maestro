@@ -100,3 +100,44 @@ def test_a_payload_missing_a_required_key_is_rejected(schema, examples):
     broken = dict(examples["exercises"][0])
     del broken["gap"]
     assert list(v.iter_errors(broken))
+
+
+def test_a_spelled_pattern_has_an_example(schema, examples):
+    """CL40: a pattern whose tokens resolve to letter items carries its `spelling`, each name with the letter it names,
+    sorted by name; *doppia* (the next letter twice) has a null letter. Every other pattern's is null. The example is
+    Unit 0's recall that spells Rossi, as the pack builds it."""
+
+    def patterns(node):
+        if isinstance(node, dict):
+            if {"source", "expansions"} <= node.keys():
+                yield node
+            for v in node.values():
+                yield from patterns(v)
+        elif isinstance(node, list):
+            for v in node:
+                yield from patterns(v)
+
+    found = list(patterns(examples["exercises"]))
+    assert all("spelling" in p for p in found)
+    spelled = [p for p in found if p["spelling"] is not None]
+    assert [p["source"] for p in spelled] == ["{erre, o, doppia esse, i|erre, o, due esse, i|erre, o, esse, esse, i}"]
+    rossi = spelled[0]
+    assert rossi["spelling"] == [
+        {"name": "doppia", "letter": None},
+        {"name": "erre", "letter": "R"},
+        {"name": "esse", "letter": "S"},
+        {"name": "i", "letter": "I"},
+        {"name": "o", "letter": "O"},
+    ]
+    v = validator(schema, "pattern")
+    assert not list(v.iter_errors(rossi))
+    for bad in (
+        [],
+        [{"name": "erre", "letter": "RR"}],
+        [{"name": "erre", "letter": "r"}],
+        [{"name": "", "letter": "R"}],
+        [{"name": "erre"}],
+        [{"name": "erre", "letter": "R", "item": "w:erre"}],
+    ):
+        assert list(v.iter_errors({**rossi, "spelling": bad})), bad
+    assert list(v.iter_errors({k: x for k, x in rossi.items() if k != "spelling"}))

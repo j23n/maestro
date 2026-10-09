@@ -34,7 +34,14 @@ enum TestPack {
         return object
     }
 
-    static var exampleExercises: [[String: Any]] { examples["exercises"] as? [[String: Any]] ?? [] }
+    /// The example exercises of the units the test pack has (`units`): Unit 0's spelled recall (`u00.l3.ex22`, CL40)
+    /// is left out, as the test pack has no Unit 0 and no letter items (`PackReaderQueryTests.addLetters` adds some).
+    static var exampleExercises: [[String: Any]] {
+        (examples["exercises"] as? [[String: Any]] ?? []).filter { units.contains($0["unitId"] as? String ?? "") }
+    }
+
+    /// The test pack's units.
+    static let units: Set<String> = ["u01", "u02", "u99"]
     static var exampleSteps: [[String: Any]] { examples["steps"] as? [[String: Any]] ?? [] }
     static var exampleNote: [String: Any] { (examples["notes"] as? [[String: Any]])?.first ?? [:] }
     static var exampleAssessments: [[String: Any]] { examples["assessments"] as? [[String: Any]] ?? [] }

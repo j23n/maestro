@@ -20,11 +20,14 @@ import Testing
         return LetterNames(try #require(doc["letterNames"] as? [String: String]))
     }
 
-    /// A pattern as payloads carry it (the expansions are only the answer key; graders parse the source).
-    static func pattern(_ source: String, spelling: [String: String]? = nil) -> [String: Any] {
-        var out: [String: Any] = ["source": source, "expansions": [Normalizer.normalize(source)]]
+    /// A pattern as payloads carry it (the expansions are only the answer key; graders parse the source): `spelling`
+    /// maps each name to its letter, nil for *doppia*, which the payload writes as null (CL40).
+    static func pattern(_ source: String, spelling: [String: String?]? = nil) -> [String: Any] {
+        var out: [String: Any] = ["source": source, "expansions": [Normalizer.normalize(source)], "spelling": NSNull()]
         if let spelling {
-            out["spelling"] = spelling.keys.sorted().map { ["name": $0, "letter": spelling[$0] ?? ""] }
+            out["spelling"] = spelling.keys.sorted().map { name -> [String: Any] in
+                ["name": name, "letter": spelling[name].flatMap { $0 } ?? NSNull()]
+            }
         }
         return out
     }
@@ -120,6 +123,31 @@ import Testing
             model.submitSpoken(SpeechResult(transcript: transcript, alternatives: [], confidence: nil))
         }
         #expect(sink.drafts.map(\.outcome) == [.wrong, .correct])
+    }
+
+    /// CL40 on the payload example that spells (Unit 0's Rossi, as the pack builds it): *doppia*'s letter is null, and
+    /// a double letter may be said either way, but a missing one fails.
+    @Test func theSpelledExampleIsRightOnlyLetterForLetter() throws {
+        let payload = try Self.exercise("u00.l3.ex22") { _ in }
+        guard case .recall(let recall) = payload.body else {
+            Issue.record("u00.l3.ex22 is a recall")
+            return
+        }
+        #expect(recall.answer.spelling?.first == SpellingName(name: "doppia", letter: nil))
+        let task = try #require(TypedTask(payload: payload))
+        for transcript in ["R O S S I", "erre o doppia S i", "R O S I", "R O S S I S"] {
+            let model = TypedExerciseModel(task: task, env: env(try Self.letters()), sink: sink)
+            model.submitSpoken(SpeechResult(transcript: transcript, alternatives: [], confidence: nil))
+        }
+        #expect(sink.drafts.map(\.outcome) == [.correct, .correct, .wrong, .wrong])
+        // Spelled with the doubling word as the pattern names it, through the edited payload too.
+        let edited = try Self.exercise("u02.l1.ex04") { raw in
+            raw["answer"] = Self.pattern(
+                "erre, o, doppia esse, i", spelling: ["erre": "R", "o": "O", "doppia": nil, "esse": "S", "i": "I"])
+            raw["near"] = [Any]()
+        }
+        guard case .recall(let body) = edited.body else { return }
+        #expect(body.answer.spelling == recall.answer.spelling)
     }
 
     /// AppModel reads the names from the pack and hands them to every player it launches. (The mini pack, built from
