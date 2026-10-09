@@ -9,6 +9,9 @@ the final check's sitting, score, recordings and examiner export) are tested on 
 - the final review unit `u99` and a final check of five sections (listening ×2 and reading at two points each,
   structures: `choice` copies; writing: the contract's `u01.task.write` form; speaking: a copy of `u02.task.talk`),
   with an indicative pass of **6** per section, so a test can tell the pack's pass mark from the usual 7;
+- two letter items and the doubling word (`w:emme` M, `w:esse` S, `c:doppia`; Unit 0, no skills, steps or
+  exercises), so the App's tests see the pack's letter table reach every player it launches (spoken spelling, CL25,
+  CL40; the mini pack, built from the frozen seed course, has no letter items);
 - `meta.content_hash` recomputed.
 
 Rebuilt by `make mini-pack` after the mini pack; `test_assessment_fixture.py` checks the committed file is fresh.
@@ -36,6 +39,14 @@ FINAL_SECTIONS: tuple[tuple[str, str, tuple[tuple[str, str, int], ...]], ...] = 
     ("structures", "Structures", (("fin.structures.01", "u02.l1.ex17", 1),)),
     ("writing", "Writing", (("fin.writing.01", "example:u01.task.write", 1),)),
     ("speaking", "Speaking", (("fin.speaking.01", "u02.task.talk", 1),)),
+)
+
+# (id, kind, it, gloss, letter): letter items for spoken spelling (docs/03 § Items `letter:`); `c:doppia` is the
+# doubling word the app knows by its ID (CL40).
+LETTER_ITEMS: tuple[tuple[str, str, str, str, str | None], ...] = (
+    ("c:doppia", "chunk", "doppia", "double (for a double letter)", None),
+    ("w:emme", "word", "emme", "the letter M", "M"),
+    ("w:esse", "word", "esse", "the letter S", "S"),
 )
 
 
@@ -109,6 +120,11 @@ def build(mini: Path, examples_path: Path, out: Path) -> str:
                 con, examples, exercise_id=exercise_id, source="u02.l1.ex17", unit=unit, role="placement", score=1
             )
         blocks.append({"unitId": unit, "exerciseIds": ids})
+    for item_id, kind, it, gloss, letter in LETTER_ITEMS:
+        con.execute(
+            "INSERT INTO items (id, kind, it, gloss_en, unit_id, lesson_id, letter) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (item_id, kind, it, gloss, "u00", "u00.l3", letter),
+        )
     con.execute("INSERT INTO units VALUES (?, ?, ?, ?, ?, ?, 'final')", FINAL_UNIT)
     sections = []
     for section, title, exercises in FINAL_SECTIONS:

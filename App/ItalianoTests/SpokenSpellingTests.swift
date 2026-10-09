@@ -150,22 +150,50 @@ import Testing
         #expect(body.answer.spelling == recall.answer.spelling)
     }
 
-    /// AppModel reads the names from the pack and hands them to every player it launches. (The mini pack, built from
-    /// the frozen seed course, has no letter items; Storage's tests read a pack that has them.)
+    /// AppModel reads the names from the pack and hands the same table to every player it launches: a lesson, a
+    /// review, placement and the final check. `fixtures/packs/assessment.sqlite` is the mini pack (whose frozen seed
+    /// course has no letter items) plus two letter items, `c:doppia` and the assessments placement and the final check
+    /// need (`itcontent.pack.assessment_fixture`).
     @Test func theAppPassesThePacksNamesToItsPlayers() async throws {
         let folder = FileManager.default.temporaryDirectory
             .appendingPathComponent("italiano-spelling-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let pack = AssessmentContainerTests.packURL
         let app = AppModel(
             env: .init(
-                packURL: PackAdaptersTests.packURL, learnerURL: folder.appendingPathComponent("learner.sqlite"),
+                packURL: pack, learnerURL: folder.appendingPathComponent("learner.sqlite"),
                 clock: FixedClock(ms: 1_791_271_800_000, tzOffsetMinutes: 120), ids: SeededUUIDSource(seed: "s"),
                 platform: .iPhone))
         await app.start()
-        #expect(app.phase == .ready)
-        let fromPack = try await PackReader.open(url: PackAdaptersTests.packURL).letterNames()
-        #expect(app.letterNames == fromPack)
-        let launch = try #require(try await app.launch(step: "u02.l1.step-preview"))
-        #expect(launch.environment.letterNames == app.letterNames)
+        try #require(app.phase == .ready)
+        let names = app.letterNames
+        #expect(names.count == 2 && names.name(of: "M") == ["emme"] && names.name(of: "S") == ["esse"])
+        #expect(names.doubling == ["doppia"])
+        #expect(names == (try await PackReader.open(url: pack).letterNames()))
+
+        let lesson = try #require(try await app.launch(step: "u02.l1.step-preview"))
+        #expect(lesson.environment.letterNames == names)
+        app.completeOnboarding(
+            .init(reason: nil, name: "", forms: .both, country: nil, goal: 5, beginner: false, consent: nil))
+        let placement = try #require(try await app.startPlacement())
+        #expect(placement.model.env.letterNames == names)
+        // Placed in Unit 2 (Unit 1's block right, Unit 2's wrong), the skipped units' words wait for review.
+        placement.model.start()
+        while placement.model.phase == .playing {
+            guard case .choice(let m) = placement.model.host else {
+                Issue.record("placement items are choice questions here")
+                return
+            }
+            let right = placement.model.session.results.isEmpty || placement.model.session.position == 0
+            m.select(right ? m.correctIndex : (m.correctIndex + 1) % m.options.count)
+            placement.model.advance()
+        }
+        app.finishPlacement(try #require(placement.model.completion), launch: placement, activeSeconds: 60)
+        await app.settle()
+        let review = try #require(try await app.startReview())
+        #expect(review.model.env.letterNames == names)
+        let final = try #require(try await app.startFinalCheck())
+        #expect(final.model.env.letterNames == names)
     }
 }

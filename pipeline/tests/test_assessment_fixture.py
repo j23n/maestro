@@ -33,6 +33,9 @@ def test_the_fixture_has_runnable_placement_and_final_check(root: Path) -> None:
         formats = [exercises[e][0] for s in final["sections"] for e in s["exerciseIds"]]
         assert formats == ["choice", "choice", "choice", "choice", "writing", "talk"]
         assert con.execute("SELECT kind FROM units WHERE id = 'u99'").fetchone() == ("final",)
+        letters = con.execute("SELECT letter, it FROM items WHERE letter IS NOT NULL ORDER BY letter").fetchall()
+        assert letters == [("M", "emme"), ("S", "esse")]
+        assert con.execute("SELECT it FROM items WHERE id = 'c:doppia'").fetchone() == ("doppia",)
         stored = con.execute("SELECT value FROM meta WHERE key = 'content_hash'").fetchone()[0]
         assert stored == db.canonical_hash(con)
     finally:

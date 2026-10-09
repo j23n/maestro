@@ -49,8 +49,9 @@ struct ExerciseEnvironment: Sendable {
     var profile: LearnerProfile
     var knownForms: KnownForms
     /// The pack's letter names: spoken spelling in transcripts (*M A R C O* reads *emme a erre ci o*; docs/05 § Speech
-    /// transcripts). Every speaking format passes it to its matcher.
-    var letterNames: LetterNames = .empty
+    /// transcripts). Every speaking format passes it to its matcher. No default: every place that builds an
+    /// environment hands over the pack's table (`AppModel.letterNames`), so a missing one doesn't compile.
+    var letterNames: LetterNames
     /// Milliseconds now (the app's Clock); used for latency only.
     var nowMs: @Sendable () -> Int64
     /// Speech is available and switched on (docs/09): shows "Say it" and the mic.
@@ -68,7 +69,9 @@ struct ExerciseEnvironment: Sendable {
     }
 
     static func preview(context: AttemptContext = .lesson) -> ExerciseEnvironment {
-        ExerciseEnvironment(context: context, profile: .unspecified, knownForms: .empty, nowMs: { 0 }, canSpeak: false)
+        ExerciseEnvironment(
+            context: context, profile: .unspecified, knownForms: .empty, letterNames: .empty, nowMs: { 0 },
+            canSpeak: false)
     }
 }
 

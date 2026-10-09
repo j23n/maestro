@@ -91,7 +91,8 @@ final class ReviewSessionModel {
     private(set) var payload: ExercisePayload?
     @ObservationIgnored private let builder: ReviewSessionBuilder
     @ObservationIgnored private let payloads: (ReviewCard) -> ExercisePayload?
-    @ObservationIgnored private let env: ExerciseEnvironment
+    /// What its exercises grade with (the pack's forms and letter names, from `AppModel`).
+    @ObservationIgnored let env: ExerciseEnvironment
     @ObservationIgnored let sink: ReviewAttemptSink
     @ObservationIgnored private let newPairs: Set<ItemSkillPair>
 
