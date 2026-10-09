@@ -250,7 +250,7 @@
   },
   {
    "path": "sections[1].exercises[0].source.text.layout.fields[0].label",
-   "ref": "u01.task.classmate-form",
+   "ref": "u01.check.classmate-form",
    "role": "layout",
    "text": "Nome",
    "tokens": [
@@ -259,7 +259,7 @@
   },
   {
    "path": "sections[1].exercises[0].source.text.layout.fields[1].label",
-   "ref": "u01.task.classmate-form",
+   "ref": "u01.check.classmate-form",
    "role": "layout",
    "text": "Cognome",
    "tokens": [
@@ -268,7 +268,7 @@
   },
   {
    "path": "sections[1].exercises[0].source.text.layout.fields[2].label",
-   "ref": "u01.task.classmate-form",
+   "ref": "u01.check.classmate-form",
    "role": "layout",
    "text": "Nazionalità",
    "tokens": [
@@ -277,7 +277,7 @@
   },
   {
    "path": "sections[1].exercises[0].source.text.layout.fields[2].value",
-   "ref": "u01.task.classmate-form",
+   "ref": "u01.check.classmate-form",
    "role": "layout",
    "text": "inglese",
    "tokens": [
@@ -286,7 +286,7 @@
   },
   {
    "path": "sections[1].exercises[0].source.text.layout.fields[3].label",
-   "ref": "u01.task.classmate-form",
+   "ref": "u01.check.classmate-form",
    "role": "layout",
    "text": "Luogo di nascita",
    "tokens": [
@@ -297,7 +297,7 @@
   },
   {
    "path": "sections[1].exercises[0].source.text.layout.fields[4].label",
-   "ref": "u01.task.classmate-form",
+   "ref": "u01.check.classmate-form",
    "role": "layout",
    "text": "Città",
    "tokens": [
@@ -306,7 +306,7 @@
   },
   {
    "path": "sections[1].exercises[0].source.text.layout.fields[4].value",
-   "ref": "u01.task.classmate-form",
+   "ref": "u01.check.classmate-form",
    "role": "layout",
    "text": "Bologna",
    "tokens": [
@@ -315,7 +315,7 @@
   },
   {
    "path": "sections[1].exercises[0].source.text.layout.fields[5].label",
-   "ref": "u01.task.classmate-form",
+   "ref": "u01.check.classmate-form",
    "role": "layout",
    "text": "Email",
    "tokens": [

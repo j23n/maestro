@@ -19,7 +19,7 @@ from typing import Any
 
 from itcontent import paths
 from itcontent.checks import CheckResult, run_checks
-from itcontent.checks.output import coverage_json, level_json, recycling_json, summary_line
+from itcontent.checks.output import band_line, coverage_json, level_json, recycling_json, summary_line
 
 
 def _map(x: Any) -> dict[str, Any]:
@@ -137,8 +137,10 @@ def strands(rc: ReportContext) -> Section:
     if not units:
         return Section("strands", "Strand split", ["No unit has written steps yet."])
     lines = [
-        "Estimated minutes per strand (checker.yaml durations; the check is not counted). Each strand should be "
-        "15–35% of a complete unit.",
+        "Estimated minutes per strand (checker.yaml durations; the check is not counted). Each strand's share of a "
+        "complete unit should be within its band.",
+        "",
+        band_line(units),
         "",
         "| Unit | Input | Language focus | Output | Fluency | Total | Earlier-unit content words |",
         "|---|---|---|---|---|---|---|",

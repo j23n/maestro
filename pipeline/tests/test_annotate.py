@@ -204,6 +204,24 @@ def test_disambiguation_context_rules(lex):
     assert any("untaught lemma 'la'" in m for m in errors(ann(lex, "La vedo.", "u07")))
 
 
+def test_an_article_before_a_proper_noun_is_the_article(root, lex):
+    """CL7: the live la / l' rule lists NPR among the next words, so l'Italia (Italia: Morph-it! NPR, allowlisted)
+    reads as the definite article, not the clitic pronoun; before a verb la stays the clitic. The seed course's rule
+    (before CL7) read it as the clitic."""
+    live = Lexicon.from_course(load_course(root), morphit.load())
+    for text in ("L'Italia è bella.", "Benvenuto, Marco! Ecco l'Italia."):
+        art = next(t for t in ann(live, text, "u03").tokens if t.surface.lower() == "l'")
+        assert art.item == "g:definite-article", text
+        assert {x.category for x in art.analyses} == {"ART-F", "ART-M"}
+    la = ann(live, "La vedo.", "u07", strict=False).tokens[0]
+    assert la.item is None and {x.category for x in la.analyses} == {"PRO-PERS-CLI-3-F-S"}
+    before = ann(lex, "L'Italia è bella.", "u03", strict=False).tokens[0]
+    assert before.item is None and {x.category for x in before.analyses} == {
+        "PRO-PERS-CLI-3-F-S",
+        "PRO-PERS-CLI-3-M-S",
+    }
+
+
 def test_defaults_and_ambiguity_errors_name_the_candidates(course, lex):
     assert words(ann(lex, "Ecco la porta."))["porta"][0] == "w:porta~door"  # defaults: porta
     amb = make_lexicon(course, {"w:ecco~2": {"id": "w:ecco~2", "it": "ecco", "pos": "adv"}})

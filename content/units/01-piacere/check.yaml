@@ -81,8 +81,8 @@ sections:
         targets: [{item: w:citta, skill: read}]
         tags: [cd:give-personal-details, sy:fn.forms]
         source:
-          text:              # a check text that isn't audio has no ID pattern of its own (docs/03 § IDs): unit-level task pattern
-            id: u01.task.classmate-form
+          text:              # a text defined in a check is uNN.check.<name> (docs/03 § IDs)
+            id: u01.check.classmate-form
             kind: real_world
             title: {en: "Language school: registration form"}
             layout:

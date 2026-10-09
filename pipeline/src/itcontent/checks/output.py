@@ -160,6 +160,7 @@ def recycling_json(result: CheckResult) -> dict[str, Any] | None:
                 "complete": u.complete,
                 "minutes": {k: round(v / 60, 1) for k, v in u.seconds.items()},
                 "shares": {k: round(u.share(k), 3) for k in u.seconds},
+                "bands": {k: [round(lo, 3), round(hi, 3)] for k, (lo, hi) in sorted(u.bands.items())},
                 "content_tokens": u.content_tokens,
                 "earlier_unit_tokens": u.earlier_tokens,
                 "recycled": None if u.recycled is None else round(u.recycled, 3),
@@ -316,6 +317,7 @@ def recycling_md(result: CheckResult) -> list[str]:
             cells = [f"{u['minutes'][k]:.0f} min ({u['shares'][k]:.0%})" for k in STRAND_ORDER]
             rec = "—" if u["recycled"] is None else f"{u['recycled']:.0%} of {u['content_tokens']}"
             lines.append(f"| {u['id']}{'' if u['complete'] else ' (incomplete)'} | {' | '.join(cells)} | {rec} |")
+        lines += ["", band_line(data["units"])]
     else:
         lines.append("No unit has written steps yet.")
     lines += ["", "**Story length**", ""]
@@ -332,6 +334,27 @@ def recycling_md(result: CheckResult) -> list[str]:
 
 
 STRAND_ORDER = ("input", "language-focus", "output", "fluency")
+STRAND_NAMES = {"input": "input", "language-focus": "language focus", "output": "output", "fluency": "fluency"}
+
+
+def band_line(units: list[dict[str, Any]]) -> str:
+    """The bands of the units shown, one per strand, with the units each applies to when they differ (CL21)."""
+    parts = []
+    for k in STRAND_ORDER:
+        runs: list[tuple[str, str, tuple[float, float]]] = []  # first unit, last unit, band
+        for u in units:
+            lo, hi = u["bands"][k]
+            band = (float(lo), float(hi))
+            if runs and runs[-1][2] == band:
+                runs[-1] = (runs[-1][0], u["id"], runs[-1][2])
+            else:
+                runs.append((u["id"], u["id"], band))
+        shown = [f"{lo:.0%}–{hi:.0%}" for _, _, (lo, hi) in runs]
+        if len(runs) > 1:
+            shown = [f"{s} ({a}{'' if a == b else '–' + b})" for s, (a, b, _) in zip(shown, runs, strict=True)]
+        parts.append(f"{STRAND_NAMES[k]} {', '.join(shown)}")
+    return "Bands (checker.yaml `strands.bands`): " + "; ".join(parts) + "."
+
 
 SECTIONS: list[tuple[str, Callable[[CheckResult], list[str]]]] = [
     ("Findings", findings_md),

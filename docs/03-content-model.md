@@ -39,7 +39,7 @@ IDs are permanent, lowercase ASCII, and unique across the course. Slugs strip ac
 
 `ids.lock` is a text file written only by release builds: one released ID per line, sorted; a line starting with `#` is a comment, and anything after the ID on a line (such as the pack version that released it) is ignored. `content lint` fails when a listed ID no longer exists and isn't in `retired.yaml`, and when a retired ID is defined again.
 
-IDs also have to fit where they are (`content lint` checks it): a lesson file `lesson-K.yaml` in `NN-slug/` is `uNN.lK`; a step ID names its own lesson and kind (`u02.l1.step-story` is a `story` step of `u02.l1`); story questions are `uNN.lK.qN` and every other lesson exercise `uNN.lK.exNN`; texts and notes are named within their lesson (`uNN.lK.<name>`, `uNN.lK.note`); task exercises and texts are `uNN.task.<name>`; an exercise's audio text is `<exerciseId>.audio`; final-check exercises name their section (`fin.listening.01`). Items start with `w:`, `c:` (`kind: chunk`) or `s:` (`kind: sound`). A task text and a task exercise share the `uNN.task.<name>` pattern; uniqueness keeps them apart.
+IDs also have to fit where they are (`content lint` checks it): a lesson file `lesson-K.yaml` in `NN-slug/` is `uNN.lK`; a step ID names its own lesson and kind (`u02.l1.step-story` is a `story` step of `u02.l1`); story questions are `uNN.lK.qN` and every other lesson exercise `uNN.lK.exNN`; texts and notes are named within their lesson (`uNN.lK.<name>`, `uNN.lK.note`); task exercises and texts are `uNN.task.<name>`; a text defined inline in a unit check is `uNN.check.<name>`, a name starting with a letter so it never reads as a check exercise `uNN.check.NN`; an exercise's audio text is `<exerciseId>.audio`; final-check exercises name their section (`fin.listening.01`). Items start with `w:`, `c:` (`kind: chunk`) or `s:` (`kind: sound`). A task text and a task exercise share the `uNN.task.<name>` pattern; uniqueness keeps them apart.
 
 | Thing | Pattern | Examples |
 |---|---|---|
@@ -47,7 +47,7 @@ IDs also have to fit where they are (`content lint` checks it): a lesson file `l
 | lesson | `uNN.lK` | `u02.l1` |
 | lesson step | `uNN.lK.step-<kind>[-N]` | `u02.l1.step-story`, `u02.l1.step-practice` |
 | unit-level step (generated, `docs/06` § Unit-level steps) | `uNN.step-opener`, `uNN.step-conversation-N`, `uNN.step-talk`, `uNN.step-writing`, `uNN.step-relay`, `uNN.step-check`, `uNN.step-fluency` | `u02.step-conversation-1`, `u02.step-check` |
-| text (lines are `<textId>#n`, 1-based) | `uNN.lK.<name>`, `uNN.task.<name>`, `<exerciseId>.audio` | `u02.l1.story`, `u02.l1.story#3`, `u02.task.menu`, `u02.check.01.audio` |
+| text (lines are `<textId>#n`, 1-based) | `uNN.lK.<name>`, `uNN.task.<name>`, `uNN.check.<name>`, `<exerciseId>.audio` | `u02.l1.story`, `u02.l1.story#3`, `u02.task.menu`, `u01.check.classmate-form`, `u02.check.01.audio` |
 | exercise | `uNN.lK.exNN`, `uNN.lK.qN` (story questions), `uNN.task.<name>`, `uNN.check.NN`, `pl.NN`, `fin.<section>.NN` | `u02.l1.ex07`, `u02.task.conv1` |
 | generated exercise | preview: `<stepId>.b<k>.match`, `<stepId>.b<k>.<itemId with ":" replaced by "-">`; review cards: `gen:<skill>:<itemId>` | `u02.l1.step-preview.b1.match`, `u02.l1.step-preview.b1.w-cornetto`, `gen:recall:w:cornetto` |
 | task file / check / note | `uNN.task` / `uNN.check`, `final`, `placement` / `uNN.lK.note[-N]` | `u02.task`, `u02.check`, `u02.l1.note` |

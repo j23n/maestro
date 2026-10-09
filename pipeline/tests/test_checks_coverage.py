@@ -143,8 +143,9 @@ def test_complete_units_get_recycling_strand_and_story_length_findings(repo):
     edit(repo, UNIT_U02, "words: 100-200", "words: 150-250")
     result = annotate_and_check(repo)
     strands = [m.split("check 3 · strands: ")[1] for m in messages(result, "warning", 3, "strands")]
-    assert any(m.startswith("u02: language-focus is 60% of the estimated 28 minutes") for m in strands), strands
-    assert any(m.startswith("u02: input is 7%") for m in strands)
+    assert any(m.startswith("u02: input is 10% of the estimated 29 minutes") for m in strands), strands
+    assert any(m.startswith("u02: fluency is 5%") for m in strands)
+    assert not any(m.startswith("u02: language-focus") for m in strands)  # 58%, within Units 0–2's 60% (CL21)
     assert not messages(result, "warning", 3, "recycling")  # 48% of its content words come from Units 0–1
     assert any(
         "u02.l1.story has 106 words; u02's stories should have 150–250" in m for m in messages(result, "warning")
