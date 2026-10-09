@@ -16,7 +16,7 @@ items:
   - {id: 'w:ma', it: ma, pos: conj, gloss: but, status: P, lesson: u01.l3}
   - {id: 'w:o', it: o, pos: conj, gloss: or, status: P, lesson: u01.l3}
   - {id: 'w:non', it: non, pos: adv, gloss: not, status: P, lesson: u01.l2}
-  - {id: 'w:italiano', it: italiano, pos: adj, gloss: Italian, gender: mf, topics: ['topic:identity', 'topic:languages'], note: 'Also the Italian language: parlo italiano.', status: P, lesson: u01.l2}
+  - {id: 'w:italiano', it: italiano, pos: adj, gloss: Italian, gender: mf, topics: ['topic:identity', 'topic:languages'], note: 'Also the Italian language: in italiano (in Italian).', status: P, lesson: u01.l2}
   - {id: 'w:americano', it: americano, pos: adj, gloss: American, gender: mf, topics: ['topic:identity'], status: P, lesson: u01.l2}
   - {id: 'w:canadese', it: canadese, pos: adj, gloss: Canadian, gender: mf, topics: ['topic:identity'], note: Same form for men and women., status: P, lesson: u01.l2}
   - {id: 'w:inglese', it: inglese, pos: adj, gloss: English, gender: mf, topics: ['topic:identity', 'topic:languages'], status: P, lesson: u01.l2}
@@ -31,16 +31,16 @@ items:
   - {id: 'c:dove-abita', kind: chunk, it: 'dove abita?', gloss: 'where do you live? (formal); where does he/she live?', match: [dove abita], status: P, lesson: u01.l2}
   - {id: 'c:abito', kind: chunk, it: abito a… / abito in…, gloss: 'I live in… (a + city, in + most countries)', match: [abito a, abito in, abito negli, abito nel, abito nei, abito nelle], recall_answer: '{abito a|abito in}', note: 'Your own country phrase comes from onboarding (abito negli Stati Uniti). Plain abito is also a noun (a dress, Unit 10).', status: P, lesson: u01.l2}
   - {id: 'c:sono-nato', kind: chunk, it: 'sono nato/a, sei nato/a?, è nato/a…', gloss: I was born; you were born; he/she was born (also formal you), match: [sono nato, sono nata, sei nato, sei nata, è nato, è nata], recall_answer: '{m:sono nato|f:sono nata}', audio_say: 'sono nato, sono nata', exemplifies: ['g:passato-prossimo-essere'], status: P, lesson: u01.l2}
-  - {id: 'c:sono-arrivato', kind: chunk, it: sono arrivato / sono arrivata…, gloss: I arrived…, match: [sono arrivato, sono arrivata], recall_answer: '{m:sono arrivato|f:sono arrivata}', exemplifies: ['g:passato-prossimo-essere'], status: P, lesson: u01.l2}
+  - {id: 'c:sono-arrivato', kind: chunk, it: sono arrivato / sono arrivata…, gloss: I arrived…, match: [sono arrivato, sono arrivata, sono appena arrivato, sono appena arrivata], recall_answer: '{m:sono arrivato|f:sono arrivata}', note: 'Sono appena arrivato: I''ve just arrived.', exemplifies: ['g:passato-prossimo-essere'], status: P, lesson: u01.l2}
   - {id: 'c:questo-e', kind: chunk, it: questo è… / questa è…, gloss: this is… (introducing someone), match: [questo è, questa è], recall_answer: '{questo è|questa è}', exemplifies: ['g:questo-quello'], status: P, lesson: u01.l3}
   - {id: 'c:ti-presento', kind: chunk, it: ti presento…, gloss: let me introduce… (informal), match: [ti presento], status: P, lesson: u01.l3}
   - {id: 'c:le-presento', kind: chunk, it: Le presento…, gloss: let me introduce… (formal), match: [Le presento], case_sensitive: true, status: P, lesson: u01.l3}
   - {id: 'c:puoi-ripetere', kind: chunk, it: 'puoi ripetere?', gloss: 'can you say that again? (informal)', match: [puoi ripetere], status: P, lesson: u01.l3}
   - {id: 's:intonation', kind: sound, it: intonazione, gloss: 'rising intonation for yes/no questions (È americano? vs È americano.)', status: {listen: P}, lesson: u01.l1}
-  - {id: 's:accents-e-si', kind: sound, it: 'e / è, si / sì', gloss: e (and) vs è (is); si vs sì (yes), status: {listen: P, read: P}, lesson: u01.l1}
+  - {id: 's:accents-e-si', kind: sound, it: 'e / è, si / sì', gloss: e (and) vs è (is); si vs sì (yes), note: 'A spelling point: the accent shows which word it is. è (is), e (and); sì (yes), si (as in come si chiama).', status: {read: P}, lesson: u01.l1}
   # Added in C3 (Unit 1 drafts): words the lessons, task and check need, plus countries, nationalities and form labels
   # (spec note: countries, nationalities, languages). Other countries reach the learner through the onboarding slots.
-  - {id: 'w:signora', it: signora, pos: noun, gender: f, plural: signore, gloss: lady; Mrs; madam, note: 'la signora Rossi: Mrs. Rossi. Buongiorno, signora! is a polite greeting to a woman you call Lei.', topics: ['topic:identity'], status: P, lesson: u01.l1}
+  - {id: 'w:signora', it: signora, pos: noun, gender: f, plural: signore, gloss: "lady; Mrs.; ma'am", note: 'la signora Rossi: Mrs. Rossi. Buongiorno, signora! is a polite greeting to a woman you call Lei.', topics: ['topic:identity'], status: P, lesson: u01.l1}
   - {id: 'w:citta', it: città, pos: noun, gender: f, plural: invariable, gloss: city; town, topics: ['topic:identity'], status: P, lesson: u01.l2}
   - {id: 'c:come-stai', kind: chunk, it: 'come stai?', gloss: 'how are you? (informal)', match: [come stai], exemplifies: ['g:irregular-movement'], note: 'To someone you call tu. With Lei: come sta?', status: P, lesson: u01.l1}
   - {id: 'c:come-sta', kind: chunk, it: 'come sta?', gloss: 'how are you? (formal); how is he/she?', match: [come sta], exemplifies: ['g:irregular-movement'], note: 'To someone you call Lei. With tu: come stai?', status: P, lesson: u01.l1}
@@ -51,9 +51,9 @@ items:
   - {id: 'w:francese', it: francese, pos: adj, gender: mf, gloss: French, topics: ['topic:identity', 'topic:languages'], note: 'Also the French language. Same form for men and women.', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
   - {id: 'w:spagnolo', it: spagnolo, pos: adj, gender: mf, gloss: Spanish, topics: ['topic:identity', 'topic:languages'], note: 'spagnolo (m), spagnola (f). Also the Spanish language.', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
   - {id: 'w:bolognese', it: bolognese, pos: adj, gender: mf, gloss: from Bologna; Bolognese, note: 'Same form for men and women. Lowercase, like every nationality.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l2}
-  - {id: 'w:anche', it: anche, pos: adv, gloss: also; too, note: 'Before the word it adds: anche io (me too), anche Sara (Sara too).', status: P, lesson: u01.l3}
+  - {id: 'w:anche', it: anche, pos: adv, gloss: also; too, note: 'Before the word it adds: anche io (me too; also written anch''io), anche Sara (Sara too).', status: P, lesson: u01.l3}
   - {id: 'w:allora', it: allora, pos: adv, gloss: so; well then, note: 'A filler to start or close a turn: Allora, a presto!', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
-  - {id: 'w:pronto', it: pronto, pos: interj, gloss: hello? (on the phone), note: 'Also an adjective: ready.', status: P, lesson: u01.l3}
+  - {id: 'c:pronto', kind: chunk, it: 'pronto?', gloss: 'hello? (answering the phone)', match: [pronto], note: 'How Italians answer the phone. (As an adjective, pronto means ready.)', status: P, lesson: u01.l3}
   - {id: 'c:a-presto', kind: chunk, it: a presto!, gloss: see you soon!, match: [a presto], status: P, lesson: u01.l3}
   - {id: 'w:nome', it: nome, pos: noun, gender: m, plural: nomi, gloss: first name; name, topics: ['topic:identity'], status: P, lesson: u01.l3}
   - {id: 'w:cognome', it: cognome, pos: noun, gender: m, plural: cognomi, gloss: surname; last name, topics: ['topic:identity'], status: P, lesson: u01.l3}
@@ -63,3 +63,7 @@ items:
   - {id: 'w:inghilterra', it: Inghilterra, pos: noun, gender: f, plural: invariable, gloss: England, recall_answer: '{l''Inghilterra|Inghilterra}', note: 'abito in Inghilterra; the nationality is inglese.', topics: ['topic:identity'], status: P, lesson: u01.l3}
   - {id: 'w:francia', it: Francia, pos: noun, gender: f, plural: invariable, gloss: France, note: 'abito in Francia; the nationality is francese.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
   - {id: 'w:spagna', it: Spagna, pos: noun, gender: f, plural: invariable, gloss: Spain, note: 'abito in Spagna; the nationality is spagnolo/spagnola.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  # Added in C4 (CL28, CL34): Scuola Arcobaleno phones Marco in lesson 3; he spells Lenzi and gives his phone number.
+  - {id: 'c:come-si-scrive', kind: chunk, it: 'come si scrive?', gloss: 'how do you spell it?', match: [come si scrive, si scrive], note: 'The answer is the letters: Lenzi? Elle, e, enne, zeta, i.', topics: ['topic:languages'], status: P, lesson: u01.l3}
+  - {id: 'c:numero-di-telefono', kind: chunk, it: numero di telefono, gloss: phone number, match: [il numero di telefono, numero di telefono], note: 'On forms and on the phone. People say a number in small groups: tre quattro sette, otto dodici…', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  - {id: 'w:scuola', it: scuola, pos: noun, gender: f, plural: scuole, gloss: school, note: 'la Scuola Arcobaleno: the language school in the story.', topics: ['topic:languages'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}

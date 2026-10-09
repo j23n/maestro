@@ -1,5 +1,6 @@
 # Unit 1, Lesson 2. DRAFT (C3): the Italian must be reviewed by the content lead before it is approved.
-# Marco's first morning at the coworking space: the receptionist (a minor role) uses Lei, Sara uses tu.
+# Marco's first morning at the coworking space (the day after lesson 1, CL16: "Sono appena arrivato", never ieri):
+# the receptionist (a minor role) uses Lei, Sara uses tu.
 # Note: nationalities (-o/-a and -e) and non. Story line references (#n) are 1-based.
 id: u01.l2
 title: {it: "Di dove sei?", en: "Where are you from?"}
@@ -35,7 +36,7 @@ steps:
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Piacere! Di dove sei? Sei inglese?", en: "Nice to meet you! Where are you from? Are you English?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "No, non sono inglese. Sono canadese.", en: "No, I'm not English. I'm Canadian."}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ah, canadese! Dove abiti in Canada?", en: "Oh, Canadian! Where do you live in Canada?"}
-        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sono nato e abito a Toronto. Sono arrivato a Bologna ieri.", en: "I was born in Toronto and I live there. I arrived in Bologna yesterday.", recognise: [ieri], gloss: {ieri: yesterday}}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sono nato e abito a Toronto. Sono appena arrivato a Bologna.", en: "I was born in Toronto and I live there. I've just arrived in Bologna.", gloss: {appena: just}}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Benvenuto a Bologna!", en: "Welcome to Bologna!"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Grazie! E tu, Sara? Sei italiana?", en: "Thanks! And you, Sara? Are you Italian?"}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sì, sono italiana. Sono di Bologna.", en: "Yes, I'm Italian. I'm from Bologna."}
@@ -55,7 +56,7 @@ steps:
         format: choice
         tags: [sy:cefr.oral-comprehension]
         question_en: "When did Marco arrive in Bologna?"
-        options: ["Yesterday", "Today", "A year ago"]
+        options: ["Very recently", "A year ago", "He was born there"]
         answer: 0
       - id: u01.l2.q3
         format: choice
@@ -75,7 +76,7 @@ steps:
     id: u01.l2.step-note
     note_id: u01.l2.note
     grammar: [g:adjectives-o-a-e, g:negation-non]
-    title_en: "italiano, italiana: and non"
+    title_en: "italiano, italiana, and non"
     intro: {mascot: think, text_en: "Did you spot it? Sara is *italiana*, and Marco says *non sono americano*: he's *canadese*."}
     body:
       - p: "Nationalities are adjectives. Many end in *-o* for a man and *-a* for a woman; others end in *-e* and are the same for both."
@@ -216,8 +217,8 @@ steps:
         targets: [{item: c:sono-arrivato, skill: recall}]
         tags: [cd:say-where-from]
         prompt_en: "I arrived in Bologna. (Marco)"
-        answer: "{sono arrivato a Bologna|io sono arrivato a Bologna}"
-        near: [{answer: "(io )sono arrivata a Bologna", outcome: almost, hint: "Marco is a man: check the ending."}]
+        answer: "{sono arrivato a Bologna|io sono arrivato a Bologna|sono appena arrivato a Bologna|io sono appena arrivato a Bologna}"
+        near: [{answer: "(io )sono (appena )arrivata a Bologna", outcome: almost, hint: "Marco is a man: check the ending."}]
         audio_after: true
       - id: u01.l2.ex15
         format: dictation
@@ -240,10 +241,10 @@ steps:
         format: sentence-building
         targets: [{item: w:citta, skill: recall}]
         tags: [cd:say-where-from, sy:tp.identity]
-        prompt_en: "Toronto is a Canadian city."
-        tiles: [Toronto, è, una città, canadese]
+        prompt_en: "Bologna is a city in Italy."
+        tiles: [Bologna, è, una città, in, Italia]
         distractors: [a]
-        answer: ["Toronto è una città canadese"]
+        answer: ["Bologna è una città in Italia"]
     mix:
       - id: u01.l2.ex19
         format: choice
@@ -296,7 +297,8 @@ steps:
         rule: "è (with an accent) is 'is'; e (no accent) is 'and'."
         near: [{answer: e, hint: "Without an accent, e means 'and'. Here you need the verb."}]
 
-  # 5 · Listening: later at the coworking space, Marco asks Sara how to say things in Italian (topic: languages)
+  # 5 · Listening: later at the coworking space, Marco asks Sara how to say things in Italian (topic: languages):
+  #     coworking, città, bolognese (met glossed in the story), the -o/-a of italiano and the one form of inglese
   - kind: listening
     id: u01.l2.step-listening
     text:
@@ -307,7 +309,13 @@ steps:
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Si dice \"coworking\"!", en: "You say \"coworking\"!", foreign: [coworking]}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Ah, bene! E come si dice \"city\"?", en: "Oh, good! And how do you say \"city\"?", foreign: [city]}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Si dice \"città\".", en: "You say \"città\"."}
-        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Ok! Ci vediamo, Sara!", en: "OK! See you, Sara!"}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "E \"from Bologna\"? Come si dice?", en: "And \"from Bologna\"? How do you say that?", foreign: [from]}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Si dice \"bolognese\". Io sono bolognese!", en: "You say \"bolognese\". I'm from Bologna!"}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "E \"Italian\" si dice \"italiano\", vero?", en: "And \"Italian\" is \"italiano\", right?", foreign: [Italian]}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sì! Lui è italiano, lei è italiana.", en: "Yes! He's italiano, she's italiana."}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "E \"English\"?", en: "And \"English\"?", foreign: [English]}
+        - {speaker: ch:sara, to: ch:marco, register: tu, it: "Inglese: lui è inglese, lei è inglese.", en: "Inglese: he's inglese, she's inglese."}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Ok! Grazie, Sara. Ci vediamo!", en: "OK! Thanks, Sara. See you!"}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sì, ci vediamo! Ciao!", en: "Yes, see you! Bye!"}
     plays: unlimited
     exercises:
@@ -322,6 +330,22 @@ steps:
         tags: [sy:cefr.oral-comprehension, sy:tp.school-languages]
         statement_en: "Italians say \"coworking\" too."
         answer: true
+      - id: u01.l2.ex38
+        format: choice
+        tags: [cd:say-where-from, sy:tp.identity]
+        question_en: "What is someone from Bologna called?"
+        options: ["bolognese", "bolognano", "bolognino"]
+        answer: 0
+      - id: u01.l2.ex39
+        format: true-false
+        tags: [sy:gr.adjectives, sy:cefr.oral-comprehension]
+        statement_en: "Sara says italiano is for a man and italiana for a woman."
+        answer: true
+      - id: u01.l2.ex40
+        format: true-false
+        tags: [sy:gr.adjectives, sy:cefr.oral-comprehension]
+        statement_en: "Inglese has one form for a man and another for a woman."
+        answer: false
 
   # 6 · Sounds: questions rise (s:intonation); double consonants by ear (Unit 0's s:double-consonants)
   - kind: sounds
@@ -351,7 +375,47 @@ steps:
         word: canadese
         answer: single
 
-  # 7 · Use: meet Sara at the coworking space and ask her a question back (tu)
+  # 7 · Say it: a repeat-after-me block of the story's lines (fluency, CL21)
+  - kind: practice
+    id: u01.l2.step-practice-2
+    block:
+      - id: u01.l2.ex31
+        format: repeat
+        targets: [{item: w:nuovo, skill: speak}]
+        tags: [cd:choose-tu-lei, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Buongiorno! Lei è nuovo qui, vero?"
+      - id: u01.l2.ex32
+        format: repeat
+        targets: [{item: w:non, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "No, non sono americano. Sono canadese."
+      - id: u01.l2.ex33
+        format: repeat
+        targets: [{item: c:di-dove-sei, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Piacere! Di dove sei? Sei inglese?"
+      - id: u01.l2.ex34
+        format: repeat
+        targets: [{item: c:dove-abiti, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Ah, canadese! Dove abiti in Canada?"
+      - id: u01.l2.ex35
+        format: repeat
+        targets: [{item: c:sono-arrivato, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Sono appena arrivato a Bologna."
+      - id: u01.l2.ex36
+        format: repeat
+        targets: [{item: w:italiano, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Grazie! E tu, Sara? Sei italiana?"
+      - id: u01.l2.ex37
+        format: repeat
+        targets: [{item: c:dove-sei-nato, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "E dove sei nata?"
+
+  # 8 · Use: meet Sara at the coworking space and ask her a question back (tu)
   - kind: use
     id: u01.l2.step-use
     exercise:

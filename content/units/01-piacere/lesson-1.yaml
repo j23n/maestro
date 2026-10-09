@@ -1,10 +1,11 @@
 # Unit 1, Lesson 1. DRAFT (C3): the Italian must be reviewed by the content lead before it is approved.
-# Marco meets an older woman on the stairs of his building: she is Signora Rossi, his landlady. She says tu, he
-# answers with Lei (story-bible registers). Two short notes: essere with tu/Lei, then di, a, in and e.
+# The morning after Marco lands (CL16), he meets an older woman on the stairs of his building: she is Signora Rossi,
+# his landlady; the listening is that evening. She says tu, he answers with Lei (story-bible registers). Two short
+# notes: essere with tu/Lei, then di, a, in and e.
 # Uses Unit 0's items and this lesson's (content/items/u01.yaml). Story line references (#n) are 1-based.
 id: u01.l1
 title: {it: "Piacere, signora!", en: "Nice to meet you!"}
-scene: Marco meets an older woman on the stairs of his building in Bologna. She is Signora Rossi, his landlady; she says tu, he answers with Lei.
+scene: The morning after he lands, Marco meets an older woman on the stairs of his building in Bologna. She is Signora Rossi, his landlady; she says tu, he answers with Lei.
 review: {status: draft, by: null, date: null, hash: null}
 
 steps:
@@ -217,7 +218,7 @@ steps:
           - {item: w:signora, skill: read}
           - {item: c:e-lei, skill: read}
         tags: [sy:gr.subject-pronouns]
-        pairs: [["io", "I"], ["tu", "you (informal)"], ["Lei", "you (formal)"], ["piacere!", "nice to meet you!"], ["signora", "Mrs.; ma'am"], ["e Lei?", "and you? (formal)"]]
+        pairs: [["io", "I"], ["tu", "you (informal)"], ["Lei", "you (formal)"], ["piacere!", "nice to meet you!"], ["signora", "lady; Mrs.; ma'am"], ["e Lei?", "and you? (formal)"]]
       - id: u01.l1.ex15
         format: recall
         targets: [{item: c:e-lei, skill: recall}]
@@ -239,10 +240,11 @@ steps:
         targets: [{item: c:puo-ripetere, skill: recall}]
         tags: [cd:dont-understand, cd:choose-tu-lei]
         prompt_en: "Sorry, can you say that again? (to Signora Rossi)"
-        answer: "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}"
+        answer: "{scusi può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|scusi signora non capisco può ripetere( per favore)|signora scusi può ripetere( per favore)}"
         near:
-          - {answer: "(scusa )puoi ripetere( per favore)", hint: "Puoi is the tu form. Signora Rossi gets Lei."}
+          - {answer: "({scusa|scusi} )puoi ripetere( per favore)", hint: "Puoi is the tu form. Signora Rossi gets Lei."}
           - {answer: "scusa( non capisco) può ripetere( per favore)", hint: "Scusa is for people you call tu. Which word goes with Lei?"}
+          - {answer: "(signora )può ripetere( per favore)", outcome: almost, hint: "Start by saying sorry, the polite way."}
         audio_after: true
 
   # 5 · Note: di, a and in for places, and e (and) without an accent
@@ -331,9 +333,9 @@ steps:
         answer: ["tu sei di Toronto vero"]
       - id: u01.l1.ex24
         format: dictation
-        targets: [{item: s:accents-e-si, skill: listen}]
+        targets: [{item: s:accents-e-si, skill: read}]
         tags: [sy:cefr.orthographic-control, sy:ss.accented-pairs]
-        say: "Sono Marco e sono di Toronto."
+        say: "Lei è di Bologna e Marco è di Toronto."
         slow: true
       - id: u01.l1.ex25
         format: repeat
@@ -378,8 +380,27 @@ steps:
         prompt_en: "Nice to meet you, Marco! Welcome to Bologna!"
         hint: "Bologna is a city."
         near: [{answer: in, hint: "In goes with a country. Bologna is a city."}]
+      - id: u01.l1.ex37
+        format: choice
+        targets: [{item: s:accents-e-si, skill: read}]
+        tags: [sy:ss.accented-pairs, sy:cefr.orthographic-control]
+        question_en: "Which sentence is written correctly?"
+        options: ["Marco è di Toronto e la signora Rossi è di Bologna.", "Marco e di Toronto è la signora Rossi è di Bologna.", "Marco è di Toronto è la signora Rossi e di Bologna."]
+        answer: 0
+        hint: "One of these words means 'is' and one means 'and'. Which one has the accent?"
+      - id: u01.l1.ex38
+        format: cloze
+        targets: [{item: s:accents-e-si, skill: read}]
+        tags: [sy:ss.accented-pairs, cd:say-where-from]
+        source: u01.l1.story#15
+        text: "[[Sì]], sono di Bologna."
+        prompt_en: "Yes, I'm from Bologna."
+        hint: "This word means 'yes'. Check how it's written."
+        rule: "sì (yes) has an accent; si without one is a different word, as in come si chiama."
+        near: [{answer: si, hint: "Without an accent, si is a different word. 'Yes' is written with an accent."}]
 
-  # 7 · Listening: that evening on the stairs (Unit 0 greetings; Marco asks for a word and meets Mimì)
+  # 7 · Listening: that evening on the stairs (Unit 0 greetings; Marco asks for a word and meets Mimì, and Signora Rossi
+  #     tells the cat where he's from)
   - kind: listening
     id: u01.l1.step-listening
     text:
@@ -387,10 +408,11 @@ steps:
       kind: dialogue
       lines:
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Buonasera, signora! Come sta?", en: "Good evening, Signora! How are you?"}
-        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Bene, grazie! E tu, Marco? Come va?", en: "Fine, thanks! And you, Marco? How's it going?"}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Bene, grazie! E tu, Marco? Come va a Bologna?", en: "Fine, thanks! And you, Marco? How's it going in Bologna?"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Bene, grazie. Scusi, come si dice \"cat\"?", en: "Fine, thanks. Excuse me, how do you say \"cat\"?", foreign: [cat]}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Si dice \"gatto\". E lei è Mimì!", en: "You say \"gatto\". And this is Mimì!", gloss: {gatto: cat}}
-        - {speaker: ch:marco, it: "Ciao, Mimì!", en: "Hi, Mimì!"}
+        - {speaker: ch:marco, it: "Ciao, Mimì! Piacere!", en: "Hi, Mimì! Nice to meet you!"}
+        - {speaker: ch:rossi, it: "Mimì, Marco è di Toronto, in Canada!", en: "Mimì, Marco is from Toronto, in Canada!"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Buonasera, signora. Ci vediamo!", en: "Good evening, Signora. See you!"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ciao, Marco! Ci vediamo!", en: "Bye, Marco! See you!"}
     plays: unlimited
@@ -412,10 +434,16 @@ steps:
         question_en: "Who is Mimì?"
         options: ["A cat", "A neighbor", "A friend"]
         answer: 0
+      - id: u01.l1.ex45
+        format: choice
+        tags: [cd:say-where-from, sy:cefr.oral-comprehension]
+        question_en: "What does Signora Rossi tell Mimì about Marco?"
+        options: ["Where he's from", "How old he is", "Where he lives in Bologna"]
+        answer: 0
 
   # 8 · Sounds: questions rise, statements fall (s:intonation). The answers mix question and statement, so always
-  #     picking one doesn't pass. e/è (s:accents-e-si) is met in the preview and tested in context by dictation
-  #     (ex24), not as an isolated pair: alone, only open vs closed e tells them apart (heard, never graded).
+  #     picking one doesn't pass. e/è and si/sì (s:accents-e-si, read only: CL29) are met in the preview and told
+  #     apart in writing (dictation ex24, the written forms in ex37 and ex38), never as an isolated listening pair.
   - kind: sounds
     id: u01.l1.step-sounds
     exercises:
@@ -447,15 +475,99 @@ steps:
         glosses: {"È di Bologna?": "Is she from Bologna?", "È di Bologna.": "She's from Bologna."}
         tip_en: "No question word here, so only the tune tells you: up at the end for a question."
 
-  # 9 · Use: a spoken recall in the story's situation (Signora Rossi says tu; you answer with Lei)
+  # 9 · Say it: a repeat-after-me block of the story's lines, both sides of the tu/Lei exchange (fluency, CL21)
+  - kind: practice
+    id: u01.l1.step-practice-3
+    block:
+      - id: u01.l1.ex39
+        format: repeat
+        targets: [{item: c:puo-ripetere, skill: speak}]
+        tags: [cd:dont-understand, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Scusi, non capisco. Può ripetere, per favore?"
+      - id: u01.l1.ex40
+        format: repeat
+        targets: [{item: c:vero, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Tu sei Marco di Toronto, vero?"
+      - id: u01.l1.ex41
+        format: repeat
+        targets: [{item: c:piacere, skill: speak}]
+        tags: [cd:introduce-yourself, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Sì, sono io! Ah, Lei è la signora Rossi! Piacere!"
+      - id: u01.l1.ex42
+        format: repeat
+        targets: [{item: w:a, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Piacere, Marco! Benvenuto a Bologna!"
+      - id: u01.l1.ex43
+        format: repeat
+        targets: [{item: c:come-sta, skill: speak}]
+        tags: [cd:choose-tu-lei, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Bene, grazie. E Lei, come sta?"
+      - id: u01.l1.ex44
+        format: repeat
+        targets: [{item: w:di, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Marco è di Toronto e la signora Rossi è di Bologna."
+      - id: u01.l1.ex46
+        format: repeat
+        targets: [{item: w:signora, skill: speak}]
+        tags: [cd:greet-farewell, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Arrivederci, signora! Buona giornata!"
+
+  # 10 · Use: a short conversation in the story's situation. Signora Rossi says tu to you (`register`); you answer with
+  #     Lei (`learner_register`). Each register turn needs its Lei word (CL37), so a tu slip misses in speech too.
   - kind: use
     id: u01.l1.step-use
     exercise:
       id: u01.l1.ex36
-      format: recall
-      targets: [{item: c:mi-chiamo, skill: recall}, {item: c:come-si-chiama, skill: recall}]
+      format: conversation
+      with: ch:rossi
+      register: tu
+      learner_register: lei
+      title: {en: "Meet Signora Rossi on the stairs"}
       tags: [cd:introduce-yourself, cd:choose-tu-lei]
-      context_it: "Buongiorno! Tu come ti chiami?"
-      prompt_en: "Signora Rossi stops you on the stairs and asks your name. Answer, and ask hers."
-      answer: "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}"
-      near: [{answer: "{mi chiamo {NAME}|sono {NAME}|{NAME}} e tu( come ti chiami)", hint: "Signora Rossi is older than you, so you call her Lei."}]
+      goals:
+        - {id: name, en: "Say your name and ask hers"}
+        - {id: how, en: "Say how you are and ask how she is"}
+      start: n1
+      nodes:
+        n1:
+          say: "Buongiorno! Tu come ti chiami?"
+          en: "Good morning! What's your name?"
+          expect:
+            - intent: name
+              goal: name
+              accept:
+                - "(buongiorno )(signora )mi chiamo {NAME} e Lei come si chiama"
+                - "(buongiorno )(signora )(io )sono {NAME} e Lei come si chiama"
+                - "(buongiorno )(signora )mi chiamo {NAME} e Lei( signora)"
+                - "(buongiorno )(signora )(io )sono {NAME} e Lei( signora)"
+                - "(buongiorno )(signora )mi chiamo {NAME} e Lei signora come si chiama"
+                - "(buongiorno )(signora )mi chiamo {NAME} (Lei )come si chiama( signora)"
+              next: n2
+          near:
+            - {answer: "(buongiorno )({mi chiamo|io sono|sono} ){NAME} e tu( come ti chiami)", hint: "Signora Rossi says tu to you, but you call her Lei."}
+            - {answer: "(buongiorno )({mi chiamo|io sono|sono} ){NAME}( e) come ti chiami", hint: "Come ti chiami is for people you call tu. Ask her name with Lei."}
+          help: ["Mi chiamo… E Lei, come si chiama?"]
+          hint_en: "Say your name, and ask hers."
+        n2:
+          say: "Io sono la signora Rossi. Piacere! E come stai?"
+          en: "I'm Signora Rossi. Nice to meet you! And how are you?"
+          expect:
+            - intent: ask-back
+              goal: how
+              accept:
+                - "(piacere )(signora )(bene )(grazie )e Lei( come sta)( signora)"
+                - "(piacere )(signora )(bene )(grazie )(signora )come sta"
+                - "(piacere )(bene )(grazie )e Lei come va( signora)"
+              next: end
+          near:
+            - {answer: "(piacere )(signora )(bene )(grazie )e tu( come stai)", hint: "She says tu to you, but you answer with Lei."}
+            - {answer: "(piacere )(signora )(bene )(grazie )come stai( signora)", hint: "Come stai is for people you call tu. Signora Rossi gets Lei."}
+          help: ["Piacere, signora! Bene, grazie. E Lei?"]
+          hint_en: "Say you're fine, and ask how she is."
+        end:
+          say: "Bene, bene, grazie! Ciao, ci vediamo!"
+          en: "Fine, fine, thank you! Bye, see you!"
+          final: true

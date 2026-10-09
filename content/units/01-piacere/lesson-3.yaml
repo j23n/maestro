@@ -1,11 +1,12 @@
-# Unit 1, Lesson 3. DRAFT (C3): the Italian must be reviewed by the content lead before it is approved.
+# Unit 1, Lesson 3. DRAFT (C3, revised C4): the Italian must be reviewed by the content lead before it is approved.
 # Sara calls from Marco's door; at the entrance they meet Signora Rossi and her cat Mimì. Marco introduces Sara
 # (Le presento), Signora Rossi introduces Mimì (ti presento). Rossi says tu to both; they answer with Lei.
-# Then a second preview and a real form from the language school (the unit task's writing form).
-# Story line references (#n) are 1-based.
+# Then Scuola Arcobaleno phones Marco about his course (the spec's phone listening, CL28): he answers Pronto?, spells
+# Lenzi and gives his number with the numbers 0–20. Spelling practice brings back Unit 0's letter names, and a
+# classmate's registration form from the same school follows. Story line references (#n) are 1-based.
 id: u01.l3
 title: {it: "Ti presento Sara", en: "This is Sara"}
-scene: Sara phones Marco from the door of his building, then they meet Signora Rossi and her cat Mimì at the entrance. Rossi says tu to both; Marco and Sara answer with Lei.
+scene: Sara phones Marco from the door of his building, then they meet Signora Rossi and her cat Mimì at the entrance. Rossi says tu to both; Marco and Sara answer with Lei. Later the language school phones Marco about his course.
 review: {status: draft, by: null, date: null, hash: null}
 
 steps:
@@ -14,7 +15,7 @@ steps:
     id: u01.l3.step-preview
     batches:
       - [c:ti-presento, c:le-presento, c:questo-e, w:anche, w:ma, w:o]
-      - [w:pronto, c:puoi-ripetere, c:a-presto]
+      - [c:pronto, c:puoi-ripetere, c:a-presto]
 
   # 2 · Read and listen, then check meaning in English
   - kind: story
@@ -64,17 +65,24 @@ steps:
         question_en: "What does Marco say about himself?"
         options: ["He's Canadian, but a bit Italian too", "He's Italian, from Bologna", "He's American"]
         answer: 0
+      - id: u01.l3.q4
+        format: choice
+        tags: [cd:choose-tu-lei]
+        question_en: "How do Sara and Marco talk to Signora Rossi?"
+        options: ["With Lei, while she says tu to them", "With tu, like her", "With Lei, like her"]
+        answer: 0
 
   # 3 · Note: introducing people with tu and Lei, and ma / o (built from the story)
   - kind: note
     id: u01.l3.step-note
     note_id: u01.l3.note
     grammar: [g:tu-lei, g:conjunctions]
-    title_en: "ti presento, Le presento: and ma, o"
+    title_en: "ti presento, Le presento, and ma, o"
     intro: {mascot: hello, text_en: "Marco says *Signora, Le presento Sara*, and Signora Rossi says *Sara, ti presento Mimì!*"}
     body:
       - p: "To introduce someone, say *ti presento…* to a person you call *tu* and *Le presento…* to a person you call *Lei*. Like *Lei*, the formal one starts with a capital L."
       - p: "*Questo è…* (for a man) and *questa è…* (for a woman) work with everyone: *Mimì, questa è Sara.*"
+      - p: "A recap of the tu/Lei pairs you know:"
       - table:
           columns: [With tu, With Lei]
           rows:
@@ -161,14 +169,14 @@ steps:
         targets: [{item: c:puoi-ripetere, skill: recall}]
         tags: [cd:dont-understand, cd:choose-tu-lei]
         prompt_en: "Sorry, can you say that again? (to Sara)"
-        answer: "{scusa puoi ripetere|puoi ripetere|Sara puoi ripetere|scusa non capisco puoi ripetere|puoi ripetere per favore|scusa Sara non capisco puoi ripetere|scusa Sara puoi ripetere|scusa Sara non capisco puoi ripetere per favore}"
+        answer: "{scusa puoi ripetere|(scusa )(Sara )(non capisco )puoi ripetere( per favore)|Sara( scusa)( non capisco) puoi ripetere( per favore)}"
         near:
           - {answer: "(scusi )può ripetere( per favore)", hint: "Può is the Lei form. You and Sara say tu."}
           - {answer: "scusi puoi ripetere( per favore)", hint: "Scusi is for people you call Lei. Which word goes with tu?"}
         audio_after: true
       - id: u01.l3.ex09
         format: recall
-        targets: [{item: w:pronto, skill: recall}]
+        targets: [{item: c:pronto, skill: recall}]
         tags: [cd:greet-farewell]
         prompt_en: "Hello? (you answer the phone)"
         answer: "{pronto|pronto chi è}"
@@ -182,7 +190,7 @@ steps:
         prompt_en: "Sara is Italian, but Marco is Canadian."
         rule: "e = and, ma = but, o = or."
         near:
-          - {answer: e, hint: "E means 'and'. Here the two halves are different: you need 'but'."}
+          - {answer: e, hint: "E means 'and'. The English says 'but'."}
           - {answer: o, hint: "O means 'or'. Here you need 'but'."}
       - id: u01.l3.ex11
         format: cloze
@@ -225,7 +233,7 @@ steps:
         targets: [{item: c:a-presto, skill: recall}]
         tags: [cd:greet-farewell]
         prompt_en: "See you soon, Signora!"
-        answer: "{a presto signora|a presto|arrivederci a presto|arrivederci signora a presto}"
+        answer: "{a presto signora|a presto|arrivederci a presto|arrivederci signora a presto|a presto signora buona giornata|a presto signora arrivederci}"
         audio_after: true
     mix:
       - id: u01.l3.ex17
@@ -250,7 +258,7 @@ steps:
       - id: u01.l3.ex19
         format: match
         targets:                      # targets[i] belongs to pairs[i]
-          - {item: w:pronto, skill: read}
+          - {item: c:pronto, skill: read}
           - {item: c:puoi-ripetere, skill: read}
           - {item: c:puo-ripetere, skill: read}
           - {item: c:a-presto, skill: read}
@@ -269,14 +277,212 @@ steps:
           - {answer: "(Lei )è italiano o canadese", outcome: almost, hint: "You're talking to a woman: check the ending of italiano."}
         audio_after: true
 
-  # 5 · Preview 2: what a form asks, and more countries and nationalities (before the form below)
+  # 5 · Preview 2: the school's call (scuola, come si scrive?, numero di telefono, nome, cognome), then what a form asks
+  #     and more countries and nationalities (before the form below)
   - kind: preview
     id: u01.l3.step-preview-2
     batches:
-      - [w:nome, w:cognome, w:nazionalita, c:luogo-di-nascita]
-      - [c:stati-uniti, w:inghilterra, w:francia, w:francese, w:spagna, w:spagnolo]
+      - [w:scuola, w:nome, w:cognome, c:come-si-scrive, c:numero-di-telefono]
+      - [w:nazionalita, c:luogo-di-nascita, c:stati-uniti, w:inghilterra]
+      - [w:francia, w:francese, w:spagna, w:spagnolo]
 
-  # 6 · Real-world reading: a classmate's registration form at the language school (names and email aren't annotated)
+  # 6 · Listening (the spec's phone call, CL28): later that morning Scuola Arcobaleno phones Marco about his course. The
+  #     caller is a minor role (unnamed, gender not fixed) and uses Lei; Marco answers with Pronto? (c:pronto, CL34),
+  #     spells Lenzi (CL14) and gives his number with the numbers 0–20 (347 812 2015, said in small groups, CL20). The
+  #     caller reads the end back wrong (venti cinque) and Marco corrects it.
+  - kind: listening
+    id: u01.l3.step-listening
+    text:
+      id: u01.l3.call
+      kind: phone
+      lines:
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Pronto?", en: "Hello?"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Buongiorno! Sono della Scuola Arcobaleno. Lei è Marco?", en: "Good morning! I'm calling from Scuola Arcobaleno. Is that Marco?", recognise: [della], gloss: {della: from (the)}}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Sì, sono io. Buongiorno!", en: "Yes, speaking. Good morning!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Allora, nome e cognome, per favore.", en: "Right: your first name and last name, please."}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Marco Lenzi.", en: "Marco Lenzi."}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Lenzi? Scusi, come si scrive?", en: "Lenzi? Sorry, how do you spell that?"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Elle, e, enne, zeta, i.", en: "L, E, N, Z, I.", lemmas: {e: w:e~letter, i: w:i~letter}}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Elle, e, enne, zeta, i. Grazie! Il numero di telefono, per favore?", en: "L, E, N, Z, I. Thank you! Your phone number, please?", lemmas: {e: w:e~letter, i: w:i~letter}}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Tre quattro sette, otto dodici, venti quindici.", en: "347 812 2015."}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Tre quattro sette, otto dodici, venti cinque?", en: "347 812 20 5?"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "No: venti quindici.", en: "No: 20 15."}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Venti quindici. Bene, grazie! Arrivederci!", en: "20 15. Good, thank you! Goodbye!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Grazie! Arrivederci!", en: "Thank you! Goodbye!"}
+    plays: unlimited
+    exercises:
+      - id: u01.l3.ex36
+        format: choice
+        tags: [cd:give-personal-details, sy:cefr.oral-comprehension]
+        question_en: "Why does the school phone Marco?"
+        options: ["To take his details for the course", "To tell him the course is full", "To ask where he lives in Bologna"]
+        answer: 0
+      - id: u01.l3.ex62
+        format: choice
+        tags: [cd:give-personal-details, sy:cefr.oral-comprehension]
+        question_en: "What does the caller ask for first?"
+        options: ["His first and last name", "His phone number", "His email"]
+        answer: 0
+      - id: u01.l3.ex37
+        format: true-false
+        tags: [cd:spell-name, sy:ss.alphabet]
+        statement_en: "The caller asks Marco to spell his last name."
+        answer: true
+      - id: u01.l3.ex38
+        format: choice
+        tags: [cd:count-to-20, sy:fn.numbers-prices-times]
+        question_en: "What is Marco's phone number?"
+        options: ["347 812 2015", "347 812 205", "347 812 1520"]
+        answer: 0
+      - id: u01.l3.ex63
+        format: true-false
+        tags: [cd:count-to-20, sy:cefr.oral-comprehension]
+        statement_en: "The caller gets the number right the first time."
+        answer: false
+      - id: u01.l3.ex39
+        format: choice
+        tags: [cd:spell-name, sy:ss.alphabet]
+        question_en: "How does Marco spell his last name?"
+        options: ["Lenzi", "Lenti", "Renzi"]
+        answer: 0
+
+  # 7 · Practice: spelling with Unit 0's letter names (CL28) and the phone number. Names and places spelled aloud (which
+  #     one is it?), the written spelling of a word (confusable names: bi/pi, gi/ci, emme/enne, di/ti, and e/i, which
+  #     English speakers swap), spelling words yourself, the foreign letters, and Marco's spelling to repeat. Spelled
+  #     vowels, di, ci and ti read as letters through each line's or exercise's `lemmas:`.
+  - kind: practice
+    id: u01.l3.step-practice-3
+    block:
+      - id: u01.l3.ex40
+        format: cloze
+        targets: [{item: c:come-si-scrive, skill: recall}]
+        tags: [cd:spell-name, cd:give-personal-details]
+        source: u01.l3.call#6
+        text: "Lenzi? Scusi, come [[si scrive]]?"
+        prompt_en: "Lenzi? Sorry, how do you spell that?"
+        hint: "The caller wants the letters of Marco's last name."
+        near: [{answer: si dice, hint: "Come si dice asks for a word in Italian. Here the caller wants the letters."}]
+      - id: u01.l3.ex41
+        format: recall
+        targets: [{item: w:elle, skill: recall}, {item: w:e~letter, skill: recall}, {item: w:enne, skill: recall}, {item: w:zeta, skill: recall}, {item: w:i~letter, skill: recall}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {e: w:e~letter, i: w:i~letter}
+        context_it: "Lenzi? Scusi, come si scrive?"
+        prompt_en: "You're Marco. Spell your last name, letter by letter."
+        hint: "Use the Italian names of the letters, with commas between them."
+        answer: "{elle, e, enne, zeta, i|Lenzi elle, e, enne, zeta, i}"
+        audio_after: true
+      - id: u01.l3.ex42
+        format: choice
+        targets: [{item: w:ci~letter, skill: listen}, {item: w:cappa, skill: listen}, {item: w:e~letter, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        audio_text:
+          id: u01.l3.ex42.audio
+          kind: dialogue
+          lines:
+            - {speaker: narrator, it: "Ci, elle, a, erre, cappa, e.", en: "C, L, A, R, K, E.", lemmas: {ci: w:ci~letter, a: w:a~letter, e: w:e~letter}}
+        question_en: "A classmate at the school spells her last name. Which is it?"
+        options: ["Clarke", "Clark", "Klarke"]
+        answer: 0
+      - id: u01.l3.ex43
+        format: choice
+        targets: [{item: w:acca, skill: read}, {item: w:gi, skill: read}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {ci: w:ci~letter, o: w:o~letter}
+        question_en: "Spell Hugo with Italian letter names."
+        options: ["acca, u, gi, o", "cappa, u, gi, o", "acca, u, ci, o"]
+        answer: 0
+      - id: u01.l3.ex44
+        format: choice
+        targets: [{item: w:pi, skill: read}, {item: w:esse, skill: read}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {a: w:a~letter, ci: w:ci~letter}
+        question_en: "How do you spell Spagna?"
+        options: ["esse, pi, a, gi, enne, a", "esse, bi, a, gi, enne, a", "esse, pi, a, ci, enne, a"]
+        answer: 0
+      - id: u01.l3.ex45
+        format: choice
+        targets: [{item: w:emme, skill: read}, {item: w:di~letter, skill: read}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {a: w:a~letter, di: w:di~letter, ti: w:ti~letter, i: w:i~letter}
+        question_en: "Lucía, a classmate, was born in Madrid. How do you spell Madrid?"
+        options: ["emme, a, di, erre, i, di", "enne, a, di, erre, i, di", "emme, a, ti, erre, i, ti"]
+        answer: 0
+      - id: u01.l3.ex46
+        format: recall
+        targets: [{item: w:cu, skill: recall}, {item: w:u, skill: recall}, {item: w:i~letter, skill: recall}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {i: w:i~letter}
+        prompt_en: "Spell qui (here), letter by letter."
+        hint: "Use the Italian names of the letters, with commas between them."
+        answer: "cu, u, i"
+        audio_after: true
+      - id: u01.l3.ex47
+        format: dictation
+        targets: [{item: w:dodici, skill: listen}, {item: w:quindici, skill: listen}]
+        tags: [cd:count-to-20, cd:give-personal-details, sy:fn.numbers-prices-times]
+        say: "Tre quattro sette, otto dodici, venti quindici."
+        slow: true
+        hint: "Write the numbers as words, as you hear them."
+      - id: u01.l3.ex48
+        format: repeat
+        targets: [{item: w:zeta, skill: speak}]
+        tags: [cd:spell-name, sy:cefr.phonological-control]
+        lemmas: {e: w:e~letter, i: w:i~letter}
+        say: "Elle, e, enne, zeta, i."
+    mix:
+      - id: u01.l3.ex49
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: c:i-lunga, skill: read}
+          - {item: w:cappa, skill: read}
+          - {item: c:doppia-vu, skill: read}
+          - {item: w:ics, skill: read}
+          - {item: w:ipsilon, skill: read}
+          - {item: w:vu, skill: read}
+        tags: [cd:spell-name, sy:ss.alphabet]
+        pairs: [["i lunga", "J"], ["cappa", "K"], ["doppia vu", "W"], ["ics", "X"], ["ipsilon", "Y"], ["vu", "V"]]
+      - id: u01.l3.ex50
+        format: choice
+        targets: [{item: w:effe, skill: read}, {item: w:i~letter, skill: read}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {a: w:a~letter, ci: w:ci~letter, i: w:i~letter, e: w:e~letter}
+        question_en: "How do you spell Francia?"
+        options: ["effe, erre, a, enne, ci, i, a", "effe, erre, a, enne, ci, e, a", "effe, erre, a, emme, ci, i, a"]
+        answer: 0
+        hint: "The English letter E sounds like the Italian i."
+      - id: u01.l3.ex51
+        format: choice
+        targets: [{item: w:pi, skill: listen}, {item: w:di~letter, skill: listen}, {item: w:vu, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        audio_text:
+          id: u01.l3.ex51.audio
+          kind: dialogue
+          lines:
+            - {speaker: narrator, it: "Pi, a, di, o, vu, a.", en: "P, A, D, O, V, A.", lemmas: {a: w:a~letter, di: w:di~letter, o: w:o~letter}}
+        question_en: "Someone spells a city. Which one is it?"
+        options: ["Padova", "Pavia", "Parma"]
+        answer: 0
+      - id: u01.l3.ex54
+        format: choice
+        targets: [{item: w:bi, skill: read}, {item: w:acca, skill: read}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {i: w:i~letter, a: w:a~letter, ci: w:ci~letter}
+        question_en: "Bianchi is a common Italian last name. How do you spell it?"
+        options: ["bi, i, a, enne, ci, acca, i", "pi, i, a, enne, ci, acca, i", "bi, i, a, enne, ci, cappa, i"]
+        answer: 0
+        hint: "Check two letters: the first one, and the one after c."
+      - id: u01.l3.ex52
+        format: recall
+        targets: [{item: c:come-si-scrive, skill: recall}]
+        tags: [cd:spell-name, cd:dont-understand]
+        prompt_en: "Someone tells you their last name. Ask how to spell it."
+        answer: "{come si scrive|scusi come si scrive|scusa come si scrive|come si scrive per favore|scusi come si scrive per favore|scusa come si scrive per favore}"
+        near: [{answer: "(scusi )come si dice", hint: "Come si dice asks for a word in Italian. You want the letters."}]
+        audio_after: true
+
+  # 8 · Real-world reading: a classmate's registration form at Scuola Arcobaleno (names, the phone number and the email
+  #     aren't annotated)
   - kind: reading
     id: u01.l3.step-reading
     text:
@@ -285,15 +491,16 @@ steps:
       title: {en: "Language school: registration form"}
       layout:
         type: form
-        title: "Scuola di italiano – Iscrizione"
+        title: "Scuola Arcobaleno – Iscrizione"
         fields:
           - {label: Nome, value: Lucía}
           - {label: Cognome, value: Ortega}
           - {label: Nazionalità, value: spagnola}
           - {label: Luogo di nascita, value: "Madrid (Spagna)"}
           - {label: Città, value: Bologna}
+          - {label: Numero di telefono, value: "348 516 0913"}
           - {label: Email, value: lucia.ortega@example.com}
-        ignore: ["Scuola di italiano – Iscrizione", Lucía, Ortega, "Madrid (Spagna)", lucia.ortega@example.com]
+        ignore: ["Scuola Arcobaleno – Iscrizione", Lucía, Ortega, "Madrid (Spagna)", "348 516 0913", lucia.ortega@example.com]
     exercises:
       - id: u01.l3.ex21
         format: true-false
@@ -324,8 +531,15 @@ steps:
           - {item: c:luogo-di-nascita, skill: read}
         tags: [cd:give-personal-details, sy:fn.forms]
         pairs: [["Nome", "first name"], ["Cognome", "last name"], ["Nazionalità", "nationality"], ["Luogo di nascita", "place of birth"]]
+      - id: u01.l3.ex61
+        format: choice
+        targets: [{item: c:numero-di-telefono, skill: read}]
+        tags: [cd:give-personal-details, sy:fn.forms]
+        question_en: "What is Lucía's phone number?"
+        options: ["348 516 0913", "348 516 0193", "384 516 0913"]
+        answer: 0
 
-  # 7 · Practice 2: countries with abito in / negli, and what a form asks
+  # 9 · Practice 2: countries with abito in / negli, and what a form asks
   - kind: practice
     id: u01.l3.step-practice-2
     block:
@@ -353,14 +567,6 @@ steps:
         answer: "{abito in Inghilterra|io abito in Inghilterra}"
         near: [{answer: "(io )abito a Inghilterra", hint: "Inghilterra is a country: in, not a."}]
         audio_after: true
-      - id: u01.l3.ex34
-        format: cloze
-        targets: [{item: w:nome, skill: recall}]
-        tags: [cd:give-personal-details, sy:fn.forms]
-        text: "[[Nome]] e cognome"
-        prompt_en: "First name and last name (on a form)"
-        hint: "The form asks for the first name first."
-        near: [{answer: cognome, hint: "Cognome is the last name. Here the form asks for the first name."}]
     mix:
       - id: u01.l3.ex28
         format: match
@@ -388,8 +594,8 @@ steps:
         options: ["Abito in Inghilterra.", "Abito a Inghilterra.", "Sono di Inghilterra."]
         answer: 0
 
-  # 8 · Sounds: intonation of yes/no questions (s:intonation). No isolated e/è pair: alone, only open vs closed e
-  #     tells them apart (heard, never graded); e/è is practised in context (dictation, cloze).
+  # 10 · Sounds: intonation of yes/no questions (s:intonation). No isolated e/è pair (CL29): e/è is a spelling point,
+  #     practised in writing (dictation, cloze).
   - kind: sounds
     id: u01.l3.step-sounds
     exercises:
@@ -419,17 +625,111 @@ steps:
         play: "È canadese."
         glosses: {"È canadese?": "Is he Canadian?", "È canadese.": "He's Canadian."}
 
-  # 9 · Use: a spoken recall in the story's situation (introduce Sara to Signora Rossi, who gets Lei)
+  # 11 · Say it: a repeat-after-me block of the story's lines (fluency, CL21)
+  - kind: practice
+    id: u01.l3.step-practice-4
+    block:
+      - id: u01.l3.ex55
+        format: repeat
+        targets: [{item: c:puoi-ripetere, skill: speak}]
+        tags: [cd:dont-understand, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Scusa, Sara, non capisco. Puoi ripetere, per favore?"
+      - id: u01.l3.ex56
+        format: repeat
+        targets: [{item: c:e-lei, skill: speak}]
+        tags: [cd:choose-tu-lei, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Bene, grazie. E Lei, signora?"
+      - id: u01.l3.ex57
+        format: repeat
+        targets: [{item: c:le-presento, skill: speak}]
+        tags: [cd:introduce-others, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Signora, Le presento Sara. Sara è di Bologna."
+      - id: u01.l3.ex58
+        format: repeat
+        targets: [{item: w:anche, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Anche io sono di Bologna!"
+      - id: u01.l3.ex59
+        format: repeat
+        targets: [{item: w:o, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "E Mimì? È italiana o canadese?"
+      - id: u01.l3.ex60
+        format: repeat
+        targets: [{item: c:a-presto, skill: speak}]
+        tags: [cd:greet-farewell, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "A presto, signora! Buona giornata!"
+
+  # 12 · Use: a short conversation in the story's situation. Signora Rossi says tu to you (`register`); you answer with
+  #     Lei (`learner_register`), introduce Sara with Le presento and say goodbye politely. Each register turn needs its
+  #     Lei word (CL37), so a tu slip misses in speech too.
   - kind: use
     id: u01.l3.step-use
     exercise:
       id: u01.l3.ex33
-      format: recall
-      targets: [{item: c:le-presento, skill: recall}]
+      format: conversation
+      with: ch:rossi
+      register: tu
+      learner_register: lei
+      title: {en: "Introduce Sara to Signora Rossi"}
       tags: [cd:introduce-others, cd:choose-tu-lei]
-      prompt_en: "You and your friend Sara meet Signora Rossi at the door. Introduce Sara to her."
-      answer: "{signora Le presento Sara|Le presento Sara|buongiorno signora Le presento Sara|signora questa è Sara|questa è Sara|buongiorno signora questa è Sara}"
-      near:
-        - {answer: "(signora )ti presento Sara", hint: "Ti presento is for people you call tu. Signora Rossi gets Lei."}
-        - {answer: "(signora )questo è Sara", outcome: almost, hint: "Sara is a woman: check the ending."}
-      audio_after: true
+      goals:
+        - {id: how, en: "Say how you are and ask how she is"}
+        - {id: intro, en: "Introduce your friend Sara"}
+        - {id: bye, en: "Say goodbye politely"}
+      start: n1
+      nodes:
+        n1:
+          say: "Ciao! Come va?"
+          en: "Hi! How's it going?"
+          expect:
+            - intent: ask-back
+              goal: how
+              accept:
+                - "(bene )(grazie )e Lei( signora)( come sta)"
+                - "(bene )(grazie )(signora )come sta"
+                - "(bene )(grazie )e Lei come va( signora)"
+              next: n2
+          near:
+            - {answer: "(bene )(grazie )e tu( come stai)", hint: "Signora Rossi says tu to you, but you answer with Lei."}
+            - {answer: "(bene )(grazie )come stai( signora)", hint: "Come stai is for people you call tu. Signora Rossi gets Lei."}
+          help: ["Bene, grazie. E Lei, signora?"]
+          hint_en: "Say you're fine, and ask how she is."
+        n2:
+          say: "Bene, bene! E lei come si chiama?"
+          en: "Fine, fine! And what's her name?"
+          expect:
+            - intent: intro
+              goal: intro
+              accept:
+                - "(signora )Le presento Sara"
+                - "(sì )(signora )Le presento Sara( signora)"
+                - "(signora )Le presento la mia amica Sara"
+                - "(signora )({lei|questa} )è Sara( signora)"
+                - "(signora )(lei )si chiama Sara( signora)"
+              next: n3
+          near:
+            - {answer: "(signora )ti presento Sara", hint: "Ti presento is for people you call tu. Signora Rossi gets Lei."}
+          help: ["Signora, Le presento Sara."]
+          hint_en: "Tell her who Sara is. You call Signora Rossi Lei."
+        n3:
+          say: "Piacere, Sara! Allora, a presto!"
+          en: "Nice to meet you, Sara! Well then, see you soon!"
+          expect:
+            - intent: bye
+              goal: bye
+              accept:
+                - "a presto signora buona giornata"
+                - "(grazie )arrivederci( signora)( {a presto|buona giornata})"
+                - "a presto( signora) arrivederci( signora)"
+                - "(a presto )(grazie )(signora )buona giornata( signora)( arrivederci)"
+              next: end
+          near:
+            - {answer: "ciao( signora)( a presto)( signora)", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}
+            - {answer: "a presto( signora)", outcome: almost, hint: "Good. Round it off with arrivederci or buona giornata, as Marco does."}
+          help: ["A presto, signora! Buona giornata!"]
+          hint_en: "Say goodbye politely."
+        end:
+          say: "Ciao, ciao!"
+          en: "Bye-bye!"
+          final: true

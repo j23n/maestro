@@ -1,6 +1,10 @@
-# Unit 1 task (docs/06 §12–14). DRAFT (C3). Two conversations, a short talk and the language school's registration
-# form. Unit 1 has no relay (unit.yaml). Partner lines never use an adjective for the learner, whose gender the
-# line can't know; the learner's own answers use the onboarding slots ({NAME}, {ME.nationality}, {ME.home}).
+# Unit 1 task (docs/06 §12–14). DRAFT (C3, revised C4). Two conversations, a short talk and the language school's
+# registration form. Unit 1 has no relay (unit.yaml). Partner lines never use an adjective for the learner, whose gender
+# the line can't know; the learner's own answers use the onboarding slots ({NAME}, {ME.nationality}, {ME.home}).
+# The talk is where the learner spells their own last name (CL28): talk points match anywhere in the answer, typed or
+# spoken. The spell point needs two letter names in a row, the first a consonant other than di, ci and ti (which are
+# also words: sono di Toronto), or a vowel, di, ci or ti followed by such a consonant. Its `lemmas:` read the spelled
+# e and i of the model as letters; the model avoids the words e (and) and i (the).
 id: u01.task
 review: {status: draft, by: null, date: null, hash: null}
 
@@ -74,11 +78,13 @@ conversations:
           - intent: bye
             goal: bye
             accept:
-              - "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)"
-              - "(sì )ci vediamo( signora)( arrivederci)"
-              - "arrivederci signora {buona giornata|a presto}"
+              - "arrivederci( signora)( {e buona giornata|buona giornata|a presto})"
+              - "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)"
+              - "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)"
             next: end
-        near: [{answer: "ciao( signora)", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}]
+        near:
+          - {answer: "ciao( signora)( {ci vediamo|a presto})", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}
+          - {answer: "(sì )({ci vediamo|a presto})( signora)", outcome: almost, hint: "Good. Round it off with arrivederci or buona giornata, as Marco does."}
         help: ["Arrivederci, signora!"]
         hint_en: "Say goodbye politely."
       end:
@@ -178,15 +184,21 @@ conversations:
 talk:
   id: u01.task.talk
   format: talk
-  tags: [cd:introduce-yourself, cd:say-where-from, sy:ex.cils-monologue, sy:ex.celi-photo-conversation]
-  prompt_en: "Introduce yourself: say your name, your nationality, where you live and where you were born."
+  tags: [cd:introduce-yourself, cd:say-where-from, cd:spell-name, sy:ss.alphabet, sy:ex.cils-monologue, sy:ex.celi-photo-conversation]
+  prompt_en: "Introduce yourself: say your name and spell your last name, then say your nationality, where you live and where you were born."
+  lemmas: {e: w:e~letter, i: w:i~letter}
   points:
     - {id: name, en: "Your name", accept: ["{mi chiamo|sono} {NAME}"]}
+    - id: spell
+      en: "Spell your last name, letter by letter"
+      accept:
+        - "{bi|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|vu|doppia vu|ics|ipsilon|zeta} {elle|a|bi|ci|di|e|effe|gi|acca|i|i lunga|cappa|emme|enne|o|pi|cu|erre|esse|ti|u|vu|doppia vu|ics|ipsilon|zeta}"
+        - "{a|e|i|o|u|di|ci|ti} {bi|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|vu|doppia vu|ics|ipsilon|zeta}"
     - {id: nationality, en: "Your nationality", accept: ["sono {ME.nationality}"]}
     - {id: live, en: "Where you live", accept: ["abito {ME.home}", "abito a {NAME}", "abito in {NAME}"]}
     - {id: born, en: "Where you were born", accept: ["sono {m:nato|f:nata} {a|in} {NAME}"]}
-  pass: 3
-  model: "Ciao! Mi chiamo Marco e sono canadese. Sono nato e abito a Toronto, in Canada."
+  pass: 4
+  model: "Ciao! Mi chiamo Marco Lenzi: elle, e, enne, zeta, i. Sono canadese. Sono nato a Toronto, in Canada. Abito a Toronto."
   duration_s: {min: 10, max: 90}
 
 writing:
@@ -194,13 +206,14 @@ writing:
   format: writing
   kind: form
   tags: [cd:give-personal-details, sy:fn.forms, sy:ex.celi-form-postcard]
-  prompt_en: "You're signing up for an Italian course at the language school. Fill in the registration form."
+  prompt_en: "You're signing up for an Italian course at Scuola Arcobaleno. Fill in the registration form."
   fields:
     - {label_it: Nome, label_en: First name, type: text}
     - {label_it: Cognome, label_en: Last name, type: text}
     - {label_it: Nazionalità, label_en: Nationality, type: text, accept: ["{ME.nationality}"]}
     - {label_it: Luogo di nascita, label_en: Place of birth, type: text}
     - {label_it: Città, label_en: "City (where you live now)", type: text}
+    - {label_it: Numero di telefono, label_en: Phone number, type: phone}
     - {label_it: Email, label_en: Email, type: email}
   model: null
 

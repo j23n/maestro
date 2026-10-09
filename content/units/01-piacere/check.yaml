@@ -1,6 +1,8 @@
 # Unit 1 check (docs/06 §18). DRAFT (C3): 18 items over listening, reading, writing and speaking, every Unit 1
 # can-do at least once. Check mode: one attempt, no hints, listening plays twice. New people in the audio (a man who
 # answers a wrong number, a new neighbour, a colleague) are minor roles (ch:extra) and use Lei (story-bible registers).
+# Marco, not Signora Rossi, meets the new neighbour in check.02: she says tu to anyone younger than her (CL3), and the
+# neighbour's age isn't fixed.
 id: u01.check
 review: {status: draft, by: null, date: null, hash: null}
 pass: {overall: 0.70, section_min: 0.50}
@@ -33,12 +35,12 @@ sections:
           id: u01.check.02.audio
           kind: dialogue
           lines:
-            - {speaker: ch:rossi, to: ch:extra, register: lei, it: "Buongiorno! Lei è nuovo qui?", en: "Good morning! Are you new here?"}
-            - {speaker: ch:extra, to: ch:rossi, register: lei, it: "Sì, buongiorno. Mi chiamo Hugo. Sono francese.", en: "Yes, good morning. My name is Hugo. I'm French.", foreign: [Hugo]}
-            - {speaker: ch:rossi, to: ch:extra, register: lei, it: "Piacere! Io sono la signora Rossi. Lei è nato in Francia?", en: "Nice to meet you! I'm Signora Rossi. Were you born in France?"}
-            - {speaker: ch:extra, to: ch:rossi, register: lei, it: "No, sono nato in Canada, ma sono francese.", en: "No, I was born in Canada, but I'm French."}
+            - {speaker: ch:marco, to: ch:extra, register: lei, it: "Buongiorno! Io sono Marco. Lei come si chiama?", en: "Good morning! I'm Marco. What's your name?"}
+            - {speaker: ch:extra, to: ch:marco, register: lei, it: "Buongiorno! Mi chiamo Hugo. Sono francese.", en: "Good morning! My name is Hugo. I'm French.", foreign: [Hugo]}
+            - {speaker: ch:marco, to: ch:extra, register: lei, it: "Piacere! Lei è nato in Francia?", en: "Nice to meet you! Were you born in France?"}
+            - {speaker: ch:extra, to: ch:marco, register: lei, it: "No, sono nato in Canada, ma sono francese.", en: "No, I was born in Canada, but I'm French."}
         plays: 2
-        question_en: "Where was the new neighbor born?"
+        question_en: "Marco meets a new neighbor on the stairs. Where was the neighbor born?"
         options: ["In Canada", "In France", "In Italy"]
         answer: 0
       - id: u01.check.03
@@ -58,9 +60,9 @@ sections:
         answer: 0
       - id: u01.check.04
         format: dictation
-        targets: [{item: c:mi-chiamo, skill: listen}, {item: s:accents-e-si, skill: listen}]
-        tags: [cd:introduce-yourself, sy:cefr.orthographic-control]
-        say: "Mi chiamo Sara e sono di Bologna."
+        targets: [{item: s:accents-e-si, skill: read}, {item: w:canadese, skill: listen}]
+        tags: [cd:say-where-from, sy:cefr.orthographic-control, sy:ss.accented-pairs]
+        say: "Sara è italiana e Marco è canadese."
         plays: 2
       - id: u01.check.05
         format: sound-pair
@@ -85,7 +87,7 @@ sections:
             title: {en: "Language school: registration form"}
             layout:
               type: form
-              title: "Scuola di italiano – Iscrizione"
+              title: "Scuola Arcobaleno – Iscrizione"
               fields:
                 - {label: Nome, value: Emma}
                 - {label: Cognome, value: Clarke}
@@ -93,7 +95,7 @@ sections:
                 - {label: Luogo di nascita, value: "Manchester (Inghilterra)"}
                 - {label: Città, value: Bologna}
                 - {label: Email, value: emma.clarke@example.com}
-              ignore: ["Scuola di italiano – Iscrizione", Emma, Clarke, "Manchester (Inghilterra)", emma.clarke@example.com]
+              ignore: ["Scuola Arcobaleno – Iscrizione", Emma, Clarke, "Manchester (Inghilterra)", emma.clarke@example.com]
         statement_en: "Emma lives in Manchester."
         answer: false
       - id: u01.check.07
@@ -165,7 +167,7 @@ sections:
         kind: form
         score: 2
         tags: [cd:give-personal-details, sy:fn.forms, sy:ex.celi-form-postcard]
-        prompt_en: "At the coworking space where Sara works, visitors fill in a card. Fill in yours."
+        prompt_en: "On your first day at Scuola Arcobaleno, the teacher hands round a card for the class list. Fill in yours."
         fields:
           - {label_it: Nome, label_en: First name, type: text}
           - {label_it: Cognome, label_en: Last name, type: text}
@@ -205,7 +207,7 @@ sections:
             expect:
               - intent: origin
                 goal: from
-                accept: ["(io )sono {ME.nationality}", "(io )sono di {NAME}", "(io )sono {ME.nationality} di {NAME}"]
+                accept: ["(io )sono {ME.nationality}", "(io )sono di {NAME}", "(io )sono {ME.nationality} di {NAME}", "piacere (io )sono {ME.nationality}( di {NAME})", "piacere (io )sono di {NAME}"]
                 next: n3
             help: []
           n3:
@@ -223,7 +225,7 @@ sections:
             expect:
               - intent: bye
                 goal: bye
-                accept: ["arrivederci", "grazie arrivederci", "(grazie )arrivederci {e buona giornata|buona giornata|a presto}", "(grazie )buona giornata", "(grazie )a presto"]
+                accept: ["arrivederci", "grazie arrivederci", "(grazie )arrivederci {e buona giornata|buona giornata|a presto}", "(grazie )(a presto )buona giornata( arrivederci)", "(grazie )a presto arrivederci", "arrivederci( e) grazie"]
                 next: end
             near: [{answer: "(grazie )ciao", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}]
             help: []
@@ -235,7 +237,7 @@ sections:
         format: talk
         score: 2
         tags: [cd:introduce-others, sy:ex.cils-monologue]
-        prompt_en: "Introduce your friend Marco to a new colleague: who he is, his nationality and where he's from."
+        prompt_en: "Introduce your friend Marco to a new neighbor: who he is, his nationality and where he's from."
         points:
           - {id: intro, en: "Introduce Marco", accept: ["{ti presento|Le presento|questo è} Marco"]}
           - {id: nationality, en: "His nationality", accept: ["{è|lui è} canadese"]}
