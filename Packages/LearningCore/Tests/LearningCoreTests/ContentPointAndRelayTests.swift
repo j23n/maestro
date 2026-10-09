@@ -124,6 +124,17 @@ import Testing
         #expect(spelling.match(response: "emme a erre", points: points, pass: 2).found == ["spell", "spell-more"])
     }
 
+    /// CL31: in speech an elided form the forms table pairs is read both ways; typed answers are as written.
+    @Test func spokenPointsReadElisionsBothWays() throws {
+        let forms = KnownForms(rows: [
+            (form: "anch'", itemID: ItemID("w:anche")), (form: "anche", itemID: ItemID("w:anche")),
+        ])
+        let point = try ContentPointMatcher.Point(id: "too", accept: ["anche io"])
+        let matcher = ContentPointMatcher(knownForms: forms)
+        #expect(matcher.match(response: "Anch'io!", points: [point], pass: 1, spoken: true).passed)
+        #expect(!matcher.match(response: "Anch'io!", points: [point], pass: 1).passed)
+    }
+
     @Test func pointsReadNumbersEitherWay() throws {
         let time = try ContentPointMatcher.Point(id: "time", accept: ["alle {otto|nove} e trenta"])
         #expect(matcher.match(response: "Arrivo alle 8.30.", points: [time], pass: 1).passed)

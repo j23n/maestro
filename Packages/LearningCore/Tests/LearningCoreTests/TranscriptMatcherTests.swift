@@ -18,7 +18,13 @@ import Testing
         let letterNames: [String: String]
         /// The doubling word (`c:doppia`'s `it`).
         let doubling: String
+        /// A slice of the pack's `forms` table: [form, item].
+        let forms: [[String]]
         let cases: [Case]
+
+        var knownForms: KnownForms {
+            KnownForms(rows: forms.compactMap { $0.count == 2 ? (form: $0[0], itemID: ItemID($0[1])) : nil })
+        }
     }
 
     static func fixture() throws -> Fixture {
@@ -32,9 +38,9 @@ import Testing
 
     @Test func everyTranscriptCase() throws {
         let fixture = try Self.fixture()
-        #expect(fixture.cases.count >= 44)
+        #expect(fixture.cases.count >= 49)
         #expect(fixture.letterNames.count == 26)
-        let matcher = TranscriptMatcher(letterNames: try Self.letters())
+        let matcher = TranscriptMatcher(letterNames: try Self.letters(), knownForms: fixture.knownForms)
         for c in fixture.cases {
             var accepted = try AnswerPattern(c.accept)
             accepted.spelling = c.spelling
@@ -234,6 +240,33 @@ import Testing
         let sentence = try AnswerPattern("vado a Roma e poi a Milano o a Torino")
         let heard = try #require(spelling.match(transcript: "vado Roma poi Milano Torino", accepted: sentence))
         #expect(heard.passed && heard.contentTotal == 5)
+    }
+
+    // MARK: - Elisions (CL31)
+
+    @Test func anElidedFormAndItsFullFormAreTheSame() throws {
+        let forms = try Self.fixture().knownForms
+        #expect(forms.elisions == ["anch'": "anche", "c'": "ci"])  // l' has several full forms: none
+        let matcher = TranscriptMatcher(knownForms: forms)
+        let model = try AnswerPattern("anche io sono di Bologna")
+        let heard = try #require(matcher.match(transcript: "Anch'io sono di Bologna.", accepted: model))
+        #expect(heard.passed && heard.heardTokens == ["anche", "io", "sono", "di", "bologna"])
+        #expect(heard.heard == "Anch'io sono di Bologna.")
+        let elided = try AnswerPattern("anch'io sono di Bologna")
+        #expect(matcher.match(transcript: "anche io sono di Bologna", accepted: elided)?.passed == true)
+        // Without the forms table a repeat of the model failed: anch'io is neither anche nor io.
+        #expect(TranscriptMatcher().match(transcript: "Anch'io sono di Bologna.", accepted: model)?.passed == false)
+    }
+
+    @Test func otherElisionsAreUnchanged() throws {
+        let forms = try Self.fixture().knownForms
+        #expect(forms.elisionReadings(["l'amico", "di", "marco"]) == [["l'amico", "di", "marco"]])
+        // The transcript as heard always comes first: c'è stays c'è.
+        #expect(forms.elisionReadings(["c'è", "un", "bar"]).first == ["c'è", "un", "bar"])
+        let matcher = TranscriptMatcher(knownForms: forms)
+        let bar = try #require(matcher.match(transcript: "C'è un bar.", accepted: try AnswerPattern("c'è un bar")))
+        #expect(bar.passed && bar.heardTokens == ["c'è", "un", "bar"])
+        #expect(KnownForms.empty.elisionReadings(["anch'io"]) == [["anch'io"]])
     }
 }
 

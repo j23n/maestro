@@ -6,7 +6,8 @@ import Foundation
 /// 1. Digits, prices and times in the raw transcript become Italian words (`ItalianNumbers.spellOutReadings`: an
 ///    `H.MM` that may be a price or a time is tried both ways; a `1` before a word matches *un*/*uno*/*una*/*un'*).
 /// 2. The transcript and every expansion are normalised; then each standalone single letter of the transcript becomes
-///    its Italian name (`letterNames`, from the pack's letter items: *M A R C O* reads *emme a erre ci o*; CL25).
+///    its Italian name (`letterNames`, from the pack's letter items: *M A R C O* reads *emme a erre ci o*; CL25). An
+///    elided word and its full form are the same (`knownForms.elisionReadings`: *anch'io* and *anche io*; CL31).
 /// 3. Tokens are compared without accents and with double consonants collapsed (ASR can't be trusted on length).
 /// 4. Pass = every focus token heard and at least 80% of content tokens heard. Content tokens are all tokens
 ///    except `functionWords`; extra words in the transcript don't count against the learner. A pattern that spells
@@ -38,10 +39,15 @@ public struct TranscriptMatcher: Sendable {
     /// Spoken spelling: the pack's letter names, which replace single letters in a transcript (docs/05 § Speech
     /// transcripts, step 2). `.empty` matches transcripts as they are.
     public let letterNames: LetterNames
+    /// The pack's `forms` table: an elided form it pairs with a full form is read both ways (*anch'io* = *anche io*).
+    public let knownForms: KnownForms
 
-    public init(profile: LearnerProfile = .unspecified, letterNames: LetterNames = .empty) {
+    public init(
+        profile: LearnerProfile = .unspecified, letterNames: LetterNames = .empty, knownForms: KnownForms = .empty
+    ) {
         self.profile = profile
         self.letterNames = letterNames
+        self.knownForms = knownForms
     }
 
     /// The outcome of matching transcripts against accepted patterns.
@@ -88,8 +94,11 @@ public struct TranscriptMatcher: Sendable {
         }
         var best: Match?
         for (index, transcript) in transcripts.enumerated() {
-            for reading in ItalianNumbers.spellOutReadings(transcript) {
-                let (tokens, spelled) = letterNames.marking(Normalizer.tokens(reading))
+            let readings = ItalianNumbers.spellOutReadings(transcript).flatMap {
+                knownForms.elisionReadings(Normalizer.tokens($0))
+            }
+            for reading in readings {
+                let (tokens, spelled) = letterNames.marking(reading)
                 for (expansion, spelling) in expansions {
                     let result =
                         if let (reader, runs) = spelling {

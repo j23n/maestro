@@ -1,5 +1,5 @@
 {
- "spec": "docs/05 § Speech transcripts. pass = every focus token matched and ≥ 80% of content tokens matched, ignoring accents and collapsing double consonants; numbers converted to Italian words first. Spoken spelling (CL25): after normalising, each standalone single letter of the transcript (or single letters joined by hyphens) becomes its name from letterNames, which the app reads from the pack's letter items; every case is matched with it. CL40: a case's `spelling` is what the pack builder writes for a pattern whose tokens resolve to letter items (or doppia, the doubling word, letter null); such a pattern is right only letter for letter (every run of letters heard whole, nothing missing or added), and letters are content tokens.",
+ "spec": "docs/05 § Speech transcripts. pass = every focus token matched and ≥ 80% of content tokens matched, ignoring accents and collapsing double consonants; numbers converted to Italian words first. Spoken spelling (CL25): after normalising, each standalone single letter of the transcript (or single letters joined by hyphens) becomes its name from letterNames, which the app reads from the pack's letter items; every case is matched with it. CL40: a case's `spelling` is what the pack builder writes for a pattern whose tokens resolve to letter items (or doppia, the doubling word, letter null); such a pattern is right only letter for letter (every run of letters heard whole, nothing missing or added), and letters are content tokens. CL31: `forms` is a slice of the pack's forms table; an elided form it pairs with exactly one full form of the same item (anch' with anche; never l', which has several) is read both ways, and the transcript as heard is always one of the readings.",
  "functionWords": [
   "il",
   "lo",
@@ -96,6 +96,40 @@
   "Z": "zeta"
  },
  "doubling": "doppia",
+ "forms": [
+  [
+   "anch'",
+   "w:anche"
+  ],
+  [
+   "anche",
+   "w:anche"
+  ],
+  [
+   "c'",
+   "w:ci"
+  ],
+  [
+   "ci",
+   "w:ci"
+  ],
+  [
+   "il",
+   "g:definite-article"
+  ],
+  [
+   "l'",
+   "g:definite-article"
+  ],
+  [
+   "la",
+   "g:definite-article"
+  ],
+  [
+   "lo",
+   "g:definite-article"
+  ]
+ ],
  "cases": [
   {
    "accept": "vorrei un cappuccino( per favore)",
@@ -889,6 +923,34 @@
    "transcript": "vado Roma Milano",
    "pass": true,
    "note": "ordinary a and e stay function words"
+  },
+  {
+   "accept": "anche io sono di Bologna",
+   "transcript": "Anch'io sono di Bologna.",
+   "pass": true,
+   "note": "CL31: anch'io is anche io (the forms table pairs anch' with anche); a repeat's model has no alternatives"
+  },
+  {
+   "accept": "anch'io sono di Bologna",
+   "transcript": "anche io sono di Bologna",
+   "pass": true
+  },
+  {
+   "accept": "anche io sono di Bologna",
+   "transcript": "io sono di Bologna",
+   "pass": false
+  },
+  {
+   "accept": "l'amico di Marco",
+   "transcript": "L'amico di Marco",
+   "pass": true,
+   "note": "l' stands for lo or la: never expanded"
+  },
+  {
+   "accept": "c'è un bar",
+   "transcript": "C'è un bar.",
+   "pass": true,
+   "note": "the transcript as heard is always a reading"
   }
  ]
 }

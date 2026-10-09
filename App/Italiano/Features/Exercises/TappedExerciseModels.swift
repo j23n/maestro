@@ -382,7 +382,7 @@ final class RepeatModel {
     func submit(_ result: SpeechResult) {
         guard !isDone, env.canSpeak else { return }
         attempts += 1
-        let m = TranscriptMatcher(profile: env.profile, letterNames: env.letterNames)
+        let m = env.transcriptMatcher
             .match(transcripts: result.allTranscripts, accepted: accept)
         heard = m?.heard ?? result.transcript
         passed = m?.passed ?? false

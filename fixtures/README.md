@@ -9,7 +9,7 @@ Ground truth for tests. Each file names the spec section it encodes. Never edit 
 | `grading/patterns.json` | answer-pattern expansion order, focus, gender, slots, limits (`docs/03`) | Swift and Python tests |
 | `grading/typed-answers.json` | typed-answer grading outcomes, mismatches and hint kinds (`docs/05`) | `make test-core` |
 | `grading/dictation.json` | per-word dictation marks (`docs/05`) | `make test-core` |
-| `grading/transcripts.json` | speech transcript matching, including spoken spelling with the letter items' names (`letterNames`, `doubling`, CL25) and spelled answers matched letter for letter (a case's `spelling`, CL40) (`docs/05`) | `make test-core` |
+| `grading/transcripts.json` | speech transcript matching, including spoken spelling with the letter items' names (`letterNames`, `doubling`, CL25) spelled answers matched letter for letter (a case's `spelling`, CL40) and elisions read both ways (`forms`, CL31) (`docs/05`) | `make test-core` |
 | `seed-course/` | the course's `content/` (with lock files) frozen as it was before the first drafts, with only the golden Unit 2 Lesson 1 written; refreshed only on purpose (its README) | pipeline tests that pin facts about a course (`pipeline/tests/conftest.py`), `make mini-pack` |
 | `packs/mini.sqlite` | a tiny pack built from the golden sample of `seed-course/` (created in M1.10 by `make mini-pack`; audio added in M5.1) | Storage and App tests, previews |
 | `packs/mini-payloads.json` | every step and exercise payload of the mini pack as JSON (same task) | LearningCore decode tests on Linux |

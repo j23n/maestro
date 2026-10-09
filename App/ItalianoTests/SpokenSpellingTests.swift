@@ -6,8 +6,9 @@ import Testing
 @testable import Italiano
 
 /// Spoken spelling (CL25, docs/05 § Speech transcripts): a recogniser writes a spelled name as letters (*M A R C O*),
-/// so every speaking format grades with the pack's letter names from its environment (`ExerciseEnvironment.letterNames`,
-/// loaded by `AppModel` from `PackReader.letterNames()`). The example payloads are edited to ask for a spelling.
+/// so every speaking format grades with the pack's letter names from its environment (`ExerciseEnvironment
+/// .letterNames`, loaded by `AppModel` from `PackReader.letterNames()`). The example payloads are edited to ask for a
+/// spelling.
 @MainActor
 @Suite struct SpokenSpellingTests {
     let sink = RecordingAttemptSink()

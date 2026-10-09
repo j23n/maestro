@@ -42,19 +42,27 @@ public struct ContentPointMatcher: Sendable {
     /// Spoken spelling: the pack's letter names, which replace single letters in a spoken response (docs/05 § Speech
     /// transcripts, step 2). Typed responses are never mapped.
     public let letterNames: LetterNames
+    /// The pack's `forms` table: in a spoken response an elided form it pairs with a full form is read both ways
+    /// (*anch'io* = *anche io*; CL31), as for transcripts.
+    public let knownForms: KnownForms
 
-    public init(profile: LearnerProfile = .unspecified, letterNames: LetterNames = .empty) {
+    public init(
+        profile: LearnerProfile = .unspecified, letterNames: LetterNames = .empty, knownForms: KnownForms = .empty
+    ) {
         self.profile = profile
         self.letterNames = letterNames
+        self.knownForms = knownForms
     }
 
     /// - Parameter spoken: the response is a speech transcript (talk spoken), so double consonants are collapsed on
     ///   both sides before comparing and spelled letters become their names.
     public func match(response: String, points: [Point], pass: Int, spoken: Bool = false) -> Result {
-        let readings = ItalianNumbers.spellOutReadings(response).map { reading in
+        let readings = ItalianNumbers.spellOutReadings(response).flatMap { reading in
             let normalised = Normalizer.tokens(reading)
-            let tokens = spoken ? letterNames.apply(normalised) : normalised
-            return (tokens: tokens, keys: tokens.map { Self.key($0, spoken: spoken) })
+            return (spoken ? knownForms.elisionReadings(normalised) : [normalised]).map { variant in
+                let tokens = spoken ? letterNames.apply(variant) : variant
+                return (tokens: tokens, keys: tokens.map { Self.key($0, spoken: spoken) })
+            }
         }
         var found: [String] = []
         var missing: [String] = []
