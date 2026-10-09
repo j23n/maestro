@@ -1037,24 +1037,6 @@
    "path": "steps[4].text.lines[10].it",
    "ref": "u00.l2.ride#11",
    "role": "line",
-   "text": "Uno, due, tre... ok!",
-   "tokens": [
-    {"analyses": ["uno DET-NUM-CARD"], "flags": ["synthetic"], "item": "w:uno", "kind": "word", "lemma": "uno", "span": [0, 3], "surface": "Uno"},
-    {"kind": "punct", "span": [3, 4], "surface": ",", "trailing": " "},
-    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [5, 8], "surface": "due"},
-    {"kind": "punct", "span": [8, 9], "surface": ",", "trailing": " "},
-    {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [10, 13], "surface": "tre"},
-    {"kind": "punct", "span": [13, 14], "surface": "."},
-    {"kind": "punct", "span": [14, 15], "surface": "."},
-    {"kind": "punct", "span": [15, 16], "surface": ".", "trailing": " "},
-    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [17, 19], "surface": "ok"},
-    {"kind": "punct", "span": [19, 20], "surface": "!"}
-   ]
-  },
-  {
-   "path": "steps[4].text.lines[11].it",
-   "ref": "u00.l2.ride#12",
-   "role": "line",
    "text": "Grazie! Scusi, come si dice \"good night\"?",
    "tokens": [
     {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "Grazie"},
@@ -1072,8 +1054,8 @@
    ]
   },
   {
-   "path": "steps[4].text.lines[12].it",
-   "ref": "u00.l2.ride#13",
+   "path": "steps[4].text.lines[11].it",
+   "ref": "u00.l2.ride#12",
    "role": "line",
    "text": "Buonanotte. Si dice \"buonanotte\".",
    "tokens": [
@@ -1088,8 +1070,8 @@
    ]
   },
   {
-   "path": "steps[4].text.lines[13].it",
-   "ref": "u00.l2.ride#14",
+   "path": "steps[4].text.lines[12].it",
+   "ref": "u00.l2.ride#13",
    "role": "line",
    "text": "Ah, buonanotte! Grazie, buonanotte!",
    "tokens": [
@@ -1104,8 +1086,8 @@
    ]
   },
   {
-   "path": "steps[4].text.lines[14].it",
-   "ref": "u00.l2.ride#15",
+   "path": "steps[4].text.lines[13].it",
+   "ref": "u00.l2.ride#14",
    "role": "line",
    "text": "Prego! Buonanotte!",
    "tokens": [
@@ -1770,24 +1752,6 @@
   },
   {
    "path": "steps[6].block[1].say",
-   "ref": "u00.l2.ex64",
-   "role": "say",
-   "text": "No, no: diciotto. Uno, otto.",
-   "tokens": [
-    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
-    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
-    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [4, 6], "surface": "no"},
-    {"kind": "punct", "span": [6, 7], "surface": ":", "trailing": " "},
-    {"analyses": ["diciotto DET-NUM-CARD", "diciotto PRO-NUM"], "item": "w:diciotto", "kind": "word", "lemma": "diciotto", "span": [8, 16], "surface": "diciotto"},
-    {"kind": "punct", "span": [16, 17], "surface": ".", "trailing": " "},
-    {"analyses": ["uno DET-NUM-CARD"], "flags": ["synthetic"], "item": "w:uno", "kind": "word", "lemma": "uno", "span": [18, 21], "surface": "Uno"},
-    {"kind": "punct", "span": [21, 22], "surface": ",", "trailing": " "},
-    {"analyses": ["otto DET-NUM-CARD", "otto PRO-NUM"], "item": "w:otto", "kind": "word", "lemma": "otto", "span": [23, 27], "surface": "otto"},
-    {"kind": "punct", "span": [27, 28], "surface": "."}
-   ]
-  },
-  {
-   "path": "steps[6].block[2].say",
    "ref": "u00.l2.ex65",
    "role": "say",
    "text": "Ah, diciotto! Ok. Venti euro.",
@@ -1804,7 +1768,7 @@
    ]
   },
   {
-   "path": "steps[6].block[3].say",
+   "path": "steps[6].block[2].say",
    "ref": "u00.l2.ex66",
    "role": "say",
    "text": "Grazie! Due euro, prego.",
@@ -1819,25 +1783,7 @@
    ]
   },
   {
-   "path": "steps[6].block[4].say",
-   "ref": "u00.l2.ex67",
-   "role": "say",
-   "text": "Uno, due, tre... ok!",
-   "tokens": [
-    {"analyses": ["uno DET-NUM-CARD"], "flags": ["synthetic"], "item": "w:uno", "kind": "word", "lemma": "uno", "span": [0, 3], "surface": "Uno"},
-    {"kind": "punct", "span": [3, 4], "surface": ",", "trailing": " "},
-    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [5, 8], "surface": "due"},
-    {"kind": "punct", "span": [8, 9], "surface": ",", "trailing": " "},
-    {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [10, 13], "surface": "tre"},
-    {"kind": "punct", "span": [13, 14], "surface": "."},
-    {"kind": "punct", "span": [14, 15], "surface": "."},
-    {"kind": "punct", "span": [15, 16], "surface": ".", "trailing": " "},
-    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [17, 19], "surface": "ok"},
-    {"kind": "punct", "span": [19, 20], "surface": "!"}
-   ]
-  },
-  {
-   "path": "steps[6].block[5].say",
+   "path": "steps[6].block[3].say",
    "ref": "u00.l2.ex68",
    "role": "say",
    "text": "Buonanotte. Si dice \"buonanotte\".",
@@ -1853,7 +1799,7 @@
    ]
   },
   {
-   "path": "steps[6].block[6].say",
+   "path": "steps[6].block[4].say",
    "ref": "u00.l2.ex69",
    "role": "say",
    "text": "Ah, buonanotte! Grazie, buonanotte!",
@@ -1866,6 +1812,18 @@
     {"kind": "punct", "span": [22, 23], "surface": ",", "trailing": " "},
     {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [24, 34], "surface": "buonanotte"},
     {"kind": "punct", "span": [34, 35], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[6].block[5].say",
+   "ref": "u00.l2.ex70",
+   "role": "say",
+   "text": "Prego! Buonanotte!",
+   "tokens": [
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [0, 5], "surface": "Prego"},
+    {"kind": "punct", "span": [5, 6], "surface": "!", "trailing": " "},
+    {"analyses": ["buonanotte INT"], "flags": ["synthetic"], "item": "w:buonanotte", "kind": "word", "lemma": "buonanotte", "span": [7, 17], "surface": "Buonanotte"},
+    {"kind": "punct", "span": [17, 18], "surface": "!"}
    ]
   },
   {

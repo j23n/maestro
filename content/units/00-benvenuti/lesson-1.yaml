@@ -50,6 +50,12 @@ steps:
         tags: [cd:politeness, sy:cefr.oral-comprehension]
         statement_en: "Marco thanks the crew member."
         answer: true
+      - id: u00.l1.ex46
+        format: choice
+        tags: [cd:politeness, sy:cefr.oral-comprehension]
+        question_en: "When Marco says thank you, what does the crew member answer?"
+        options: ["You're welcome!", "Sorry!", "Welcome!"]
+        answer: 0
 
   # 3 · Real-world reading: the sign in arrivals
   - kind: reading
@@ -135,7 +141,7 @@ steps:
       - id: u00.l1.q4
         format: choice
         tags: [cd:greet-farewell, sy:cefr.oral-comprehension]
-        question_en: "What does the driver say when he hears where Marco is from?"
+        question_en: "What does the driver say when he sees Marco is from Canada?"
         options: ["Welcome!", "Good night!", "Sorry!"]
         answer: 0
 
@@ -176,13 +182,6 @@ steps:
         prompt_en: "Ah, Canada! Welcome!"
         hint: "The driver is talking to Marco, a man."
         near: [{answer: benvenuta, outcome: almost, hint: "Benvenuta is for a woman. Marco is a man."}]
-      - id: u00.l1.ex08
-        format: recall
-        targets: [{item: w:grazie, skill: recall}]
-        tags: [cd:politeness]
-        prompt_en: "Thank you!"
-        answer: "grazie"
-        audio_after: true
       - id: u00.l1.ex09
         format: recall
         targets: [{item: w:prego, skill: recall}]
@@ -354,18 +353,24 @@ steps:
   - kind: practice
     id: u00.l1.step-practice-2
     block:
+      - id: u00.l1.ex44
+        format: repeat
+        targets: [{item: w:prego, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:politeness]
+        source: u00.l1.taxi-stand#2
+        say: "Sì, sì. Prego!"
       - id: u00.l1.ex37
         format: repeat
         targets: [{item: c:per-favore, skill: speak}]
         tags: [sy:cefr.phonological-control, cd:politeness]
         source: u00.l1.taxi-stand#1
         say: "Scusi! Taxi, per favore!"
-      - id: u00.l1.ex39
+      - id: u00.l1.ex45
         format: repeat
-        targets: [{item: w:no, skill: speak}]
+        targets: [{item: w:prego, skill: speak}]
         tags: [sy:cefr.phonological-control, cd:politeness]
-        source: u00.l1.taxi-stand#9
-        say: "No, no. No hotel."
+        source: u00.l1.taxi-stand#6
+        say: "Prego, prego!"
       - id: u00.l1.ex40
         format: repeat
         targets: [{item: w:bene, skill: speak}]

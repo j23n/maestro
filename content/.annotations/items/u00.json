@@ -700,9 +700,9 @@
    "expansion": 0,
    "model": true,
    "norm": "doppia vu",
-   "of": 3,
+   "of": 4,
    "path": "items[64].recall_answer",
-   "pattern": "{doppia vu|vu doppia|doppia vi}",
+   "pattern": "{doppia vu|vu doppia|doppia vi|vi doppia}",
    "ref": "c:doppia-vu",
    "role": "recall_answer",
    "text": "doppia vu",
@@ -715,30 +715,45 @@
    "expansion": 1,
    "model": false,
    "norm": "vu doppia",
-   "of": 3,
+   "of": 4,
    "path": "items[64].recall_answer",
-   "pattern": "{doppia vu|vu doppia|doppia vi}",
+   "pattern": "{doppia vu|vu doppia|doppia vi|vi doppia}",
    "ref": "c:doppia-vu",
    "role": "recall_answer",
    "text": "vu doppia",
    "tokens": [
-    {"analyses": ["vu NOUN-F:p", "vu NOUN-F:s"], "flags": ["synthetic"], "item": "w:vu", "kind": "word", "lemma": "vu", "span": [0, 2], "surface": "vu", "trailing": " "},
-    {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "chunk": "c:doppia", "kind": "word", "span": [3, 9], "surface": "doppia"}
+    {"chunk": "c:doppia-vu", "kind": "word", "span": [0, 2], "surface": "vu", "trailing": " "},
+    {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "chunk": "c:doppia-vu", "kind": "word", "span": [3, 9], "surface": "doppia"}
    ]
   },
   {
    "expansion": 2,
    "model": false,
    "norm": "doppia vi",
-   "of": 3,
+   "of": 4,
    "path": "items[64].recall_answer",
-   "pattern": "{doppia vu|vu doppia|doppia vi}",
+   "pattern": "{doppia vu|vu doppia|doppia vi|vi doppia}",
    "ref": "c:doppia-vu",
    "role": "recall_answer",
    "text": "doppia vi",
    "tokens": [
     {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "chunk": "c:doppia-vu", "kind": "word", "span": [0, 6], "surface": "doppia", "trailing": " "},
     {"analyses": ["vi ADV", "vi PRO-PERS-CLI-2-F-P", "vi PRO-PERS-CLI-2-M-P"], "chunk": "c:doppia-vu", "kind": "word", "lemma": "vi", "span": [7, 9], "surface": "vi"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "vi doppia",
+   "of": 4,
+   "path": "items[64].recall_answer",
+   "pattern": "{doppia vu|vu doppia|doppia vi|vi doppia}",
+   "ref": "c:doppia-vu",
+   "role": "recall_answer",
+   "text": "vi doppia",
+   "tokens": [
+    {"analyses": ["vi ADV", "vi PRO-PERS-CLI-2-F-P", "vi PRO-PERS-CLI-2-M-P"], "chunk": "c:doppia-vu", "kind": "word", "lemma": "vi", "span": [0, 2], "surface": "vi", "trailing": " "},
+    {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "chunk": "c:doppia-vu", "kind": "word", "span": [3, 9], "surface": "doppia"}
    ]
   },
   {
@@ -774,9 +789,9 @@
    "expansion": 0,
    "model": true,
    "norm": "ipsilon",
-   "of": 2,
+   "of": 4,
    "path": "items[66].recall_answer",
-   "pattern": "{ipsilon|l'ipsilon}",
+   "pattern": "{ipsilon|l'ipsilon|i greca|la i greca}",
    "ref": "w:ipsilon",
    "role": "recall_answer",
    "text": "ipsilon",
@@ -788,15 +803,52 @@
    "expansion": 1,
    "model": false,
    "norm": "l'ipsilon",
-   "of": 2,
+   "of": 4,
    "path": "items[66].recall_answer",
-   "pattern": "{ipsilon|l'ipsilon}",
+   "pattern": "{ipsilon|l'ipsilon|i greca|la i greca}",
    "ref": "w:ipsilon",
    "role": "recall_answer",
    "text": "l'ipsilon",
    "tokens": [
     {"analyses": ["il ART-M:s", "la ART-F:s"], "flags": ["lexical_article"], "head": 1, "item": "w:ipsilon", "kind": "word", "span": [0, 2], "surface": "l'"},
     {"analyses": ["ipsilon NOUN-F:p", "ipsilon NOUN-F:s"], "flags": ["synthetic"], "item": "w:ipsilon", "kind": "word", "lemma": "ipsilon", "span": [2, 9], "surface": "ipsilon"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:definite-article", "tokens": [0, 0]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "i greca",
+   "of": 4,
+   "path": "items[66].recall_answer",
+   "pattern": "{ipsilon|l'ipsilon|i greca|la i greca}",
+   "ref": "w:ipsilon",
+   "role": "recall_answer",
+   "text": "i greca",
+   "tokens": [
+    {"analyses": ["il ART-M:p"], "detections": ["g:definite-article"], "item": "g:definite-article", "kind": "word", "lemma": "il", "span": [0, 1], "surface": "i", "trailing": " "},
+    {"analyses": ["greco ADJ:pos+f+s"], "flags": ["unresolved"], "kind": "word", "lemma": "greco", "span": [2, 7], "surface": "greca"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:definite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "la i greca",
+   "of": 4,
+   "path": "items[66].recall_answer",
+   "pattern": "{ipsilon|l'ipsilon|i greca|la i greca}",
+   "ref": "w:ipsilon",
+   "role": "recall_answer",
+   "text": "la i greca",
+   "tokens": [
+    {"analyses": ["la PRO-PERS-CLI-3-F-S"], "flags": ["unresolved"], "kind": "word", "lemma": "la", "span": [0, 2], "surface": "la", "trailing": " "},
+    {"analyses": ["il ART-M:p"], "detections": ["g:definite-article"], "item": "g:definite-article", "kind": "word", "lemma": "il", "span": [3, 4], "surface": "i", "trailing": " "},
+    {"analyses": ["greco ADJ:pos+f+s"], "flags": ["unresolved"], "kind": "word", "lemma": "greco", "span": [5, 10], "surface": "greca"}
    ]
   },
   {

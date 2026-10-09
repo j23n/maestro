@@ -189,6 +189,12 @@ steps:
         question_en: "Which line of the list is for a friend, not for the driver?"
         options: ["Hi! How's it going?", "Good evening!", "Can you say that again?"]
         answer: 0
+      - id: u00.l2.ex71
+        format: choice
+        tags: [cd:greet-farewell, sy:cefr.reading]
+        question_en: "Which line of the list says goodbye?"
+        options: ["See you!", "Please.", "Excuse me!"]
+        answer: 0
 
   # 5 · Read and listen: the taxi ride, then check meaning in English
   - kind: story
@@ -208,7 +214,6 @@ steps:
         - {speaker: ch:extra, to: ch:marco, register: lei, it: "No, no: diciotto. Uno, otto.", en: "No, no: eighteen. One, eight."}
         - {speaker: ch:marco, to: ch:extra, register: lei, it: "Ah, diciotto! Ok. Venti euro.", en: "Oh, eighteen! OK. Here's twenty."}
         - {speaker: ch:extra, to: ch:marco, register: lei, it: "Grazie! Due euro, prego.", en: "Thank you! Two euros change, here you are."}
-        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Uno, due, tre... ok!", en: "One, two, three... OK!"}
         - {speaker: ch:marco, to: ch:extra, register: lei, it: 'Grazie! Scusi, come si dice "good night"?', en: 'Thanks! Excuse me, how do you say "good night"?', foreign: [good night]}
         - {speaker: ch:extra, to: ch:marco, register: lei, it: 'Buonanotte. Si dice "buonanotte".', en: 'Buonanotte. You say "buonanotte".'}
         - {speaker: ch:marco, to: ch:extra, register: lei, it: "Ah, buonanotte! Grazie, buonanotte!", en: "Ah, good night! Thank you, good night!"}
@@ -356,7 +361,7 @@ steps:
         format: cloze
         targets: [{item: w:buonanotte, skill: recall}]
         tags: [cd:greet-farewell]
-        source: u00.l2.ride#14
+        source: u00.l2.ride#13
         text: "Ah, [[buonanotte]]! Grazie, buonanotte!"
         prompt_en: "Ah, good night! Thank you, good night!"
         near: [{answer: buonasera, hint: "Buonasera is good evening. Marco asked for good night."}]
@@ -397,12 +402,6 @@ steps:
         tags: [sy:cefr.phonological-control, cd:count-to-20]
         source: u00.l2.ride#7
         say: "Diciassette euro?"
-      - id: u00.l2.ex64
-        format: repeat
-        targets: [{item: w:diciotto, skill: speak}]
-        tags: [sy:cefr.phonological-control, cd:count-to-20]
-        source: u00.l2.ride#8
-        say: "No, no: diciotto. Uno, otto."
       - id: u00.l2.ex65
         format: repeat
         targets: [{item: w:venti, skill: speak}]
@@ -415,24 +414,24 @@ steps:
         tags: [sy:cefr.phonological-control, cd:count-to-20]
         source: u00.l2.ride#10
         say: "Grazie! Due euro, prego."
-      - id: u00.l2.ex67
-        format: repeat
-        targets: [{item: w:tre, skill: speak}]
-        tags: [sy:cefr.phonological-control, cd:count-to-20]
-        source: u00.l2.ride#11
-        say: "Uno, due, tre... ok!"
       - id: u00.l2.ex68
         format: repeat
         targets: [{item: c:come-si-dice, skill: speak}]
         tags: [sy:cefr.phonological-control, cd:dont-understand]
-        source: u00.l2.ride#13
+        source: u00.l2.ride#12
         say: 'Buonanotte. Si dice "buonanotte".'
       - id: u00.l2.ex69
         format: repeat
         targets: [{item: w:buonanotte, skill: speak}]
         tags: [sy:cefr.phonological-control, cd:greet-farewell]
-        source: u00.l2.ride#14
+        source: u00.l2.ride#13
         say: "Ah, buonanotte! Grazie, buonanotte!"
+      - id: u00.l2.ex70
+        format: repeat
+        targets: [{item: w:prego, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:politeness]
+        source: u00.l2.ride#14
+        say: "Prego! Buonanotte!"
 
   # 8 · Sounds: double consonants in the numbers, and c and g before i
   - kind: sounds

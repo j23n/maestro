@@ -3,9 +3,10 @@
 # gendered forms (no benvenuto/benvenuta), because the learner's gender varies.
 # The talk has three points, pass 2 (CL24): the greeting and two spelling points, so it can't be passed without
 # spelling (a name point would match any answer). The matcher finds each point anywhere in the answer on its own, so
-# the spelling points are pairs of letter names that only a spelled word has: `spell` is a consonant's name followed by
-# a vowel's (emme, a), `spell-more` a consonant's name after a vowel's or after doppia (a, erre; doppia esse). Every
-# spelled name has one of the two; spelling a name with two consonants finds both. Ipsilon counts on both sides
+# the spelling points are pairs of letter names that only a spelled word has: `spell` is a letter's name followed by a
+# vowel's (emme, a; i, a), `spell-more` a vowel's name followed by another letter's (a, erre; i, a), or doppia (or due)
+# and a consonant's (doppia esse). Every spelled name finds at least one; spelling a whole name finds both (Marco,
+# Rossi; Ian, Mia, Leo and Zoe through their two vowels). Ipsilon (or i greca) counts as a vowel and as a consonant
 # (Bryn, Lynn), and vi is accepted for V (CL23). The talk's `lemmas:` read the spelled vowels, ci, di, ti and vi as
 # letters (u00.l3 teaches the alphabet).
 id: u00.task
@@ -88,8 +89,8 @@ talk:
   lemmas: {a: w:a~letter, e: w:e~letter, i: w:i~letter, o: w:o~letter, ci: w:ci~letter, di: w:di~letter, ti: w:ti~letter, vi: w:vu}
   points:
     - {id: greet, en: "Say hello", accept: ["{buongiorno|buonasera}"]}
-    - {id: spell, en: "Spell your first name, letter by letter", accept: ["{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|zeta} {a|e|i|o|u|ipsilon}"]}
-    - {id: spell-more, en: "Spell it to the last letter", accept: ["{a|e|i|o|u|ipsilon|doppia} {bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|zeta}"]}
+    - {id: spell, en: "Spell your first name, letter by letter", accept: ["{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|i greca|zeta} {a|e|i|o|u|ipsilon|i greca}", "{a|e|i|o|u} {a|e|i|o|u}"]}
+    - {id: spell-more, en: "Keep spelling after a vowel", accept: ["{a|e|i|o|u|ipsilon|i greca|doppia|due} {bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|i greca|zeta}", "{a|e|i|o|u} {a|e|i|o|u}"]}
   pass: 2
   model: "Buongiorno! Marco: emme, a, erre, ci, o."
   duration_s: {min: 5, max: 60}

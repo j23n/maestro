@@ -109,14 +109,14 @@ steps:
         format: recall
         targets: [{item: w:a~letter, skill: recall}, {item: w:elle, skill: recall}, {item: w:i~letter, skill: recall}, {item: w:ci~letter, skill: recall}, {item: w:e~letter, skill: recall}]
         tags: [cd:spell-name, sy:ss.alphabet]
-        prompt_en: 'Spell the name "Alice", letter by letter.'
+        prompt_en: 'Spell "Alice" with the Italian letter names.'
         hint: "Use the Italian names of the letters, with commas between them."
         lemmas: {a: w:a~letter, i: w:i~letter, ci: w:ci~letter, e: w:e~letter}
         answer: "a, elle, i, ci, e"
         audio_after: true
 
   # 4 · Preview: the second half (CL38): N to Z, doppia for a double letter (CL23), then i lunga, cappa, doppia vu,
-  #     ics and ipsilon (only words and names from other languages use them).
+  #     ics and ipsilon (mostly in words from other languages).
   - kind: preview
     id: u00.l3.step-preview-2
     batches:
@@ -168,17 +168,17 @@ steps:
         format: recall
         targets: [{item: w:cu, skill: recall}, {item: w:u, skill: recall}, {item: c:doppia, skill: recall}, {item: w:ti~letter, skill: recall}, {item: w:erre, skill: recall}, {item: w:o~letter, skill: recall}]
         tags: [cd:spell-name, sy:ss.alphabet, sy:ss.double-consonants]
-        prompt_en: 'Spell "quattro" (4), letter by letter.'
+        prompt_en: 'Spell "quattro" (4) with the Italian letter names.'
         hint: "Use the Italian names of the letters, with commas between them. Quattro has a double letter."
         lemmas: {a: w:a~letter, ti: w:ti~letter, o: w:o~letter}
-        answer: "{cu, u, a, doppia ti, erre, o|cu, u, a, ti, ti, erre, o}"
+        answer: "{cu, u, a, doppia ti, erre, o|cu, u, a, due ti, erre, o|cu, u, a, ti, ti, erre, o}"
         near: [{answer: "cu, u, a, ti, erre, o", hint: "Count the t's in quattro."}]
         audio_after: true
       - id: u00.l3.ex12
         format: recall
         targets: [{item: w:zeta, skill: recall}, {item: w:e~letter, skill: recall}, {item: w:erre, skill: recall}, {item: w:o~letter, skill: recall}]
         tags: [cd:spell-name, sy:ss.alphabet]
-        prompt_en: 'Spell "zero" (0), letter by letter.'
+        prompt_en: 'Spell "zero" (0) with the Italian letter names.'
         hint: "Use the Italian names of the letters, with commas between them."
         lemmas: {e: w:e~letter, o: w:o~letter}
         answer: "zeta, e, erre, o"
@@ -211,7 +211,7 @@ steps:
         format: recall
         targets: [{item: w:vu, skill: recall}, {item: w:e~letter, skill: recall}, {item: w:enne, skill: recall}, {item: w:ti~letter, skill: recall}, {item: w:i~letter, skill: recall}]
         tags: [cd:spell-name, sy:ss.alphabet]
-        prompt_en: 'Spell "venti" (20), letter by letter.'
+        prompt_en: 'Spell "venti" (20) with the Italian letter names.'
         hint: "Use the Italian names of the letters, with commas between them."
         lemmas: {e: w:e~letter, ti: w:ti~letter, i: w:i~letter, vi: w:vu}
         answer: "{vu, e, enne, ti, i|vi, e, enne, ti, i}"
@@ -254,7 +254,7 @@ steps:
         format: choice
         targets: [{item: w:ics, skill: listen}]
         tags: [cd:spell-name, sy:ss.alphabet, sy:cefr.international-words]
-        question_en: "The last line has the letters of words from other languages. Which of these words has one of them?"
+        question_en: "The last line has the letters found mostly in words from other languages. Which of these words has one of them?"
         options: ["taxi", "hotel", "bar"]
         answer: 0
 
@@ -332,7 +332,7 @@ steps:
         format: recall
         targets: [{item: w:elle, skill: recall}, {item: w:u, skill: recall}, {item: w:ci~letter, skill: recall}, {item: w:a~letter, skill: recall}]
         tags: [cd:spell-name, sy:ss.alphabet]
-        prompt_en: 'Spell the name "Luca", letter by letter.'
+        prompt_en: 'Spell "Luca" with the Italian letter names.'
         hint: "Use the Italian names of the letters, with commas between them."
         lemmas: {ci: w:ci~letter, a: w:a~letter}
         answer: "elle, u, ci, a"
@@ -341,17 +341,17 @@ steps:
         format: recall
         targets: [{item: w:erre, skill: recall}, {item: w:o~letter, skill: recall}, {item: c:doppia, skill: recall}, {item: w:esse, skill: recall}, {item: w:i~letter, skill: recall}]
         tags: [cd:spell-name, sy:ss.alphabet, sy:ss.double-consonants]
-        prompt_en: 'Spell the surname "Rossi", letter by letter.'
+        prompt_en: 'Spell "Rossi" with the Italian letter names.'
         hint: "Use the Italian names of the letters, with commas between them. Rossi has a double letter."
         lemmas: {o: w:o~letter, i: w:i~letter}
-        answer: "{erre, o, doppia esse, i|erre, o, esse, esse, i}"
+        answer: "{erre, o, doppia esse, i|erre, o, due esse, i|erre, o, esse, esse, i}"
         near: [{answer: "erre, o, esse, i", hint: "Count the s's in Rossi."}]
         audio_after: true
       - id: u00.l3.ex23
         format: recall
         targets: [{item: w:effe, skill: recall}, {item: w:e~letter, skill: recall}, {item: w:di~letter, skill: recall}, {item: w:erre, skill: recall}, {item: w:i~letter, skill: recall}, {item: w:ci~letter, skill: recall}, {item: w:a~letter, skill: recall}]
         tags: [cd:spell-name, sy:ss.alphabet]
-        prompt_en: 'Spell the name "Federica", letter by letter.'
+        prompt_en: 'Spell "Federica" with the Italian letter names.'
         hint: "Use the Italian names of the letters, with commas between them."
         lemmas: {e: w:e~letter, di: w:di~letter, i: w:i~letter, ci: w:ci~letter, a: w:a~letter}
         answer: "effe, e, di, e, erre, i, ci, a"
