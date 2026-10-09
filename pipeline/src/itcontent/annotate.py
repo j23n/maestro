@@ -22,7 +22,7 @@ Which strings are Italian (docs/06 per format; the rules this module settles are
 - *notes: the `*…*` fragments of `p`, `tip` and `intro.text_en` (fragments that are endings such as `*-o*` are
   skipped), `table.rows` cells (`columns` are English headers), and `examples` that are inline strings rather than
   line IDs;
-- items: `recall_answer` patterns;
+- items: `recall_answer` patterns, *reading the item's own `it` as the item (as if `lemmas: {it: id}`);
 - *near-miss `answer` patterns (exercise and conversation-node `near`) are annotated like an accepted pattern's other
   expansions, never as a model answer: they are often deliberately wrong (`una cornetto`), so an unknown token is
   fine there (a warning only without any Morph-it! analysis) and nothing about them is gated.
@@ -137,10 +137,11 @@ class Collector:
             src.lemmas_at = self.shared[1]
         self.sources.append(src)
 
-    def share(self, lemmas: Any, path: PathT) -> None:
-        """Strings collected from now on share this `lemmas:` map (an exercise's or a layout's), until `unshare`."""
+    def share(self, lemmas: Any, path: PathT, *, report: bool = True) -> None:
+        """Strings collected from now on share this `lemmas:` map (an exercise's or a layout's), until `unshare`;
+        with `report`, a key none of them contains is an error."""
         self.shared = ({str(k): v for k, v in lemmas.items()}, path) if isinstance(lemmas, dict) and lemmas else None
-        if self.shared is not None:
+        if self.shared is not None and report:
             self.shared_maps[path] = self.shared[0]
 
     def unshare(self) -> None:
@@ -419,14 +420,19 @@ def collect(course: Course, doc: Doc, kind: str, unit_id: str) -> Collector:
     elif kind == "items":
         for i, item in enumerate(data.get("items") or []):
             if isinstance(item, dict) and item.get("recall_answer") is not None:
+                # *an item's recall answer reads the item's own `it` as the item (the letter w:a~letter's `a`)
+                iid, it = str(item.get("id")), item.get("it")
+                own = {str(it): iid} if iid.startswith("w:") and isinstance(it, str) and " " not in it else None
+                col.share(own, ("items", i, "it"), report=False)
                 col.pattern(
                     ("items", i, "recall_answer"),
                     "recall_answer",
                     item.get("recall_answer"),
                     (u, -1, -1),
-                    str(item.get("id")),
+                    iid,
                     model_first=True,
                 )
+                col.unshare()
     elif kind in ("lesson", "task", "check", "placement", "final"):
         rank = {"lesson": lesson_k(str(data.get("id", ""))), "task": 900, "check": 950}.get(kind, 0)
         title = data.get("title")
@@ -629,7 +635,7 @@ def annotate_course(course: Course, morph: MorphIt) -> Result:
         for src in col.sources:
             ann = lex.annotate(src.text, src.ctx)
             if src.lemmas_at is not None:
-                used[src.lemmas_at] |= ann.used_lemmas
+                used.setdefault(src.lemmas_at, set()).update(ann.used_lemmas)
             n_strings += 1
             n_tokens += len(ann.tokens)
             n_words += sum(1 for t in ann.tokens if t.kind != "punct")

@@ -344,6 +344,25 @@ def test_layout_lemmas_stay_out_of_the_payload(course_copy, tmp_path):
     assert [t["itemId"] for t in row["tokens"] if t["kind"] == "word"] == ["w:a~letter", "w:bi", "w:ci~letter"]
 
 
+def test_an_items_recall_answer_reads_its_own_form_as_the_item(course_copy):
+    """docs/03 § Items: a letter's `recall_answer: '{a|la a}'` is the letter w:a~letter (and la its lexical article),
+    although `a` alone is Unit 1's preposition by default."""
+    spell_in_copy(
+        course_copy,
+        "a: 'w:a~letter', ci: 'w:ci~letter', o: 'w:o~letter'",
+        "a: 'w:a~letter', ci: 'w:ci~letter'",
+    )
+    items = course_copy / "content/items/u00.yaml"
+    text = items.read_text(encoding="utf-8")
+    old = "  - {id: 'w:a~letter', it: a, pos: noun, gender: f, plural: invariable, gloss: a letter, status: P, "
+    assert old in text
+    items.write_text(text.replace(old, old + "recall_answer: '{a|la a}', "), encoding="utf-8")
+    result = annotate_course(load_course(course_copy), morphit.load())
+    strings = json.loads(result.locks[lock_path("content/items/u00.yaml")])["strings"]
+    answers = [[(t["surface"], t.get("item")) for t in x["tokens"]] for x in strings if x["ref"] == "w:a~letter"]
+    assert answers == [[("a", "w:a~letter")], [("la", "w:a~letter"), ("a", "w:a~letter")]]
+
+
 def test_names_are_case_sensitive_and_overridable(lex):
     a = ann(lex, "Rosa è rosa.", strict=False)
     assert [(t.surface, t.kind, t.item) for t in a.tokens if t.kind != "punct"] == [

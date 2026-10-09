@@ -157,7 +157,7 @@ Optional fields:
 
 - `articles: {indef: uno, def: lo}` overrides the computed articles.
 - `forms` lists extra surface forms the resolver maps to this item (irregular verb forms, `amica` for `amico`). They resolve before any lemma lookup, as do `it` and `plural` (unless `invariable`).
-- `recall_answer` is an answer pattern for the generated recall cards when the default (`docs/06` § 1) doesn't fit. Its first expansion is the model answer. Example: `w:amico` accepts `{l'amico|l'amica|un amico|un'amica}`.
+- `recall_answer` is an answer pattern for the generated recall cards when the default (`docs/06` § 1) doesn't fit. Its first expansion is the model answer. It reads the item's own `it` as the item (a letter's `recall_answer: '{a|la a}'` is the letter `w:a~letter`, not Unit 1's *a*). Example: `w:amico` accepts `{l'amico|l'amica|un amico|un'amica}`.
 - `case_sensitive: true` (chunks) makes `match` case-sensitive: `c:e-lei` matches *e Lei* (formal you), not *e lei* (and she).
 - `cognate: true` (transparent; may stay untaught), `false_friend: true` (always taught), `audio_say` (what TTS says for the item; default: the display form).
 
