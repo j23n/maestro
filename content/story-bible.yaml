@@ -22,11 +22,12 @@ characters:
     stay: three months in Bologna, renting a small flat in Signora Rossi's building
     character: friendly, curious, a bit clumsy with the language, keen to find his family's village
     course: takes the Italian course at Scuola Arcobaleno from Unit 1 (the school phones him in u01.l3; CL28)
+    phone: "347 812 2015, an Italian mobile (fictional); he gives it to Scuola Arcobaleno in u01.l3, said as tre quattro sette, otto dodici, venti quindici"
     first_unit: u00
     # Confirmed by the content lead (docs/13 CL16).
     born: Toronto (Unit 1 Lesson 2, "Sono nato e abito a Toronto")
     home: lives in Toronto; in Bologna only for the three-month stay, so drafts say "sono a Bologna", never "abito a Bologna"
-    arrival: "lands late in the evening and takes a taxi from the airport rank (u00.l1; the same unnamed driver in u00.l2, fare diciotto euro); an unnamed neighbor greets him the next morning (u00.l2); u01.l1 is that same day (Signora Rossi on the stairs that morning, the listening that evening); u01.l2 is the following morning at Il Cortile (\"Sono appena arrivato a Bologna\", never ieri)"
+    arrival: "lands late in the evening and takes a taxi from the airport rank (u00.l1; the same unnamed driver in u00.l2, fare diciotto euro); an unnamed neighbor greets him the next morning (u00.l2); u01.l1 is that same day (Signora Rossi on the stairs that morning, the listening that evening); u01.l2 is the following morning at Il Cortile (\"Sono appena arrivato a Bologna\", never ieri); in u01.l3 Sara, who has his number, phones him from the door of his building one morning and they meet Signora Rossi at the entrance, and Scuola Arcobaleno calls him later that morning"
   - id: ch:rossi
     name: Signora Rossi
     first_name: Anna (rarely used)
@@ -47,6 +48,7 @@ characters:
     first_unit: u01
     # Confirmed by the content lead (docs/13 CL16).
     born: Bologna; lives in Bologna (Unit 1 Lesson 2, "Sono nata e abito a Bologna. Sono bolognese!")
+    marco: has Marco's phone number; phones him from the door of his building in u01.l3, then meets Signora Rossi there
   - id: ch:giulia
     name: Giulia
     age: 36
