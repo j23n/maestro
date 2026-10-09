@@ -2,20 +2,22 @@ import LearningCore
 import SwiftUI
 
 /// The tab shell (docs/07 § Navigation): Today, Course, Words and Settings in a sidebar-adaptable `TabView`. A step
-/// opens the lesson player over everything (full screen on iPhone and iPad, a sheet-sized window on Mac).
+/// opens the lesson player over everything (full screen on iPhone and iPad, the whole window on Mac).
 struct MainTabs: View {
     let deps: AppDependencies
+    /// Bound so the Mac comes back to the tab a player was opened from: there the tabs leave the window while it plays.
+    @State private var tab: MainTab = .today
     @State private var playing: PlayRequest?
     @State private var coursePath: [UnitID] = []
     @State private var reviewing: ReviewRequest?
     @State private var takingFinal: FinalCheckRequest?
 
     var body: some View {
-        TabView {
-            Tab("Today", systemImage: "sun.max") {
+        TabView(selection: $tab) {
+            Tab("Today", systemImage: "sun.max", value: MainTab.today) {
                 NavigationStack { today }
             }
-            Tab("Course", systemImage: "book") {
+            Tab("Course", systemImage: "book", value: MainTab.course) {
                 NavigationStack(path: $coursePath) {
                     // Review mode opens every unit and adds Jump to and Review comments (M6.10).
                     CourseView(
@@ -36,11 +38,11 @@ struct MainTabs: View {
                     }
                 }
             }
-            Tab("Words", systemImage: "list.bullet") {
+            Tab("Words", systemImage: "list.bullet", value: MainTab.words) {
                 NavigationStack { WordsScreen(app: deps.app) }
             }
             // Every platform has the Settings tab; the Mac also has the ⌘, Settings window (docs/07 § Screen map).
-            Tab("Settings", systemImage: "gearshape") {
+            Tab("Settings", systemImage: "gearshape", value: MainTab.settings) {
                 NavigationStack {
                     SettingsScreen(
                         app: deps.app, sync: deps.syncSettings, studyBuild: deps.config.studyBuild,
@@ -49,8 +51,6 @@ struct MainTabs: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
-        .onAppear { deps.audioPlayer.onStop = { [app = deps.app] report in app.audioPlayed(report) } }
-        .task { await deps.review?.attach(to: deps.app) }
         .playerPresentation(item: $playing) { request in
             PlayerHost(deps: deps, step: request.step, jump: request.jump) { playing = nil }
         }
@@ -65,6 +65,9 @@ struct MainTabs: View {
                     if let step = deps.app.today?.continueCard?.stepID { playing = PlayRequest(step: step) }
                 })
         }
+        // After the presentations, so a player taking the Mac window doesn't run these again when the tabs return.
+        .onAppear { deps.audioPlayer.onStop = { [app = deps.app] report in app.audioPlayed(report) } }
+        .task { await deps.review?.attach(to: deps.app) }
     }
 
     @ViewBuilder private var today: some View {
@@ -86,23 +89,46 @@ struct PlayRequest: Identifiable, Hashable {
     var id: StepID { step }
 }
 
+/// The tabs of the shell (docs/07 § Navigation).
+enum MainTab: Hashable {
+    case today, course, words, settings
+}
+
 extension View {
-    /// The player covers the app: `fullScreenCover` on iPhone and iPad, a large sheet on Mac.
+    /// The player covers the app (docs/02 § App): `fullScreenCover` on iPhone and iPad; on Mac, which has no
+    /// full-screen cover, the window's content switches to the player until it closes.
     @ViewBuilder
     func playerPresentation<Item: Identifiable, Content: View>(
         item: Binding<Item?>, @ViewBuilder content: @escaping (Item) -> Content
     ) -> some View {
         #if os(macOS)
-            sheet(item: item) {
-                content($0).frame(
-                    minWidth: Tokens.Size.macMinWindowWidth,
-                    minHeight: Tokens.Size.macMinWindowHeight)
-            }
+            modifier(WindowPlayer(item: item, player: content))
         #else
             fullScreenCover(item: item, content: content)
         #endif
     }
 }
+
+#if os(macOS)
+    /// The Mac's player presentation: the player instead of the tabs, not over them, so the window's toolbar,
+    /// sidebar and keyboard shortcuts are the player's alone. The tabs are rebuilt when it closes; their selection and
+    /// the Course path are MainTabs' state, so the learner is back where the player was opened.
+    private struct WindowPlayer<Item: Identifiable, Player: View>: ViewModifier {
+        @Binding var item: Item?
+        let player: (Item) -> Player
+
+        func body(content: Content) -> some View {
+            ZStack {
+                if let item {
+                    // A new item is a new player, as with `fullScreenCover(item:)`.
+                    player(item).id(item.id)
+                } else {
+                    content
+                }
+            }
+        }
+    }
+#endif
 
 /// Loads a step and runs the lesson player with the real audio and speech adapters; writes the session event and
 /// shows the mini-preview ("Before we go on") when a step needs words the learner hasn't met.
