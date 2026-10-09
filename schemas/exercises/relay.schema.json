@@ -9,6 +9,7 @@
     "id": {"$ref": "../common.schema.json#/$defs/exerciseId"},
     "format": {"const": "relay"},
     "tags": {"$ref": "../common.schema.json#/$defs/tags"},
+    "lemmas": {"$ref": "../common.schema.json#/$defs/lemmas"},
     "source": {
       "allOf": [{"$ref": "../common.schema.json#/$defs/source"}],
       "type": ["string", "object"]

@@ -372,7 +372,7 @@
     },
 
     "layout": {
-      "description": "texts.layout for real_world texts (docs/06 §4): the authored layout with `type`, where every Italian string is replaced by a tokenizedText, except the strings listed in `ignore`, which stay plain strings; prices, times and other digit strings stay plain strings.",
+      "description": "texts.layout for real_world texts (docs/06 §4): the authored layout (less its annotation-only `lemmas`) with `type`, where every Italian string is replaced by a tokenizedText, except the strings listed in `ignore`, which stay plain strings; prices, times and other digit strings stay plain strings.",
       "type": "object",
       "required": ["type"],
       "properties": {"type": {"enum": ["menu", "receipt", "sign", "hours", "timetable", "ticket", "form", "label", "ad", "message", "postcard", "list"]}}

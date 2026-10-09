@@ -35,7 +35,7 @@ The content lead's review files live outside `content/`, in `reviews/` (`docs/04
 
 ## IDs
 
-IDs are permanent, lowercase ASCII, and unique across the course. Slugs strip accents, map an apostrophe to `-`, and map spaces to `-`. If two items of the same kind slug to the same word (homographs, or accent pairs such as *sì*/*si*), `content lint` fails until each carries a `~sense` suffix; an ID already in `ids.lock` keeps its name, so only the newcomer gets the suffix. "Permanent" starts at the first release build (`ids.lock`): draft IDs may change until their file is first approved, and the golden lesson keeps its gaps (`ex12`, `ex16`) to show that dropped IDs are never reused.
+IDs are permanent, lowercase ASCII, and unique across the course. Slugs strip accents, map an apostrophe to `-`, and map spaces to `-`. If two items of the same kind slug to the same word (homographs, or accent pairs such as *sì*/*si*), they are told apart by `~sense` suffixes: at most one item of such a group keeps a plain ID, the one that was there first, and every newcomer carries a suffix (Unit 1's `w:a`, `w:e`, `w:o` and `w:di` keep their names; the Unit 0 letters that join them are `w:a~letter`, `w:e~letter`, `w:o~letter`, `w:di~letter`). `content lint` fails while two plain IDs share a slug, on each of them that isn't in `ids.lock` (a released ID keeps its name; otherwise lint can't tell which came first). "Permanent" starts at the first release build (`ids.lock`): draft IDs may change until their file is first approved, and the golden lesson keeps its gaps (`ex12`, `ex16`) to show that dropped IDs are never reused.
 
 `ids.lock` is a text file written only by release builds: one released ID per line, sorted; a line starting with `#` is a comment, and anything after the ID on a line (such as the pack version that released it) is ignored. `content lint` fails when a listed ID no longer exists and isn't in `retired.yaml`, and when a retired ID is defined again.
 
@@ -157,7 +157,7 @@ Optional fields:
 
 - `articles: {indef: uno, def: lo}` overrides the computed articles.
 - `forms` lists extra surface forms the resolver maps to this item (irregular verb forms, `amica` for `amico`). They resolve before any lemma lookup, as do `it` and `plural` (unless `invariable`).
-- `recall_answer` is an answer pattern for the generated recall cards when the default (`docs/06` § 1) doesn't fit. Its first expansion is the model answer. Example: `w:amico` accepts `{l'amico|l'amica|un amico|un'amica}`.
+- `recall_answer` is an answer pattern for the generated recall cards when the default (`docs/06` § 1) doesn't fit. Its first expansion is the model answer. It reads the item's own `it` as the item (a letter's `recall_answer: '{a|la a}'` is the letter `w:a~letter`, not Unit 1's *a*). Example: `w:amico` accepts `{l'amico|l'amica|un amico|un'amica}`.
 - `case_sensitive: true` (chunks) makes `match` case-sensitive: `c:e-lei` matches *e Lei* (formal you), not *e lei* (and she).
 - `cognate: true` (transparent; may stay untaught), `false_friend: true` (always taught), `audio_say` (what TTS says for the item; default: the display form).
 
@@ -217,7 +217,7 @@ text:
     - {speaker: ch:marco, to: ch:giulia, register: lei, it: 'Scusi, come si dice "croissant" in italiano?', en: 'Excuse me, how do you say "croissant" in Italian?', foreign: [croissant]}
 ```
 
-Line fields: `speaker` (a character, `narrator` or `announcer`), `to` and `register` (`tu | lei`) whenever someone is addressed, `it`, `en`. Options: `foreign` (tokens excluded from the level gate and shown in italics), `gloss` (context glosses, e.g. `{da mangiare: to eat}`), `lemmas` (disambiguation, e.g. `{porta: w:porta~door}`), `recognise` (later forms to recognise only; each needs a `gloss`; `docs/04` § Annotation), `allow: {reason: …}` (a reviewed exception to the morphology gate), `say` (IPA overrides for this line, e.g. `{ancora: "anˈkoːra"}`), and `pause_ms` (extra pause after the line in audio). Real-world texts add `layout` (`docs/06` § Real-world reading).
+Line fields: `speaker` (a character, `narrator` or `announcer`), `to` and `register` (`tu | lei`) whenever someone is addressed, `it`, `en`. Options: `foreign` (tokens excluded from the level gate and shown in italics), `gloss` (context glosses, e.g. `{da mangiare: to eat}`), `lemmas` (disambiguation, e.g. `{porta: w:porta~door}`), `recognise` (later forms to recognise only; each needs a `gloss`; `docs/04` § Annotation), `allow: {reason: …}` (a reviewed exception to the morphology gate), `say` (IPA overrides for this line, e.g. `{ancora: "anˈkoːra"}`), and `pause_ms` (extra pause after the line in audio). Real-world texts add `layout` (`docs/06` § Real-world reading); a layout may carry its own `lemmas`, which apply to every string of the layout (a spelled name in a `list`: `lemmas: {a: w:a~letter}`). A line's `lemmas` key that the line doesn't contain is an error; a layout's key that none of its strings contains is one too.
 
 Write numbers, times and prices in words in texts that will be voiced (`sei euro e venti`, not `6,20 €`), so audio, word timings and highlighting line up. Real-world layouts may show digits, because they aren't voiced.
 
@@ -238,6 +238,8 @@ Write numbers, times and prices in words in texts that will be voiced (`sei euro
 ```
 
 `near` lists anticipated wrong answers with a targeted hint; `outcome: almost` marks a near-miss that is nearly right (a wrong article on the right noun) rather than wrong. Hints must point at the problem without giving the answer away. `audio_after: true` plays the model answer after the learner answers.
+
+`lemmas: {form: item-id}` on an exercise disambiguates every Italian string of the exercise itself (prompts, `say`, options, match sides, tiles, every expansion of `answer`, `accept`, `points` and near-miss patterns, conversation `say` and `help`, talk and writing `model`; `docs/06` § Which strings are Italian), the way a line's `lemmas` does for that line; its inline texts (`audio_text`, an inline `source`) keep their own lines' `lemmas`. A key need not occur in every string, but one that none of them contains is an error. Example: the Unit 0 talk spells *Marco: emme, a, erre, ci, o* with `lemmas: {a: w:a~letter, ci: w:ci~letter, o: w:o~letter}`, so its vowels are letters, not Unit 1's *a* and *o*.
 
 Authors list only **primary targets**. The pipeline derives every other requirement (each word shown or expected) from the annotations and compiles it to `exercise_requires`, which drives eligibility (`docs/04` § Requirements).
 

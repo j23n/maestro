@@ -1,9 +1,9 @@
 # Unit 0 task (docs/06 §12, §13; C3 draft). The unit spec asks for one conversation (a neighbor on the stairs) and a
 # talk (say hello, say your name and spell it); Unit 0 has no writing or relay task. Everything said to you avoids
 # gendered forms (no benvenuto/benvenuta), because the learner's gender varies.
-# Spelling is left out of the talk until Unit 0 teaches the alphabet: letter-name items need pipeline changes first
-# (docs/13 § Proposed changes, 2026-10-08, letter names). Then the talk gets back a spell point that accepts
-# consonant letter names only, and the model 'Buongiorno! Marco: emme, a, erre, ci, o.'
+# The talk's spell point accepts consonant letter names only, since a vowel's name is also a word (a, e, o): one of them
+# in the answer counts as spelling. The talk's `lemmas:` read the spelled a and o, and ci, di and ti, as letters
+# (u00.l2 teaches the alphabet).
 id: u00.task
 review: {status: draft, by: null, date: null, hash: null}
 
@@ -79,11 +79,13 @@ conversations:
 talk:
   id: u00.task.talk
   format: talk
-  tags: [cd:greet-farewell, sy:ss.greetings-register]
-  prompt_en: "Someone at a desk needs your name. Say hello and say your first name."
+  tags: [cd:greet-farewell, cd:spell-name, sy:ss.greetings-register, sy:ss.alphabet]
+  prompt_en: "Someone at a desk needs your name. Say hello, say your first name and spell it."
+  lemmas: {a: w:a~letter, ci: w:ci~letter, di: w:di~letter, o: w:o~letter, ti: w:ti~letter}
   points:
     - {id: greet, en: "Say hello", accept: ["{buongiorno|buonasera}"]}
     - {id: name, en: "Say your first name", accept: ["{NAME}"]}
-  pass: 1
-  model: "Buongiorno! Marco."
+    - {id: spell, en: "Spell your name, letter by letter", accept: ["{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}"]}
+  pass: 2
+  model: "Buongiorno! Marco: emme, a, erre, ci, o."
   duration_s: {min: 5, max: 60}

@@ -10,6 +10,7 @@
     "format": {"const": "sentence-building"},
     "targets": {"$ref": "../common.schema.json#/$defs/targets"},
     "tags": {"$ref": "../common.schema.json#/$defs/tags"},
+    "lemmas": {"$ref": "../common.schema.json#/$defs/lemmas"},
     "source": {"$ref": "../common.schema.json#/$defs/source"},
     "prompt_en": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
     "tiles": {"type": "array", "minItems": 2, "items": {"type": "string", "minLength": 1}},

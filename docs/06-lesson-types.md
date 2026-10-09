@@ -87,6 +87,7 @@ The annotator (`docs/04` § Annotation) tokenises exactly these; the token array
 - **Sound pairs:** `pair` and `word` are listening material: resolved like any word and flagged `sound`; a word without an item is fine when the exercise's `glosses` explain it (*eco*, *pena*). `play` repeats a `pair` word.
 - **Notes:** the `*…*` fragments of `p`, `tip` and `intro.text_en` (endings such as `*-o*` are skipped), `table.rows` cells (`columns` are English headers), and `examples` given as inline strings instead of line IDs.
 - **Items:** `recall_answer` patterns.
+- **Disambiguation:** a text line's `lemmas: {form: item}` applies to that line; an exercise's `lemmas` to every Italian string of the exercise listed above (not its inline texts, whose lines have their own) and a real-world layout's `lemmas` to every string of the layout (`docs/03` § Texts, § Exercises). This is how a spelled name reads its vowels as letters (`w:a~letter`) rather than as Unit 1's *a*.
 - **Not annotated:** countries (onboarding data that fills `{ME.*}` slots) and the story bible.
 
 ### Unit-level steps
@@ -210,7 +211,7 @@ These three are used inside many lesson types (story questions, listening, readi
   exercises: [...]
 ```
 
-- Layouts are drawn natively from structured data, never as images, so every word can be tapped for English and read by VoiceOver. Implement one SwiftUI view per layout type, all sharing card styling. Every string is Italian (annotated and tappable) unless listed in `ignore`; digits are allowed because layouts aren't voiced.
+- Layouts are drawn natively from structured data, never as images, so every word can be tapped for English and read by VoiceOver. Implement one SwiftUI view per layout type, all sharing card styling. Every string is Italian (annotated and tappable) unless listed in `ignore`; digits are allowed because layouts aren't voiced. An optional `lemmas: {form: item}` disambiguates the layout's strings (a `list` that spells: `{a: w:a~letter}`); it only steers annotation, and the payload leaves it out.
 - Layout shapes (all used by the unit specs):
 
 | `type` | Fields |

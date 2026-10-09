@@ -34,23 +34,41 @@ def course(seed_root):
     return load_course(seed_root)
 
 
-def make_lexicon(course, extra: dict | None = None) -> Lexicon:
+def make_lexicon(course, extra: dict | None = None, defaults: dict | None = None) -> Lexicon:
     base = Lexicon.from_course(course, morphit.load())
-    if not extra:
+    if not extra and not defaults:
         return base
-    items = {**base.items, **extra}
+    items = {**base.items, **(extra or {})}
+    disambiguation = dict(course.singles["disambiguation"].data or {})
+    disambiguation["defaults"] = {**(disambiguation.get("defaults") or {}), **(defaults or {})}
     return Lexicon(
         items=items,
-        item_unit={**base.item_unit, **dict.fromkeys(extra, "u02")},
+        item_unit={**base.item_unit, **dict.fromkeys(extra or {}, "u02")},
         unit_index=base.unit_index,
         point_unit=base.point_unit,
         allowlist=(course.singles["allowlist"].data or {}),
-        disambiguation=(course.singles["disambiguation"].data or {}),
+        disambiguation=disambiguation,
         morph=base.morph,
         detector=base.detector,
         intro=base.intro,
         slot_heads=base.slot_heads,
     )
+
+
+# Unit 0's letter names (live course): homographs of Unit 1 words (a, e, o, di) and of function words with no item (i,
+# ci), as content/disambiguation.yaml sets them up.
+LETTERS = {
+    iid: {"id": iid, "it": iid[2:].split("~")[0], "pos": "noun", "gender": "f", "plural": "invariable"}
+    for iid in ("w:a~letter", "w:e~letter", "w:i~letter", "w:o~letter", "w:di~letter", "w:ci~letter", "w:emme")
+}
+LETTER_DEFAULTS = {
+    "a": "w:a",
+    "e": "w:e",
+    "o": "w:o",
+    "di": "w:di",
+    "i": {"pos": ["ART"]},
+    "ci": {"pos": ["CI", "ADV", "PRO"]},
+}
 
 
 @pytest.fixture(scope="session")
@@ -197,6 +215,152 @@ def test_defaults_and_ambiguity_errors_name_the_candidates(course, lex):
     assert b.tokens[0].item == "w:ecco~2" and not b.issues
     assert any("unknown item w:nope" in m for m in errors(ann(lex, "Ecco.", lemmas={"ecco": "w:nope"})))
     assert any("lemmas key 'oggi'" in m for m in errors(ann(lex, "Ecco.", lemmas={"oggi": "w:oggi"})))
+
+
+def test_letter_homographs_dont_mislead_the_context_rules(course):
+    """docs/04 § Annotation step 4: a rule sees only the readings of the items a neighbour can still resolve to after
+    `lemmas:` and its default, so the letter nouns o and di don't make uno an article (u02.l3 "Sì! Uno o due?") or sei
+    the number six (Unit 1 "Sei di …?"); before, every same-spelling item's reading was in the context."""
+    lex = make_lexicon(course, LETTERS, LETTER_DEFAULTS)
+    a = ann(lex, "Sì! Uno o due?")
+    assert not a.issues and words(a)["Uno"][0] == "w:uno" and words(a)["o"][0] == "w:o"
+    o = next(t for t in a.tokens if t.surface == "o")
+    assert {x.category for x in o.context} == {"CON"}  # no synthetic NOUN-F reading of w:o~letter
+    b = ann(lex, "Sei di Bologna?", "u01")
+    assert not b.issues and words(b)["Sei"][0] == "w:essere" and words(b)["di"][0] == "w:di"
+    # the override steers the context too: as the letter, o is a noun, and uno before a noun is the article
+    c = ann(lex, "Uno o.", lemmas={"o": "w:o~letter"})
+    assert c.tokens[0].item == "g:indefinite-article" and c.tokens[1].item == "w:o~letter"
+
+
+def test_pos_defaults_keep_the_article_and_the_clitic_over_a_letter(course):
+    """A `{pos: [...]}` default keeps those Morph-it! readings even with one candidate: i stays the article and ci the
+    clitic (no item yet) unless `lemmas:` names the letter."""
+    lex = make_lexicon(course, LETTERS, LETTER_DEFAULTS)
+    i = ann(lex, "I cornetti, per favore.").tokens[0]
+    assert i.item == "w:cornetto" and "lexical_article" in i.flags  # the lexical-article rule still applies
+    ci = ann(lex, "Ci sono due cornetti.", strict=False).tokens[0]
+    assert ci.item is None and ci.candidates == () and ci.analyses == ci.raw  # its Morph-it! readings, as before
+    assert any("untaught lemma 'ci'" in m for m in errors(ann(lex, "Ci sono due cornetti.")))
+    spelled = ann(lex, "Emme, a, ci, i, o.", lemmas={"a": "w:a~letter", "ci": "w:ci~letter", "i": "w:i~letter"})
+    assert [t.item for t in spelled.tokens if t.kind == "word"] == [
+        "w:emme",
+        "w:a~letter",
+        "w:ci~letter",
+        "w:i~letter",
+        "w:o",  # no override: the conjunction, by default
+    ]
+    # without the defaults the letters would take over (one candidate) or make the word ambiguous
+    bare = make_lexicon(course, LETTERS)
+    assert ann(bare, "Ci sono due cornetti.", strict=False).tokens[0].item == "w:ci~letter"
+    assert ann(bare, "Sei di Bologna?", "u01").tokens[1].candidates == ("w:di", "w:di~letter")
+
+
+def spell_in_copy(repo: Path, exercise_keys: str, layout_keys: str) -> None:
+    """The letters and their defaults, a dictation that spells MARCO and a menu row that spells ABC, with exercise- and
+    layout-level `lemmas:` (docs/03 § Texts, § Exercises)."""
+    items = repo / "content/items/u00.yaml"
+    letters = "".join(
+        f"  - {{id: '{iid}', it: {it['it']}, pos: noun, gender: f, plural: invariable, gloss: a letter, status: P, "
+        "lesson: u00.l2}\n"
+        for iid, it in [*LETTERS.items(), *{"w:erre": {"it": "erre"}, "w:bi": {"it": "bi"}}.items()]
+    )
+    items.write_text(items.read_text(encoding="utf-8") + letters, encoding="utf-8")
+    dis = repo / "content/disambiguation.yaml"
+    defaults = "".join(
+        f"  {form}: {choice if isinstance(choice, str) else '{pos: [' + ', '.join(choice['pos']) + ']}'}\n"
+        for form, choice in LETTER_DEFAULTS.items()
+    )
+    dis.write_text(dis.read_text(encoding="utf-8") + defaults, "utf-8")
+    lesson = repo / "content/units/02-al-bar/lesson-1.yaml"
+    text = lesson.read_text(encoding="utf-8")
+    old = '        say: "Vorrei un cornetto, per favore."\n        slow: true\n'
+    assert old in text
+    new = (
+        '        say: "Emme, a, erre, ci, o."\n        slow: true\n'
+        '        near: [{answer: "emme a erre ci", hint: "One more letter."}]\n'
+        f"        lemmas: {{{exercise_keys}}}\n"
+    )
+    lesson.write_text(text.replace(old, new), encoding="utf-8")
+    task = repo / "content/units/02-al-bar/task.yaml"
+    text = task.read_text(encoding="utf-8")
+    old = '              - {name: cornetto, price: "1,40"}\n        ignore: [Caffetteria, Colazione]\n'
+    assert text.count(old) == 1
+    new = (
+        '              - {name: cornetto, price: "1,40"}\n              - {name: "a, bi, ci", price: "1,00"}\n'
+        f"        ignore: [Caffetteria, Colazione]\n        lemmas: {{{layout_keys}}}\n"
+    )
+    task.write_text(text.replace(old, new), encoding="utf-8")
+
+
+def lock_items(result, lock: str, path: str) -> list[list[str | None]]:
+    strings = json.loads(result.locks[lock])["strings"]
+    return [[t.get("item") for t in x["tokens"] if t["kind"] == "word"] for x in strings if x["path"] == path]
+
+
+def test_exercise_and_layout_lemmas_cover_all_their_strings(course_copy):
+    """An exercise's `lemmas:` applies to each of its Italian strings (`say` and the near-miss here) and a layout's to
+    each of its strings; a key no string contains is an error at the map, not one per string."""
+    spell_in_copy(
+        course_copy,
+        "a: 'w:a~letter', ci: 'w:ci~letter', o: 'w:o~letter', e: 'w:e~letter'",
+        "a: 'w:a~letter', ci: 'w:ci~letter', o: 'w:o~letter'",
+    )
+    result = annotate_course(load_course(course_copy), morphit.load())
+    assert sorted(str(f).split(": ", 1)[1] for f in result.errors) == [
+        "content/units/02-al-bar/lesson-1.yaml:194 › steps[3].block[11].lemmas: lemmas key 'e' is in none of the "
+        "exercise's Italian strings",
+        "content/units/02-al-bar/task.yaml:96 › relay.source.text.layout.lemmas: lemmas key 'o' is in none of the "
+        "layout's Italian strings",
+    ]
+    lesson, task = lock_path("content/units/02-al-bar/lesson-1.yaml"), lock_path("content/units/02-al-bar/task.yaml")
+    letters = ["w:emme", "w:a~letter", "w:erre", "w:ci~letter", "w:o~letter"]
+    assert lock_items(result, lesson, "steps[3].block[11].say") == [letters]
+    assert lock_items(result, lesson, "steps[3].block[11].near[0].answer") == [letters[:4]]
+    assert lock_items(result, task, "relay.source.text.layout.sections[1].rows[1].name") == [
+        ["w:a~letter", "w:bi", "w:ci~letter"]
+    ]
+    # elsewhere the defaults hold: the golden story's e is still "and"
+    story = json.loads(result.locks[lesson])["strings"]
+    assert {t.get("item") for x in story if x["role"] == "line" for t in x["tokens"] if t["surface"] == "e"} == {"w:e"}
+
+
+def test_layout_lemmas_stay_out_of_the_payload(course_copy, tmp_path):
+    from itcontent.pack.build import build_pack
+
+    spell_in_copy(
+        course_copy, "a: 'w:a~letter', ci: 'w:ci~letter', o: 'w:o~letter'", "a: 'w:a~letter', ci: 'w:ci~letter'"
+    )
+    assert run_annotate(course_copy, echo=lambda _: None) == 0
+    out = tmp_path / "p.sqlite"
+    build_pack(course_copy, mode="dev", out=out, echo=lambda _: None)  # lints: the schemas take both maps
+    import sqlite3
+
+    con = sqlite3.connect(out)
+    layout = json.loads(con.execute("SELECT layout FROM texts WHERE id = 'u02.task.menu'").fetchone()[0])
+    con.close()
+    assert "lemmas" not in layout
+    row = layout["sections"][1]["rows"][1]["name"]
+    assert [t["itemId"] for t in row["tokens"] if t["kind"] == "word"] == ["w:a~letter", "w:bi", "w:ci~letter"]
+
+
+def test_an_items_recall_answer_reads_its_own_form_as_the_item(course_copy):
+    """docs/03 § Items: a letter's `recall_answer: '{a|la a}'` is the letter w:a~letter (and la its lexical article),
+    although `a` alone is Unit 1's preposition by default."""
+    spell_in_copy(
+        course_copy,
+        "a: 'w:a~letter', ci: 'w:ci~letter', o: 'w:o~letter'",
+        "a: 'w:a~letter', ci: 'w:ci~letter'",
+    )
+    items = course_copy / "content/items/u00.yaml"
+    text = items.read_text(encoding="utf-8")
+    old = "  - {id: 'w:a~letter', it: a, pos: noun, gender: f, plural: invariable, gloss: a letter, status: P, "
+    assert old in text
+    items.write_text(text.replace(old, old + "recall_answer: '{a|la a}', "), encoding="utf-8")
+    result = annotate_course(load_course(course_copy), morphit.load())
+    strings = json.loads(result.locks[lock_path("content/items/u00.yaml")])["strings"]
+    answers = [[(t["surface"], t.get("item")) for t in x["tokens"]] for x in strings if x["ref"] == "w:a~letter"]
+    assert answers == [[("a", "w:a~letter")], [("la", "w:a~letter"), ("a", "w:a~letter")]]
 
 
 def test_names_are_case_sensitive_and_overridable(lex):

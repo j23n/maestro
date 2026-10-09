@@ -10,6 +10,7 @@
     "format": {"const": "writing"},
     "kind": {"enum": ["form", "message", "postcard", "list", "description"], "title": "writing kind"},
     "tags": {"$ref": "../common.schema.json#/$defs/tags"},
+    "lemmas": {"$ref": "../common.schema.json#/$defs/lemmas"},
     "source": {"$ref": "../common.schema.json#/$defs/source"},
     "prompt_en": {"$ref": "../common.schema.json#/$defs/nonEmptyString"},
     "fields": {

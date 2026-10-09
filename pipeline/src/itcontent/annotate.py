@@ -8,8 +8,8 @@ YAML path, the string, the token and the candidates; nothing is written while th
 
 Which strings are Italian (docs/06 per format; the rules this module settles are marked *):
 
-- texts: `title.it`, every line's `it`, and every string of a real-world `layout` except `type`, `style` and the
-  values listed in `ignore`;
+- texts: `title.it`, every line's `it`, and every string of a real-world `layout` except `type`, `style`, `lemmas`
+  and the values listed in `ignore`;
 - unit specs, lessons and conversations: `title.it` (titles are exempt from the gates, never from annotation; a unit
   title whose unit has no items file yet is *pending*);
 - exercises: `prompt_it`, `context_it`, cloze `text` (one string per gap expansion, the gap filled in), `say`,
@@ -22,10 +22,14 @@ Which strings are Italian (docs/06 per format; the rules this module settles are
 - *notes: the `*…*` fragments of `p`, `tip` and `intro.text_en` (fragments that are endings such as `*-o*` are
   skipped), `table.rows` cells (`columns` are English headers), and `examples` that are inline strings rather than
   line IDs;
-- items: `recall_answer` patterns;
+- items: `recall_answer` patterns, *reading the item's own `it` as the item (as if `lemmas: {it: id}`);
 - *near-miss `answer` patterns (exercise and conversation-node `near`) are annotated like an accepted pattern's other
   expansions, never as a model answer: they are often deliberately wrong (`una cornetto`), so an unknown token is
   fine there (a warning only without any Morph-it! analysis) and nothing about them is gated.
+
+Disambiguation overrides (`lemmas: {form: item-id}`, docs/03): a text line's apply to that line, and a key it lacks is
+an error; an exercise's apply to every Italian string of the exercise above (not its inline texts, whose lines have
+their own) and a layout's to every string of the layout, and a key none of those strings contains is an error.
 
 Model answers (first expansion of `answer`, a cloze gap, the first `accept` pattern of each intent; `help`; `model`;
 the first sentence-building order) and every other string are strict; an accepted pattern's other expansions are
@@ -61,11 +65,12 @@ from itcontent.morphit import MorphIt
 from itcontent.morphit import load as load_morphit
 from itcontent.patterns import Expansion, PatternError, expand
 from itcontent.resolve import Annotated, Ctx, Issue, Lexicon, Position, TokAnn, lesson_k
+from itcontent.tokenize import fold
 
 FORMAT = 1
 LOCK_DIR = "content/.annotations"
 TEXT_STEP_KINDS = frozenset({"story", "listening", "reading"})
-LAYOUT_NON_TEXT = frozenset({"type", "style", "ignore"})
+LAYOUT_NON_TEXT = frozenset({"type", "style", "ignore", "lemmas"})
 FRAGMENT = re.compile(r"\*\*(.+?)\*\*|\*(.+?)\*")
 LINE_REF = re.compile(r"^u\d{2}\.(?:l\d+|task)\.[a-z0-9-]+#\d+$")
 
@@ -89,6 +94,7 @@ class Source:
     model: bool | None = None
     gap: tuple[int, int] | None = None  # character span of the filled-in gap (cloze)
     fragment: tuple[int, int] | None = None  # character span of a note fragment in its YAML string
+    lemmas_at: PathT | None = None  # the exercise's or layout's `lemmas:` this string shares (its YAML path)
 
 
 @dataclass(frozen=True)
@@ -117,9 +123,29 @@ class Collector:
         self.unit = unit
         self.sources: list[Source] = []
         self.problems: list[Problem] = []
+        # an exercise's or a layout's `lemmas:` (and its YAML path) while its strings are collected
+        self.shared: tuple[dict[str, Any], PathT] | None = None
+        self.shared_maps: dict[PathT, dict[str, Any]] = {}  # every such map of the file, by its YAML path
 
     def ctx(self, pos: Position, **kw: Any) -> Ctx:
+        if self.shared is not None:
+            kw = {"lemmas": self.shared[0], "shared_lemmas": True, **kw}
         return Ctx(unit=self.unit, pos=pos, **kw)
+
+    def add(self, src: Source) -> None:
+        if self.shared is not None:
+            src.lemmas_at = self.shared[1]
+        self.sources.append(src)
+
+    def share(self, lemmas: Any, path: PathT, *, report: bool = True) -> None:
+        """Strings collected from now on share this `lemmas:` map (an exercise's or a layout's), until `unshare`;
+        with `report`, a key none of them contains is an error."""
+        self.shared = ({str(k): v for k, v in lemmas.items()}, path) if isinstance(lemmas, dict) and lemmas else None
+        if self.shared is not None and report:
+            self.shared_maps[path] = self.shared[0]
+
+    def unshare(self) -> None:
+        self.shared = None
 
     def plain(self, path: PathT, role: str, value: Any, pos: Position, ref: str | None = None, **kw: Any) -> None:
         if isinstance(value, bool) or value is None:
@@ -128,7 +154,7 @@ class Collector:
             value = str(value)
         if not isinstance(value, str) or not value.strip():
             return
-        self.sources.append(Source(path, role, value, self.ctx(pos, **kw), ref=ref))
+        self.add(Source(path, role, value, self.ctx(pos, **kw), ref=ref))
 
     def pattern(
         self, path: PathT, role: str, pattern: Any, pos: Position, ref: str | None, *, model_first: bool
@@ -144,7 +170,7 @@ class Collector:
             if not e.raw:
                 continue  # an all-optional pattern's empty expansion
             model = model_first and k == 0
-            self.sources.append(
+            self.add(
                 Source(
                     path,
                     role,
@@ -191,7 +217,7 @@ class Collector:
                 last = g.end()
             out += text[last:]
             vary = max(gi, 0)
-            self.sources.append(
+            self.add(
                 Source(
                     path,
                     "cloze",
@@ -216,7 +242,7 @@ class Collector:
             if not body.strip() or re.fullmatch(r"-\w+", body.strip()):
                 continue  # an ending such as *-o*, not a word
             src = Source(path, "note", body, self.ctx(pos, markup="*"), ref=ref, fragment=(start, start + len(body)))
-            self.sources.append(src)
+            self.add(src)
 
     # ------------------------------------------------------------ texts
 
@@ -242,7 +268,11 @@ class Collector:
         layout = t.get("layout")
         if isinstance(layout, dict):
             ignore = {str(x) for x in layout.get("ignore") or []}
-            self._layout(layout, (*base, "layout"), pos, tid, ignore)
+            self.share(layout.get("lemmas"), (*base, "layout", "lemmas"))
+            try:
+                self._layout(layout, (*base, "layout"), pos, tid, ignore)
+            finally:
+                self.unshare()
 
     def _layout(self, node: Any, path: PathT, pos: Position, ref: str | None, ignore: set[str]) -> None:
         if isinstance(node, dict):
@@ -258,6 +288,14 @@ class Collector:
     # ------------------------------------------------------------ exercises
 
     def exercise(self, ref: ExerciseRef, base: PathT, pos: Position) -> None:
+        """The exercise's own Italian strings (its inline texts are walked as texts), sharing its `lemmas:`."""
+        self.share(ref.data.get("lemmas"), (*base, "lemmas"))
+        try:
+            self._exercise_strings(ref, base, pos)
+        finally:
+            self.unshare()
+
+    def _exercise_strings(self, ref: ExerciseRef, base: PathT, pos: Position) -> None:
         ex = ref.data
         eid = ref.id or None
         fmt = ref.format
@@ -279,9 +317,7 @@ class Collector:
                     self.plain((*base, key, j), "tile", tile, pos, ref=eid)
             for j, order in enumerate(ex.get("answer") or []):
                 if isinstance(order, str):
-                    self.sources.append(
-                        Source((*base, "answer", j), "answer", order, self.ctx(pos), ref=eid, model=j == 0)
-                    )
+                    self.add(Source((*base, "answer", j), "answer", order, self.ctx(pos), ref=eid, model=j == 0))
         elif fmt in ("dictation", "repeat"):
             self.plain((*base, "say"), "say", ex.get("say"), pos, ref=eid)
         elif fmt == "choice":
@@ -384,14 +420,19 @@ def collect(course: Course, doc: Doc, kind: str, unit_id: str) -> Collector:
     elif kind == "items":
         for i, item in enumerate(data.get("items") or []):
             if isinstance(item, dict) and item.get("recall_answer") is not None:
+                # *an item's recall answer reads the item's own `it` as the item (the letter w:a~letter's `a`)
+                iid, it = str(item.get("id")), item.get("it")
+                own = {str(it): iid} if iid.startswith("w:") and isinstance(it, str) and " " not in it else None
+                col.share(own, ("items", i, "it"), report=False)
                 col.pattern(
                     ("items", i, "recall_answer"),
                     "recall_answer",
                     item.get("recall_answer"),
                     (u, -1, -1),
-                    str(item.get("id")),
+                    iid,
                     model_first=True,
                 )
+                col.unshare()
     elif kind in ("lesson", "task", "check", "placement", "final"):
         rank = {"lesson": lesson_k(str(data.get("id", ""))), "task": 900, "check": 950}.get(kind, 0)
         title = data.get("title")
@@ -590,8 +631,11 @@ def annotate_course(course: Course, morph: MorphIt) -> Result:
         for p in col.problems:
             findings.append(Finding("error", doc.rel, line_of(doc, p.path), fmt_path(p.path), "", p.message))
         entries = []
+        used: dict[PathT, set[str]] = {p: set() for p in col.shared_maps}
         for src in col.sources:
             ann = lex.annotate(src.text, src.ctx)
+            if src.lemmas_at is not None:
+                used.setdefault(src.lemmas_at, set()).update(ann.used_lemmas)
             n_strings += 1
             n_tokens += len(ann.tokens)
             n_words += sum(1 for t in ann.tokens if t.kind != "punct")
@@ -607,6 +651,19 @@ def annotate_course(course: Course, morph: MorphIt) -> Result:
                     )
                 )
             entries.append(string_json(src, ann))
+        for path, keys in sorted(col.shared_maps.items(), key=lambda kv: _sort_key(kv[0])):
+            owner = "layout" if path[-2:-1] == ("layout",) else "exercise"
+            for key in sorted(k for k in keys if fold(k) not in used[path]):
+                findings.append(
+                    Finding(
+                        "error",
+                        doc.rel,
+                        line_of(doc, path),
+                        fmt_path(path),
+                        "",
+                        f"lemmas key '{key}' is in none of the {owner}'s Italian strings",
+                    )
+                )
         if not entries:
             continue
         lock = {"format": FORMAT, "source": doc.rel, "unit": unit_id, "strings": entries}

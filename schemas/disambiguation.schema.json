@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://italiano.invalid/schemas/disambiguation.schema.json",
   "title": "Disambiguation of ambiguous forms (content/disambiguation.yaml)",
-  "description": "docs/04 § Annotation step 4. A rule names `form` or `forms`, a `choose` (item ID or {pos: [...]}) under `when_any` conditions, and an `otherwise`.",
+  "description": "docs/04 § Annotation step 4. A rule names `form` or `forms`, a `choose` (item ID or {pos: [...]}) under `when_any` conditions, and an `otherwise`; `defaults` give a form's reading when no rule decides.",
   "type": "object",
   "properties": {
     "context_rules": {
@@ -36,8 +36,9 @@
       }
     },
     "defaults": {
+      "description": "The reading of a form when no `lemmas:` override or context rule decides: an item ID (chosen among several candidates), or {pos: [...]} to keep only those Morph-it! readings, even with one candidate (a letter name that is also a clitic: ci).",
       "type": "object",
-      "additionalProperties": {"type": "string", "format": "id:lexical_item"}
+      "additionalProperties": {"$ref": "#/$defs/choice"}
     }
   },
   "additionalProperties": false,

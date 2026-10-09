@@ -154,11 +154,13 @@ sections:
       - id: u00.check.12
         format: talk
         score: 2
-        tags: [cd:greet-farewell, sy:ss.greetings-register, sy:ex.cils-monologue]
-        prompt_en: "You arrive at a desk in the evening. Say hello and say your first name."
+        tags: [cd:greet-farewell, cd:spell-name, sy:ss.greetings-register, sy:ss.alphabet, sy:ex.cils-monologue]
+        prompt_en: "You arrive at a desk in the evening. Say hello, say your first name and spell it."
+        lemmas: {a: w:a~letter, ci: w:ci~letter, di: w:di~letter, o: w:o~letter, ti: w:ti~letter}
         points:
           - {id: greet, en: "Say hello", accept: ["{buonasera|buongiorno}"]}
           - {id: name, en: "Say your first name", accept: ["{NAME}"]}
-        pass: 1
-        model: "Buonasera! Marco."
+          - {id: spell, en: "Spell your name, letter by letter", accept: ["{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}"]}
+        pass: 2
+        model: "Buonasera! Marco: emme, a, erre, ci, o."
         duration_s: {min: 3, max: 45}
