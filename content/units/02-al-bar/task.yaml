@@ -35,10 +35,18 @@ conversations:
         say: "Certo. E da mangiare?"
         en: "Of course. Anything to eat?"
         expect:
-          - {intent: order-food, goal: food, accept: ["(vorrei )un cornetto( per favore)", "{sì|e}( {vorrei|prendo}) un cornetto( per favore)", "(sì )un cornetto grazie", "prendo un cornetto( {per favore|grazie})", "(scusi )avete {cornetti|un cornetto}"], next: n3}
-          - {intent: nothing-to-eat, goal: food, accept: ["no grazie", "no grazie solo il cappuccino", "solo il cappuccino( grazie)"], next: n3b}
+          - {intent: order-food, goal: food, accept: ["(vorrei )un cornetto( per favore)", "{sì|e}( {vorrei|prendo}) un cornetto( per favore)", "(sì )un cornetto grazie", "prendo un cornetto( {per favore|grazie})"], next: n3}
+          - {intent: ask-have, goal: food, accept: ["(scusi )avete {cornetti|un cornetto}", "(scusi )avete ancora {cornetti|un cornetto}", "(scusi )ci sono( ancora) cornetti"], next: n2b}
+          - {intent: nothing-to-eat, goal: food, accept: ["no grazie", "no grazie solo {il|un} cappuccino( grazie)", "solo {il|un} cappuccino( grazie)"], next: n3b}
         help: ["Un cornetto, per favore.", "No, grazie."]
         hint_en: "Order something to eat, or say no thanks."
+      n2b:                                  # after avete…?, Giulia answers before the croissant comes
+        say: "Certo! Un cornetto?"
+        en: "Of course! A croissant?"
+        expect:
+          - {intent: yes-food, goal: food, accept: ["sì( grazie)( un cornetto)( per favore)", "un cornetto( {per favore|grazie})", "sì un cornetto grazie"], next: n3}
+        help: ["Sì, grazie!"]
+        hint_en: "Say yes."
       n3:
         say: "Allora? Le piace il cornetto?"
         en: "Well? Do you like the croissant?"
@@ -73,7 +81,7 @@ conversations:
         say: "Tre euro, grazie."
         en: "Three euros, thanks."
         expect:
-          - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie"], next: end}
+          - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}"], next: end}
         near: [{answer: "(ecco )(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
         help: ["Ecco. Grazie, arrivederci!"]
         hint_en: "Pay (\"here you are\") and say goodbye."
@@ -81,7 +89,7 @@ conversations:
         say: "Un euro e sessanta, grazie."
         en: "€1.60, thanks."
         expect:
-          - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie"], next: end}
+          - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}"], next: end}
         near: [{answer: "(ecco )(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
         help: ["Ecco. Grazie, arrivederci!"]
         hint_en: "Pay (\"here you are\") and say goodbye."
@@ -120,10 +128,12 @@ relay:
             rows:
               - {name: caffè, price: "1,20"}
               - {name: cappuccino, price: "1,60"}
+          - title: Bevande
+            rows:
               - {name: spremuta, price: "3,20"}
-          - title: Colazione
+          - title: Pasticceria
             rows:
               - {name: cornetto, price: "1,40"}
-        ignore: [Caffetteria]
+        ignore: [Caffetteria, Bevande, Pasticceria]   # section headings: gloss-free layout words (docs/06 § 4)
   friend_en: "I'm waiting outside. How much is a cappuccino in there?"
   answer_en: {type: price, value: 1.60}

@@ -143,7 +143,7 @@ steps:
         targets: [{item: w:spremuta, skill: recall}]
         tags: [cd:order-food-drink]
         prompt_en: "a fresh orange juice"
-        answer: "{una [spremuta]|una [spremuta] d'arancia}"     # model answer first: d'arancia comes in Lesson 2
+        answer: "{una [spremuta]|una [spremuta] d'arancia}"     # model answer first: d'arancia comes in Lesson 3
         near: [{answer: "un spremuta( d'arancia)", outcome: almost, hint: "Spremuta is feminine."}]
         audio_after: true
       - id: u02.l1.ex07
@@ -389,7 +389,7 @@ steps:
           say: "Tre euro, grazie."
           en: "Three euros, thanks."
           expect:
-            - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie"], next: end}   # CL37: a goodbye is required, so the ciao near-miss fires in speech
+            - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}"], next: end}   # CL37: a goodbye is required, so the ciao near-miss fires in speech
           near: [{answer: "(ecco )(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
           help: ["Ecco. Grazie, arrivederci!"]
           hint_en: "Pay (\"here you are\") and say goodbye."

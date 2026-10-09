@@ -1054,9 +1054,9 @@
    "expansion": 0,
    "model": true,
    "norm": "quanto costa un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "quanto costa un cornetto",
@@ -1074,9 +1074,9 @@
    "expansion": 1,
    "model": false,
    "norm": "buongiorno senta scusi quanto costa un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta scusi quanto costa un cornetto",
@@ -1094,9 +1094,9 @@
    "expansion": 2,
    "model": false,
    "norm": "buongiorno senta scusi quanto costa il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta scusi quanto costa il cornetto",
@@ -1117,9 +1117,9 @@
    "expansion": 3,
    "model": false,
    "norm": "buongiorno senta scusi quant'è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta scusi quant'è un cornetto",
@@ -1137,9 +1137,9 @@
    "expansion": 4,
    "model": false,
    "norm": "buongiorno senta scusi quant'è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta scusi quant'è il cornetto",
@@ -1160,9 +1160,9 @@
    "expansion": 5,
    "model": false,
    "norm": "buongiorno senta scusi quanto è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta scusi quanto è un cornetto",
@@ -1180,9 +1180,9 @@
    "expansion": 6,
    "model": false,
    "norm": "buongiorno senta scusi quanto è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta scusi quanto è il cornetto",
@@ -1203,9 +1203,9 @@
    "expansion": 7,
    "model": false,
    "norm": "buongiorno senta quanto costa un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta quanto costa un cornetto",
@@ -1222,9 +1222,9 @@
    "expansion": 8,
    "model": false,
    "norm": "buongiorno senta quanto costa il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta quanto costa il cornetto",
@@ -1244,9 +1244,9 @@
    "expansion": 9,
    "model": false,
    "norm": "buongiorno senta quant'è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta quant'è un cornetto",
@@ -1263,9 +1263,9 @@
    "expansion": 10,
    "model": false,
    "norm": "buongiorno senta quant'è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta quant'è il cornetto",
@@ -1285,9 +1285,9 @@
    "expansion": 11,
    "model": false,
    "norm": "buongiorno senta quanto è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta quanto è un cornetto",
@@ -1304,9 +1304,9 @@
    "expansion": 12,
    "model": false,
    "norm": "buongiorno senta quanto è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno senta quanto è il cornetto",
@@ -1321,14 +1321,143 @@
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [4, 4]}
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
    ],
    "expansion": 13,
    "model": false,
-   "norm": "buongiorno scusi quanto costa un cornetto",
-   "of": 51,
+   "norm": "buongiorno scusi senta quanto costa un cornetto",
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "buongiorno scusi senta quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [36, 38], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 14,
+   "model": false,
+   "norm": "buongiorno scusi senta quanto costa il cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "buongiorno scusi senta quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [36, 38], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 15,
+   "model": false,
+   "norm": "buongiorno scusi senta quant'è un cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "buongiorno scusi senta quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [29, 30], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [31, 33], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [34, 42], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 16,
+   "model": false,
+   "norm": "buongiorno scusi senta quant'è il cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "buongiorno scusi senta quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [29, 30], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [31, 33], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [34, 42], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 17,
+   "model": false,
+   "norm": "buongiorno scusi senta quanto è un cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "buongiorno scusi senta quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [30, 31], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [32, 34], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [35, 43], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 18,
+   "model": false,
+   "norm": "buongiorno scusi senta quanto è il cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "buongiorno scusi senta quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [30, 31], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [32, 34], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [35, 43], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 19,
+   "model": false,
+   "norm": "buongiorno scusi quanto costa un cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno scusi quanto costa un cornetto",
@@ -1342,12 +1471,12 @@
    ]
   },
   {
-   "expansion": 14,
+   "expansion": 20,
    "model": false,
    "norm": "buongiorno scusi quanto costa il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno scusi quanto costa il cornetto",
@@ -1364,12 +1493,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 15,
+   "expansion": 21,
    "model": false,
    "norm": "buongiorno scusi quant'è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno scusi quant'è un cornetto",
@@ -1383,12 +1512,12 @@
    ]
   },
   {
-   "expansion": 16,
+   "expansion": 22,
    "model": false,
    "norm": "buongiorno scusi quant'è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno scusi quant'è il cornetto",
@@ -1405,12 +1534,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 17,
+   "expansion": 23,
    "model": false,
    "norm": "buongiorno scusi quanto è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno scusi quanto è un cornetto",
@@ -1424,12 +1553,12 @@
    ]
   },
   {
-   "expansion": 18,
+   "expansion": 24,
    "model": false,
    "norm": "buongiorno scusi quanto è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno scusi quanto è il cornetto",
@@ -1446,12 +1575,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 19,
+   "expansion": 25,
    "model": false,
    "norm": "buongiorno quanto costa un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno quanto costa un cornetto",
@@ -1464,12 +1593,12 @@
    ]
   },
   {
-   "expansion": 20,
+   "expansion": 26,
    "model": false,
    "norm": "buongiorno quanto costa il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno quanto costa il cornetto",
@@ -1485,12 +1614,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 21,
+   "expansion": 27,
    "model": false,
    "norm": "buongiorno quant'è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno quant'è un cornetto",
@@ -1503,12 +1632,12 @@
    ]
   },
   {
-   "expansion": 22,
+   "expansion": 28,
    "model": false,
    "norm": "buongiorno quant'è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno quant'è il cornetto",
@@ -1524,12 +1653,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 23,
+   "expansion": 29,
    "model": false,
    "norm": "buongiorno quanto è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno quanto è un cornetto",
@@ -1542,12 +1671,12 @@
    ]
   },
   {
-   "expansion": 24,
+   "expansion": 30,
    "model": false,
    "norm": "buongiorno quanto è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "buongiorno quanto è il cornetto",
@@ -1563,12 +1692,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 25,
+   "expansion": 31,
    "model": false,
    "norm": "senta scusi quanto costa un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta scusi quanto costa un cornetto",
@@ -1582,12 +1711,12 @@
    ]
   },
   {
-   "expansion": 26,
+   "expansion": 32,
    "model": false,
    "norm": "senta scusi quanto costa il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta scusi quanto costa il cornetto",
@@ -1604,12 +1733,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 27,
+   "expansion": 33,
    "model": false,
    "norm": "senta scusi quant'è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta scusi quant'è un cornetto",
@@ -1623,12 +1752,12 @@
    ]
   },
   {
-   "expansion": 28,
+   "expansion": 34,
    "model": false,
    "norm": "senta scusi quant'è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta scusi quant'è il cornetto",
@@ -1645,12 +1774,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 29,
+   "expansion": 35,
    "model": false,
    "norm": "senta scusi quanto è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta scusi quanto è un cornetto",
@@ -1664,12 +1793,12 @@
    ]
   },
   {
-   "expansion": 30,
+   "expansion": 36,
    "model": false,
    "norm": "senta scusi quanto è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta scusi quanto è il cornetto",
@@ -1686,12 +1815,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 31,
+   "expansion": 37,
    "model": false,
    "norm": "senta quanto costa un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta quanto costa un cornetto",
@@ -1704,12 +1833,12 @@
    ]
   },
   {
-   "expansion": 32,
+   "expansion": 38,
    "model": false,
    "norm": "senta quanto costa il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta quanto costa il cornetto",
@@ -1725,12 +1854,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 33,
+   "expansion": 39,
    "model": false,
    "norm": "senta quant'è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta quant'è un cornetto",
@@ -1743,12 +1872,12 @@
    ]
   },
   {
-   "expansion": 34,
+   "expansion": 40,
    "model": false,
    "norm": "senta quant'è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta quant'è il cornetto",
@@ -1764,12 +1893,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 35,
+   "expansion": 41,
    "model": false,
    "norm": "senta quanto è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta quanto è un cornetto",
@@ -1782,12 +1911,12 @@
    ]
   },
   {
-   "expansion": 36,
+   "expansion": 42,
    "model": false,
    "norm": "senta quanto è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "senta quanto è il cornetto",
@@ -1801,14 +1930,137 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 43,
+   "model": false,
+   "norm": "scusi senta quanto costa un cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "scusi senta quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [19, 24], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [25, 27], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 44,
+   "model": false,
+   "norm": "scusi senta quanto costa il cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "scusi senta quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [19, 24], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [25, 27], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 45,
+   "model": false,
+   "norm": "scusi senta quant'è un cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "scusi senta quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [18, 19], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [20, 22], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [23, 31], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 46,
+   "model": false,
+   "norm": "scusi senta quant'è il cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "scusi senta quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [18, 19], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [20, 22], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [23, 31], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 47,
+   "model": false,
+   "norm": "scusi senta quanto è un cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "scusi senta quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [19, 20], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [21, 23], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [24, 32], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 48,
+   "model": false,
+   "norm": "scusi senta quanto è il cornetto",
+   "of": 63,
+   "path": "steps[4].block[4].answer",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "ref": "u02.l2.ex08",
+   "role": "answer",
+   "text": "scusi senta quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [19, 20], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [21, 23], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [24, 32], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 37,
+   "expansion": 49,
    "model": false,
    "norm": "scusi quanto costa un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "scusi quanto costa un cornetto",
@@ -1821,12 +2073,12 @@
    ]
   },
   {
-   "expansion": 38,
+   "expansion": 50,
    "model": false,
    "norm": "scusi quanto costa il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "scusi quanto costa il cornetto",
@@ -1842,12 +2094,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 39,
+   "expansion": 51,
    "model": false,
    "norm": "scusi quant'è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "scusi quant'è un cornetto",
@@ -1860,12 +2112,12 @@
    ]
   },
   {
-   "expansion": 40,
+   "expansion": 52,
    "model": false,
    "norm": "scusi quant'è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "scusi quant'è il cornetto",
@@ -1881,12 +2133,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 41,
+   "expansion": 53,
    "model": false,
    "norm": "scusi quanto è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "scusi quanto è un cornetto",
@@ -1899,12 +2151,12 @@
    ]
   },
   {
-   "expansion": 42,
+   "expansion": 54,
    "model": false,
    "norm": "scusi quanto è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "scusi quanto è il cornetto",
@@ -1920,12 +2172,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [2, 2]}
    ],
-   "expansion": 43,
+   "expansion": 55,
    "model": false,
    "norm": "quanto costa un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "quanto costa un cornetto",
@@ -1937,12 +2189,12 @@
    ]
   },
   {
-   "expansion": 44,
+   "expansion": 56,
    "model": false,
    "norm": "quanto costa il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "quanto costa il cornetto",
@@ -1957,12 +2209,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [2, 2]}
    ],
-   "expansion": 45,
+   "expansion": 57,
    "model": false,
    "norm": "quant'è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "quant'è un cornetto",
@@ -1974,12 +2226,12 @@
    ]
   },
   {
-   "expansion": 46,
+   "expansion": 58,
    "model": false,
    "norm": "quant'è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "quant'è il cornetto",
@@ -1994,12 +2246,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [2, 2]}
    ],
-   "expansion": 47,
+   "expansion": 59,
    "model": false,
    "norm": "quanto è un cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "quanto è un cornetto",
@@ -2011,12 +2263,12 @@
    ]
   },
   {
-   "expansion": 48,
+   "expansion": 60,
    "model": false,
    "norm": "quanto è il cornetto",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "quanto è il cornetto",
@@ -2031,12 +2283,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [0, 0]}
    ],
-   "expansion": 49,
+   "expansion": 61,
    "model": false,
    "norm": "un cornetto quanto costa",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "un cornetto quanto costa",
@@ -2048,12 +2300,12 @@
    ]
   },
   {
-   "expansion": 50,
+   "expansion": 62,
    "model": false,
    "norm": "il cornetto quanto costa",
-   "of": 51,
+   "of": 63,
    "path": "steps[4].block[4].answer",
-   "pattern": "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
+   "pattern": "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}",
    "ref": "u02.l2.ex08",
    "role": "answer",
    "text": "il cornetto quanto costa",
@@ -8364,6 +8616,1350 @@
     {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
     {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [17, 23], "surface": "grazie"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [4, 4]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "ecco grazie e arrivederci e grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie e arrivederci e grazie buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [26, 27], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [28, 34], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [35, 40], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [41, 49], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [4, 4]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "ecco grazie e arrivederci e buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie e arrivederci e buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [26, 27], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [28, 33], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [34, 42], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "ecco grazie e arrivederci grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie e arrivederci grazie buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [26, 32], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [33, 38], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [39, 47], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "ecco grazie e arrivederci buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie e arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [5, 5]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "ecco grazie e buona giornata e grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie e buona giornata e grazie arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [14, 19], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [20, 28], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [29, 30], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [31, 37], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [38, 49], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [5, 5]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "ecco grazie e buona giornata e arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie e buona giornata e arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [14, 19], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [20, 28], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [29, 30], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [31, 42], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "ecco grazie e buona giornata grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie e buona giornata grazie arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [14, 19], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [20, 28], "surface": "giornata", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [29, 35], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [36, 47], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "ecco grazie e buona giornata arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie e buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [14, 19], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [20, 28], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [29, 40], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 8,
+   "model": false,
+   "norm": "ecco grazie arrivederci e grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie arrivederci e grazie buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [12, 23], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [24, 25], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [26, 32], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [33, 38], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [39, 47], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 9,
+   "model": false,
+   "norm": "ecco grazie arrivederci e buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie arrivederci e buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [12, 23], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [24, 25], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "ecco grazie arrivederci grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie arrivederci grazie buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [12, 23], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [24, 30], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [31, 36], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [37, 45], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "ecco grazie arrivederci buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [12, 23], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [24, 29], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [30, 38], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [4, 4]}
+   ],
+   "expansion": 12,
+   "model": false,
+   "norm": "ecco grazie buona giornata e grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie buona giornata e grazie arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [12, 17], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [18, 26], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [27, 28], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [29, 35], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [36, 47], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [4, 4]}
+   ],
+   "expansion": 13,
+   "model": false,
+   "norm": "ecco grazie buona giornata e arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie buona giornata e arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [12, 17], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [18, 26], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [27, 28], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [29, 40], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 14,
+   "model": false,
+   "norm": "ecco grazie buona giornata grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie buona giornata grazie arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [12, 17], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [18, 26], "surface": "giornata", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [27, 33], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [34, 45], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 15,
+   "model": false,
+   "norm": "ecco grazie buona giornata arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco grazie buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [12, 17], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [18, 26], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [27, 38], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 16,
+   "model": false,
+   "norm": "ecco e arrivederci e grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco e arrivederci e grazie buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [19, 20], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [21, 27], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [28, 33], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [34, 42], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 17,
+   "model": false,
+   "norm": "ecco e arrivederci e buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco e arrivederci e buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [19, 20], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [21, 26], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [27, 35], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 18,
+   "model": false,
+   "norm": "ecco e arrivederci grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco e arrivederci grazie buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [19, 25], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 19,
+   "model": false,
+   "norm": "ecco e arrivederci buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco e arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [19, 24], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [25, 33], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [4, 4]}
+   ],
+   "expansion": 20,
+   "model": false,
+   "norm": "ecco e buona giornata e grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco e buona giornata e grazie arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [24, 30], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [31, 42], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [4, 4]}
+   ],
+   "expansion": 21,
+   "model": false,
+   "norm": "ecco e buona giornata e arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco e buona giornata e arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [24, 35], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 22,
+   "model": false,
+   "norm": "ecco e buona giornata grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco e buona giornata grazie arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [22, 28], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [29, 40], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 23,
+   "model": false,
+   "norm": "ecco e buona giornata arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco e buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [5, 6], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [22, 33], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 24,
+   "model": false,
+   "norm": "ecco arrivederci e grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco arrivederci e grazie buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [5, 16], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [17, 18], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [19, 25], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 25,
+   "model": false,
+   "norm": "ecco arrivederci e buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco arrivederci e buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [5, 16], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [17, 18], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [19, 24], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [25, 33], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 26,
+   "model": false,
+   "norm": "ecco arrivederci grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco arrivederci grazie buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [5, 16], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [17, 23], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [24, 29], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [30, 38], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 27,
+   "model": false,
+   "norm": "ecco arrivederci buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [5, 16], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [17, 22], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [23, 31], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 28,
+   "model": false,
+   "norm": "ecco buona giornata e grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco buona giornata e grazie arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [5, 10], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [11, 19], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [20, 21], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [22, 28], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [29, 40], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 29,
+   "model": false,
+   "norm": "ecco buona giornata e arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco buona giornata e arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [5, 10], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [11, 19], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [20, 21], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [22, 33], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 30,
+   "model": false,
+   "norm": "ecco buona giornata grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco buona giornata grazie arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [5, 10], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [11, 19], "surface": "giornata", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [20, 26], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [27, 38], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 31,
+   "model": false,
+   "norm": "ecco buona giornata arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "ecco buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [5, 10], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [11, 19], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [20, 31], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 32,
+   "model": false,
+   "norm": "grazie e arrivederci e grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie e arrivederci e grazie buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [9, 20], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [21, 22], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [23, 29], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [30, 35], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [36, 44], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 33,
+   "model": false,
+   "norm": "grazie e arrivederci e buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie e arrivederci e buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [9, 20], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [21, 22], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [23, 28], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [29, 37], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 34,
+   "model": false,
+   "norm": "grazie e arrivederci grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie e arrivederci grazie buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [9, 20], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [21, 27], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [28, 33], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [34, 42], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 35,
+   "model": false,
+   "norm": "grazie e arrivederci buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie e arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [9, 20], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [21, 26], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [27, 35], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [4, 4]}
+   ],
+   "expansion": 36,
+   "model": false,
+   "norm": "grazie e buona giornata e grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie e buona giornata e grazie arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [24, 25], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [26, 32], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [33, 44], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]},
+    {"point": "g:conjunctions", "tokens": [4, 4]}
+   ],
+   "expansion": 37,
+   "model": false,
+   "norm": "grazie e buona giornata e arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie e buona giornata e arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [24, 25], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [26, 37], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 38,
+   "model": false,
+   "norm": "grazie e buona giornata grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie e buona giornata grazie arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [24, 30], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [31, 42], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 39,
+   "model": false,
+   "norm": "grazie e buona giornata arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie e buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [7, 8], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [24, 35], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 40,
+   "model": false,
+   "norm": "grazie arrivederci e grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie arrivederci e grazie buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [19, 20], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [21, 27], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [28, 33], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [34, 42], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 41,
+   "model": false,
+   "norm": "grazie arrivederci e buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie arrivederci e buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [19, 20], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [21, 26], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [27, 35], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 42,
+   "model": false,
+   "norm": "grazie arrivederci grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie arrivederci grazie buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [19, 25], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 43,
+   "model": false,
+   "norm": "grazie arrivederci buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [19, 24], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [25, 33], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 44,
+   "model": false,
+   "norm": "grazie buona giornata e grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie buona giornata e grazie arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [24, 30], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [31, 42], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 45,
+   "model": false,
+   "norm": "grazie buona giornata e arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie buona giornata e arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [22, 23], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [24, 35], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 46,
+   "model": false,
+   "norm": "grazie buona giornata grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie buona giornata grazie arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [22, 28], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [29, 40], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 47,
+   "model": false,
+   "norm": "grazie buona giornata arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "grazie buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [22, 33], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 48,
+   "model": false,
+   "norm": "e arrivederci e grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "e arrivederci e grazie buona giornata",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [2, 13], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [16, 22], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [23, 28], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [29, 37], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 49,
+   "model": false,
+   "norm": "e arrivederci e buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "e arrivederci e buona giornata",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [2, 13], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [16, 21], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [22, 30], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 50,
+   "model": false,
+   "norm": "e arrivederci grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "e arrivederci grazie buona giornata",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [2, 13], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [14, 20], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [21, 26], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [27, 35], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 51,
+   "model": false,
+   "norm": "e arrivederci buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "e arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [2, 13], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [14, 19], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [20, 28], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 52,
+   "model": false,
+   "norm": "e buona giornata e grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "e buona giornata e grazie arrivederci",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [2, 7], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [8, 16], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [17, 18], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [19, 25], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [26, 37], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:conjunctions", "tokens": [3, 3]}
+   ],
+   "expansion": 53,
+   "model": false,
+   "norm": "e buona giornata e arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "e buona giornata e arrivederci",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [2, 7], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [8, 16], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [17, 18], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [19, 30], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 54,
+   "model": false,
+   "norm": "e buona giornata grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "e buona giornata grazie arrivederci",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [2, 7], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [8, 16], "surface": "giornata", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [17, 23], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [24, 35], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]}
+   ],
+   "expansion": 55,
+   "model": false,
+   "norm": "e buona giornata arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "e buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [2, 7], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [8, 16], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [17, 28], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 56,
+   "model": false,
+   "norm": "arrivederci e grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "arrivederci e grazie buona giornata",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [14, 20], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [21, 26], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [27, 35], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 57,
+   "model": false,
+   "norm": "arrivederci e buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "arrivederci e buona giornata",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [14, 19], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [20, 28], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 58,
+   "model": false,
+   "norm": "arrivederci grazie buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "arrivederci grazie buona giornata",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [12, 18], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [19, 24], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [25, 33], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 59,
+   "model": false,
+   "norm": "arrivederci buona giornata",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [12, 17], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [18, 26], "surface": "giornata"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 60,
+   "model": false,
+   "norm": "buona giornata e grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "buona giornata e grazie arrivederci",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [17, 23], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [24, 35], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
+   "expansion": 61,
+   "model": false,
+   "norm": "buona giornata e arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "buona giornata e arrivederci",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [17, 28], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 62,
+   "model": false,
+   "norm": "buona giornata grazie arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "buona giornata grazie arrivederci",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [15, 21], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [22, 33], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 63,
+   "model": false,
+   "norm": "buona giornata arrivederci",
+   "of": 64,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[2]",
+   "pattern": "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}",
+   "ref": "u02.l2.ex32/n3",
+   "role": "accept",
+   "text": "buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [15, 26], "surface": "arrivederci"}
    ]
   },
   {

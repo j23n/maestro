@@ -29,7 +29,7 @@ items:
   - {id: 'w:totale', it: totale, pos: noun, gloss: total, gender: m, plural: totali, topics: ['topic:shopping'], note: 'On a receipt: what you pay.', status: R, lesson: u02.l3}
   - {id: 'w:contanti', it: contanti, pos: noun, gloss: cash, gender: m, plural: invariable, articles: {def: i}, topics: ['topic:shopping'], note: 'On a receipt: how much you paid in cash.', status: R, lesson: u02.l3}
   - {id: 'w:ancora~adverb', it: ancora, pos: adv, gloss: still; again, note: 'Avete ancora cornetti? Do you still have croissants?', status: R, lesson: u02.l3}
-  - {id: 'w:cento', it: cento, pos: num, gloss: a hundred, note: 'Prices: un euro e sessanta (€1.60), due euro e venti (€2.20).', status: P, lesson: u02.l2}
+  - {id: 'w:cento', it: cento, pos: num, gloss: a hundred, note: 'cento euro: €100 (no un).', status: P, lesson: u02.l2}
   - {id: 'c:vorrei', kind: chunk, it: vorrei, gloss: I'd like, match: [vorrei], exemplifies: ['g:conditional-courtesy'], status: P, lesson: u02.l1}
   - {id: 'c:quant-e', kind: chunk, it: 'quant''è?', gloss: 'how much is it?', match: [quant'è], status: P, lesson: u02.l1}
   - {id: 'c:cosa-prende', kind: chunk, it: 'cosa prende?', gloss: 'what will you have? (formal)', match: [cosa prende], exemplifies: ['g:lei-questions'], status: R, lesson: u02.l1}

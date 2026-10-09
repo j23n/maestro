@@ -187,7 +187,7 @@ steps:
         targets: [{item: c:quanto-costa, skill: recall}]
         tags: [cd:ask-price-pay]
         prompt_en: "How much is a croissant?"
-        answer: "{quanto costa un cornetto|(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}"
+        answer: "{quanto costa un cornetto|(buongiorno )({senta( scusi)|scusi( senta)} ){quanto costa|quant'è|quanto è} {un|il} cornetto|{un|il} cornetto quanto costa}"
         near: [{answer: "quanto costa una cornetto", outcome: almost, hint: "Cornetto is masculine."}]
         audio_after: true
       - id: u02.l2.ex09
@@ -492,7 +492,7 @@ steps:
           say: "Ecco! Un euro e quaranta, grazie."
           en: "Here you are! €1.40, thanks."
           expect:
-            - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie"], next: end}   # CL37: a goodbye is required
+            - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "(ecco )(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}"], next: end}   # CL37: a goodbye is required
           near: [{answer: "(ecco )(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
           help: ["Ecco. Grazie, arrivederci!"]
           hint_en: "Pay (\"here you are\") and say goodbye."

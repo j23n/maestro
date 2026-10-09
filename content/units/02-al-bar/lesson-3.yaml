@@ -500,7 +500,7 @@ steps:
           expect:
             - intent: ask-have
               goal: ask
-              accept: ["(scusi )avete cornetti", "(scusi )avete ancora cornetti", "(scusi )avete( ancora) {i|dei} cornetti", "(scusi )avete( ancora) un cornetto"]
+              accept: ["(scusi )avete cornetti", "(scusi )avete ancora cornetti", "(scusi )avete( ancora) {i|dei} cornetti", "(scusi )avete( ancora) un cornetto", "{senta( scusi)|scusi( senta)} avete( ancora) cornetti", "(senta )(scusi )ci sono( ancora) cornetti"]
               next: n3
           near: [{answer: "(scusi )avete cornetto", outcome: almost, hint: "More than one croissant: change the last vowel."}]
           help: ["Scusi, avete cornetti?"]
@@ -557,7 +557,7 @@ steps:
           say: "Grazie! Ecco il resto: quattro euro. E lo scontrino!"
           en: "Thank you! Here's your change: four euros. And the receipt!"
           expect:
-            - {intent: bye, goal: bye, accept: ["(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "grazie arrivederci e buona giornata"], next: end}
+            - {intent: bye, goal: bye, accept: ["(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "(grazie )(e ){arrivederci( e)( grazie) buona giornata|buona giornata( e)( grazie) arrivederci}"], next: end}
           near: [{answer: "(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
           help: ["Grazie, arrivederci!"]
           hint_en: "Thank Giulia and say goodbye."
