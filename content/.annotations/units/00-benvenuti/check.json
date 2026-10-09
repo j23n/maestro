@@ -49,7 +49,7 @@
    "role": "sound",
    "text": "emme",
    "tokens": [
-    {"flags": ["sound", "unresolved"], "gloss": "the letter M", "kind": "word", "span": [0, 4], "surface": "emme"}
+    {"analyses": ["emme NOUN-F:p", "emme NOUN-F:s"], "flags": ["sound", "synthetic"], "gloss": "the letter M", "item": "w:emme", "kind": "word", "lemma": "emme", "span": [0, 4], "surface": "emme"}
    ]
   },
   {
@@ -58,7 +58,7 @@
    "role": "sound",
    "text": "enne",
    "tokens": [
-    {"flags": ["sound", "unresolved"], "gloss": "the letter N", "kind": "word", "span": [0, 4], "surface": "enne"}
+    {"analyses": ["enne NOUN-F:p", "enne NOUN-F:s"], "flags": ["sound", "synthetic"], "gloss": "the letter N", "item": "w:enne", "kind": "word", "lemma": "enne", "span": [0, 4], "surface": "enne"}
    ]
   },
   {
@@ -1012,12 +1012,22 @@
    "path": "sections[3].exercises[1].model",
    "ref": "u00.check.12",
    "role": "model",
-   "text": "Buonasera! Marco.",
+   "text": "Buonasera! Marco: emme, a, erre, ci, o.",
    "tokens": [
     {"analyses": ["buonasera INT"], "item": "w:buonasera", "kind": "word", "lemma": "buonasera", "span": [0, 9], "surface": "Buonasera"},
     {"kind": "punct", "span": [9, 10], "surface": "!", "trailing": " "},
     {"kind": "name", "span": [11, 16], "surface": "Marco"},
-    {"kind": "punct", "span": [16, 17], "surface": "."}
+    {"kind": "punct", "span": [16, 17], "surface": ":", "trailing": " "},
+    {"analyses": ["emme NOUN-F:p", "emme NOUN-F:s"], "flags": ["synthetic"], "item": "w:emme", "kind": "word", "lemma": "emme", "span": [18, 22], "surface": "emme"},
+    {"kind": "punct", "span": [22, 23], "surface": ",", "trailing": " "},
+    {"analyses": ["a NOUN-F:p", "a NOUN-F:s"], "flags": ["synthetic"], "item": "w:a~letter", "kind": "word", "lemma": "a", "span": [24, 25], "surface": "a"},
+    {"kind": "punct", "span": [25, 26], "surface": ",", "trailing": " "},
+    {"analyses": ["erre NOUN-F:p", "erre NOUN-F:s"], "item": "w:erre", "kind": "word", "lemma": "erre", "span": [27, 31], "surface": "erre"},
+    {"kind": "punct", "span": [31, 32], "surface": ",", "trailing": " "},
+    {"analyses": ["ci NOUN-F:p", "ci NOUN-F:s"], "flags": ["synthetic"], "item": "w:ci~letter", "kind": "word", "lemma": "ci", "span": [33, 35], "surface": "ci"},
+    {"kind": "punct", "span": [35, 36], "surface": ",", "trailing": " "},
+    {"analyses": ["o NOUN-F:p", "o NOUN-F:s"], "flags": ["synthetic"], "item": "w:o~letter", "kind": "word", "lemma": "o", "span": [37, 38], "surface": "o"},
+    {"kind": "punct", "span": [38, 39], "surface": "."}
    ]
   },
   {
@@ -1063,6 +1073,302 @@
    "text": "{NAME}",
    "tokens": [
     {"kind": "slot", "slot": "NAME", "span": [0, 6], "surface": "{NAME}"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "bi",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "bi",
+   "tokens": [
+    {"analyses": ["bi NOUN-F:p", "bi NOUN-F:s"], "flags": ["synthetic"], "item": "w:bi", "kind": "word", "lemma": "bi", "span": [0, 2], "surface": "bi"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "ci",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "ci",
+   "tokens": [
+    {"analyses": ["ci NOUN-F:p", "ci NOUN-F:s"], "flags": ["synthetic"], "item": "w:ci~letter", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "di",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "di",
+   "tokens": [
+    {"analyses": ["di NOUN-F:p", "di NOUN-F:s"], "flags": ["synthetic"], "item": "w:di~letter", "kind": "word", "lemma": "di", "span": [0, 2], "surface": "di"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "effe",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "effe",
+   "tokens": [
+    {"analyses": ["effe NOUN-F:p", "effe NOUN-F:s"], "flags": ["synthetic"], "item": "w:effe", "kind": "word", "lemma": "effe", "span": [0, 4], "surface": "effe"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "gi",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "gi",
+   "tokens": [
+    {"analyses": ["gi NOUN-F:p", "gi NOUN-F:s"], "flags": ["synthetic"], "item": "w:gi", "kind": "word", "lemma": "gi", "span": [0, 2], "surface": "gi"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "acca",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "acca",
+   "tokens": [
+    {"analyses": ["acca NOUN-F:p", "acca NOUN-F:s"], "flags": ["synthetic"], "item": "w:acca", "kind": "word", "lemma": "acca", "span": [0, 4], "surface": "acca"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "i lunga",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "i lunga",
+   "tokens": [
+    {"analyses": ["il ART-M:p"], "chunk": "c:i-lunga", "kind": "word", "lemma": "il", "span": [0, 1], "surface": "i", "trailing": " "},
+    {"analyses": ["lungo ADJ:pos+f+s"], "chunk": "c:i-lunga", "kind": "word", "lemma": "lungo", "span": [2, 7], "surface": "lunga"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "cappa",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "cappa",
+   "tokens": [
+    {"analyses": ["cappa NOUN-F:s"], "item": "w:cappa", "kind": "word", "lemma": "cappa", "span": [0, 5], "surface": "cappa"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "elle",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "elle",
+   "tokens": [
+    {"analyses": ["elle NOUN-F:p", "elle NOUN-F:s"], "flags": ["synthetic"], "item": "w:elle", "kind": "word", "lemma": "elle", "span": [0, 4], "surface": "elle"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "emme",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "emme",
+   "tokens": [
+    {"analyses": ["emme NOUN-F:p", "emme NOUN-F:s"], "flags": ["synthetic"], "item": "w:emme", "kind": "word", "lemma": "emme", "span": [0, 4], "surface": "emme"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "enne",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "enne",
+   "tokens": [
+    {"analyses": ["enne NOUN-F:p", "enne NOUN-F:s"], "flags": ["synthetic"], "item": "w:enne", "kind": "word", "lemma": "enne", "span": [0, 4], "surface": "enne"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "pi",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "pi",
+   "tokens": [
+    {"analyses": ["pi NOUN-F:p", "pi NOUN-F:s"], "flags": ["synthetic"], "item": "w:pi", "kind": "word", "lemma": "pi", "span": [0, 2], "surface": "pi"}
+   ]
+  },
+  {
+   "expansion": 12,
+   "model": false,
+   "norm": "cu",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "cu",
+   "tokens": [
+    {"analyses": ["cu NOUN-F:p", "cu NOUN-F:s"], "flags": ["synthetic"], "item": "w:cu", "kind": "word", "lemma": "cu", "span": [0, 2], "surface": "cu"}
+   ]
+  },
+  {
+   "expansion": 13,
+   "model": false,
+   "norm": "erre",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "erre",
+   "tokens": [
+    {"analyses": ["erre NOUN-F:p", "erre NOUN-F:s"], "item": "w:erre", "kind": "word", "lemma": "erre", "span": [0, 4], "surface": "erre"}
+   ]
+  },
+  {
+   "expansion": 14,
+   "model": false,
+   "norm": "esse",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "esse",
+   "tokens": [
+    {"analyses": ["esse NOUN-F:p", "esse NOUN-F:s"], "flags": ["synthetic"], "item": "w:esse", "kind": "word", "lemma": "esse", "span": [0, 4], "surface": "esse"}
+   ]
+  },
+  {
+   "expansion": 15,
+   "model": false,
+   "norm": "ti",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "ti",
+   "tokens": [
+    {"analyses": ["ti NOUN-F:p", "ti NOUN-F:s"], "flags": ["synthetic"], "item": "w:ti~letter", "kind": "word", "lemma": "ti", "span": [0, 2], "surface": "ti"}
+   ]
+  },
+  {
+   "expansion": 16,
+   "model": false,
+   "norm": "vu",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "vu",
+   "tokens": [
+    {"analyses": ["vu NOUN-F:p", "vu NOUN-F:s"], "flags": ["synthetic"], "item": "w:vu", "kind": "word", "lemma": "vu", "span": [0, 2], "surface": "vu"}
+   ]
+  },
+  {
+   "expansion": 17,
+   "model": false,
+   "norm": "doppia vu",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "doppia vu",
+   "tokens": [
+    {"analyses": ["doppiare VER:impr+pres+2+s", "doppiare VER:ind+pres+3+s", "doppio ADJ:pos+f+s"], "chunk": "c:doppia-vu", "kind": "word", "span": [0, 6], "surface": "doppia", "trailing": " "},
+    {"chunk": "c:doppia-vu", "kind": "word", "span": [7, 9], "surface": "vu"}
+   ]
+  },
+  {
+   "expansion": 18,
+   "model": false,
+   "norm": "ics",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "ics",
+   "tokens": [
+    {"analyses": ["ics NOUN-F:p", "ics NOUN-F:s"], "flags": ["synthetic"], "item": "w:ics", "kind": "word", "lemma": "ics", "span": [0, 3], "surface": "ics"}
+   ]
+  },
+  {
+   "expansion": 19,
+   "model": false,
+   "norm": "ipsilon",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "ipsilon",
+   "tokens": [
+    {"analyses": ["ipsilon NOUN-F:p", "ipsilon NOUN-F:s"], "flags": ["synthetic"], "item": "w:ipsilon", "kind": "word", "lemma": "ipsilon", "span": [0, 7], "surface": "ipsilon"}
+   ]
+  },
+  {
+   "expansion": 20,
+   "model": false,
+   "norm": "zeta",
+   "of": 21,
+   "path": "sections[3].exercises[1].points[2].accept[0]",
+   "pattern": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}",
+   "ref": "u00.check.12",
+   "role": "point",
+   "text": "zeta",
+   "tokens": [
+    {"analyses": ["zeta NOUN-F:p", "zeta NOUN-F:s"], "flags": ["synthetic"], "item": "w:zeta", "kind": "word", "lemma": "zeta", "span": [0, 4], "surface": "zeta"}
    ]
   }
  ],

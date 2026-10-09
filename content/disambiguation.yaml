@@ -8,6 +8,10 @@
 # Unlike detection, a neighbouring token matches if ANY of its analyses matches (it can be a noun).
 # `choose` / `otherwise` name an item ID, or `{pos: […]}` to keep only the Morph-it! analyses with that
 # category (the grammar point is then found by detection).
+# A neighbour is matched on the readings of the items it can still resolve to after `lemmas:` and its default
+# (docs/04 § Annotation step 4): a letter noun that a token can't be never makes a rule fire.
+# `defaults` name an item ID (taken among several candidates) or `{pos: […]}`, which keeps those Morph-it! readings
+# even when only one item matches the form (the clitic ci, not the letter ci).
 
 context_rules:
   - form: sei
@@ -28,6 +32,15 @@ context_rules:
     otherwise: {pos: [PRO-PERS]}                    # the clitic pronoun (Units 7–8, R)
 
 defaults:
+  # Letter names that are also words (Unit 0 alphabet, docs/03 § IDs): the word by default; a spelled letter needs
+  # `lemmas: {a: w:a~letter}` on its line, exercise or layout.
+  a: w:a                     # the preposition, not the letter w:a~letter
+  e: w:e                     # and, not w:e~letter
+  o: w:o                     # or, not w:o~letter
+  di: w:di                   # of, from, not w:di~letter
+  i: {pos: [ART]}            # the article (Unit 3), not w:i~letter
+  ci: {pos: [CI, ADV, PRO]}  # the clitic (no item yet), not w:ci~letter
+  ti: {pos: [PRO]}           # the clitic (no item yet), not w:ti~letter
   era: w:essere              # not the noun 'era' (age, epoch)
   porta: w:porta~door        # the noun; portare 3rd singular needs a line override
   ancora: w:ancora~adverb    # 'still, again', not àncora (anchor)

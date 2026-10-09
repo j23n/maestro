@@ -74,6 +74,8 @@ characters:
     rule: strangers and staff use Lei with Marco and with you; each minor role gets a fresh name if named at all
     # Proposed in C3 (Unit 1 drafts); content lead to confirm.
     u01_roles: "the coworking space's receptionist (unnamed, gender not fixed; u01.l2); Hugo, a French neighbor born in Canada (u01.check.02); Lucía Ortega, a Spanish classmate at the language school (u01.l3 form); Emma Clarke, an English classmate there (u01.check.06)"
+    # Proposed in C3 (Unit 0 alphabet); content lead to confirm.
+    u00_roles: "Federica, a neighbor of yours, who knocks at your door the morning after Marco arrives and spells her name (u00.l2.ex61); the Lesson 2 taxi driver and Marco's neighbor stay unnamed"
 
 places:
   - {name: Bar Aurora, kind: fictional, note: near the coworking space}
