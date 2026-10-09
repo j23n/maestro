@@ -3075,35 +3075,6 @@
    ]
   },
   {
-   "expansion": 0,
-   "model": false,
-   "norm": "ecco grazie",
-   "of": 2,
-   "path": "steps[5].exercise.nodes.n3.expect[0].accept[2]",
-   "pattern": "ecco( grazie)",
-   "ref": "u02.l1.ex25/n3",
-   "role": "accept",
-   "text": "ecco grazie",
-   "tokens": [
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
-    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie"}
-   ]
-  },
-  {
-   "expansion": 1,
-   "model": false,
-   "norm": "ecco",
-   "of": 2,
-   "path": "steps[5].exercise.nodes.n3.expect[0].accept[2]",
-   "pattern": "ecco( grazie)",
-   "ref": "u02.l1.ex25/n3",
-   "role": "accept",
-   "text": "ecco",
-   "tokens": [
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco"}
-   ]
-  },
-  {
    "path": "steps[5].exercise.nodes.n3.help[0]",
    "ref": "u02.l1.ex25/n3",
    "role": "help",

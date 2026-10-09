@@ -421,10 +421,10 @@ steps:
           expect:
             - intent: ask-price
               goal: ask
-              accept:
+              accept:                 # CL37: the attention word is required, so the senti/scusa near-miss fires in speech
                 - "(buongiorno )senta( scusi) quanto costa un cornetto"
-                - "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto"
-                - "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa"
+                - "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto"
+                - "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa"
               next: n2
           near: [{answer: "(buongiorno ){senti( scusa)|scusa} {quanto costa|quant'è|quanto è} {un|il} cornetto", hint: "Giulia says Lei to you. Which word for 'excuse me' goes with Lei?"}]
           help: ["Senta, scusi, quanto costa un cornetto?"]
@@ -447,7 +447,7 @@ steps:
           say: "Ecco! Un euro e quaranta, grazie."
           en: "Here you are! €1.40, thanks."
           expect:
-            - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "ecco( grazie)"], next: end}
+            - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie"], next: end}   # CL37: a goodbye is required
           near: [{answer: "(ecco )(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
           help: ["Ecco. Grazie, arrivederci!"]
           hint_en: "Pay (\"here you are\") and say goodbye."

@@ -3269,14 +3269,149 @@
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [5, 5]}
+    {"point": "g:indefinite-article", "tokens": [6, 6]}
    ],
    "expansion": 0,
    "model": false,
-   "norm": "buongiorno senta scusi quanto costa un cornetto",
-   "of": 48,
+   "norm": "buongiorno senta scusi buongiorno quanto costa un cornetto",
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta scusi buongiorno quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [41, 46], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [47, 49], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [50, 58], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "buongiorno senta scusi buongiorno quanto costa il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta scusi buongiorno quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [41, 46], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 7, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [47, 49], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [50, 58], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [6, 6]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "buongiorno senta scusi buongiorno quant'è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta scusi buongiorno quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [40, 41], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [42, 44], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [45, 53], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "buongiorno senta scusi buongiorno quant'è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta scusi buongiorno quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [40, 41], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 7, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [42, 44], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [45, 53], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [6, 6]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "buongiorno senta scusi buongiorno quanto è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta scusi buongiorno quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [41, 42], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [43, 45], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [46, 54], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "buongiorno senta scusi buongiorno quanto è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta scusi buongiorno quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [41, 42], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 7, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [43, 45], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [46, 54], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "buongiorno senta scusi quanto costa un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta scusi quanto costa un cornetto",
@@ -3291,12 +3426,12 @@
    ]
   },
   {
-   "expansion": 1,
+   "expansion": 7,
    "model": false,
    "norm": "buongiorno senta scusi quanto costa il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta scusi quanto costa il cornetto",
@@ -3314,12 +3449,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [5, 5]}
    ],
-   "expansion": 2,
+   "expansion": 8,
    "model": false,
    "norm": "buongiorno senta scusi quant'è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta scusi quant'è un cornetto",
@@ -3334,12 +3469,12 @@
    ]
   },
   {
-   "expansion": 3,
+   "expansion": 9,
    "model": false,
    "norm": "buongiorno senta scusi quant'è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta scusi quant'è il cornetto",
@@ -3357,12 +3492,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [5, 5]}
    ],
-   "expansion": 4,
+   "expansion": 10,
    "model": false,
    "norm": "buongiorno senta scusi quanto è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta scusi quanto è un cornetto",
@@ -3377,12 +3512,12 @@
    ]
   },
   {
-   "expansion": 5,
+   "expansion": 11,
    "model": false,
    "norm": "buongiorno senta scusi quanto è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta scusi quanto è il cornetto",
@@ -3398,14 +3533,143 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 12,
+   "model": false,
+   "norm": "buongiorno senta buongiorno quanto costa un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta buongiorno quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [35, 40], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [41, 43], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [44, 52], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 13,
+   "model": false,
+   "norm": "buongiorno senta buongiorno quanto costa il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta buongiorno quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [35, 40], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [41, 43], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [44, 52], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 14,
+   "model": false,
+   "norm": "buongiorno senta buongiorno quant'è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta buongiorno quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [34, 35], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [36, 38], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 15,
+   "model": false,
+   "norm": "buongiorno senta buongiorno quant'è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta buongiorno quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [34, 35], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [36, 38], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 16,
+   "model": false,
+   "norm": "buongiorno senta buongiorno quanto è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta buongiorno quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [35, 36], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [37, 39], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [40, 48], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 17,
+   "model": false,
+   "norm": "buongiorno senta buongiorno quanto è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta buongiorno quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [35, 36], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [37, 39], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [40, 48], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 6,
+   "expansion": 18,
    "model": false,
    "norm": "buongiorno senta quanto costa un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta quanto costa un cornetto",
@@ -3419,12 +3683,12 @@
    ]
   },
   {
-   "expansion": 7,
+   "expansion": 19,
    "model": false,
    "norm": "buongiorno senta quanto costa il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta quanto costa il cornetto",
@@ -3441,12 +3705,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 8,
+   "expansion": 20,
    "model": false,
    "norm": "buongiorno senta quant'è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta quant'è un cornetto",
@@ -3460,12 +3724,12 @@
    ]
   },
   {
-   "expansion": 9,
+   "expansion": 21,
    "model": false,
    "norm": "buongiorno senta quant'è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta quant'è il cornetto",
@@ -3482,12 +3746,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 10,
+   "expansion": 22,
    "model": false,
    "norm": "buongiorno senta quanto è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta quanto è un cornetto",
@@ -3501,12 +3765,12 @@
    ]
   },
   {
-   "expansion": 11,
+   "expansion": 23,
    "model": false,
    "norm": "buongiorno senta quanto è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta quanto è il cornetto",
@@ -3521,14 +3785,407 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [6, 6]}
+   ],
+   "expansion": 24,
+   "model": false,
+   "norm": "buongiorno scusi senta buongiorno quanto costa un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta buongiorno quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [41, 46], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [47, 49], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [50, 58], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 25,
+   "model": false,
+   "norm": "buongiorno scusi senta buongiorno quanto costa il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta buongiorno quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [41, 46], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 7, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [47, 49], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [50, 58], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [6, 6]}
+   ],
+   "expansion": 26,
+   "model": false,
+   "norm": "buongiorno scusi senta buongiorno quant'è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta buongiorno quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [40, 41], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [42, 44], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [45, 53], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 27,
+   "model": false,
+   "norm": "buongiorno scusi senta buongiorno quant'è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta buongiorno quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [40, 41], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 7, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [42, 44], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [45, 53], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [6, 6]}
+   ],
+   "expansion": 28,
+   "model": false,
+   "norm": "buongiorno scusi senta buongiorno quanto è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta buongiorno quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [41, 42], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [43, 45], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [46, 54], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 29,
+   "model": false,
+   "norm": "buongiorno scusi senta buongiorno quanto è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta buongiorno quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [34, 40], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [41, 42], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 7, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [43, 45], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [46, 54], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 30,
+   "model": false,
+   "norm": "buongiorno scusi senta quanto costa un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [36, 38], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 31,
+   "model": false,
+   "norm": "buongiorno scusi senta quanto costa il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [36, 38], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 32,
+   "model": false,
+   "norm": "buongiorno scusi senta quant'è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [29, 30], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [31, 33], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [34, 42], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 33,
+   "model": false,
+   "norm": "buongiorno scusi senta quant'è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [29, 30], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [31, 33], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [34, 42], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 34,
+   "model": false,
+   "norm": "buongiorno scusi senta quanto è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [30, 31], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [32, 34], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [35, 43], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 35,
+   "model": false,
+   "norm": "buongiorno scusi senta quanto è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [30, 31], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [32, 34], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [35, 43], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 36,
+   "model": false,
+   "norm": "buongiorno scusi buongiorno quanto costa un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi buongiorno quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [35, 40], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [41, 43], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [44, 52], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 37,
+   "model": false,
+   "norm": "buongiorno scusi buongiorno quanto costa il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi buongiorno quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [35, 40], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [41, 43], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [44, 52], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 38,
+   "model": false,
+   "norm": "buongiorno scusi buongiorno quant'è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi buongiorno quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [34, 35], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [36, 38], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 39,
+   "model": false,
+   "norm": "buongiorno scusi buongiorno quant'è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi buongiorno quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [34, 35], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [36, 38], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 40,
+   "model": false,
+   "norm": "buongiorno scusi buongiorno quanto è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi buongiorno quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [35, 36], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [37, 39], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [40, 48], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 41,
+   "model": false,
+   "norm": "buongiorno scusi buongiorno quanto è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi buongiorno quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [28, 34], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [35, 36], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [37, 39], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [40, 48], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 12,
+   "expansion": 42,
    "model": false,
    "norm": "buongiorno scusi quanto costa un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno scusi quanto costa un cornetto",
@@ -3542,12 +4199,12 @@
    ]
   },
   {
-   "expansion": 13,
+   "expansion": 43,
    "model": false,
    "norm": "buongiorno scusi quanto costa il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno scusi quanto costa il cornetto",
@@ -3564,12 +4221,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 14,
+   "expansion": 44,
    "model": false,
    "norm": "buongiorno scusi quant'è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno scusi quant'è un cornetto",
@@ -3583,12 +4240,12 @@
    ]
   },
   {
-   "expansion": 15,
+   "expansion": 45,
    "model": false,
    "norm": "buongiorno scusi quant'è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno scusi quant'è il cornetto",
@@ -3605,12 +4262,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 16,
+   "expansion": 46,
    "model": false,
    "norm": "buongiorno scusi quanto è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno scusi quanto è un cornetto",
@@ -3624,12 +4281,12 @@
    ]
   },
   {
-   "expansion": 17,
+   "expansion": 47,
    "model": false,
    "norm": "buongiorno scusi quanto è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno scusi quanto è il cornetto",
@@ -3644,131 +4301,143 @@
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
    ],
-   "expansion": 18,
+   "expansion": 48,
    "model": false,
-   "norm": "buongiorno quanto costa un cornetto",
-   "of": 48,
+   "norm": "senta scusi buongiorno quanto costa un cornetto",
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "buongiorno quanto costa un cornetto",
+   "text": "senta scusi buongiorno quanto costa un cornetto",
    "tokens": [
-    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [11, 17], "surface": "quanto", "trailing": " "},
-    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [18, 23], "surface": "costa", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [24, 26], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [27, 35], "surface": "cornetto"}
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [36, 38], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
    ]
   },
   {
-   "expansion": 19,
+   "expansion": 49,
    "model": false,
-   "norm": "buongiorno quanto costa il cornetto",
-   "of": 48,
+   "norm": "senta scusi buongiorno quanto costa il cornetto",
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "buongiorno quanto costa il cornetto",
+   "text": "senta scusi buongiorno quanto costa il cornetto",
    "tokens": [
-    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [11, 17], "surface": "quanto", "trailing": " "},
-    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [18, 23], "surface": "costa", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [24, 26], "surface": "il", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [27, 35], "surface": "cornetto"}
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [36, 38], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
    ]
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
    ],
-   "expansion": 20,
+   "expansion": 50,
    "model": false,
-   "norm": "buongiorno quant'è un cornetto",
-   "of": 48,
+   "norm": "senta scusi buongiorno quant'è un cornetto",
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "buongiorno quant'è un cornetto",
+   "text": "senta scusi buongiorno quant'è un cornetto",
    "tokens": [
-    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [11, 17], "surface": "quant'"},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [17, 18], "surface": "è", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [19, 21], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [22, 30], "surface": "cornetto"}
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [29, 30], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [31, 33], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [34, 42], "surface": "cornetto"}
    ]
   },
   {
-   "expansion": 21,
+   "expansion": 51,
    "model": false,
-   "norm": "buongiorno quant'è il cornetto",
-   "of": 48,
+   "norm": "senta scusi buongiorno quant'è il cornetto",
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "buongiorno quant'è il cornetto",
+   "text": "senta scusi buongiorno quant'è il cornetto",
    "tokens": [
-    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [11, 17], "surface": "quant'"},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [17, 18], "surface": "è", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [19, 21], "surface": "il", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [22, 30], "surface": "cornetto"}
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [29, 30], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [31, 33], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [34, 42], "surface": "cornetto"}
    ]
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
    ],
-   "expansion": 22,
+   "expansion": 52,
    "model": false,
-   "norm": "buongiorno quanto è un cornetto",
-   "of": 48,
+   "norm": "senta scusi buongiorno quanto è un cornetto",
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "buongiorno quanto è un cornetto",
+   "text": "senta scusi buongiorno quanto è un cornetto",
    "tokens": [
-    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [11, 17], "surface": "quanto", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [18, 19], "surface": "è", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [20, 22], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [23, 31], "surface": "cornetto"}
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [30, 31], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [32, 34], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [35, 43], "surface": "cornetto"}
    ]
   },
   {
-   "expansion": 23,
+   "expansion": 53,
    "model": false,
-   "norm": "buongiorno quanto è il cornetto",
-   "of": 48,
+   "norm": "senta scusi buongiorno quanto è il cornetto",
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "buongiorno quanto è il cornetto",
+   "text": "senta scusi buongiorno quanto è il cornetto",
    "tokens": [
-    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [11, 17], "surface": "quanto", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [18, 19], "surface": "è", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [20, 22], "surface": "il", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [23, 31], "surface": "cornetto"}
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [30, 31], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [32, 34], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [35, 43], "surface": "cornetto"}
    ]
   },
   {
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 24,
+   "expansion": 54,
    "model": false,
    "norm": "senta scusi quanto costa un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta scusi quanto costa un cornetto",
@@ -3782,12 +4451,12 @@
    ]
   },
   {
-   "expansion": 25,
+   "expansion": 55,
    "model": false,
    "norm": "senta scusi quanto costa il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta scusi quanto costa il cornetto",
@@ -3804,12 +4473,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 26,
+   "expansion": 56,
    "model": false,
    "norm": "senta scusi quant'è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta scusi quant'è un cornetto",
@@ -3823,12 +4492,12 @@
    ]
   },
   {
-   "expansion": 27,
+   "expansion": 57,
    "model": false,
    "norm": "senta scusi quant'è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta scusi quant'è il cornetto",
@@ -3845,12 +4514,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 28,
+   "expansion": 58,
    "model": false,
    "norm": "senta scusi quanto è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta scusi quanto è un cornetto",
@@ -3864,12 +4533,12 @@
    ]
   },
   {
-   "expansion": 29,
+   "expansion": 59,
    "model": false,
    "norm": "senta scusi quanto è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta scusi quanto è il cornetto",
@@ -3884,14 +4553,137 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 60,
+   "model": false,
+   "norm": "senta buongiorno quanto costa un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "senta buongiorno quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [24, 29], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [30, 32], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [33, 41], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 61,
+   "model": false,
+   "norm": "senta buongiorno quanto costa il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "senta buongiorno quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [24, 29], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [30, 32], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [33, 41], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 62,
+   "model": false,
+   "norm": "senta buongiorno quant'è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "senta buongiorno quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [23, 24], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [25, 27], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 63,
+   "model": false,
+   "norm": "senta buongiorno quant'è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "senta buongiorno quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [23, 24], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [25, 27], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 64,
+   "model": false,
+   "norm": "senta buongiorno quanto è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "senta buongiorno quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [24, 25], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [26, 28], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [29, 37], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 65,
+   "model": false,
+   "norm": "senta buongiorno quanto è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "senta buongiorno quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [24, 25], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [26, 28], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [29, 37], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 30,
+   "expansion": 66,
    "model": false,
    "norm": "senta quanto costa un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta quanto costa un cornetto",
@@ -3904,12 +4696,12 @@
    ]
   },
   {
-   "expansion": 31,
+   "expansion": 67,
    "model": false,
    "norm": "senta quanto costa il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta quanto costa il cornetto",
@@ -3925,12 +4717,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 32,
+   "expansion": 68,
    "model": false,
    "norm": "senta quant'è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta quant'è un cornetto",
@@ -3943,12 +4735,12 @@
    ]
   },
   {
-   "expansion": 33,
+   "expansion": 69,
    "model": false,
    "norm": "senta quant'è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta quant'è il cornetto",
@@ -3964,12 +4756,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 34,
+   "expansion": 70,
    "model": false,
    "norm": "senta quanto è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta quanto è un cornetto",
@@ -3982,12 +4774,12 @@
    ]
   },
   {
-   "expansion": 35,
+   "expansion": 71,
    "model": false,
    "norm": "senta quanto è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta quanto è il cornetto",
@@ -4001,14 +4793,389 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 72,
+   "model": false,
+   "norm": "scusi senta buongiorno quanto costa un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta buongiorno quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [36, 38], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 73,
+   "model": false,
+   "norm": "scusi senta buongiorno quanto costa il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta buongiorno quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [36, 38], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [39, 47], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 74,
+   "model": false,
+   "norm": "scusi senta buongiorno quant'è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta buongiorno quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [29, 30], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [31, 33], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [34, 42], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 75,
+   "model": false,
+   "norm": "scusi senta buongiorno quant'è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta buongiorno quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [29, 30], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [31, 33], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [34, 42], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [5, 5]}
+   ],
+   "expansion": 76,
+   "model": false,
+   "norm": "scusi senta buongiorno quanto è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta buongiorno quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [30, 31], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [32, 34], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [35, 43], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 77,
+   "model": false,
+   "norm": "scusi senta buongiorno quanto è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta buongiorno quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [30, 31], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [32, 34], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [35, 43], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 78,
+   "model": false,
+   "norm": "scusi senta quanto costa un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [19, 24], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [25, 27], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 79,
+   "model": false,
+   "norm": "scusi senta quanto costa il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [19, 24], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [25, 27], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 80,
+   "model": false,
+   "norm": "scusi senta quant'è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [18, 19], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [20, 22], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [23, 31], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 81,
+   "model": false,
+   "norm": "scusi senta quant'è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [18, 19], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [20, 22], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [23, 31], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 82,
+   "model": false,
+   "norm": "scusi senta quanto è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [19, 20], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [21, 23], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [24, 32], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 83,
+   "model": false,
+   "norm": "scusi senta quanto è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [19, 20], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [21, 23], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [24, 32], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 84,
+   "model": false,
+   "norm": "scusi buongiorno quanto costa un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi buongiorno quanto costa un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [24, 29], "surface": "costa", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [30, 32], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [33, 41], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 85,
+   "model": false,
+   "norm": "scusi buongiorno quanto costa il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi buongiorno quanto costa il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [24, 29], "surface": "costa", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [30, 32], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [33, 41], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 86,
+   "model": false,
+   "norm": "scusi buongiorno quant'è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi buongiorno quant'è un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [23, 24], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [25, 27], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 87,
+   "model": false,
+   "norm": "scusi buongiorno quant'è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi buongiorno quant'è il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quant'"},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [23, 24], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [25, 27], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [28, 36], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 88,
+   "model": false,
+   "norm": "scusi buongiorno quanto è un cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi buongiorno quanto è un cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [24, 25], "surface": "è", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [26, 28], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [29, 37], "surface": "cornetto"}
+   ]
+  },
+  {
+   "expansion": 89,
+   "model": false,
+   "norm": "scusi buongiorno quanto è il cornetto",
+   "of": 96,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi buongiorno quanto è il cornetto",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [17, 23], "surface": "quanto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [24, 25], "surface": "è", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [26, 28], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [29, 37], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 36,
+   "expansion": 90,
    "model": false,
    "norm": "scusi quanto costa un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "scusi quanto costa un cornetto",
@@ -4021,12 +5188,12 @@
    ]
   },
   {
-   "expansion": 37,
+   "expansion": 91,
    "model": false,
    "norm": "scusi quanto costa il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "scusi quanto costa il cornetto",
@@ -4042,12 +5209,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 38,
+   "expansion": 92,
    "model": false,
    "norm": "scusi quant'è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "scusi quant'è un cornetto",
@@ -4060,12 +5227,12 @@
    ]
   },
   {
-   "expansion": 39,
+   "expansion": 93,
    "model": false,
    "norm": "scusi quant'è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "scusi quant'è il cornetto",
@@ -4081,12 +5248,12 @@
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 40,
+   "expansion": 94,
    "model": false,
    "norm": "scusi quanto è un cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "scusi quanto è un cornetto",
@@ -4099,12 +5266,12 @@
    ]
   },
   {
-   "expansion": 41,
+   "expansion": 95,
    "model": false,
    "norm": "scusi quanto è il cornetto",
-   "of": 48,
+   "of": 96,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {quanto costa|quant'è|quanto è} {un|il} cornetto",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "scusi quanto è il cornetto",
@@ -4118,125 +5285,59 @@
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [2, 2]}
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
    ],
-   "expansion": 42,
+   "expansion": 0,
    "model": false,
-   "norm": "quanto costa un cornetto",
-   "of": 48,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "norm": "buongiorno senta scusi buongiorno un cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "quanto costa un cornetto",
+   "text": "buongiorno senta scusi buongiorno un cornetto quanto costa",
    "tokens": [
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
-    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [7, 12], "surface": "costa", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [13, 15], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [16, 24], "surface": "cornetto"}
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [34, 36], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [37, 45], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [46, 52], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [53, 58], "surface": "costa"}
    ]
   },
   {
-   "expansion": 43,
+   "expansion": 1,
    "model": false,
-   "norm": "quanto costa il cornetto",
-   "of": 48,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
+   "norm": "buongiorno senta scusi buongiorno il cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "quanto costa il cornetto",
+   "text": "buongiorno senta scusi buongiorno il cornetto quanto costa",
    "tokens": [
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
-    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [7, 12], "surface": "costa", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [13, 15], "surface": "il", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [16, 24], "surface": "cornetto"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [2, 2]}
-   ],
-   "expansion": 44,
-   "model": false,
-   "norm": "quant'è un cornetto",
-   "of": 48,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
-   "ref": "u02.l2.ex32/n1",
-   "role": "accept",
-   "text": "quant'è un cornetto",
-   "tokens": [
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quant'"},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [6, 7], "surface": "è", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [8, 10], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [11, 19], "surface": "cornetto"}
-   ]
-  },
-  {
-   "expansion": 45,
-   "model": false,
-   "norm": "quant'è il cornetto",
-   "of": 48,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
-   "ref": "u02.l2.ex32/n1",
-   "role": "accept",
-   "text": "quant'è il cornetto",
-   "tokens": [
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quant-e", "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quant'"},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:quant-e", "kind": "word", "lemma": "essere", "span": [6, 7], "surface": "è", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [8, 10], "surface": "il", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [11, 19], "surface": "cornetto"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [2, 2]}
-   ],
-   "expansion": 46,
-   "model": false,
-   "norm": "quanto è un cornetto",
-   "of": 48,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
-   "ref": "u02.l2.ex32/n1",
-   "role": "accept",
-   "text": "quanto è un cornetto",
-   "tokens": [
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [9, 11], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetto"}
-   ]
-  },
-  {
-   "expansion": 47,
-   "model": false,
-   "norm": "quanto è il cornetto",
-   "of": 48,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
-   "pattern": "(buongiorno )(senta )(scusi ){quanto costa|quant'è|quanto è} {un|il} cornetto",
-   "ref": "u02.l2.ex32/n1",
-   "role": "accept",
-   "text": "quanto è il cornetto",
-   "tokens": [
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "flags": ["unresolved"], "kind": "word", "lemma": "quanto", "span": [0, 6], "surface": "quanto", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetto"}
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [17, 22], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [34, 36], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [37, 45], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [46, 52], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [53, 58], "surface": "costa"}
    ]
   },
   {
    "detections": [
     {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 0,
+   "expansion": 2,
    "model": false,
    "norm": "buongiorno senta scusi un cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta scusi un cornetto quanto costa",
@@ -4251,12 +5352,12 @@
    ]
   },
   {
-   "expansion": 1,
+   "expansion": 3,
    "model": false,
    "norm": "buongiorno senta scusi il cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta scusi il cornetto quanto costa",
@@ -4272,14 +5373,57 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "buongiorno senta buongiorno un cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta buongiorno un cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [28, 30], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [31, 39], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [40, 46], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [47, 52], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "buongiorno senta buongiorno il cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno senta buongiorno il cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [11, 16], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [28, 30], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [31, 39], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [40, 46], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [47, 52], "surface": "costa"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [2, 2]}
    ],
-   "expansion": 2,
+   "expansion": 6,
    "model": false,
    "norm": "buongiorno senta un cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta un cornetto quanto costa",
@@ -4293,12 +5437,12 @@
    ]
   },
   {
-   "expansion": 3,
+   "expansion": 7,
    "model": false,
    "norm": "buongiorno senta il cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno senta il cornetto quanto costa",
@@ -4313,14 +5457,145 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [4, 4]}
+   ],
+   "expansion": 8,
+   "model": false,
+   "norm": "buongiorno scusi senta buongiorno un cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta buongiorno un cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [34, 36], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [37, 45], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [46, 52], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [53, 58], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "buongiorno scusi senta buongiorno il cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta buongiorno il cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [23, 33], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 5, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [34, 36], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [37, 45], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [46, 52], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [53, 58], "surface": "costa"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 10,
+   "model": false,
+   "norm": "buongiorno scusi senta un cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta un cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [23, 25], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [26, 34], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [35, 41], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [42, 47], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "buongiorno scusi senta il cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi senta il cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [17, 22], "surface": "senta", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [23, 25], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [26, 34], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [35, 41], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [42, 47], "surface": "costa"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 12,
+   "model": false,
+   "norm": "buongiorno scusi buongiorno un cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi buongiorno un cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [28, 30], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [31, 39], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [40, 46], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [47, 52], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 13,
+   "model": false,
+   "norm": "buongiorno scusi buongiorno il cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "buongiorno scusi buongiorno il cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [11, 16], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [17, 27], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [28, 30], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [31, 39], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [40, 46], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [47, 52], "surface": "costa"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [2, 2]}
    ],
-   "expansion": 4,
+   "expansion": 14,
    "model": false,
    "norm": "buongiorno scusi un cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno scusi un cornetto quanto costa",
@@ -4334,12 +5609,12 @@
    ]
   },
   {
-   "expansion": 5,
+   "expansion": 15,
    "model": false,
    "norm": "buongiorno scusi il cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "buongiorno scusi il cornetto quanto costa",
@@ -4354,53 +5629,57 @@
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [1, 1]}
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
    ],
-   "expansion": 6,
+   "expansion": 16,
    "model": false,
-   "norm": "buongiorno un cornetto quanto costa",
-   "of": 16,
+   "norm": "senta scusi buongiorno un cornetto quanto costa",
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "buongiorno un cornetto quanto costa",
+   "text": "senta scusi buongiorno un cornetto quanto costa",
    "tokens": [
-    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [14, 22], "surface": "cornetto", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
-    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa"}
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [23, 25], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [26, 34], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [35, 41], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [42, 47], "surface": "costa"}
    ]
   },
   {
-   "expansion": 7,
+   "expansion": 17,
    "model": false,
-   "norm": "buongiorno il cornetto quanto costa",
-   "of": 16,
+   "norm": "senta scusi buongiorno il cornetto quanto costa",
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
-   "text": "buongiorno il cornetto quanto costa",
+   "text": "senta scusi buongiorno il cornetto quanto costa",
    "tokens": [
-    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "buongiorno", "trailing": " "},
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 2, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [11, 13], "surface": "il", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [14, 22], "surface": "cornetto", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [23, 29], "surface": "quanto", "trailing": " "},
-    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [30, 35], "surface": "costa"}
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [6, 11], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [23, 25], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [26, 34], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [35, 41], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [42, 47], "surface": "costa"}
    ]
   },
   {
    "detections": [
     {"point": "g:indefinite-article", "tokens": [2, 2]}
    ],
-   "expansion": 8,
+   "expansion": 18,
    "model": false,
    "norm": "senta scusi un cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta scusi un cornetto quanto costa",
@@ -4414,12 +5693,12 @@
    ]
   },
   {
-   "expansion": 9,
+   "expansion": 19,
    "model": false,
    "norm": "senta scusi il cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta scusi il cornetto quanto costa",
@@ -4434,14 +5713,55 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 20,
+   "model": false,
+   "norm": "senta buongiorno un cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "senta buongiorno un cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [17, 19], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [20, 28], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [29, 35], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [36, 41], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 21,
+   "model": false,
+   "norm": "senta buongiorno il cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "senta buongiorno il cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [0, 5], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [17, 19], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [20, 28], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [29, 35], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [36, 41], "surface": "costa"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [1, 1]}
    ],
-   "expansion": 10,
+   "expansion": 22,
    "model": false,
    "norm": "senta un cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta un cornetto quanto costa",
@@ -4454,12 +5774,12 @@
    ]
   },
   {
-   "expansion": 11,
+   "expansion": 23,
    "model": false,
    "norm": "senta il cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "senta il cornetto quanto costa",
@@ -4473,14 +5793,139 @@
   },
   {
    "detections": [
+    {"point": "g:indefinite-article", "tokens": [3, 3]}
+   ],
+   "expansion": 24,
+   "model": false,
+   "norm": "scusi senta buongiorno un cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta buongiorno un cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [23, 25], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [26, 34], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [35, 41], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [42, 47], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 25,
+   "model": false,
+   "norm": "scusi senta buongiorno il cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta buongiorno il cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [12, 22], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 4, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [23, 25], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [26, 34], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [35, 41], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [42, 47], "surface": "costa"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 26,
+   "model": false,
+   "norm": "scusi senta un cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta un cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [12, 14], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [15, 23], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [24, 30], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [31, 36], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 27,
+   "model": false,
+   "norm": "scusi senta il cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi senta il cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["sentire VER:sub+pres+1+s", "sentire VER:sub+pres+2+s", "sentire VER:sub+pres+3+s"], "chunk": "c:senta", "kind": "word", "lemma": "sentire", "span": [6, 11], "surface": "senta", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [12, 14], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [15, 23], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [24, 30], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [31, 36], "surface": "costa"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 28,
+   "model": false,
+   "norm": "scusi buongiorno un cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi buongiorno un cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [17, 19], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [20, 28], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [29, 35], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [36, 41], "surface": "costa"}
+   ]
+  },
+  {
+   "expansion": 29,
+   "model": false,
+   "norm": "scusi buongiorno il cornetto quanto costa",
+   "of": 32,
+   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
+   "ref": "u02.l2.ex32/n1",
+   "role": "accept",
+   "text": "scusi buongiorno il cornetto quanto costa",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "scusi", "trailing": " "},
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [6, 16], "surface": "buongiorno", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [17, 19], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [20, 28], "surface": "cornetto", "trailing": " "},
+    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [29, 35], "surface": "quanto", "trailing": " "},
+    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [36, 41], "surface": "costa"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:indefinite-article", "tokens": [1, 1]}
    ],
-   "expansion": 12,
+   "expansion": 30,
    "model": false,
    "norm": "scusi un cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "scusi un cornetto quanto costa",
@@ -4493,12 +5938,12 @@
    ]
   },
   {
-   "expansion": 13,
+   "expansion": 31,
    "model": false,
    "norm": "scusi il cornetto quanto costa",
-   "of": 16,
+   "of": 32,
    "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
+   "pattern": "(buongiorno ){senta( scusi)|scusi( senta)}( buongiorno) {un|il} cornetto quanto costa",
    "ref": "u02.l2.ex32/n1",
    "role": "accept",
    "text": "scusi il cornetto quanto costa",
@@ -4508,43 +5953,6 @@
     {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [9, 17], "surface": "cornetto", "trailing": " "},
     {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [18, 24], "surface": "quanto", "trailing": " "},
     {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [25, 30], "surface": "costa"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]}
-   ],
-   "expansion": 14,
-   "model": false,
-   "norm": "un cornetto quanto costa",
-   "of": 16,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
-   "ref": "u02.l2.ex32/n1",
-   "role": "accept",
-   "text": "un cornetto quanto costa",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
-    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [19, 24], "surface": "costa"}
-   ]
-  },
-  {
-   "expansion": 15,
-   "model": false,
-   "norm": "il cornetto quanto costa",
-   "of": 16,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
-   "pattern": "(buongiorno )(senta )(scusi ){un|il} cornetto quanto costa",
-   "ref": "u02.l2.ex32/n1",
-   "role": "accept",
-   "text": "il cornetto quanto costa",
-   "tokens": [
-    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 1, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [0, 2], "surface": "il", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
-    {"analyses": ["quanto ADJ:pos+m+s", "quanto DET-WH:f+s", "quanto PRO-WH-M-S", "quanto WH"], "chunk": "c:quanto-costa", "kind": "word", "lemma": "quanto", "span": [12, 18], "surface": "quanto", "trailing": " "},
-    {"analyses": ["costa NOUN-F:s", "costare VER:impr+pres+2+s", "costare VER:ind+pres+3+s"], "chunk": "c:quanto-costa", "kind": "word", "span": [19, 24], "surface": "costa"}
    ]
   },
   {
@@ -6855,35 +8263,6 @@
     {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
     {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [17, 23], "surface": "grazie"}
-   ]
-  },
-  {
-   "expansion": 0,
-   "model": false,
-   "norm": "ecco grazie",
-   "of": 2,
-   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
-   "pattern": "ecco( grazie)",
-   "ref": "u02.l2.ex32/n3",
-   "role": "accept",
-   "text": "ecco grazie",
-   "tokens": [
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco", "trailing": " "},
-    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie"}
-   ]
-  },
-  {
-   "expansion": 1,
-   "model": false,
-   "norm": "ecco",
-   "of": 2,
-   "path": "steps[7].exercise.nodes.n3.expect[0].accept[2]",
-   "pattern": "ecco( grazie)",
-   "ref": "u02.l2.ex32/n3",
-   "role": "accept",
-   "text": "ecco",
-   "tokens": [
-    {"analyses": ["ecco ADV"], "item": "w:ecco", "kind": "word", "lemma": "ecco", "span": [0, 4], "surface": "ecco"}
    ]
   },
   {

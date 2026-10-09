@@ -328,7 +328,7 @@ steps:
           say: "Tre euro, grazie."
           en: "Three euros, thanks."
           expect:
-            - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "ecco( grazie)"], next: end}
+            - {intent: pay-bye, goal: bye, accept: ["(ecco )(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie"], next: end}   # CL37: a goodbye is required, so the ciao near-miss fires in speech
           near: [{answer: "(ecco )(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
           help: ["Ecco. Grazie, arrivederci!"]
           hint_en: "Pay (\"here you are\") and say goodbye."
