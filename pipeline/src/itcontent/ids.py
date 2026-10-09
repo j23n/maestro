@@ -42,7 +42,9 @@ _EXERCISE = (
     rf"(?:{_LESSON}\.ex\d{{2}}|{_LESSON}\.q\d+|{_UNIT}\.task\.{SLUG}|{_UNIT}\.check\.\d{{2}}"
     rf"|pl\.\d{{2}}|fin\.{SLUG}\.\d{{2}})"
 )
-CHECK_TEXT_NAME = r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*"  # a slug starting with a letter: never a check exercise's NN
+# A check text's name: a slug starting with a letter (never a check exercise's NN) and other than `items` (the review
+# target `uNN.check.items` is the unit spec's check plan).
+CHECK_TEXT_NAME = r"(?!items(?![a-z0-9-]))[a-z][a-z0-9]*(?:-[a-z0-9]+)*"
 _TEXT = rf"(?:{_LESSON}\.{SLUG}|{_UNIT}\.task\.{SLUG}|{_UNIT}\.check\.{CHECK_TEXT_NAME}|{_EXERCISE}\.audio)"
 _NODE = r"[a-z][a-z0-9-]*"
 _ALL_KINDS = "|".join((*LESSON_STEP_KINDS, *UNIT_STEP_KINDS))
