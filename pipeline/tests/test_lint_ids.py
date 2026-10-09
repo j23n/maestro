@@ -269,6 +269,7 @@ INLINE_CHECK_TEXT = """source:
         ("u02.check.prices", None),
         ("u02.task.prices", "text ID u02.task.prices doesn't fit here: expected u02.check.<name>"),
         ("u03.check.prices", "text ID u03.check.prices doesn't fit here: expected u02.check.<name>"),
+        ("u02.check.items", "'u02.check.items' is not a valid text ID like u02.l1.story (docs/03 § IDs)"),
     ],
 )
 def test_a_text_defined_in_a_check_is_named_after_the_check(course_copy, tid, problem):
@@ -376,6 +377,7 @@ def test_id_helpers():
         "u02.task.conv1.audio": "text",
         "u01.check.classmate-form": "text",  # a text defined in a check (CL33)
         "u01.check.classmate-form#2": "text_line",
+        "u02.check.items-list": "text",
         "u02.check.01.audio": "text",
         "pl.03.audio#1": "text_line",
         "fin.listening.01.audio": "text",
@@ -396,6 +398,8 @@ def test_id_helpers():
         "kind:quiz": "coverage_ref",
         "u02.l1.step-quiz": "step",
         "u02.check.01": "text",  # a check exercise; a check text's name starts with a letter
+        "u02.check.items": "text",  # the review target for the unit spec's check plan
+        "u02.check.items#1": "text_line",
     }
     for value, kind in bad.items():
         assert not ids.is_valid(value, kind), (value, kind)

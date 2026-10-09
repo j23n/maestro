@@ -48,7 +48,18 @@
       },
       "additionalProperties": false
     },
-    "durations_seconds": {"type": "object", "additionalProperties": {"type": "number", "exclusiveMinimum": 0}},
+    "durations_seconds": {
+      "type": "object",
+      "required": ["audio_per_word"],
+      "properties": {
+        "audio_per_word": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Check 3 only: seconds of audio per word of a story or listening text (CL21)."
+        }
+      },
+      "additionalProperties": {"type": "number", "exclusiveMinimum": 0}
+    },
     "warnings_fail_in_release": {"type": "boolean"}
   },
   "additionalProperties": false,
