@@ -201,6 +201,7 @@ These three are used inside many lesson types (story questions, listening, readi
   text:
     id: u02.l2.menu
     kind: real_world
+    title: {en: "Bar Aurora: the menu"}   # optional; the caption shown above the layout (CL33)
     layout:
       type: menu
       title: Bar Aurora
@@ -229,9 +230,10 @@ These three are used inside many lesson types (story questions, listening, readi
 | `postcard` | `greeting`, `body: [text]`, `closing`, `signature`, `address?: [text]` |
 | `list` | `title?`, `items: [text]` (a shopping or to-do list) |
 
+- **Caption** (CL33): a real-world text's English `title` (`texts.title_en`) is shown as its caption above the layout wherever the text is shown: the reading step, and a task's or a check's `source` (relay, choice, true-false). It says what the document is ("Language school: registration form"); it is English UI, a heading for VoiceOver, and not tappable. An untitled text shows the layout alone, and other text kinds never get one.
 - Up to 10% unknown tokens are allowed here (`content/checker.yaml`).
 - **Accept when:** every layout type renders on iPhone, iPad and Mac (snapshot tests at compact and regular widths and at the largest Dynamic Type size), and tap-to-gloss works in every field.
-- IDs: `reading.layout`, `reading.field.<n>`.
+- IDs: `reading.caption`, `reading.layout`, `reading.field.<n>`.
 
 ### 5 · Grammar note (step `note`)
 

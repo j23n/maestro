@@ -23,6 +23,16 @@ struct PlayerText: Sendable, Equatable {
     let audioID: AudioID?
     /// Real-world texts are drawn natively from their layout (docs/06 §4).
     let layout: LayoutPayload?
+    /// The text's English title (`texts.title_en`).
+    var titleEn: String? = nil
+
+    /// What a real-world text shows above its layout wherever it appears (reading step, task, check): its English
+    /// title, which says what the document is (CL33, docs/06 §4). Nil for other texts and for untitled layouts.
+    var caption: String? {
+        guard layout != nil, let title = titleEn?.trimmingCharacters(in: .whitespacesAndNewlines), !title.isEmpty
+        else { return nil }
+        return title
+    }
 }
 
 /// Everything a lesson (or a unit's check) needs, loaded from the pack before the player opens, so the player never

@@ -394,8 +394,8 @@ struct ReadingPage: View {
             VStack(alignment: .leading, spacing: Tokens.Space.xxl) {
                 ExerciseInstruction("Read it. Tap any word for its meaning.")
                 if let layout = text.layout {
-                    RealWorldLayoutView(
-                        layout: layout,
+                    RealWorldTextView(
+                        caption: text.caption, layout: layout,
                         onTap: { line, token in
                             services.onGloss(text.id, line, token, nil)
                         })

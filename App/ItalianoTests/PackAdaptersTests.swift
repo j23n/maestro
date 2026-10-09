@@ -54,6 +54,19 @@ import Testing
         #expect(!bundle.characters.isEmpty)
     }
 
+    /// CL33: `texts.title_en` reaches the player (`PlayerText.titleEn`); only a real-world layout makes it a
+    /// caption. The mini pack's menu has no title, its story has one.
+    @Test func textTitlesReachThePlayer() async throws {
+        let story = try #require(try await LessonLoader.bundle(for: "u02.l1.step-story", reader: reader())
+            .texts["u02.l1.story"])
+        #expect(story.titleEn == "Bar Aurora" && story.layout == nil && story.caption == nil)
+        let relay = try await LessonLoader.bundle(for: "u02.step-relay", reader: reader())
+        let menu = try #require(relay.texts["u02.task.menu"])
+        #expect(menu.layout != nil && menu.titleEn == nil && menu.caption == nil)
+        let pack = try await reader().text("u02.task.menu")
+        #expect(PlayerText(pack) == menu && menu.titleEn == pack.titleEn)
+    }
+
     @Test func unitLevelStepsOpenOnTheirOwn() async throws {
         let bundle = try await LessonLoader.bundle(for: "u02.step-conversation-1", reader: reader())
         #expect(bundle.steps.map(\.id) == ["u02.step-conversation-1"])

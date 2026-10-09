@@ -61,7 +61,7 @@ extension PlayerText {
         self.init(
             id: t.id, title: t.titleIt,
             lines: t.lines.map { PlayerLine(number: $0.number, speaker: $0.speakerId, text: $0.text, english: $0.en) },
-            audioID: t.audioId, layout: t.layout)
+            audioID: t.audioId, layout: t.layout, titleEn: t.titleEn)
     }
 }
 

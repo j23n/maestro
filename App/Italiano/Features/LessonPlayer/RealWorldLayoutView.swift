@@ -1,6 +1,32 @@
 import LearningCore
 import SwiftUI
 
+/// A real-world text wherever it is shown (a reading step, a task's or a check's source): its caption, the English
+/// title that says what the document is (CL33, `PlayerText.caption`), above the layout. An untitled text shows the
+/// layout alone. The caption is a heading for VoiceOver, so the document can be found by heading.
+struct RealWorldTextView: View {
+    let caption: String?
+    let layout: LayoutPayload
+    /// (1-based string number in reading order, token index)
+    let onTap: (Int, Int) -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Tokens.Space.s) {
+            if let caption {
+                Text(caption)
+                    .dsFont(Tokens.TypeScale.uiTitle)
+                    .foregroundStyle(Color.ds.ink)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityLabel(caption)
+                    .accessibilityAddTraits(.isHeader)
+                    .accessibilityIdentifier("reading.caption")
+            }
+            RealWorldLayoutView(layout: layout, onTap: onTap)
+        }
+        .accessibilityElement(children: .contain)
+    }
+}
+
 /// Real-world texts drawn natively from their layout (docs/06 §4): one view per layout type, sharing the card
 /// styling, so every Italian word can be tapped for English and read by VoiceOver. Strings the author listed in
 /// `ignore`, prices and times arrive as plain strings and aren't tappable.
