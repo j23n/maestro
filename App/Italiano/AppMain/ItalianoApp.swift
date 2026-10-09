@@ -19,6 +19,10 @@ struct ItalianoApp: App {
                 // Pages deep in the player (the story's `Aa` menu) read and write settings through these.
                 .environment(deps.app)
                 .environment(deps.services.textSize)
+                #if os(macOS)
+                    // The minimum window (docs/07 § Navigation), which the lesson player fills on Mac.
+                    .frame(minWidth: Tokens.Size.macMinWindowWidth, minHeight: Tokens.Size.macMinWindowHeight)
+                #endif
         }
         #if os(macOS)
             .defaultSize(width: Tokens.Size.macMinWindowWidth + 200, height: Tokens.Size.macMinWindowHeight + 180)
