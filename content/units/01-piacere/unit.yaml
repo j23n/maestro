@@ -53,7 +53,7 @@ tasks:
   conversation:
   - {id: u01.task.conv1, brief: 'Meet Signora Rossi: she says tu, you answer with Lei'}
   - {id: u01.task.conv2, brief: Meet Sara at the coworking space (tu)}
-  talk: {brief: 'Introduce yourself: name, nationality, where you live and where you were born'}
+  talk: {brief: 'Introduce yourself: name (spelling your last name, CL28), nationality, where you live and where you were born'}
   writing:
     kind: form
     brief: Registration form at the language school

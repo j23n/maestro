@@ -1,6 +1,8 @@
 # Unit 1 check (docs/06 §18). DRAFT (C3): 18 items over listening, reading, writing and speaking, every Unit 1
 # can-do at least once. Check mode: one attempt, no hints, listening plays twice. New people in the audio (a man who
 # answers a wrong number, a new neighbour, a colleague) are minor roles (ch:extra) and use Lei (story-bible registers).
+# Marco, not Signora Rossi, meets the new neighbour in check.02: she says tu to anyone younger than her (CL3), and the
+# neighbour's age isn't fixed.
 id: u01.check
 review: {status: draft, by: null, date: null, hash: null}
 pass: {overall: 0.70, section_min: 0.50}
@@ -33,12 +35,12 @@ sections:
           id: u01.check.02.audio
           kind: dialogue
           lines:
-            - {speaker: ch:rossi, to: ch:extra, register: lei, it: "Buongiorno! Lei è nuovo qui?", en: "Good morning! Are you new here?"}
-            - {speaker: ch:extra, to: ch:rossi, register: lei, it: "Sì, buongiorno. Mi chiamo Hugo. Sono francese.", en: "Yes, good morning. My name is Hugo. I'm French.", foreign: [Hugo]}
-            - {speaker: ch:rossi, to: ch:extra, register: lei, it: "Piacere! Io sono la signora Rossi. Lei è nato in Francia?", en: "Nice to meet you! I'm Signora Rossi. Were you born in France?"}
-            - {speaker: ch:extra, to: ch:rossi, register: lei, it: "No, sono nato in Canada, ma sono francese.", en: "No, I was born in Canada, but I'm French."}
+            - {speaker: ch:marco, to: ch:extra, register: lei, it: "Buongiorno! Io sono Marco. Lei come si chiama?", en: "Good morning! I'm Marco. What's your name?"}
+            - {speaker: ch:extra, to: ch:marco, register: lei, it: "Buongiorno! Mi chiamo Hugo. Sono francese.", en: "Good morning! My name is Hugo. I'm French.", foreign: [Hugo]}
+            - {speaker: ch:marco, to: ch:extra, register: lei, it: "Piacere! Lei è nato in Francia?", en: "Nice to meet you! Were you born in France?"}
+            - {speaker: ch:extra, to: ch:marco, register: lei, it: "No, sono nato in Canada, ma sono francese.", en: "No, I was born in Canada, but I'm French."}
         plays: 2
-        question_en: "Where was the new neighbor born?"
+        question_en: "Marco meets a new neighbor on the stairs. Where was the neighbor born?"
         options: ["In Canada", "In France", "In Italy"]
         answer: 0
       - id: u01.check.03

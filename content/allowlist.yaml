@@ -2,7 +2,7 @@
 # understand or use is an item, not an allowlist entry.
 # Names match case-sensitively, so rosa (pink) and rossi (red) stay words. At the start of a sentence, a name that
 # is also an item form resolves to the name; override with the line's `lemmas:` (docs/04 § Annotation).
-names: [Marco, Sara, Giulia, Luca, Rossi, Rosa, Mimì, Aurora, Bologna, Toronto, Canada, Italia, Federica]
+names: [Marco, Sara, Giulia, Luca, Rossi, Rosa, Mimì, Aurora, Bologna, Toronto, Canada, Italia, Federica, Lenzi, Arcobaleno]
 interjections: [ah, oh, eh, mmm, uffa, boh]
 transparent:          # cognates an English speaker understands at sight; shown with a gloss on tap anyway
   - {form: bar, gloss: café; bar}

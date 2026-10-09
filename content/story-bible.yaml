@@ -76,7 +76,7 @@ characters:
     name: minor roles (passer-by, stallholder, shop assistant, ticket clerk, pharmacist, receptionist, waiter, tobacconist)
     rule: strangers and staff use Lei with Marco and with you; each minor role gets a fresh name if named at all
     # Confirmed by the content lead (docs/13 CL15): the receptionist stays unnamed, and lines avoid agreeing with them.
-    u01_roles: "the coworking space's receptionist (unnamed, gender not fixed; u01.l2); Hugo, a French neighbor born in Canada (u01.check.02); Lucía Ortega, a Spanish classmate at the language school (u01.l3 form); Emma Clarke, an English classmate there (u01.check.06)"
+    u01_roles: "the coworking space's receptionist (unnamed, gender not fixed; u01.l2); Hugo, a French neighbor born in Canada (u01.check.02); Lucía Ortega, a Spanish classmate at the language school (u01.l3 form); Emma Clarke, an English classmate there (u01.check.06; she spells Clarke in u01.l3); the secretary at Scuola Arcobaleno, who phones Marco about his course and takes his name and number (unnamed, gender not fixed, Lei; u01.l3 call, CL28)"
     # Confirmed by the content lead (docs/13 CL26).
     u00_roles: "Federica, a neighbor of yours, who knocks at your door the morning after Marco arrives and spells her name (Unit 0 lesson 3 after the split, CL27); the Lesson 2 taxi driver and Marco's neighbor stay unnamed"
 

@@ -53,7 +53,7 @@ items:
   - {id: 'w:bolognese', it: bolognese, pos: adj, gender: mf, gloss: from Bologna; Bolognese, note: 'Same form for men and women. Lowercase, like every nationality.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l2}
   - {id: 'w:anche', it: anche, pos: adv, gloss: also; too, note: 'Before the word it adds: anche io (me too; also written anch''io), anche Sara (Sara too).', status: P, lesson: u01.l3}
   - {id: 'w:allora', it: allora, pos: adv, gloss: so; well then, note: 'A filler to start or close a turn: Allora, a presto!', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
-  - {id: 'w:pronto', it: pronto, pos: interj, gloss: hello? (on the phone), note: 'Also an adjective: ready.', status: P, lesson: u01.l3}
+  - {id: 'c:pronto', kind: chunk, it: 'pronto?', gloss: 'hello? (answering the phone)', match: [pronto], note: 'How Italians answer the phone. (As an adjective, pronto means ready.)', status: P, lesson: u01.l3}
   - {id: 'c:a-presto', kind: chunk, it: a presto!, gloss: see you soon!, match: [a presto], status: P, lesson: u01.l3}
   - {id: 'w:nome', it: nome, pos: noun, gender: m, plural: nomi, gloss: first name; name, topics: ['topic:identity'], status: P, lesson: u01.l3}
   - {id: 'w:cognome', it: cognome, pos: noun, gender: m, plural: cognomi, gloss: surname; last name, topics: ['topic:identity'], status: P, lesson: u01.l3}
@@ -63,3 +63,7 @@ items:
   - {id: 'w:inghilterra', it: Inghilterra, pos: noun, gender: f, plural: invariable, gloss: England, recall_answer: '{l''Inghilterra|Inghilterra}', note: 'abito in Inghilterra; the nationality is inglese.', topics: ['topic:identity'], status: P, lesson: u01.l3}
   - {id: 'w:francia', it: Francia, pos: noun, gender: f, plural: invariable, gloss: France, note: 'abito in Francia; the nationality is francese.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
   - {id: 'w:spagna', it: Spagna, pos: noun, gender: f, plural: invariable, gloss: Spain, note: 'abito in Spagna; the nationality is spagnolo/spagnola.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  # Added in C4 (CL28, CL34): Scuola Arcobaleno phones Marco in lesson 3; he spells Lenzi and gives his phone number.
+  - {id: 'c:come-si-scrive', kind: chunk, it: 'come si scrive?', gloss: 'how do you spell it?', match: [come si scrive, si scrive], note: 'The answer is the letters: Lenzi? Elle, e, enne, zeta, i.', topics: ['topic:languages'], status: P, lesson: u01.l3}
+  - {id: 'c:numero-di-telefono', kind: chunk, it: numero di telefono, gloss: phone number, match: [il numero di telefono, numero di telefono], note: 'On forms and on the phone. People say a number in small groups: tre quattro sette, otto dodici…', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
+  - {id: 'w:scuola', it: scuola, pos: noun, gender: f, plural: scuole, gloss: school, note: 'la Scuola Arcobaleno: the language school in the story.', topics: ['topic:languages'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
