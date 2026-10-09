@@ -129,8 +129,8 @@ enum TestPack {
 
     private static func fill(_ db: Database, meta overrides: [String: String?]) throws {
         var meta: [String: String?] = [
-            "schema_version": "1", "pack_version": "0.1.0", "content_hash": "test-hash", "git_sha": "abc123",
-            "built_with": "storage-tests", "course_id": "italiano-a1", "locale": "it-IT", "release": "0",
+            "schema_version": "\(PackReader.schemaVersion)", "pack_version": "0.1.0", "content_hash": "test-hash",
+            "git_sha": "abc123", "built_with": "storage-tests", "course_id": "italiano-a1", "locale": "it-IT", "release": "0",
             "review_files": #"{"u02.l1": {"file": "content/units/02-al-bar/lesson-1.yaml", "hash": "h1"}}"#,
         ]
         meta.merge(overrides) { _, new in new }

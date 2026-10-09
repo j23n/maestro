@@ -82,7 +82,7 @@ def test_every_table_of_the_ddl_exists_and_the_golden_content_is_there(dev):
     kinds = dict(con.execute("SELECT key, value FROM meta"))
     for key in ("schema_version", "pack_version", "content_hash", "course_id", "locale", "release"):
         assert key in kinds, key
-    assert kinds["schema_version"] == "1" and kinds["release"] == "0" and kinds["course_id"] == "italiano-a1"
+    assert kinds["schema_version"] == "2" and kinds["release"] == "0" and kinds["course_id"] == "italiano-a1"
     assert con.execute("PRAGMA journal_mode").fetchone()[0] == "delete"
 
 
@@ -225,6 +225,27 @@ def test_items_display_forms_and_scheduled_skills(dev):
     assert once == []
     sounds = json.loads(con.execute("SELECT pairs FROM sounds WHERE item_id = 's:double-consonants'").fetchone()[0])
     assert sounds[0] == [{"it": "pena", "audioId": None}, {"it": "penna", "audioId": None}]
+
+
+def test_letter_items_carry_their_letter(course_copy, tmp_path):
+    """`items.letter` (docs/03 § Items): the spoken-spelling table the app reads (docs/05 § Speech transcripts). The
+    seed course has no letter items, so two are added (items aren't annotated, so the lock files stay fresh)."""
+    items = course_copy / "content/items/u00.yaml"
+    items.write_text(
+        items.read_text(encoding="utf-8")
+        + "  - {id: 'w:bi', it: bi, pos: noun, gender: f, plural: invariable, gloss: the letter B, letter: B, "
+        "status: P, lesson: u00.l2}\n"
+        "  - {id: 'c:doppia-vu', kind: chunk, it: doppia vu, gloss: the letter W, match: [doppia vu], letter: W, "
+        "status: P, lesson: u00.l2}\n",
+        encoding="utf-8",
+    )
+    out = tmp_path / "letters.sqlite"
+    build_pack(course_copy, mode="dev", out=out, echo=lambda _: None, audio=AudioOptions([], None))
+    with connect(out) as con:
+        letters = con.execute("SELECT letter, it, id FROM items WHERE letter IS NOT NULL ORDER BY letter").fetchall()
+        others = con.execute("SELECT COUNT(*) FROM items WHERE letter IS NULL").fetchone()[0]
+    assert letters == [("B", "bi", "w:bi"), ("W", "doppia vu", "c:doppia-vu")]
+    assert others > 0  # every other item, grammar points included
 
 
 def test_forms_hold_inflections_of_the_same_item(dev):

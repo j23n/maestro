@@ -311,6 +311,7 @@ class Compiler:
                     cjson([str(x) for x in seq(item.get("topics"))]),
                     audio_id,
                     flags,
+                    opt_str(item.get("letter")),
                 ),
             )
             if info.kind == "sound":
@@ -341,6 +342,7 @@ class Compiler:
                     "[]",
                     None,
                     0,
+                    None,
                 ),
             )
             for req in seq(p.get("requires")):

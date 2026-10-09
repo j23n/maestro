@@ -10,6 +10,7 @@
   `pronunciation.yaml` or an item's `lesson`; anything else that is missing is an error.
 - **Exercise rules** the schemas can't express: match targets per pair, choice answer indexes, conversation graphs,
   sentence-building tiles, `pass` within the points, `recall_answer` for chunks written with `/`.
+- **Letter items:** a `letter:` belongs to one item, the item of that letter; a vowel is named by itself.
 - **ids.lock** (released IDs still exist or are retired), **retired.yaml** (never reused) and **review ledgers**
   (every comment has a known target).
 
@@ -24,7 +25,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from itcontent import ids
+from itcontent import ids, normalize
 from itcontent.course import Course, ExerciseRef, Loc, TextRef, UnitFiles, lesson_steps, walk_course
 from itcontent.findings import Finding, format_path, make
 from itcontent.index import MISSING, Index, read_lock, retired_ids
@@ -153,6 +154,7 @@ class Checker:
         for u in self.course.units:
             self.check_unit(u)
         self.check_items()
+        self.check_letters()
         self.check_walk()
         self.check_points_and_detection()
         self.check_syllabus()
@@ -301,6 +303,50 @@ class Checker:
                         f"{iid}: a chunk written with '/' ('{it}') needs a recall_answer "
                         "(docs/05 § Review session builder)",
                     )
+
+    def check_letters(self) -> None:
+        """Letter items (`letter:`, docs/03 § Items): spoken spelling replaces a recognised single letter with its
+        item's name (docs/05 § Speech transcripts), so a letter belongs to one item, the item of that letter (gloss
+        `the letter X`, a word or chunk), and a vowel's name is the vowel itself, so ordinary sentences keep their
+        a, e, i, o. Letters without an item are a warning: they would stay single letters in a transcript."""
+        seen: dict[str, tuple[str, Loc]] = {}
+        for u, i, item in self.course.items():
+            letter = _str(item.get("letter"))
+            if not u.items or letter is None or not re.fullmatch(r"[A-Z]", letter):
+                continue  # no letter, or a malformed one (the schema reports it)
+            loc = u.items.loc.child("items", i, "letter")
+            iid = _str(item.get("id")) or "?"
+            gloss = _str(item.get("gloss")) or ""
+            if item.get("kind") not in (None, "chunk") or not re.match(rf"the letter {letter}\b", gloss):
+                self.error(
+                    loc,
+                    f"{iid}: letter: {letter} goes only on the item of the letter {letter} (a word or chunk whose "
+                    f"gloss is 'the letter {letter}')",
+                )
+            it = _str(item.get("it")) or ""
+            if letter in "AEIOU" and normalize.normalize(it) != letter.lower():
+                self.error(
+                    loc,
+                    f"{iid}: the vowel {letter} is named by itself ('{letter.lower()}', not '{it}'), so spoken "
+                    "spelling leaves the a, e, i, o of ordinary sentences alone (docs/05 § Speech transcripts)",
+                )
+            if letter in seen:
+                other, oloc = seen[letter]
+                self.error(
+                    loc,
+                    f"{iid}: letter {letter} is already {other}'s ({self.where(oloc)}): one item per letter",
+                    related=(oloc.file,),
+                )
+            else:
+                seen[letter] = (iid, loc)
+        missing = [c for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" if c not in seen]
+        if seen and missing:
+            first = min((loc for _, loc in seen.values()), key=lambda loc: (loc.file, _path_key(loc.path)))
+            self.warning(
+                first,
+                f"no item has letter: {', '.join(missing)}, so spoken spelling leaves those letters as they are "
+                "(docs/05 § Speech transcripts)",
+            )
 
     # ------------------------------------------------------------ lessons, tasks, checks, assessments
 

@@ -14,9 +14,10 @@ public struct PackVerification: Sendable, Equatable {
 
 extension PackReader {
     /// Decodes every JSON column of the pack through the same code the queries use (steps, exercises, notes,
-    /// assessments, texts with their lines, tokens and layouts, items, sounds, countries) and checks that every ID
-    /// a payload names exists (a step's exercises, texts and note; an exercise's texts; an assessment's exercises;
-    /// a note's example texts). The pack tests run it over `fixtures/packs/mini.sqlite`; it reads the whole pack.
+    /// assessments, texts with their lines, tokens and layouts, items, letter names, sounds, countries) and checks
+    /// that every ID a payload names exists (a step's exercises, texts and note; an exercise's texts; an assessment's
+    /// exercises; a note's example texts). The pack tests run it over `fixtures/packs/mini.sqlite`; it reads the
+    /// whole pack.
     public func verify() async throws(PackError) -> PackVerification {
         try await read { db in try Self.verify(db) }
     }
@@ -97,6 +98,11 @@ extension PackReader {
         }
         do {
             decoded["items"] = try allItems(db).count
+        } catch {
+            problems.append(PackError.wrap(error))
+        }
+        do {
+            decoded["letters"] = try letterNames(db).count
         } catch {
             problems.append(PackError.wrap(error))
         }

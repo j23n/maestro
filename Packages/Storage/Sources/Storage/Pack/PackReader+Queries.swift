@@ -209,6 +209,14 @@ extension PackReader {
         try await read { db in try Self.knownForms(db) }
     }
 
+    /// The letter items' names (`items.letter` → `items.it`) for spoken spelling: the transcript matchers replace a
+    /// recognised single letter with its name (`TranscriptMatcher(profile:letterNames:)`, docs/05 § Speech
+    /// transcripts). Empty for a pack without letter items. A letter that isn't one of A–Z, or a name that is only
+    /// punctuation, is a `malformedRow`.
+    public func letterNames() async throws(PackError) -> LetterNames {
+        try await read { db in try Self.letterNames(db) }
+    }
+
     /// A sound item's minimal pairs (`sounds.pairs`); empty for an item without pairs.
     public func soundPairs(of item: ItemID) async throws(PackError) -> [[ContentIndex.SoundWord]] {
         try await read { db in try db.packRow(PackSQL.sound, [item.rawValue]).map(PackRows.sounds) ?? [] }
@@ -261,6 +269,20 @@ extension PackReader {
             let id = (try? row.decode(String.self, forColumn: "id")) ?? "?"
             return try PackRows.item(row, skills: skills[id] ?? [:], requires: requires[id] ?? [])
         }
+    }
+
+    static func letterNames(_ db: Database) throws -> LetterNames {
+        var names: [String: String] = [:]
+        for row in try db.packRows(PackSQL.letterNames) {
+            let r = PackRow(row, table: "items")
+            let letter = try r.string("letter")
+            let name = try r.string("it")
+            guard letter.unicodeScalars.count == 1, letter.unicodeScalars.allSatisfy({ (65...90).contains($0.value) })
+            else { throw r.fail("letter '\(letter)' is not one letter A–Z") }
+            guard !Normalizer.tokens(name).isEmpty else { throw r.fail("the letter \(letter) has no name ('\(name)')") }
+            names[letter] = name
+        }
+        return LetterNames(names)
     }
 
     static func knownForms(_ db: Database) throws -> KnownForms {
