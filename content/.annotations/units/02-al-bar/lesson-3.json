@@ -8,7 +8,7 @@
    "role": "line",
    "text": "Pronto?",
    "tokens": [
-    {"analyses": ["pronto INT"], "flags": ["synthetic"], "gloss": "hello? (on the phone)", "item": "w:pronto", "kind": "word", "lemma": "pronto", "span": [0, 6], "surface": "Pronto"},
+    {"analyses": ["pronto INT"], "flags": ["synthetic"], "item": "w:pronto", "kind": "word", "lemma": "pronto", "span": [0, 6], "surface": "Pronto"},
     {"kind": "punct", "span": [6, 7], "surface": "?"}
    ]
   },
@@ -180,14 +180,16 @@
    "path": "steps[2].text.lines[3].it",
    "ref": "u02.l3.story#4",
    "role": "line",
-   "text": "E Lei, cosa prende?",
+   "text": "Buongiorno! E Lei, cosa prende?",
    "tokens": [
-    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "E", "trailing": " "},
-    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [2, 5], "surface": "Lei"},
-    {"kind": "punct", "span": [5, 6], "surface": ",", "trailing": " "},
-    {"analyses": ["cosa NOUN-F:s", "cosa PRO-WH-F-S"], "chunk": "c:cosa-prende", "kind": "word", "lemma": "cosa", "span": [7, 11], "surface": "cosa", "trailing": " "},
-    {"analyses": ["prendere VER:ind+pres+3+s"], "chunk": "c:cosa-prende", "kind": "word", "lemma": "prendere", "span": [12, 18], "surface": "prende"},
-    {"kind": "punct", "span": [18, 19], "surface": "?"}
+    {"analyses": ["buongiorno INT"], "item": "w:buongiorno", "kind": "word", "lemma": "buongiorno", "span": [0, 10], "surface": "Buongiorno"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "E", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [14, 17], "surface": "Lei"},
+    {"kind": "punct", "span": [17, 18], "surface": ",", "trailing": " "},
+    {"analyses": ["cosa NOUN-F:s", "cosa PRO-WH-F-S"], "chunk": "c:cosa-prende", "kind": "word", "lemma": "cosa", "span": [19, 23], "surface": "cosa", "trailing": " "},
+    {"analyses": ["prendere VER:ind+pres+3+s"], "chunk": "c:cosa-prende", "kind": "word", "lemma": "prendere", "span": [24, 30], "surface": "prende"},
+    {"kind": "punct", "span": [30, 31], "surface": "?"}
    ]
   },
   {
@@ -377,35 +379,28 @@
    "path": "steps[2].text.lines[14].it",
    "ref": "u02.l3.story#15",
    "role": "line",
-   "text": "E un latte, oggi?",
+   "text": "E un caffè?",
    "tokens": [
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "E", "trailing": " "},
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [2, 4], "surface": "un", "trailing": " "},
-    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [5, 10], "surface": "latte"},
-    {"kind": "punct", "span": [10, 11], "surface": ",", "trailing": " "},
-    {"analyses": ["oggi ADV"], "item": "w:oggi", "kind": "word", "lemma": "oggi", "span": [12, 16], "surface": "oggi"},
-    {"kind": "punct", "span": [16, 17], "surface": "?"}
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [5, 10], "surface": "caffè"},
+    {"kind": "punct", "span": [10, 11], "surface": "?"}
    ]
   },
   {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [4, 4]}
-   ],
    "path": "steps[2].text.lines[15].it",
    "ref": "u02.l3.story#16",
    "role": "line",
-   "text": "No, grazie! Un latte è solo latte!",
+   "text": "No, grazie! Solo il cappuccino.",
    "tokens": [
     {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
     {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
     {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [4, 10], "surface": "grazie"},
     {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [12, 14], "surface": "Un", "trailing": " "},
-    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [15, 20], "surface": "latte", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [21, 22], "surface": "è", "trailing": " "},
-    {"analyses": ["solo ADV"], "item": "w:solo", "kind": "word", "lemma": "solo", "span": [23, 27], "surface": "solo", "trailing": " "},
-    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [28, 33], "surface": "latte"},
-    {"kind": "punct", "span": [33, 34], "surface": "!"}
+    {"analyses": ["solo ADV"], "item": "w:solo", "kind": "word", "lemma": "solo", "span": [12, 16], "surface": "Solo", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [17, 19], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [20, 30], "surface": "cappuccino"},
+    {"kind": "punct", "span": [30, 31], "surface": "."}
    ]
   },
   {
@@ -827,7 +822,20 @@
    ]
   },
   {
-   "fragment": [49, 58],
+   "fragment": [41, 61],
+   "path": "steps[3].body[5].p",
+   "ref": "u02.l3.note",
+   "role": "note",
+   "text": "mi piace il cornetto",
+   "tokens": [
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-piace", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "mi", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:mi-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:cornetto", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [12, 20], "surface": "cornetto"}
+   ]
+  },
+  {
+   "fragment": [86, 95],
    "path": "steps[3].body[5].p",
    "ref": "u02.l3.note",
    "role": "note",
@@ -839,7 +847,7 @@
    ]
   },
   {
-   "fragment": [91, 100],
+   "fragment": [128, 137],
    "path": "steps[3].body[5].p",
    "ref": "u02.l3.note",
    "role": "note",
@@ -851,7 +859,7 @@
    ]
   },
   {
-   "fragment": [149, 166],
+   "fragment": [186, 203],
    "path": "steps[3].body[5].p",
    "ref": "u02.l3.note",
    "role": "note",
@@ -861,6 +869,18 @@
     {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:mi-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
     {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 3, "item": "w:caffe", "kind": "word", "lemma": "il", "span": [9, 11], "surface": "il", "trailing": " "},
     {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [12, 17], "surface": "caffè"}
+   ]
+  },
+  {
+   "fragment": [247, 263],
+   "path": "steps[3].body[5].p",
+   "ref": "u02.l3.note",
+   "role": "note",
+   "text": "mi piace Bologna",
+   "tokens": [
+    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-piace", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "mi", "trailing": " "},
+    {"analyses": ["piacere VER:ind+pres+3+s"], "chunk": "c:mi-piace", "kind": "word", "lemma": "piacere", "span": [3, 8], "surface": "piace", "trailing": " "},
+    {"kind": "name", "span": [9, 16], "surface": "Bologna"}
    ]
   },
   {
@@ -2747,30 +2767,25 @@
    ]
   },
   {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [4, 4]}
-   ],
    "expansion": 0,
-   "gap": [7, 7],
+   "gap": [4, 4],
    "model": true,
    "norm": "solo",
    "of": 1,
    "path": "steps[4].block[10].text",
-   "pattern": "solo",
+   "pattern": "Solo",
    "ref": "u02.l3.ex35",
    "role": "cloze",
-   "text": "No, grazie! Un latte è solo latte!",
+   "text": "No, grazie! Solo il cappuccino.",
    "tokens": [
     {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
     {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
     {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [4, 10], "surface": "grazie"},
     {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [12, 14], "surface": "Un", "trailing": " "},
-    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [15, 20], "surface": "latte", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [21, 22], "surface": "è", "trailing": " "},
-    {"analyses": ["solo ADV"], "item": "w:solo", "kind": "word", "lemma": "solo", "span": [23, 27], "surface": "solo", "trailing": " "},
-    {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [28, 33], "surface": "latte"},
-    {"kind": "punct", "span": [33, 34], "surface": "!"}
+    {"analyses": ["solo ADV"], "item": "w:solo", "kind": "word", "lemma": "solo", "span": [12, 16], "surface": "Solo", "trailing": " "},
+    {"analyses": ["il ART-M:s"], "flags": ["lexical_article"], "head": 6, "item": "w:cappuccino", "kind": "word", "lemma": "il", "span": [17, 19], "surface": "il", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [20, 30], "surface": "cappuccino"},
+    {"kind": "punct", "span": [30, 31], "surface": "."}
    ]
   },
   {

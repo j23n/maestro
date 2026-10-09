@@ -20,14 +20,13 @@ steps:
       - [w:solo, w:resto, w:scontrino]
 
   # 2 · Listening: Sara phones Marco (audio first; the transcript opens after the questions).
-  #     *Pronto* stays glossed here until Unit 1's c:pronto is merged (CL34).
   - kind: listening
     id: u02.l3.step-listening
     text:
       id: u02.l3.phone
       kind: phone
       lines:
-        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Pronto?", en: "Hello?", gloss: {pronto: "hello? (on the phone)"}}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Pronto?", en: "Hello?"}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ciao, Marco! Sono Sara. Come va?", en: "Hi, Marco! It's Sara. How's it going?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Bene, grazie! E tu?", en: "Fine, thanks! And you?"}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Bene! Un caffè al bar Aurora, oggi?", en: "Fine! Coffee at Bar Aurora today?"}
@@ -65,7 +64,7 @@ steps:
         - {speaker: narrator, it: "Ecco Marco e Sara al bar Aurora.", en: "Here are Marco and Sara at Bar Aurora."}
         - {speaker: ch:giulia, to: ch:sara, register: tu, it: "Ciao, Sara! Un caffè?", en: "Hi, Sara! A coffee?"}
         - {speaker: ch:sara, to: ch:giulia, register: tu, it: "No, grazie. Oggi una spremuta d'arancia!", en: "No, thanks. Today, a fresh orange juice!"}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E Lei, cosa prende?", en: "And you, what will you have?"}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Buongiorno! E Lei, cosa prende?", en: "Good morning! And you, what will you have?"}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Prendo un cappuccino, per favore.", en: "I'll have a cappuccino, please."}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E da mangiare?", en: "Anything to eat?"}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, avete ancora cornetti?", en: "Excuse me, do you still have croissants?", gloss: {ancora: still}}
@@ -76,8 +75,8 @@ steps:
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Sì, mi piace! È buono.", en: "Yes, I like it! It's good."}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "E ti piace il caffè italiano?", en: "And do you like Italian coffee?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì, mi piace! E il cappuccino è buono.", en: "Yes, I like it! And the cappuccino's good."}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E un latte, oggi?", en: "And a latte today?"}
-        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "No, grazie! Un latte è solo latte!", en: 'No, thanks! "Un latte" is just milk!'}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E un caffè?", en: "And a coffee as well?"}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "No, grazie! Solo il cappuccino.", en: "No, thanks! Just the cappuccino."}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "E Bologna? Ti piace?", en: "And Bologna? Do you like it?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì! Mi piace Bologna, e mi piace il bar Aurora.", en: "Yes! I like Bologna, and I like Bar Aurora."}
         - {speaker: narrator, it: "Marco è alla cassa.", en: "Marco is at the till.", gloss: {alla cassa: at the till}}
@@ -97,8 +96,8 @@ steps:
       - id: u02.l3.q2
         format: choice
         tags: [sy:fn.likes-wants]
-        question_en: "Giulia offers Marco \"un latte\". Why does he say no?"
-        options: ["In Italy, it's just milk", "It's too expensive", "He doesn't like coffee"]
+        question_en: "Giulia offers Marco a coffee as well. What does he say?"
+        options: ["No, thanks: just the cappuccino", "Yes, please: a coffee", "No, thanks: just a fresh orange juice"]
         answer: 0
       - id: u02.l3.q3
         format: choice
@@ -124,10 +123,10 @@ steps:
             - ["una spremuta", "due **spremute**"]
             - ["un nome", "due **nomi**"]
             - ["un caffè", "due **caffè**"]
-      - p: "Nouns in *-e* also end in *-i*. Nouns that end in an accented vowel, like *caffè*, stay the same, and so do *bar* and *euro*: *due bar*, *cinque euro*."
+      - p: "Nouns in *-e* also end in *-i*. Nouns that end in an accented vowel, like *caffè*, stay the same, and so do *bar* and *euro*: *due bar*, *cinque euro*. Unit 3 comes back to nouns like these."
       - examples: [u02.l3.story#7, u02.l3.story#9, u02.l3.story#10]
       - tip: "Watch *amico*: *un amico*, *due amici*, but *un'amica*, *due amiche*. The h keeps the hard sound of the c."
-      - p: "*Mi piace* means \"I like\". To ask a friend, say *Ti piace?*; to ask someone you call Lei, *Le piace?*. Keep the article, although English drops it: *mi piace il caffè* (I like coffee)."
+      - p: "*Mi piace* + one thing means \"I like…\": *mi piace il cornetto*. To ask a friend, say *Ti piace?*; to ask someone you call Lei, *Le piace?*. Keep the article, although English drops it: *mi piace il caffè* (I like coffee). Cities take no article: *mi piace Bologna*."
       - p: "At a neighborhood bar like Bar Aurora, you order at the counter and pay *alla cassa*, at the till, when you've finished. You get *lo scontrino*, the receipt. In busy bars in the center, you often pay at the till first and show the receipt at the counter."
 
   # 5 · Practice: a block on the new material (story lines first), then a mix with Units 0–2.
@@ -229,8 +228,8 @@ steps:
         targets: [{item: w:solo, skill: recall}]
         tags: [cd:order-food-drink]
         source: u02.l3.story#16
-        text: "No, grazie! Un latte è [[solo]] latte!"
-        prompt_en: "No, thanks! \"Un latte\" is just milk!"
+        text: "No, grazie! [[Solo]] il cappuccino."
+        prompt_en: "No, thanks! Just the cappuccino."
         hint: "The word for just."
       - id: u02.l3.ex36
         format: recall
