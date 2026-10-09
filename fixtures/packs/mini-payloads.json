@@ -304,7 +304,8 @@
     "expansions": [
      "una"
     ],
-    "source": "una"
+    "source": "una",
+    "spelling": null
    },
    "hint": null,
    "id": "u02.check.05",
@@ -332,7 +333,8 @@
     "expansions": [
      "un cappuccino"
     ],
-    "source": "un [cappuccino]"
+    "source": "un [cappuccino]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -392,7 +394,8 @@
           "un caffè e un cornetto per favore",
           "un caffè e un cornetto"
          ],
-         "source": "(buongiorno )(vorrei )un caffè e un cornetto( per favore)"
+         "source": "(buongiorno )(vorrei )un caffè e un cornetto( per favore)",
+         "spelling": null
         },
         {
          "expansions": [
@@ -405,7 +408,8 @@
           "un cornetto e un caffè per favore",
           "un cornetto e un caffè"
          ],
-         "source": "(buongiorno )(vorrei )un cornetto e un caffè( per favore)"
+         "source": "(buongiorno )(vorrei )un cornetto e un caffè( per favore)",
+         "spelling": null
         },
         {
          "expansions": [
@@ -418,7 +422,8 @@
           "un caffè e un cornetto grazie",
           "un cornetto e un caffè grazie"
          ],
-         "source": "(buongiorno )(vorrei )un {caffè e un cornetto|cornetto e un caffè} grazie"
+         "source": "(buongiorno )(vorrei )un {caffè e un cornetto|cornetto e un caffè} grazie",
+         "spelling": null
         }
        ],
        "goal": "order",
@@ -500,7 +505,8 @@
           "quanto è",
           "quanto costa"
          ],
-         "source": "(grazie )(scusi ){quant'è|quanto è|quanto costa}"
+         "source": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+         "spelling": null
         }
        ],
        "goal": "price",
@@ -718,7 +724,8 @@
         "scusi",
         "senta"
        ],
-       "source": "{scusi|senta}"
+       "source": "{scusi|senta}",
+       "spelling": null
       }
      ],
      "en": "Get her attention",
@@ -730,7 +737,8 @@
        "expansions": [
         "un caffè"
        ],
-       "source": "un caffè"
+       "source": "un caffè",
+       "spelling": null
       }
      ],
      "en": "Order a coffee",
@@ -845,7 +853,8 @@
     "expansions": [
      "un"
     ],
-    "source": "un"
+    "source": "un",
+    "spelling": null
    },
    "hint": "Cappuccino is masculine.",
    "id": "u02.l1.ex01",
@@ -855,7 +864,8 @@
       "expansions": [
        "una"
       ],
-      "source": "una"
+      "source": "una",
+      "spelling": null
      },
      "hint": "Una is for feminine nouns. Is cappuccino masculine or feminine?",
      "outcome": "wrong"
@@ -938,7 +948,8 @@
     "expansions": [
      "una"
     ],
-    "source": "una"
+    "source": "una",
+    "spelling": null
    },
    "hint": "Look at the ending of spremuta.",
    "id": "u02.l1.ex02",
@@ -948,7 +959,8 @@
       "expansions": [
        "un"
       ],
-      "source": "un"
+      "source": "un",
+      "spelling": null
      },
      "hint": "Spremuta ends in -a. Masculine or feminine?",
      "outcome": "wrong"
@@ -1047,7 +1059,8 @@
     "expansions": [
      "un'"
     ],
-    "source": "un'"
+    "source": "un'",
+    "spelling": null
    },
    "hint": "Amica is feminine and starts with a vowel.",
    "id": "u02.l1.ex03",
@@ -1057,7 +1070,8 @@
       "expansions": [
        "una"
       ],
-      "source": "una"
+      "source": "una",
+      "spelling": null
      },
      "hint": "Amica starts with a vowel. What happens to una before a vowel?",
      "outcome": "wrong"
@@ -1067,7 +1081,8 @@
       "expansions": [
        "un"
       ],
-      "source": "un"
+      "source": "un",
+      "spelling": null
      },
      "hint": "Amica is feminine. Un without an apostrophe is for masculine nouns.",
      "outcome": "wrong"
@@ -1099,7 +1114,8 @@
     "expansions": [
      "un cornetto"
     ],
-    "source": "un [cornetto]"
+    "source": "un [cornetto]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": true,
@@ -1113,7 +1129,8 @@
       "expansions": [
        "una cornetto"
       ],
-      "source": "una cornetto"
+      "source": "una cornetto",
+      "spelling": null
      },
      "hint": "Cornetto is masculine.",
      "outcome": "almost"
@@ -1141,7 +1158,8 @@
     "expansions": [
      "un caffè"
     ],
-    "source": "un [caffè]"
+    "source": "un [caffè]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": true,
@@ -1155,7 +1173,8 @@
       "expansions": [
        "una caffè"
       ],
-      "source": "una caffè"
+      "source": "una caffè",
+      "spelling": null
      },
      "hint": "Caffè is masculine, even though it doesn't end in -o.",
      "outcome": "almost"
@@ -1184,7 +1203,8 @@
      "una spremuta",
      "una spremuta d'arancia"
     ],
-    "source": "{una [spremuta]|una [spremuta] d'arancia}"
+    "source": "{una [spremuta]|una [spremuta] d'arancia}",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": true,
@@ -1199,7 +1219,8 @@
        "un spremuta d'arancia",
        "un spremuta"
       ],
-      "source": "un spremuta( d'arancia)"
+      "source": "un spremuta( d'arancia)",
+      "spelling": null
      },
      "hint": "Spremuta is feminine.",
      "outcome": "almost"
@@ -1231,7 +1252,8 @@
      "scusi quant'è",
      "scusi quanto costa"
     ],
-    "source": "{quant'è|quanto è|quanto costa|scusi quant'è|scusi quanto costa}"
+    "source": "{quant'è|quanto è|quanto costa|scusi quant'è|scusi quanto costa}",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": true,
@@ -1267,7 +1289,8 @@
      "io vorrei un cappuccino grazie",
      "io vorrei un cappuccino"
     ],
-    "source": "{vorrei|io vorrei} un cappuccino( {per favore|grazie})"
+    "source": "{vorrei|io vorrei} un cappuccino( {per favore|grazie})",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": true,
@@ -1362,7 +1385,8 @@
     "expansions": [
      "amica"
     ],
-    "source": "amica"
+    "source": "amica",
+    "spelling": null
    },
    "hint": "Sara is a woman.",
    "id": "u02.l1.ex09",
@@ -1372,7 +1396,8 @@
       "expansions": [
        "amico"
       ],
-      "source": "amico"
+      "source": "amico",
+      "spelling": null
      },
      "hint": "Sara is a woman. Check the ending.",
      "outcome": "wrong"
@@ -1567,7 +1592,8 @@
     "expansions": [
      "vorrei un cappuccino per favore"
     ],
-    "source": "vorrei un cappuccino per favore"
+    "source": "vorrei un cappuccino per favore",
+    "spelling": null
    },
    "audioAfter": false,
    "audioId": null,
@@ -1698,7 +1724,8 @@
     "expansions": [
      "è"
     ],
-    "source": "è"
+    "source": "è",
+    "spelling": null
    },
    "hint": null,
    "id": "u02.l1.ex15",
@@ -1708,7 +1735,8 @@
       "expansions": [
        "e"
       ],
-      "source": "e"
+      "source": "e",
+      "spelling": null
      },
      "hint": "With an accent, è means 'is' or formal 'you are'. Without it, e means 'and'.",
      "outcome": "wrong"
@@ -1718,7 +1746,8 @@
       "expansions": [
        "sei"
       ],
-      "source": "sei"
+      "source": "sei",
+      "spelling": null
      },
      "hint": "Sei goes with tu. With Lei, use the same form as for she.",
      "outcome": "wrong"
@@ -1894,7 +1923,8 @@
     "expansions": [
      "e tu"
     ],
-    "source": "e tu"
+    "source": "e tu",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -1908,7 +1938,8 @@
       "expansions": [
        "e lei"
       ],
-      "source": "e lei"
+      "source": "e lei",
+      "spelling": null
      },
      "hint": "Sara is a friend. Is Lei right for a friend?",
      "outcome": "wrong"
@@ -2000,7 +2031,8 @@
     "expansions": [
      "una"
     ],
-    "source": "una"
+    "source": "una",
+    "spelling": null
    },
    "hint": null,
    "id": "u02.l1.ex19",
@@ -2010,7 +2042,8 @@
       "expansions": [
        "un"
       ],
-      "source": "un"
+      "source": "un",
+      "spelling": null
      },
      "hint": "Spremuta is feminine.",
      "outcome": "wrong"
@@ -2440,7 +2473,8 @@
           "un cappuccino e un cornetto per favore",
           "un cappuccino e un cornetto"
          ],
-         "source": "(buongiorno )(vorrei )un cappuccino e un cornetto( per favore)"
+         "source": "(buongiorno )(vorrei )un cappuccino e un cornetto( per favore)",
+         "spelling": null
         },
         {
          "expansions": [
@@ -2453,7 +2487,8 @@
           "un cornetto e un cappuccino per favore",
           "un cornetto e un cappuccino"
          ],
-         "source": "(buongiorno )(vorrei )un cornetto e un cappuccino( per favore)"
+         "source": "(buongiorno )(vorrei )un cornetto e un cappuccino( per favore)",
+         "spelling": null
         },
         {
          "expansions": [
@@ -2466,7 +2501,8 @@
           "un cappuccino e un cornetto grazie",
           "un cornetto e un cappuccino grazie"
          ],
-         "source": "(buongiorno )(vorrei )un {cappuccino e un cornetto|cornetto e un cappuccino} grazie"
+         "source": "(buongiorno )(vorrei )un {cappuccino e un cornetto|cornetto e un cappuccino} grazie",
+         "spelling": null
         }
        ],
        "goal": "order",
@@ -2647,7 +2683,8 @@
           "quanto costa per favore",
           "quanto costa"
          ],
-         "source": "(grazie )(scusi ){quant'è|quanto è|quanto costa}( per favore)"
+         "source": "(grazie )(scusi ){quant'è|quanto è|quanto costa}( per favore)",
+         "spelling": null
         }
        ],
        "goal": "price",
@@ -2756,21 +2793,24 @@
           "arrivederci",
           "buona giornata"
          ],
-         "source": "(ecco )(grazie )(e ){arrivederci|buona giornata}"
+         "source": "(ecco )(grazie )(e ){arrivederci|buona giornata}",
+         "spelling": null
         },
         {
          "expansions": [
           "arrivederci e grazie",
           "buona giornata e grazie"
          ],
-         "source": "{arrivederci|buona giornata} e grazie"
+         "source": "{arrivederci|buona giornata} e grazie",
+         "spelling": null
         },
         {
          "expansions": [
           "ecco grazie",
           "ecco"
          ],
-         "source": "ecco( grazie)"
+         "source": "ecco( grazie)",
+         "spelling": null
         }
        ],
        "goal": "bye",
@@ -2846,7 +2886,8 @@
          "grazie ciao",
          "ciao"
         ],
-        "source": "(ecco )(grazie )ciao"
+        "source": "(ecco )(grazie )ciao",
+        "spelling": null
        },
        "hint": "Giulia says Lei to you. Which goodbye goes with Lei?",
        "outcome": "wrong"
@@ -2980,7 +3021,8 @@
     "expansions": [
      "scusi"
     ],
-    "source": "scusi"
+    "source": "scusi",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": true,
@@ -2994,7 +3036,8 @@
       "expansions": [
        "scusa"
       ],
-      "source": "scusa"
+      "source": "scusa",
+      "spelling": null
      },
      "hint": "You and Giulia use Lei. Which form goes with Lei?",
      "outcome": "wrong"
@@ -3134,7 +3177,8 @@
     "expansions": [
      "quant'è"
     ],
-    "source": "quant'è"
+    "source": "quant'è",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3163,7 +3207,8 @@
     "expansions": [
      "vorrei"
     ],
-    "source": "vorrei"
+    "source": "vorrei",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3391,7 +3436,8 @@
      "il caffè",
      "un caffè"
     ],
-    "source": "{il|un} [caffè]"
+    "source": "{il|un} [caffè]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3405,7 +3451,8 @@
       "expansions": [
        "caffè"
       ],
-      "source": "caffè"
+      "source": "caffè",
+      "spelling": null
      },
      "hint": "Say it with its article: il caffè",
      "outcome": "correctWithNote"
@@ -3416,7 +3463,8 @@
        "la caffè",
        "una caffè"
       ],
-      "source": "{la caffè|una caffè}"
+      "source": "{la caffè|una caffè}",
+      "spelling": null
      },
      "hint": "caffè is masculine: il caffè",
      "outcome": "almost"
@@ -3443,7 +3491,8 @@
      "il cappuccino",
      "un cappuccino"
     ],
-    "source": "{il|un} [cappuccino]"
+    "source": "{il|un} [cappuccino]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3457,7 +3506,8 @@
       "expansions": [
        "cappuccino"
       ],
-      "source": "cappuccino"
+      "source": "cappuccino",
+      "spelling": null
      },
      "hint": "Say it with its article: il cappuccino",
      "outcome": "correctWithNote"
@@ -3468,7 +3518,8 @@
        "la cappuccino",
        "una cappuccino"
       ],
-      "source": "{la cappuccino|una cappuccino}"
+      "source": "{la cappuccino|una cappuccino}",
+      "spelling": null
      },
      "hint": "cappuccino is masculine: il cappuccino",
      "outcome": "almost"
@@ -3495,7 +3546,8 @@
      "il cornetto",
      "un cornetto"
     ],
-    "source": "{il|un} [cornetto]"
+    "source": "{il|un} [cornetto]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3509,7 +3561,8 @@
       "expansions": [
        "cornetto"
       ],
-      "source": "cornetto"
+      "source": "cornetto",
+      "spelling": null
      },
      "hint": "Say it with its article: il cornetto",
      "outcome": "correctWithNote"
@@ -3520,7 +3573,8 @@
        "la cornetto",
        "una cornetto"
       ],
-      "source": "{la cornetto|una cornetto}"
+      "source": "{la cornetto|una cornetto}",
+      "spelling": null
      },
      "hint": "cornetto is masculine: il cornetto",
      "outcome": "almost"
@@ -3547,7 +3601,8 @@
      "la spremuta",
      "una spremuta"
     ],
-    "source": "{la|una} [spremuta]"
+    "source": "{la|una} [spremuta]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3561,7 +3616,8 @@
       "expansions": [
        "spremuta"
       ],
-      "source": "spremuta"
+      "source": "spremuta",
+      "spelling": null
      },
      "hint": "Say it with its article: la spremuta",
      "outcome": "correctWithNote"
@@ -3574,7 +3630,8 @@
        "un spremuta",
        "uno spremuta"
       ],
-      "source": "{il spremuta|lo spremuta|un spremuta|uno spremuta}"
+      "source": "{il spremuta|lo spremuta|un spremuta|uno spremuta}",
+      "spelling": null
      },
      "hint": "spremuta is feminine: la spremuta",
      "outcome": "almost"
@@ -3848,7 +3905,8 @@
      "un amico",
      "un'amica"
     ],
-    "source": "{l'amico|l'amica|un amico|un'amica}"
+    "source": "{l'amico|l'amica|un amico|un'amica}",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3877,7 +3935,8 @@
     "expansions": [
      "buono"
     ],
-    "source": "[buono]"
+    "source": "[buono]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3906,7 +3965,8 @@
     "expansions": [
      "ecco"
     ],
-    "source": "[ecco]"
+    "source": "[ecco]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3935,7 +3995,8 @@
     "expansions": [
      "oggi"
     ],
-    "source": "[oggi]"
+    "source": "[oggi]",
+    "spelling": null
    },
    "answerAudioId": null,
    "audioAfter": false,
@@ -3997,7 +4058,8 @@
           "un cappuccino per favore",
           "un cappuccino"
          ],
-         "source": "(buongiorno )(vorrei )un cappuccino( per favore)"
+         "source": "(buongiorno )(vorrei )un cappuccino( per favore)",
+         "spelling": null
         },
         {
          "expansions": [
@@ -4006,7 +4068,8 @@
           "vorrei un cappuccino grazie",
           "un cappuccino grazie"
          ],
-         "source": "(buongiorno )(vorrei )un cappuccino grazie"
+         "source": "(buongiorno )(vorrei )un cappuccino grazie",
+         "spelling": null
         }
        ],
        "goal": "drink",
@@ -4143,7 +4206,8 @@
           "un cornetto per favore",
           "un cornetto"
          ],
-         "source": "(vorrei )un cornetto( per favore)"
+         "source": "(vorrei )un cornetto( per favore)",
+         "spelling": null
         },
         {
          "expansions": [
@@ -4156,14 +4220,16 @@
           "e un cornetto per favore",
           "e un cornetto"
          ],
-         "source": "{sì|e}( vorrei) un cornetto( per favore)"
+         "source": "{sì|e}( vorrei) un cornetto( per favore)",
+         "spelling": null
         },
         {
          "expansions": [
           "sì un cornetto grazie",
           "un cornetto grazie"
          ],
-         "source": "(sì )un cornetto grazie"
+         "source": "(sì )un cornetto grazie",
+         "spelling": null
         }
        ],
        "goal": "food",
@@ -4176,7 +4242,8 @@
          "expansions": [
           "no grazie"
          ],
-         "source": "no grazie"
+         "source": "no grazie",
+         "spelling": null
         }
        ],
        "goal": "food",
@@ -4359,7 +4426,8 @@
           "quanto è",
           "quanto costa"
          ],
-         "source": "(grazie )(scusi ){quant'è|quanto è|quanto costa}"
+         "source": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+         "spelling": null
         }
        ],
        "goal": "price",
@@ -4464,7 +4532,8 @@
           "quanto è",
           "quanto costa"
          ],
-         "source": "(grazie )(scusi ){quant'è|quanto è|quanto costa}"
+         "source": "(grazie )(scusi ){quant'è|quanto è|quanto costa}",
+         "spelling": null
         }
        ],
        "goal": "price",
@@ -4915,7 +4984,8 @@
         "buongiorno",
         "buonasera"
        ],
-       "source": "{buongiorno|buonasera}"
+       "source": "{buongiorno|buonasera}",
+       "spelling": null
       }
      ],
      "en": "Greet Giulia",
@@ -4942,7 +5012,8 @@
         "una spremuta e un cornetto",
         "una spremuta e una spremuta"
        ],
-       "source": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}"
+       "source": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+       "spelling": null
       }
      ],
      "en": "Order two things",
@@ -4956,7 +5027,8 @@
         "quanto è",
         "quanto costa"
        ],
-       "source": "{quant'è|quanto è|quanto costa}"
+       "source": "{quant'è|quanto è|quanto costa}",
+       "spelling": null
       }
      ],
      "en": "Ask the price",

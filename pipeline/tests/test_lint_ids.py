@@ -8,8 +8,9 @@ from pathlib import Path
 
 import pytest
 
-from itcontent import approval, ids
+from itcontent import approval, ids, lint
 from itcontent.course import load_course
+from itcontent.findings import Finding
 from itcontent.index import build_index
 from itcontent.lint import lint_findings
 
@@ -242,6 +243,60 @@ def test_homograph_newcomers_carry_the_sense_suffix(course_copy):
     (finding,) = slug_findings(course_copy)
     assert finding.startswith("error: content/items/u00.yaml › items[") and "w:di-letter collides with w:di " in finding
     assert "keeps a plain ID (the released w:di), so w:di-letter needs a ~sense suffix" in finding
+
+
+def letter_findings(root: Path) -> list[Finding]:
+    return [f for f in lint_findings(root) if "letter" in f.message and f.file.endswith("u00.yaml")]
+
+
+def test_letter_items(course_copy):
+    """docs/03 § Items: `letter:` (spoken spelling, docs/05 § Speech transcripts) is one uppercase letter on the item
+    of that letter, unique in the course, and a vowel is named by itself."""
+    items = course_copy / "content/items/u00.yaml"
+    seed = items.read_text(encoding="utf-8")
+    n = seed.count("  - {id:")
+    good = (
+        "  - {id: 'w:bi', it: bi, pos: noun, gender: f, plural: invariable, gloss: the letter B, letter: B, status: P, "
+        "lesson: u00.l2}\n"
+        "  - {id: 'c:doppia-vu', kind: chunk, it: doppia vu, gloss: the letter W, match: [doppia vu], letter: W, "
+        "status: P, lesson: u00.l2}\n"
+        "  - {id: 'w:a~letter', it: a, pos: noun, gender: f, plural: invariable, gloss: the letter A, letter: A, "
+        "status: P, lesson: u00.l2}\n"
+    )
+    items.write_text(seed + good, encoding="utf-8")
+    found = [str(f) for f in letter_findings(course_copy)]
+    # Three letters are fine; the other 23 have no item yet, which is a warning on the first letter.
+    assert len(found) == 1 and found[0].startswith(f"warning: content/items/u00.yaml › items[{n}].letter "), found
+    assert found[0].endswith(
+        "no item has letter: C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, X, Y, Z, so spoken spelling "
+        "leaves those letters as they are (docs/05 § Speech transcripts)"
+    )
+    bad = (
+        "  - {id: 'w:be', it: be, pos: noun, gender: f, plural: invariable, gloss: the letter B, letter: B, status: P, "
+        "lesson: u00.l2}\n"
+        "  - {id: 'w:acca', it: acca, pos: noun, gender: f, plural: invariable, gloss: the letter H, letter: K, "
+        "status: P, lesson: u00.l2}\n"
+        "  - {id: 'w:eh~letter', it: è, pos: noun, gender: f, plural: invariable, gloss: the letter E, letter: E, "
+        "status: P, lesson: u00.l2}\n"
+        "  - {id: 'w:ci~letter', it: ci, pos: noun, gender: f, plural: invariable, gloss: the letter C, letter: c, "
+        "status: P, lesson: u00.l2}\n"
+        "  - {id: 's:letters', kind: sound, it: le lettere, gloss: the letter S, letter: S, status: {listen: P}, "
+        "lesson: u00.l2}\n"
+    )
+    items.write_text(seed + good + bad, encoding="utf-8")
+    errors = [f for f in letter_findings(course_copy) if f.level == "error"]
+    assert [f.path for f in errors] == [("items", n + i, "letter") for i in range(3, 8)]
+    messages = [f.message for f in errors]
+    line = lint.Lines(course_copy)("content/items/u00.yaml", ("items", n, "letter"))
+    assert messages == [
+        f"w:be: letter B is already w:bi's (content/items/u00.yaml › items[{n}].letter (line {line})): one item "
+        "per letter",
+        "w:acca: letter: K goes only on the item of the letter K (a word or chunk whose gloss is 'the letter K')",
+        "w:eh~letter: the vowel E is named by itself ('e', not 'è'), so spoken spelling leaves the a, e, i, o of "
+        "ordinary sentences alone (docs/05 § Speech transcripts)",
+        "'c' is not a letter: write one uppercase letter A–Z",
+        "s:letters: letter: S goes only on the item of the letter S (a word or chunk whose gloss is 'the letter S')",
+    ], messages
 
 
 def test_unit_spec_task_conversation_must_exist_once_the_task_is_written(course_copy):

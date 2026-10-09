@@ -4,7 +4,9 @@ import Foundation
 /// patterns occurs as a contiguous token sequence in the normalised response, ignoring accents, and for a spoken
 /// response (talk) also consonant length, as for transcripts (ASR can't be trusted on it). The task passes when at
 /// least `pass` points are found. Digits, prices and times are spelled out first, as for transcripts (every
-/// reading of an ambiguous `H.MM` is tried; a `1` before a word stands for *un*/*uno*/*una*/*un'*).
+/// reading of an ambiguous `H.MM` is tried; a `1` before a word stands for *un*/*uno*/*una*/*un'*), and in a spoken
+/// response single letters become their Italian names (`letterNames`: *M A R C O* reads *emme a erre ci o*; CL25),
+/// and a point that spells is matched letter for letter (CL40, `occursSpelled`).
 public struct ContentPointMatcher: Sendable {
     /// One content point (`points` in a talk or writing exercise; docs/06).
     public struct Point: Sendable, Hashable {
@@ -37,26 +39,46 @@ public struct ContentPointMatcher: Sendable {
     }
 
     public let profile: LearnerProfile
+    /// Spoken spelling: the pack's letter names, which replace single letters in a spoken response (docs/05 § Speech
+    /// transcripts, step 2). Typed responses are never mapped.
+    public let letterNames: LetterNames
+    /// The pack's `forms` table: in a spoken response an elided form it pairs with a full form is read both ways
+    /// (*anch'io* = *anche io*; CL31), as for transcripts.
+    public let knownForms: KnownForms
 
-    public init(profile: LearnerProfile = .unspecified) {
+    public init(
+        profile: LearnerProfile = .unspecified, letterNames: LetterNames = .empty, knownForms: KnownForms = .empty
+    ) {
         self.profile = profile
+        self.letterNames = letterNames
+        self.knownForms = knownForms
     }
 
     /// - Parameter spoken: the response is a speech transcript (talk spoken), so double consonants are collapsed on
-    ///   both sides before comparing.
+    ///   both sides before comparing and spelled letters become their names.
     public func match(response: String, points: [Point], pass: Int, spoken: Bool = false) -> Result {
-        let readings = ItalianNumbers.spellOutReadings(response).map { reading in
-            let tokens = Normalizer.tokens(reading)
-            return (tokens: tokens, keys: tokens.map { Self.key($0, spoken: spoken) })
+        let readings = ItalianNumbers.spellOutReadings(response).flatMap { reading in
+            let normalised = Normalizer.tokens(reading)
+            return (spoken ? knownForms.elisionReadings(normalised) : [normalised]).map { variant in
+                let tokens = spoken ? letterNames.apply(variant) : variant
+                return (tokens: tokens, keys: tokens.map { Self.key($0, spoken: spoken) })
+            }
         }
         var found: [String] = []
         var missing: [String] = []
         for point in points {
-            let expansions = point.accept.flatMap { $0.expansions(profile: profile) }.filter {
-                profile.accepts($0.gender)
-            }
-            let isFound = expansions.contains { expansion in
-                readings.contains { Self.occurs(expansion, in: $0.tokens, keys: $0.keys, spoken: spoken) }
+            let isFound = point.accept.contains { pattern in
+                // A point that spells is matched letter for letter in speech (CL40); typed answers as written.
+                let reader = spoken ? LetterReader(spelling: pattern.spelling, letters: letterNames) : nil
+                return pattern.expansions(profile: profile).contains { expansion in
+                    guard profile.accepts(expansion.gender) else { return false }
+                    if let reader, case let runs = reader.runs(expansion.tokens), !runs.isEmpty {
+                        return readings.contains {
+                            Self.occursSpelled(expansion, runs: runs, reader: reader, in: $0.tokens, keys: $0.keys)
+                        }
+                    }
+                    return readings.contains { Self.occurs(expansion, in: $0.tokens, keys: $0.keys, spoken: spoken) }
+                }
             }
             if isFound {
                 found.append(point.id)
@@ -90,6 +112,52 @@ public struct ContentPointMatcher: Sendable {
                 && matches(i + 1, j + 1)
         }
         if expected.isEmpty { return true }
+        return tokens.indices.contains { matches(0, $0) }
+    }
+}
+
+extension ContentPointMatcher {
+    /// `occurs` for a spoken expansion that spells (CL40): its runs of letters must occur as letter names that read as
+    /// exactly those letters (`LetterReader.ends`: *esse esse* and *doppia esse* both read SS), its other tokens as
+    /// usual, all contiguous.
+    static func occursSpelled(
+        _ expansion: PatternExpansion, runs: [LetterReader.Run], reader: LetterReader, in tokens: [String],
+        keys: [String]
+    ) -> Bool {
+        enum Segment {
+            case word(Int)
+            case run([Character])
+        }
+        let runAt = Dictionary(runs.map { ($0.tokens.lowerBound, $0) }, uniquingKeysWith: { a, _ in a })
+        var segments: [Segment] = []
+        var i = 0
+        while i < expansion.tokens.count {
+            if let run = runAt[i] {
+                segments.append(.run(run.letters))
+                i = run.tokens.upperBound
+            } else {
+                segments.append(.word(i))
+                i += 1
+            }
+        }
+        let expected = expansion.tokens.map { key($0, spoken: true) }
+        let slots = Dictionary(expansion.slots.map { ($0.tokenIndex, $0.slot) }, uniquingKeysWith: { a, _ in a })
+        func matches(_ k: Int, _ j: Int) -> Bool {
+            guard k < segments.count else { return true }
+            switch segments[k] {
+            case .run(let letters):
+                return reader.ends(keys, from: j, reading: letters[...]).contains { matches(k + 1, $0) }
+            case .word(let i):
+                if let slot = slots[i] {
+                    for n in slot.wordRange where n > 0 && j + n <= tokens.count && slot.accepts(tokens[j..<(j + n)]) {
+                        if matches(k + 1, j + n) { return true }
+                    }
+                    return false
+                }
+                return j < tokens.count && ItalianNumbers.matchesSpoken(expected: expected[i], heard: keys[j])
+                    && matches(k + 1, j + 1)
+            }
+        }
         return tokens.indices.contains { matches(0, $0) }
     }
 }

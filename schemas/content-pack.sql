@@ -1,4 +1,4 @@
--- Italiano content pack — schema_version 1 (normative; see docs/03).
+-- Italiano content pack — schema_version 2 (normative; see docs/03).
 -- Created by the Python pipeline (content build), read by Swift (Storage/PackReader) in read-only mode.
 -- Conventions: TEXT ids as in docs/03; JSON columns hold camelCase JSON; times in milliseconds.
 -- Change process: edit this file, bump meta.schema_version, update PackReader and the pipeline in the same PR.
@@ -69,7 +69,9 @@ CREATE TABLE items (
   lesson_id      TEXT,                         -- where introduced
   topics         TEXT NOT NULL DEFAULT '[]',   -- JSON array of topic ids
   audio_id       TEXT REFERENCES audio(id),
-  flags          INTEGER NOT NULL DEFAULT 0    -- 1 cognate, 2 false friend
+  flags          INTEGER NOT NULL DEFAULT 0,   -- 1 cognate, 2 false friend
+  letter         TEXT UNIQUE CHECK (letter GLOB '[A-Z]')  -- letter items: the letter `it` names, for spoken spelling
+                                               -- (docs/05 § Speech transcripts); NULL for every other item
 );
 
 CREATE TABLE item_skills (

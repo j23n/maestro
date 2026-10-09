@@ -121,7 +121,7 @@ final class TypedExerciseModel {
     /// "Say it": the transcript is graded with TranscriptMatcher and recorded under skill `speak` (docs/06 §7).
     func submitSpoken(_ result: SpeechResult) {
         guard canSayIt, !machine.isDone else { return }
-        let match = TranscriptMatcher(profile: env.profile).match(
+        let match = env.transcriptMatcher.match(
             transcripts: result.allTranscripts,
             accepted: task.accepted)
         lastSpoken = match

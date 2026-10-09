@@ -18,6 +18,7 @@ import Testing
         #expect(report.decoded["grammar_notes"] == 1 && report.decoded["assessments"] == 2)
         #expect(report.decoded["texts"] == 5 && report.decoded["items"] == 12)
         #expect(report.decoded["sounds"] == 1 && report.decoded["countries"] == 2)
+        #expect(report.decoded["letters"] == 0)
     }
 
     @Test func problemsAreCollectedNotThrown() async throws {

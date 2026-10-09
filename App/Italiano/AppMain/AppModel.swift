@@ -51,6 +51,8 @@ final class AppModel {
     @ObservationIgnored private(set) var content: ContentIndex?
     @ObservationIgnored private(set) var factory: EventFactory?
     @ObservationIgnored private(set) var knownForms: KnownForms = .empty
+    /// Spoken spelling: the pack's letter names for the transcript matchers (docs/05 § Speech transcripts).
+    @ObservationIgnored private(set) var letterNames: LetterNames = .empty
     @ObservationIgnored private(set) var audioCatalog: PackAudioCatalog?
     @ObservationIgnored private(set) var words: [ItemID: WordInfo] = [:]
     @ObservationIgnored private(set) var wordSources: [WordSource] = []
@@ -77,6 +79,7 @@ final class AppModel {
             if let override { content = override } else { content = try await reader.contentIndex() }
             outline = CourseOutline(try await reader.courseOutline())
             knownForms = try await reader.knownForms()
+            letterNames = try await reader.letterNames()
             audioCatalog = try await reader.audioCatalog()
             let items = try await reader.allItems()
             words = Dictionary(items.map { ($0.id, WordInfo($0)) }, uniquingKeysWith: { a, _ in a })
@@ -328,7 +331,7 @@ final class AppModel {
         let clock = env.clock
         let environment = ExerciseEnvironment(
             context: isCheck ? .check : .lesson, profile: profile, knownForms: knownForms,
-            nowMs: { clock.nowMs() }, canSpeak: canSpeak)
+            letterNames: letterNames, nowMs: { clock.nowMs() }, canSpeak: canSpeak)
         let recorder: CheckRecorder? = isCheck ? CheckRecorder() : nil
         if let recorder { sink.onRecord = { recorder.record($0) } }
         return PlayerLaunch(
@@ -491,7 +494,8 @@ final class AppModel {
         }
         let clock = env.clock
         let environment = ExerciseEnvironment(
-            context: .review, profile: profile, knownForms: knownForms, nowMs: { clock.nowMs() }, canSpeak: canSpeak)
+            context: .review, profile: profile, knownForms: knownForms, letterNames: letterNames,
+            nowMs: { clock.nowMs() }, canSpeak: canSpeak)
         let newPairs = Set(session.cards.map(\.pair).filter { state.memory[$0] == nil })
         let model = ReviewSessionModel(
             session: session, builder: builder, env: environment, sink: sink, newPairs: newPairs, payloads: payloads)

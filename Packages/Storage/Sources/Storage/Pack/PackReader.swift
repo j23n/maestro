@@ -13,10 +13,11 @@ import LearningCore
 /// Queries are `async` and run on GRDB's serial queue, never on the caller's actor; they return Sendable values.
 /// JSON columns are decoded into LearningCore's payload types and checked against their row (a payload that
 /// contradicts its columns is a `malformedRow`). The pack never changes while the app runs, so callers may keep
-/// what they read (`contentIndex()`, `knownForms()`, `audioCatalog()`, `searchIndex()`) for the app's lifetime.
+/// what they read (`contentIndex()`, `knownForms()`, `letterNames()`, `audioCatalog()`, `searchIndex()`) for the
+/// app's lifetime.
 public final class PackReader: Sendable {
     /// The `meta.schema_version` this build reads. Bump it with `schemas/content-pack.sql`.
-    public static let schemaVersion = 1
+    public static let schemaVersion = 2
 
     /// Every table of `schemas/content-pack.sql`.
     static let tables: [String] = [

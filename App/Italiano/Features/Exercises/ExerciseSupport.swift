@@ -48,10 +48,24 @@ struct ExerciseEnvironment: Sendable {
     var context: AttemptContext
     var profile: LearnerProfile
     var knownForms: KnownForms
+    /// The pack's letter names: spoken spelling in transcripts (*M A R C O* reads *emme a erre ci o*; docs/05 § Speech
+    /// transcripts). Every speaking format passes it to its matcher.
+    var letterNames: LetterNames = .empty
     /// Milliseconds now (the app's Clock); used for latency only.
     var nowMs: @Sendable () -> Int64
     /// Speech is available and switched on (docs/09): shows "Say it" and the mic.
     var canSpeak: Bool
+
+    /// The grader for speech (docs/05 § Speech transcripts): the learner's forms, the pack's letter names (spoken
+    /// spelling, CL25, CL40) and its forms table (elisions read both ways, CL31).
+    var transcriptMatcher: TranscriptMatcher {
+        TranscriptMatcher(profile: profile, letterNames: letterNames, knownForms: knownForms)
+    }
+
+    /// Content points (talk, writing) with the same pack data; only spoken responses use the letters and elisions.
+    var contentPointMatcher: ContentPointMatcher {
+        ContentPointMatcher(profile: profile, letterNames: letterNames, knownForms: knownForms)
+    }
 
     static func preview(context: AttemptContext = .lesson) -> ExerciseEnvironment {
         ExerciseEnvironment(context: context, profile: .unspecified, knownForms: .empty, nowMs: { 0 }, canSpeak: false)

@@ -5,10 +5,15 @@ import Foundation
 ///
 /// 1. Digits, prices and times in the raw transcript become Italian words (`ItalianNumbers.spellOutReadings`: an
 ///    `H.MM` that may be a price or a time is tried both ways; a `1` before a word matches *un*/*uno*/*una*/*un'*).
-/// 2. The transcript and every expansion are normalised.
+/// 2. The transcript and every expansion are normalised; then each standalone single letter of the transcript becomes
+///    its Italian name (`letterNames`, from the pack's letter items: *M A R C O* reads *emme a erre ci o*; CL25). An
+///    elided word and its full form are the same (`knownForms.elisionReadings`: *anch'io* and *anche io*; CL31).
 /// 3. Tokens are compared without accents and with double consonants collapsed (ASR can't be trusted on length).
 /// 4. Pass = every focus token heard and at least 80% of content tokens heard. Content tokens are all tokens
-///    except `functionWords`; extra words in the transcript don't count against the learner.
+///    except `functionWords`; extra words in the transcript don't count against the learner. A pattern that spells
+///    (`AnswerPattern.spelling`, CL40) is right only letter for letter: its letters are content tokens that must all be
+///    heard, each run of them as a run of letter names that reads exactly as those letters (`LetterReader`), with no
+///    letter missing or added; its other words follow the 80% rule.
 /// 5. The best result across transcript alternatives (and expansions) wins.
 /// Feedback says "I heard: …" (`heard`); it never claims to judge pronunciation.
 public struct TranscriptMatcher: Sendable {
@@ -31,9 +36,18 @@ public struct TranscriptMatcher: Sendable {
     public static let contentThreshold = 0.8
 
     public let profile: LearnerProfile
+    /// Spoken spelling: the pack's letter names, which replace single letters in a transcript (docs/05 § Speech
+    /// transcripts, step 2). `.empty` matches transcripts as they are.
+    public let letterNames: LetterNames
+    /// The pack's `forms` table: an elided form it pairs with a full form is read both ways (*anch'io* = *anche io*).
+    public let knownForms: KnownForms
 
-    public init(profile: LearnerProfile = .unspecified) {
+    public init(
+        profile: LearnerProfile = .unspecified, letterNames: LetterNames = .empty, knownForms: KnownForms = .empty
+    ) {
         self.profile = profile
+        self.letterNames = letterNames
+        self.knownForms = knownForms
     }
 
     /// The outcome of matching transcripts against accepted patterns.
@@ -43,7 +57,7 @@ public struct TranscriptMatcher: Sendable {
         public let heard: String
         /// Its index among the alternatives.
         public let transcriptIndex: Int
-        /// The transcript after number conversion and normalisation.
+        /// The transcript after number conversion, normalisation and spelled letters (`m` → `emme`).
         public let heardTokens: [String]
         /// The accepted expansion it was compared with.
         public let expansion: PatternExpansion
@@ -70,13 +84,30 @@ public struct TranscriptMatcher: Sendable {
     /// Matches every transcript alternative (best first, as the recogniser returns them) against the accepted
     /// patterns and returns the best result; nil when there are no transcripts or no expansions.
     public func match(transcripts: [String], accepted: [AnswerPattern]) -> Match? {
-        let expansions = accepted.flatMap { $0.expansions(profile: profile) }.filter { profile.accepts($0.gender) }
+        var expansions: [(expansion: PatternExpansion, spelled: (LetterReader, [LetterReader.Run])?)] = []
+        for pattern in accepted {
+            let reader = LetterReader(spelling: pattern.spelling, letters: letterNames)
+            for expansion in pattern.expansions(profile: profile) where profile.accepts(expansion.gender) {
+                let runs = reader?.runs(expansion.tokens) ?? []
+                expansions.append((expansion, reader.flatMap { runs.isEmpty ? nil : ($0, runs) }))
+            }
+        }
         var best: Match?
         for (index, transcript) in transcripts.enumerated() {
-            for reading in ItalianNumbers.spellOutReadings(transcript) {
-                let tokens = Normalizer.tokens(reading)
-                for expansion in expansions {
-                    let result = score(tokens, expansion, transcript: transcript, index: index)
+            let readings = ItalianNumbers.spellOutReadings(transcript).flatMap {
+                knownForms.elisionReadings(Normalizer.tokens($0))
+            }
+            for reading in readings {
+                let (tokens, spelled) = letterNames.marking(reading)
+                for (expansion, spelling) in expansions {
+                    let result =
+                        if let (reader, runs) = spelling {
+                            scoreSpelled(
+                                tokens, spelled: spelled, expansion, reader: reader, runs: runs, transcript: transcript,
+                                index: index)
+                        } else {
+                            score(tokens, expansion, transcript: transcript, index: index)
+                        }
                     if let current = best, !Self.isBetter(result, than: current) { continue }
                     best = result
                 }
@@ -117,14 +148,20 @@ public struct TranscriptMatcher: Sendable {
         EditDistance.collapseDoubleConsonants(Normalizer.stripAccents(token))
     }
 
-    func score(_ heard: [String], _ expansion: PatternExpansion, transcript: String, index: Int) -> Match {
+    /// - Parameter skipping: expected tokens left to another rule (a spelled pattern's letters): they are never
+    ///   aligned and don't count as content.
+    func score(
+        _ heard: [String], _ expansion: PatternExpansion, transcript: String, index: Int, skipping: Set<Int> = []
+    ) -> Match {
         let expected = expansion.tokens
         let n = expected.count
         let m = heard.count
         let heardKeys = heard.map(Self.key)
         let expectedKeys = expected.map(Self.key)
         let slots = Dictionary(expansion.slots.map { ($0.tokenIndex, $0.slot) }, uniquingKeysWith: { a, _ in a })
-        func isContent(_ i: Int) -> Bool { slots[i] != nil || !Self.functionWords.contains(expected[i]) }
+        func isContent(_ i: Int) -> Bool {
+            !skipping.contains(i) && (slots[i] != nil || !Self.functionWords.contains(expected[i]))
+        }
         func weight(_ i: Int) -> Int {
             if expansion.isFocus(i) { return Self.focusWeight }
             if slots[i] != nil { return Self.slotWeight }
@@ -148,7 +185,9 @@ public struct TranscriptMatcher: Sendable {
                 let value = best[here]
                 guard value >= 0 else { continue }
                 if i < n {
-                    if let slot = slots[i] {
+                    if skipping.contains(i) {
+                        // left to another rule: never aligned here
+                    } else if let slot = slots[i] {
                         for k in slot.wordRange where k > 0 && j + k <= m && slot.accepts(heard[j..<(j + k)]) {
                             relax((i + 1) * width + j + k, value + weight(i), from: here, matched: i)
                         }
@@ -180,5 +219,38 @@ public struct TranscriptMatcher: Sendable {
             passed: missingFocus.isEmpty && enough, heard: transcript.trimmingCharacters(in: .whitespacesAndNewlines),
             transcriptIndex: index, heardTokens: heard, expansion: expansion, found: found, missing: missing,
             missingFocus: missingFocus, contentHeard: contentHeard, contentTotal: content.count)
+    }
+
+    /// A spelled expansion (CL40): every run of letters must be heard, in order, as a run of letter names that reads
+    /// exactly as those letters with no letter next to it (`LetterReader.span`); its other tokens are scored as usual
+    /// (80% of their content tokens). Letters count as content tokens, never as function words.
+    func scoreSpelled(
+        _ heard: [String], spelled: Set<Int>, _ expansion: PatternExpansion, reader: LetterReader,
+        runs: [LetterReader.Run], transcript: String, index: Int
+    ) -> Match {
+        let letters = Set(runs.flatMap { Array($0.tokens) })
+        let words = score(heard, expansion, transcript: transcript, index: index, skipping: letters)
+        var found = Set(words.found)
+        var from = 0
+        var everyRun = true
+        for run in runs {
+            if let span = reader.span(of: run.letters, in: heard, spelled: spelled, from: from) {
+                found.formUnion(run.tokens)
+                from = span.upperBound
+            } else {
+                everyRun = false
+            }
+        }
+        let missing = expansion.tokens.indices.filter { !found.contains($0) }
+        let missingFocus = expansion.focus.filter { !found.contains($0) }
+        let lettersHeard = letters.filter(found.contains).count
+        let wordsEnough =
+            words.contentTotal == 0
+            || Double(words.contentHeard) >= Self.contentThreshold * Double(words.contentTotal) - 1e-9
+        return Match(
+            passed: everyRun && missingFocus.isEmpty && wordsEnough, heard: words.heard, transcriptIndex: index,
+            heardTokens: heard, expansion: expansion, found: found.sorted(), missing: missing,
+            missingFocus: missingFocus, contentHeard: words.contentHeard + lettersHeard,
+            contentTotal: words.contentTotal + letters.count)
     }
 }

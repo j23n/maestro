@@ -112,6 +112,25 @@ import Testing
         #expect(sink.drafts.last?.outcome == .almost)
     }
 
+    /// CL31: the recogniser writes *Anch'io* for the model *Anche io*; the pack's forms table pairs the two, so the
+    /// repeat passes (it has no alternatives of its own).
+    @Test func repeatHearsAnElisionAsItsFullForm() throws {
+        let payload = try SpokenSpellingTests.exercise("u02.l1.ex14") { raw in
+            raw["accept"] = SpokenSpellingTests.pattern("anche io sono di Bologna")
+        }
+        let heard = SpeechResult(transcript: "Anch'io sono di Bologna.", alternatives: [], confidence: nil)
+        var withForms = env(canSpeak: true)
+        withForms.knownForms = KnownForms(rows: [
+            (form: "anch'", itemID: "w:anche"), (form: "anche", itemID: "w:anche"),
+        ])
+        let paired = try #require(RepeatModel(payload: payload, env: withForms, sink: sink))
+        paired.submit(heard)
+        #expect(paired.passed == true && paired.heard == "Anch'io sono di Bologna.")
+        let unpaired = try #require(RepeatModel(payload: payload, env: env(canSpeak: true), sink: sink))
+        unpaired.submit(heard)
+        #expect(unpaired.passed == false)
+    }
+
     @Test func repeatPassesOnTheTranscriptAndSkipsCleanly() throws {
         let m = try #require(
             RepeatModel(payload: try PayloadFixtures.exercise("u02.l1.ex14"), env: env(canSpeak: true), sink: sink))

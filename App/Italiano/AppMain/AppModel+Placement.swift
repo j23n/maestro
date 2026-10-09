@@ -57,8 +57,8 @@ extension AppModel {
         }
         let clock = env.clock
         let environment = ExerciseEnvironment(
-            context: .placement, profile: profile, knownForms: knownForms, nowMs: { clock.nowMs() },
-            canSpeak: canSpeak)
+            context: .placement, profile: profile, knownForms: knownForms, letterNames: letterNames,
+            nowMs: { clock.nowMs() }, canSpeak: canSpeak)
         let model = PlacementSessionModel(
             session: session, content: content, bundle: bundle, env: environment, sink: sink)
         return PlacementLaunch(model: model, sessionID: sessionID, startedAt: env.clock.nowMs())

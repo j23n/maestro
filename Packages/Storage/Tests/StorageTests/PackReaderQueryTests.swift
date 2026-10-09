@@ -181,6 +181,70 @@ import Testing
         #expect(TypedAnswerGrader(knownForms: known).knownForms == known)
     }
 
+    /// Letter items (`items.letter`, schema 2): the spoken-spelling table for the transcript matchers (docs/05
+    /// § Speech transcripts). The test pack's letters are added here so the other tests' item counts stay as they are.
+    static func addLetters(_ db: Database, _ letters: [(id: String, kind: String, it: String, letter: String)]) throws {
+        try TestPack.insert(db, "items", letters.map { l in
+            ["id": l.id, "kind": l.kind, "it": l.it, "gloss_en": "the letter \(l.letter)", "unit_id": "u01",
+             "lesson_id": "u01.l1", "letter": l.letter]
+        })
+    }
+
+    @Test func letterNamesComeFromTheLetterItems() async throws {
+        #expect(try await reader.letterNames().isEmpty)  // a pack without letter items: transcripts stay as they are
+        let lettered = try PackReader(url: try TestPack.build { db in
+            try Self.addLetters(db, [
+                ("w:bi", "word", "bi", "B"), ("w:a~letter", "word", "a", "A"), ("c:i-lunga", "chunk", "i lunga", "J"),
+            ])
+        })
+        let names = try await lettered.letterNames()
+        #expect(names.count == 3 && names.doubling == nil)
+        #expect(names.name(of: "J") == ["i", "lunga"] && names.name(of: "b") == ["bi"])
+        #expect(names.name(of: "a") == ["a"])
+        #expect(names.apply(["b", "a", "j"]) == ["bi", "a", "i", "lunga"])
+        let report = try await lettered.verify()
+        #expect(report.problems == [] && report.decoded["letters"] == 3)
+        let marco = try AnswerPattern("bi, a, i lunga")
+        #expect(TranscriptMatcher(letterNames: names).match(transcript: "B-A-J", accepted: marco)?.passed == true)
+    }
+
+    /// CL40: the doubling word is the item `c:doppia`, read by its ID.
+    @Test func theDoublingWordIsTheDoppiaItem() async throws {
+        let reader = try PackReader(url: try TestPack.build { db in
+            try Self.addLetters(db, [("w:esse", "word", "esse", "S")])
+            try TestPack.insert(db, "items", [
+                ["id": PackReader.doublingItem.rawValue, "kind": "chunk", "it": "doppia", "gloss_en": "double",
+                 "unit_id": "u01", "lesson_id": "u01.l1"],
+            ])
+        })
+        let names = try await reader.letterNames()
+        #expect(names.doubling == ["doppia"])
+        var rossi = try AnswerPattern("esse esse")
+        rossi.spelling = [SpellingName(name: "esse", letter: "S")]
+        #expect(TranscriptMatcher(letterNames: names).match(transcript: "doppia S", accepted: rossi)?.passed == true)
+        #expect(TranscriptMatcher(letterNames: names).match(transcript: "S", accepted: rossi)?.passed == false)
+    }
+
+    @Test func theSchemaKeepsOneItemPerLetterAndOnlyCapitalLetters() throws {
+        for letters in [[("w:bi", "word", "bi", "B"), ("w:be", "word", "be", "B")], [("w:bi", "word", "bi", "b")],
+                        [("w:bi", "word", "bi", "BI")]] {
+            #expect(throws: DatabaseError.self) {
+                _ = try TestPack.build { db in try Self.addLetters(db, letters) }
+            }
+        }
+    }
+
+    @Test func aLetterWithoutANameIsMalformed() async throws {
+        let reader = try PackReader(url: try TestPack.build { db in
+            try Self.addLetters(db, [("w:bi", "word", "bi", "B"), ("w:dots", "word", "…", "Q")])
+        })
+        let unnamed = PackError.malformedRow(table: "items", id: "w:dots", reason: "the letter Q has no name ('…')")
+        await #expect(throws: unnamed) { try await reader.letterNames() }
+        let report = try await reader.verify()
+        #expect(report.problems.contains(unnamed))
+        #expect(report.decoded["letters"] == nil)
+    }
+
     @Test func soundPairsAcceptObjectsAndBareWords() async throws {
         let pairs = try await reader.soundPairs(of: "s:double-consonants")
         #expect(pairs.count == 2)

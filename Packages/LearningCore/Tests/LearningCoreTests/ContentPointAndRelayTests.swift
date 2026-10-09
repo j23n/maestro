@@ -62,6 +62,79 @@ import Testing
         #expect(matcher.match(response: heard, points: points, pass: 2).found == ["greet", "price"])
     }
 
+    /// Spoken spelling (CL25): the recogniser writes letters, the spell point of `u00.task.talk` names them. Only a
+    /// spoken response is mapped.
+    @Test func spokenPointsReadSpelledLetters() throws {
+        let spell = try ContentPointMatcher.Point(
+            id: "spell",
+            accept: [
+                "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}"
+            ])
+        let greet = try ContentPointMatcher.Point(id: "greet", accept: ["{buongiorno|buonasera}"])
+        let spelling = ContentPointMatcher(letterNames: try TranscriptMatcherTests.letters())
+        let heard = "Buongiorno! Marco: M A R C O."
+        #expect(
+            spelling.match(response: heard, points: [greet, spell], pass: 2, spoken: true).found == ["greet", "spell"])
+        #expect(spelling.match(response: "J-O", points: [spell], pass: 1, spoken: true).passed)
+        #expect(spelling.match(response: heard, points: [greet, spell], pass: 2).found == ["greet"])
+        #expect(matcher.match(response: heard, points: [greet, spell], pass: 2, spoken: true).found == ["greet"])
+        // Vowels alone are no spelling here: their names are the vowels, which the point leaves out.
+        #expect(!spelling.match(response: "A E I O U", points: [spell], pass: 1, spoken: true).passed)
+    }
+
+    /// CL40: the spell points of `u00.check.12` and the Unit 0 talk (a consonant name followed by a vowel name; a
+    /// consonant name after a vowel, ipsilon or doppia), as the pack gives them with their spelling.
+    static func spellPoints() throws -> [ContentPointMatcher.Point] {
+        let consonants = [
+            "bi", "ci", "di", "effe", "gi", "acca", "i lunga", "cappa", "elle", "emme", "enne", "pi", "cu", "erre",
+            "esse", "ti", "vu", "vi", "ics", "ipsilon", "zeta",
+        ]
+        let letters = try TranscriptMatcherTests.fixture().letterNames
+        var names = Dictionary(uniqueKeysWithValues: letters.map { ($0.value, Optional($0.key)) })
+        names["vi"] = "V"
+        names["doppia"] = .some(nil)
+        let spelling = names.map { SpellingName(name: $0.key, letter: $0.value) }
+        func point(_ id: String, _ source: String) throws -> ContentPointMatcher.Point {
+            var pattern = try AnswerPattern(source)
+            pattern.spelling = spelling
+            return ContentPointMatcher.Point(id: id, accept: [pattern])
+        }
+        let c = consonants.joined(separator: "|")
+        return [
+            try point("spell", "{\(c)} {a|e|i|o|u|ipsilon}"),
+            try point("spell-more", "{a|e|i|o|u|ipsilon|doppia} {\(c)}"),
+        ]
+    }
+
+    @Test func spellPointsMatchLetterForLetter() throws {
+        let points = try Self.spellPoints()
+        let spelling = ContentPointMatcher(letterNames: try TranscriptMatcherTests.letters())
+        func found(_ heard: String) -> [String] {
+            spelling.match(response: heard, points: points, pass: 2, spoken: true).found
+        }
+        #expect(found("Buonasera! Marco: M A R C O.") == ["spell", "spell-more"])
+        #expect(found("Rossi: R O S S I") == ["spell", "spell-more"])  // R O, then O S
+        #expect(found("Rossi: erre o doppia esse i") == ["spell", "spell-more"])  // doppia esse
+        #expect(found("S S") == ["spell-more"])  // esse esse reads as doppia esse
+        #expect(found("Livia: L I V I A") == ["spell", "spell-more"])
+        #expect(found("vi a") == ["spell"])  // vi for vu
+        #expect(found("Buonasera, sono di Roma e abito a Bologna.") == [])
+        #expect(found("A E I O U") == [])
+        // Typed answers are words, as before.
+        #expect(spelling.match(response: "emme a erre", points: points, pass: 2).found == ["spell", "spell-more"])
+    }
+
+    /// CL31: in speech an elided form the forms table pairs is read both ways; typed answers are as written.
+    @Test func spokenPointsReadElisionsBothWays() throws {
+        let forms = KnownForms(rows: [
+            (form: "anch'", itemID: ItemID("w:anche")), (form: "anche", itemID: ItemID("w:anche")),
+        ])
+        let point = try ContentPointMatcher.Point(id: "too", accept: ["anche io"])
+        let matcher = ContentPointMatcher(knownForms: forms)
+        #expect(matcher.match(response: "Anch'io!", points: [point], pass: 1, spoken: true).passed)
+        #expect(!matcher.match(response: "Anch'io!", points: [point], pass: 1).passed)
+    }
+
     @Test func pointsReadNumbersEitherWay() throws {
         let time = try ContentPointMatcher.Point(id: "time", accept: ["alle {otto|nove} e trenta"])
         #expect(matcher.match(response: "Arrivo alle 8.30.", points: [time], pass: 1).passed)

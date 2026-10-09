@@ -212,7 +212,7 @@ enum AutoAnswer {
             m.finish()
             return true
         }
-        let matcher = TranscriptMatcher(profile: m.env.profile)
+        let matcher = m.env.transcriptMatcher
         var patterns: [AnswerPattern] = []
         if case .repeat(let r) = m.payload.body, let p = try? r.accept.parsed() { patterns = [p] }
         let heard: String
@@ -252,7 +252,7 @@ enum AutoAnswer {
         _ m: ConversationModel, preferring first: ExerciseBody.Expectation?
     ) -> String? {
         let grader = TypedAnswerGrader(knownForms: m.env.knownForms, profile: m.env.profile)
-        let matcher = TranscriptMatcher(profile: m.env.profile)
+        let matcher = m.env.transcriptMatcher
         let intents = [first].compactMap { $0 } + (m.node?.expect ?? [])
         for intent in intents {
             let patterns = intent.accept.compactMap { try? $0.parsed() }
@@ -284,7 +284,7 @@ enum AutoAnswer {
             text = wrongText
         case .correct:
             let points = m.talk.points.compactMap { try? $0.matcherPoint() }
-            let matcher = ContentPointMatcher(profile: m.env.profile)
+            let matcher = m.env.contentPointMatcher
             let candidates = [m.talk.model.text, joinedPoints(m.talk.points, profile: m.env.profile)]
             text =
                 candidates.first {

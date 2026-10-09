@@ -160,6 +160,7 @@ Optional fields:
 - `recall_answer` is an answer pattern for the generated recall cards when the default (`docs/06` § 1) doesn't fit. Its first expansion is the model answer. It reads the item's own `it` as the item (a letter's `recall_answer: '{a|la a}'` is the letter `w:a~letter`, not Unit 1's *a*). Example: `w:amico` accepts `{l'amico|l'amica|un amico|un'amica}`.
 - `case_sensitive: true` (chunks) makes `match` case-sensitive: `c:e-lei` matches *e Lei* (formal you), not *e lei* (and she).
 - `cognate: true` (transparent; may stay untaught), `false_friend: true` (always taught), `audio_say` (what TTS says for the item; default: the display form).
+- `letter: M` (letter items only: one uppercase letter A–Z) marks the item whose `it` is that letter's spoken name (`w:emme`, `c:i-lunga` for J, `c:doppia-vu` for W). The pack carries it as `items.letter`, and the transcript matchers replace a recognised single letter with that name (spoken spelling, `docs/05` § Speech transcripts). Lint: a letter belongs to one item in the course, only to the word or chunk whose gloss is `the letter <L>`, and a vowel's name is the vowel itself (`w:a~letter` is `a`), so ordinary sentences keep their *a, e, i, o*; letters without an item are a warning.
 
 ## Story bible: `story-bible.yaml`
 
@@ -302,7 +303,7 @@ The JSON has sorted keys, one token per line, and leaves out empty fields:
 
 `schemas/content-pack.sql` is the **normative** schema; Python creates the database from it and Swift reads it. Bump `meta.schema_version` (an integer) when the schema changes incompatibly. The app refuses a pack whose schema version differs from the one it was built for.
 
-Main tables: `meta`, `units`, `can_dos`, `syllabus_items`, `syllabus_trace`, `items`, `item_skills` (status, plus a `scheduled` flag per item and skill, `docs/05`), `item_requires`, `forms`, `sounds`, `lessons`, `steps` (kind, JSON payload, strand, estimated seconds), `step_introduces`, `texts`, `text_lines`, `tokens` (with `start_ms`/`end_ms`), `text_requires`, `grammar_notes`, `note_items`, `exercises` (format, role, JSON payload), `exercise_targets`, `exercise_requires`, `exercise_tags`, `assessments` (placement and final check), `characters` (including `ch:narrator` and `ch:announcer`), `countries`, `audio`.
+Main tables: `meta`, `units`, `can_dos`, `syllabus_items`, `syllabus_trace`, `items` (with `letter` for letter items, schema 2), `item_skills` (status, plus a `scheduled` flag per item and skill, `docs/05`), `item_requires`, `forms`, `sounds`, `lessons`, `steps` (kind, JSON payload, strand, estimated seconds), `step_introduces`, `texts`, `text_lines`, `tokens` (with `start_ms`/`end_ms`), `text_requires`, `grammar_notes`, `note_items`, `exercises` (format, role, JSON payload), `exercise_targets`, `exercise_requires`, `exercise_tags`, `assessments` (placement and final check), `characters` (including `ch:narrator` and `ch:announcer`), `countries`, `audio`.
 
 Payload JSON shapes are defined per step kind and format in `docs/06`. They are decoded into `Codable` types in LearningCore; unknown keys are ignored and missing required keys are a decode error that fails the pack tests (`fixtures/packs/mini-payloads.json` on Linux, the SQLite pack in Storage tests).
 

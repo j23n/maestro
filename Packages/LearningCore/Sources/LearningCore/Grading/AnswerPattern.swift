@@ -115,6 +115,9 @@ public struct AnswerPattern: Sendable, Hashable, CustomStringConvertible {
     /// The pattern as written.
     public let source: String
     let root: Node
+    /// What the pack says the pattern spells (CL40; `PatternPayload.spelling`): set by `PatternPayload.parsed()`.
+    /// The transcript matcher and spoken content points read its letters letter for letter.
+    public var spelling: [SpellingName]? = nil
 
     public var description: String { source }
 

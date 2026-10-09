@@ -80,7 +80,8 @@ extension AppModel {
         }
         let clock = env.clock
         let environment = ExerciseEnvironment(
-            context: .final, profile: profile, knownForms: knownForms, nowMs: { clock.nowMs() }, canSpeak: canSpeak)
+            context: .final, profile: profile, knownForms: knownForms, letterNames: letterNames,
+            nowMs: { clock.nowMs() }, canSpeak: canSpeak)
         let model = FinalCheckSessionModel(
             sections: sections, excluded: excluded, bundle: bundle, env: environment, sink: sink, log: log)
         let missing =

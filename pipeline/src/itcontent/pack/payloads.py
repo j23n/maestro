@@ -9,8 +9,8 @@ normalised expansions (slots stay placeholders) for the review mode's answer key
 from __future__ import annotations
 
 import re
-from collections.abc import Callable, Mapping
-from dataclasses import dataclass
+from collections.abc import Callable, Iterable, Mapping
+from dataclasses import dataclass, field
 from typing import Any
 
 from itcontent.annotate import italian_options
@@ -36,8 +36,9 @@ LAYOUT_OPTIONAL: dict[str, tuple[str, ...]] = {
 LAYOUT_ROW_OPTIONAL: dict[str, tuple[str, ...]] = {"menu": ("note",), "receipt": ("qty",)}
 
 
-def pattern(source: str, where: str) -> dict[str, Any]:
-    """`{source, expansions}` for an answer pattern; empty expansions (an all-optional pattern's) are left out."""
+def pattern(source: str, where: str, spelling: list[dict[str, str | None]] | None = None) -> dict[str, Any]:
+    """`{source, expansions, spelling}` for an answer pattern; empty expansions (an all-optional pattern's) are left
+    out. `spelling` (CL40) is null unless the pattern spells (`spelling_of`)."""
     try:
         exps = [e.text for e in expand(source)]
     except PatternError as exc:
@@ -45,7 +46,56 @@ def pattern(source: str, where: str) -> dict[str, Any]:
     shown = [e for e in exps if e]
     if not shown:
         raise BuildError(f"{where}: pattern {source!r} has no non-empty expansion")
-    return {"source": source, "expansions": shown}
+    return {"source": source, "expansions": shown, "spelling": spelling}
+
+
+DOUBLING_ITEM = "c:doppia"  # *doppia*: the next letter twice (CL23, CL40)
+
+
+def spelling_letters(items: Mapping[str, Mapping[str, Any]]) -> dict[str, str | None]:
+    """Item ID → the letter it names (`letter:`), or None for the doubling word `c:doppia`."""
+    out: dict[str, str | None] = {iid: str(i["letter"]) for iid, i in items.items() if isinstance(i.get("letter"), str)}
+    if DOUBLING_ITEM in items:
+        out[DOUBLING_ITEM] = None
+    return out
+
+
+def spelling_of(
+    strings: Iterable[LockString], letters: Mapping[str, str | None], where: str
+) -> list[dict[str, str | None]] | None:
+    """What a pattern spells (CL40, docs/05 § Speech transcripts), from the annotation of its expansions: each name
+    whose tokens resolve to a letter item (a chunk's tokens together: *i lunga*, *doppia vu*) or to `c:doppia`, with
+    its letter (None for *doppia*), sorted by name; None when no token is a letter. The app reads a spelled pattern's
+    letters by name, so a name that is a letter in one place and an ordinary word in another (*e* as E and as *and*)
+    is an error."""
+    names: dict[str, str | None] = {}
+    words: set[str] = set()
+    for s in strings:
+        tokens = [t for t in s.tokens if t.get("kind") == "word"]
+        i = 0
+        while i < len(tokens):
+            t = tokens[i]
+            chunk = t.get("chunk")
+            j = i + 1
+            if chunk:
+                while j < len(tokens) and tokens[j].get("chunk") == chunk:
+                    j += 1
+            name = " ".join(normalize(str(x.get("surface", ""))) for x in tokens[i:j])
+            item = chunk or t.get("item")
+            if item in letters and "lexical_article" not in (t.get("flags") or ()):
+                if name in names and names[name] != letters[item]:
+                    raise BuildError(f"{where}: '{name}' spells both {names[name]} and {letters[item]}")
+                names[name] = letters[item]
+            else:
+                words.add(name)
+            i = j
+    mixed = sorted(set(names) & words)
+    if mixed:
+        raise BuildError(
+            f"{where}: '{mixed[0]}' is a letter in one place and a word in another; a pattern that spells reads its "
+            "letters by name (CL40), so spell it with lemmas: or split the pattern"
+        )
+    return [{"name": n, "letter": names[n]} for n in sorted(names)] or None
 
 
 def near_list(raw: Any, where: str) -> list[dict[str, Any]]:
@@ -89,6 +139,7 @@ class ExerciseInput:
     source: dict[str, Any] | None  # {textId, line} or None
     audio_text_id: str | None
     item_gloss: Callable[[str], str | None]
+    letters: Mapping[str, str | None] = field(default_factory=dict)  # `spelling_letters` (CL40)
 
     @property
     def id(self) -> str:
@@ -113,6 +164,15 @@ class ExerciseInput:
         if not isinstance(value, str):
             raise BuildError(f"{self.where(*keys)}: expected an Italian string")
         return tokenized(self.lock.plain((*self.path, *keys), value), self.targets)
+
+    def pattern(self, *keys: str | int) -> dict[str, Any]:
+        """The payload of the answer pattern at a path below the exercise, with its `spelling` (CL40)."""
+        node: Any = self.data
+        for k in keys:
+            node = node[k]
+        where = self.where(*keys)
+        spelling = spelling_of(self.lock.entries((*self.path, *keys)), self.letters, where) if self.letters else None
+        return pattern(str(node), where, spelling)
 
     def opt_text(self, key: str) -> dict[str, Any] | None:
         value = self.data.get(key)
@@ -176,7 +236,7 @@ def recall(x: ExerciseInput) -> dict[str, Any]:
     return {
         "promptEn": str(x.data.get("prompt_en", "")),
         "contextIt": x.opt_text("context_it"),
-        "answer": pattern(answer, x.where("answer")),
+        "answer": x.pattern("answer"),
         "answerAudioId": None,
     }
 
@@ -203,7 +263,13 @@ def dictation(x: ExerciseInput) -> dict[str, Any]:
 def repeat(x: ExerciseInput) -> dict[str, Any]:
     say = x.text("say")
     norm = normalize(say["text"])
-    return {"say": say, "audioId": None, "accept": {"source": escape_literal(norm), "expansions": [norm]}}
+    where = x.where("say")
+    spelled = spelling_of([x.lock.plain((*x.path, "say"), say["text"])], x.letters, where) if x.letters else None
+    return {
+        "say": say,
+        "audioId": None,
+        "accept": {"source": escape_literal(norm), "expansions": [norm], "spelling": spelled},
+    }
 
 
 def escape_literal(text: str) -> str:
@@ -291,8 +357,7 @@ def conversation(x: ExerciseInput) -> dict[str, Any]:
                     "intent": str(intent.get("intent", "")),
                     "goal": opt_str(intent.get("goal")),
                     "accept": [
-                        pattern(str(p), x.where(*keys, "expect", j, "accept", a))
-                        for a, p in enumerate(seq(intent.get("accept")))
+                        x.pattern(*keys, "expect", j, "accept", a) for a in range(len(seq(intent.get("accept"))))
                     ],
                     "next": intent["next"],
                 }
@@ -327,7 +392,7 @@ def points(x: ExerciseInput) -> list[dict[str, Any]]:
         {
             "id": str(p.get("id")),
             "en": str(p.get("en", "")),
-            "accept": [pattern(str(a), x.where("points", j, "accept", k)) for k, a in enumerate(seq(p.get("accept")))],
+            "accept": [x.pattern("points", j, "accept", k) for k in range(len(seq(p.get("accept"))))],
         }
         for j, p in enumerate(map(mapping, seq(x.data.get("points"))))
     ]
@@ -366,7 +431,7 @@ def writing(x: ExerciseInput) -> dict[str, Any]:
                     "labelIt": x.text("fields", j, "label_it"),
                     "labelEn": str(f.get("label_en", "")),
                     "type": str(f.get("type", "text")),
-                    "accept": [pattern(str(a), x.where("fields", j, "accept", k)) for k, a in enumerate(accept)]
+                    "accept": [x.pattern("fields", j, "accept", k) for k in range(len(accept))]
                     if isinstance(accept, list)
                     else None,
                 }

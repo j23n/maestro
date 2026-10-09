@@ -154,6 +154,28 @@ import Testing
         #expect(Set(layout.stringNumbers.values).count == layout.stringNumbers.count)
     }
 
+    /// CL33: a real-world text's English title is its caption wherever it is shown (a reading step, a task's or a
+    /// check's source); other texts and untitled layouts have none.
+    @Test func aRealWorldTextsEnglishTitleIsItsCaption() throws {
+        let data = try Data(
+            contentsOf: PayloadFixtures.repoRoot.appendingPathComponent("fixtures/packs/payload-examples.json"))
+        let doc = try #require(try JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let raw = try #require((doc["layouts"] as? [[String: Any]])?.first)
+        let layout = try JSONDecoder().decode(LayoutPayload.self, from: JSONSerialization.data(withJSONObject: raw))
+        func text(_ layout: LayoutPayload?, _ titleEn: String?) -> PlayerText {
+            PlayerText(id: "u02.task.menu", title: nil, lines: [], audioID: nil, layout: layout, titleEn: titleEn)
+        }
+        let menu = text(layout, "Bar Aurora: the menu")
+        #expect(menu.caption == "Bar Aurora: the menu")
+        #expect(text(layout, nil).caption == nil && text(layout, "  ").caption == nil)
+        #expect(text(nil, "Bar Aurora").caption == nil)  // a story's title is not a caption
+        // The task's relay and the check's question show the same text, caption included.
+        var b = try bundle()
+        b.texts["u02.task.menu"] = menu
+        #expect(b.source(for: try PayloadFixtures.exercise("u02.task.relay"))?.text.caption == "Bar Aurora: the menu")
+        #expect(b.source(for: try PayloadFixtures.exercise("u02.check.03"))?.text.caption == "Bar Aurora: the menu")
+    }
+
     @Test func exerciseSourcesResolveToTheirTextOrLine() throws {
         var b = try bundle()
         let menu = PlayerText(id: "u02.task.menu", title: nil, lines: [], audioID: nil, layout: nil)

@@ -209,6 +209,15 @@ extension PackReader {
         try await read { db in try Self.knownForms(db) }
     }
 
+    /// The letter items' names (`items.letter` → `items.it`) for spoken spelling: the transcript matchers replace a
+    /// recognised single letter with its name (`TranscriptMatcher(profile:letterNames:)`, docs/05 § Speech
+    /// transcripts), and the doubling word (`doublingItem`'s `it`, when the pack has it) lets a spelled answer say a
+    /// double letter either way (CL40). Empty for a pack without letter items. A letter that isn't one of A–Z, or a
+    /// name that is only punctuation, is a `malformedRow`.
+    public func letterNames() async throws(PackError) -> LetterNames {
+        try await read { db in try Self.letterNames(db) }
+    }
+
     /// A sound item's minimal pairs (`sounds.pairs`); empty for an item without pairs.
     public func soundPairs(of item: ItemID) async throws(PackError) -> [[ContentIndex.SoundWord]] {
         try await read { db in try db.packRow(PackSQL.sound, [item.rawValue]).map(PackRows.sounds) ?? [] }
@@ -262,6 +271,27 @@ extension PackReader {
             return try PackRows.item(row, skills: skills[id] ?? [:], requires: requires[id] ?? [])
         }
     }
+
+    static func letterNames(_ db: Database) throws -> LetterNames {
+        var names: [String: String] = [:]
+        for row in try db.packRows(PackSQL.letterNames) {
+            let r = PackRow(row, table: "items")
+            let letter = try r.string("letter")
+            let name = try r.string("it")
+            guard letter.unicodeScalars.count == 1, letter.unicodeScalars.allSatisfy({ (65...90).contains($0.value) })
+            else { throw r.fail("letter '\(letter)' is not one letter A–Z") }
+            guard !Normalizer.tokens(name).isEmpty else { throw r.fail("the letter \(letter) has no name ('\(name)')") }
+            names[letter] = name
+        }
+        let doubling = try db.packRow(PackSQL.item, [doublingItem.rawValue]).map { row in
+            try PackRow(row, table: "items").string("it")
+        }
+        return LetterNames(names, doubling: doubling)
+    }
+
+    /// The chunk *doppia* (CL23): before a letter, that letter twice (*doppia esse*). The pack builder knows it by this
+    /// ID too (`DOUBLING_ITEM` in `itcontent.pack.payloads`).
+    public static let doublingItem: ItemID = "c:doppia"
 
     static func knownForms(_ db: Database) throws -> KnownForms {
         let rows: [(form: String, itemID: ItemID)] = try db.packRows(PackSQL.forms).map { row in

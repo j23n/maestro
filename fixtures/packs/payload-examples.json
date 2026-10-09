@@ -33,7 +33,8 @@
       "source": "una",
       "expansions": [
        "una"
-      ]
+      ],
+      "spelling": null
      },
      "outcome": "wrong",
      "hint": "Una is for feminine nouns. Is cappuccino masculine or feminine?"
@@ -58,7 +59,8 @@
     "source": "un",
     "expansions": [
      "un"
-    ]
+    ],
+    "spelling": null
    },
    "after": {
     "text": " cappuccino, per favore.",
@@ -135,7 +137,8 @@
       "source": "una cornetto",
       "expansions": [
        "una cornetto"
-      ]
+      ],
+      "spelling": null
      },
      "outcome": "almost",
      "hint": "Cornetto is masculine."
@@ -148,7 +151,8 @@
     "source": "un [cornetto]",
     "expansions": [
      "un cornetto"
-    ]
+    ],
+    "spelling": null
    },
    "answerAudioId": null
   },
@@ -364,7 +368,8 @@
     "source": "vorrei un cappuccino per favore",
     "expansions": [
      "vorrei un cappuccino per favore"
-    ]
+    ],
+    "spelling": null
    }
   },
   {
@@ -785,7 +790,8 @@
          "expansions": [
           "buongiorno vorrei un cappuccino e un cornetto per favore",
           "buongiorno vorrei un cappuccino e un cornetto"
-         ]
+         ],
+         "spelling": null
         }
        ]
       }
@@ -944,7 +950,8 @@
          "expansions": [
           "arrivederci e grazie",
           "buona giornata e grazie"
-         ]
+         ],
+         "spelling": null
         }
        ]
       }
@@ -955,7 +962,8 @@
         "source": "(ecco )(grazie )ciao",
         "expansions": [
          "ecco grazie ciao"
-        ]
+        ],
+        "spelling": null
        },
        "outcome": "wrong",
        "hint": "Giulia says Lei to you. Which goodbye goes with Lei?"
@@ -1107,7 +1115,8 @@
        "expansions": [
         "buongiorno",
         "buonasera"
-       ]
+       ],
+       "spelling": null
       }
      ]
     },
@@ -1121,7 +1130,8 @@
         "quant'è",
         "quanto è",
         "quanto costa"
-       ]
+       ],
+       "spelling": null
       }
      ]
     }
@@ -1320,7 +1330,8 @@
        "source": "{ME.nationality}",
        "expansions": [
         "{ME.nationality}"
-       ]
+       ],
+       "spelling": null
       }
      ]
     }
