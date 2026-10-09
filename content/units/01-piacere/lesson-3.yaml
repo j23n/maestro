@@ -287,7 +287,8 @@ steps:
 
   # 6 · Listening (the spec's phone call, CL28): later that morning Scuola Arcobaleno phones Marco about his course. The
   #     caller is a minor role (unnamed, gender not fixed) and uses Lei; Marco answers with Pronto? (c:pronto, CL34),
-  #     spells Lenzi (CL14) and gives his number with the numbers 0–20 (347 812 2015, said in small groups, CL20).
+  #     spells Lenzi (CL14) and gives his number with the numbers 0–20 (347 812 2015, said in small groups, CL20). The
+  #     caller reads the end back wrong (venti cinque) and Marco corrects it.
   - kind: listening
     id: u01.l3.step-listening
     text:
@@ -303,7 +304,9 @@ steps:
         - {speaker: ch:marco, to: ch:extra, register: lei, it: "Elle, e, enne, zeta, i.", en: "L, E, N, Z, I.", lemmas: {e: w:e~letter, i: w:i~letter}}
         - {speaker: ch:extra, to: ch:marco, register: lei, it: "Elle, e, enne, zeta, i. Grazie! Il numero di telefono, per favore?", en: "L, E, N, Z, I. Thank you! Your phone number, please?", lemmas: {e: w:e~letter, i: w:i~letter}}
         - {speaker: ch:marco, to: ch:extra, register: lei, it: "Tre quattro sette, otto dodici, venti quindici.", en: "347 812 2015."}
-        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Tre quattro sette, otto dodici, venti quindici. Bene, grazie! Arrivederci!", en: "347 812 2015. Good, thank you! Goodbye!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Tre quattro sette, otto dodici, venti cinque?", en: "347 812 20 5?"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "No: venti quindici.", en: "No: 20 15."}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Venti quindici. Bene, grazie! Arrivederci!", en: "20 15. Good, thank you! Goodbye!"}
         - {speaker: ch:marco, to: ch:extra, register: lei, it: "Grazie! Arrivederci!", en: "Thank you! Goodbye!"}
     plays: unlimited
     exercises:
@@ -328,8 +331,13 @@ steps:
         format: choice
         tags: [cd:count-to-20, sy:fn.numbers-prices-times]
         question_en: "What is Marco's phone number?"
-        options: ["347 812 2015", "347 812 1520", "347 802 2015"]
+        options: ["347 812 2015", "347 812 205", "347 812 1520"]
         answer: 0
+      - id: u01.l3.ex63
+        format: true-false
+        tags: [cd:count-to-20, sy:cefr.oral-comprehension]
+        statement_en: "The caller gets the number right the first time."
+        answer: false
       - id: u01.l3.ex39
         format: choice
         tags: [cd:spell-name, sy:ss.alphabet]

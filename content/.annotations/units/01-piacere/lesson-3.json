@@ -2405,7 +2405,7 @@
    "path": "steps[5].text.lines[9].it",
    "ref": "u01.l3.call#10",
    "role": "line",
-   "text": "Tre quattro sette, otto dodici, venti quindici. Bene, grazie! Arrivederci!",
+   "text": "Tre quattro sette, otto dodici, venti cinque?",
    "tokens": [
     {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [0, 3], "surface": "Tre", "trailing": " "},
     {"analyses": ["quattro DET-NUM-CARD", "quattro PRO-NUM"], "item": "w:quattro", "kind": "word", "lemma": "quattro", "span": [4, 11], "surface": "quattro", "trailing": " "},
@@ -2415,19 +2415,43 @@
     {"analyses": ["dodici DET-NUM-CARD", "dodici PRO-NUM"], "item": "w:dodici", "kind": "word", "lemma": "dodici", "span": [24, 30], "surface": "dodici"},
     {"kind": "punct", "span": [30, 31], "surface": ",", "trailing": " "},
     {"analyses": ["venti DET-NUM-CARD", "venti PRO-NUM"], "item": "w:venti", "kind": "word", "lemma": "venti", "span": [32, 37], "surface": "venti", "trailing": " "},
-    {"analyses": ["quindici DET-NUM-CARD", "quindici PRO-NUM"], "item": "w:quindici", "kind": "word", "lemma": "quindici", "span": [38, 46], "surface": "quindici"},
-    {"kind": "punct", "span": [46, 47], "surface": ".", "trailing": " "},
-    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [48, 52], "surface": "Bene"},
-    {"kind": "punct", "span": [52, 53], "surface": ",", "trailing": " "},
-    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [54, 60], "surface": "grazie"},
-    {"kind": "punct", "span": [60, 61], "surface": "!", "trailing": " "},
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [62, 73], "surface": "Arrivederci"},
-    {"kind": "punct", "span": [73, 74], "surface": "!"}
+    {"analyses": ["cinque DET-NUM-CARD", "cinque PRO-NUM"], "item": "w:cinque", "kind": "word", "lemma": "cinque", "span": [38, 44], "surface": "cinque"},
+    {"kind": "punct", "span": [44, 45], "surface": "?"}
    ]
   },
   {
    "path": "steps[5].text.lines[10].it",
    "ref": "u01.l3.call#11",
+   "role": "line",
+   "text": "No: venti quindici.",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
+    {"kind": "punct", "span": [2, 3], "surface": ":", "trailing": " "},
+    {"analyses": ["venti DET-NUM-CARD", "venti PRO-NUM"], "item": "w:venti", "kind": "word", "lemma": "venti", "span": [4, 9], "surface": "venti", "trailing": " "},
+    {"analyses": ["quindici DET-NUM-CARD", "quindici PRO-NUM"], "item": "w:quindici", "kind": "word", "lemma": "quindici", "span": [10, 18], "surface": "quindici"},
+    {"kind": "punct", "span": [18, 19], "surface": "."}
+   ]
+  },
+  {
+   "path": "steps[5].text.lines[11].it",
+   "ref": "u01.l3.call#12",
+   "role": "line",
+   "text": "Venti quindici. Bene, grazie! Arrivederci!",
+   "tokens": [
+    {"analyses": ["venti DET-NUM-CARD", "venti PRO-NUM"], "item": "w:venti", "kind": "word", "lemma": "venti", "span": [0, 5], "surface": "Venti", "trailing": " "},
+    {"analyses": ["quindici DET-NUM-CARD", "quindici PRO-NUM"], "item": "w:quindici", "kind": "word", "lemma": "quindici", "span": [6, 14], "surface": "quindici"},
+    {"kind": "punct", "span": [14, 15], "surface": ".", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [16, 20], "surface": "Bene"},
+    {"kind": "punct", "span": [20, 21], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [22, 28], "surface": "grazie"},
+    {"kind": "punct", "span": [28, 29], "surface": "!", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [30, 41], "surface": "Arrivederci"},
+    {"kind": "punct", "span": [41, 42], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[5].text.lines[12].it",
+   "ref": "u01.l3.call#13",
    "role": "line",
    "text": "Grazie! Arrivederci!",
    "tokens": [
