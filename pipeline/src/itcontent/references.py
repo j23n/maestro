@@ -3,7 +3,8 @@
 - **Structure:** course units have folders; lesson, unit, task and check IDs match their files; items files belong
   to course units.
 - **IDs:** every ID fits where it is (a step ID names its own lesson and kind, exercise IDs are numbered the way their
-  container numbers them, …); IDs are unique across the course; homograph items carry `~sense` suffixes.
+  container numbers them, …); IDs are unique across the course; in a homograph group at most one item keeps a
+  plain ID, the others carry `~sense` suffixes.
 - **References resolve.** A missing unit, lesson, step, item, sound or task exercise is *pending* (information) when
   the reference comes from a unit spec, the syllabus, the story bible's `switch_at`, `disambiguation.yaml`,
   `pronunciation.yaml` or an item's `lesson`; anything else that is missing is an error.
@@ -621,25 +622,32 @@ class Checker:
                 )
 
     def check_slug_collisions(self) -> None:
-        """Items whose `it` gives the same slug under the same prefix (homographs, accent pairs such as sì/si) must be
-        told apart by `~sense` suffixes (docs/03 § IDs). A released ID (in ids.lock) keeps its name."""
+        """Items whose `it` gives the same slug under the same prefix (homographs, accent pairs such as sì/si) are told
+        apart by `~sense` suffixes (docs/03 § IDs): at most one of them keeps a plain ID (the one that was there first,
+        such as Unit 1's `w:a` when the letter `w:a~letter` joins it); every other carries a suffix. Two plain IDs are
+        an error on each that isn't released (in ids.lock): a released ID keeps its name, and otherwise lint can't tell
+        which one came first."""
         groups: dict[tuple[str, str], list[tuple[str, Loc]]] = {}
         for u, i, item in self.course.items():
             iid, it = _str(item.get("id")), _str(item.get("it"))
             if iid and it and ids.is_valid(iid, "lexical_item") and u.items:
                 groups.setdefault((iid[:2], ids.slugify(it)), []).append((iid, u.items.loc.child("items", i, "id")))
-        for (_, slug), members in sorted(groups.items()):
-            if len({iid for iid, _ in members}) < 2:
-                continue  # one ID, or the same ID twice (a duplicate, reported by check_uniqueness)
-            for iid, loc in members:
-                if "~" in iid or iid in self.lock:
+        for (prefix, slug), members in sorted(groups.items()):
+            plain = [(iid, loc) for iid, loc in members if "~" not in iid]
+            if len({iid for iid, _ in plain}) < 2:
+                continue  # at most one plain ID (or the same ID twice: a duplicate, reported by check_uniqueness)
+            released = [iid for iid, _ in plain if iid in self.lock]
+            for iid, loc in plain:
+                if iid in self.lock:
                     continue
-                others = [f"{o} ({self.where(oloc)})" for o, oloc in members if o != iid]
+                others = [f"{o} ({self.where(oloc)})" for o, oloc in plain if o != iid]
+                fix = f"so {iid} needs" if released else "so the newcomer needs"
+                kept = f" (the released {released[0]})" if released else ""
                 self.error(
                     loc,
-                    f"{iid} collides with {', '.join(others)}: both slug to '{slug}', so each needs a ~sense suffix "
-                    f"(e.g. {ids.base_of(iid)}~<sense>)",
-                    related=tuple(oloc.file for _, oloc in members),
+                    f"{iid} collides with {', '.join(others)}: both slug to '{slug}', and only one item of a homograph "
+                    f"group keeps a plain ID{kept}, {fix} a ~sense suffix (e.g. {prefix}{slug}~<sense>)",
+                    related=tuple(oloc.file for _, oloc in plain),
                 )
 
     def check_retired(self) -> None:

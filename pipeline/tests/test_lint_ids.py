@@ -30,8 +30,12 @@ CASES: dict[str, tuple[str, list[str]]] = {
     "items-slug-collision.yaml": (
         ITEMS,
         [
-            f"{EI} › items[0].id (line 5): w:pesca collides with w:pesca~fishing (content/items/u03.yaml › "
-            "items[1].id (line 6)): both slug to 'pesca', so each needs a ~sense suffix (e.g. w:pesca~<sense>)"
+            f"{EI} › items[0].id (line 6): w:pesca collides with w:pesca-fishing (content/items/u03.yaml › "
+            "items[1].id (line 7)): both slug to 'pesca', and only one item of a homograph group keeps a plain ID, "
+            "so the newcomer needs a ~sense suffix (e.g. w:pesca~<sense>)",
+            f"{EI} › items[1].id (line 7): w:pesca-fishing collides with w:pesca (content/items/u03.yaml › "
+            "items[0].id (line 6)): both slug to 'pesca', and only one item of a homograph group keeps a plain ID, "
+            "so the newcomer needs a ~sense suffix (e.g. w:pesca~<sense>)",
         ],
     ),
     "items-wrong-lesson.yaml": (
@@ -205,6 +209,39 @@ def test_pending_vs_error(seed_root):
     ]
     for line in expect:
         assert line in pending, "\n".join(pending)
+
+
+def slug_findings(root: Path) -> list[str]:
+    return [str(f) for f in lint_findings(root) if "slug to" in f.message]
+
+
+def test_homograph_newcomers_carry_the_sense_suffix(course_copy):
+    """docs/03 § IDs: in a homograph group one item keeps its plain ID and newcomers carry ~sense, so Unit 1's w:a,
+    w:e, w:o and w:di keep their names when the Unit 0 letters join them."""
+    assert slug_findings(course_copy) == []
+    items = course_copy / "content/items/u00.yaml"
+    letters = "".join(
+        f"  - {{id: 'w:{w}~letter', it: {w}, pos: noun, gender: f, plural: invariable, gloss: the letter "
+        f"{w.upper()}, status: P, lesson: u00.l2}}\n"
+        for w in ("a", "e", "o", "di")
+    )
+    items.write_text(items.read_text(encoding="utf-8") + letters, encoding="utf-8")
+    assert slug_findings(course_copy) == []  # a ~sense newcomer, even in an earlier unit than the plain ID
+    # a second plain ID is an error on both (lint can't tell which came first) ...
+    items.write_text(
+        items.read_text(encoding="utf-8")
+        + "  - {id: 'w:di-letter', it: di, pos: noun, gender: f, plural: invariable, gloss: the letter D, status: P, "
+        "lesson: u00.l2}\n",
+        encoding="utf-8",
+    )
+    found = slug_findings(course_copy)
+    assert [f.split(" collides")[0].rsplit(": ", 1)[1] for f in found] == ["w:di-letter", "w:di"], found
+    assert all("so the newcomer needs a ~sense suffix (e.g. w:di~<sense>)" in f for f in found)
+    # ... unless one is released (ids.lock): it keeps its name and only the other is an error
+    (course_copy / "content/ids.lock").write_text("w:di\n", encoding="utf-8")
+    (finding,) = slug_findings(course_copy)
+    assert finding.startswith("error: content/items/u00.yaml › items[") and "w:di-letter collides with w:di " in finding
+    assert "keeps a plain ID (the released w:di), so w:di-letter needs a ~sense suffix" in finding
 
 
 def test_unit_spec_task_conversation_must_exist_once_the_task_is_written(course_copy):
