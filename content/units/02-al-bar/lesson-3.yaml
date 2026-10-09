@@ -1,4 +1,4 @@
-# Unit 2, Lesson 3. DRAFT (C5) for the content lead: plural nouns, ordering for two, mi/ti/Le piace, paying at the till.
+# Unit 2, Lesson 3. DRAFT (C5) for the content lead: plural nouns, ordering for two, mi/ti/Le piace, paying at the register.
 # Prices follow the Bar Aurora menu in task.yaml (caffè 1,20 · cappuccino 1,60 · spremuta 3,20 · cornetto 1,40). You
 # order at the counter and pay Giulia alla cassa afterwards, getting the change (Ecco il resto) and the receipt (CL6,
 # CL35). Shape as in the golden sample (lesson-1.yaml), plus a phone call (listening), the receipt (real-world reading,
@@ -6,7 +6,7 @@
 # Story line references (#n) are 1-based.
 id: u02.l3
 title: {it: "Mi piace!", en: "I like it!"}
-scene: Sara phones Marco and they meet at Bar Aurora; they order two croissants, talk about what Marco likes, and he pays at the till
+scene: Sara phones Marco and they meet at Bar Aurora; they order two croissants, talk about what Marco likes, and he pays at the register
 review: {status: draft, by: null, date: null, hash: null}
 
 steps:
@@ -53,7 +53,7 @@ steps:
         answer: false
 
   # 3 · Read and listen. Sara: spremuta 3,20 + cornetto 1,40; Marco: cappuccino 1,60 + cornetto 1,40
-  #     = sette euro e sessanta. At the till he gives eight euros and gets quaranta centesimi back (CL35).
+  #     = sette euro e sessanta. At the register he gives eight euros and gets quaranta centesimi back (CL35).
   - kind: story
     id: u02.l3.step-story
     text:
@@ -79,7 +79,7 @@ steps:
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "No, grazie! Solo il cappuccino.", en: "No, thanks! Just the cappuccino."}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "E Bologna? Ti piace?", en: "And Bologna? Do you like it?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì! Mi piace Bologna, e mi piace il bar Aurora.", en: "Yes! I like Bologna, and I like Bar Aurora."}
-        - {speaker: narrator, it: "Marco è alla cassa.", en: "Marco is at the till.", gloss: {alla cassa: at the till}}
+        - {speaker: narrator, it: "Marco è alla cassa.", en: "Marco is at the register.", gloss: {alla cassa: at the register}}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, quant'è?", en: "Excuse me, how much is it?"}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Sette euro e sessanta.", en: "€7.60."}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Ecco otto euro.", en: "Here's eight euros."}
@@ -106,7 +106,7 @@ steps:
         options: ["€0.40", "€7.60", "€2.40"]
         answer: 0
 
-  # 4 · Note: plurals, from the story's own lines; piacere; paying at the till (CL6's culture note)
+  # 4 · Note: plurals, from the story's own lines; piacere; paying at the register (CL6's culture note)
   - kind: note
     id: u02.l3.step-note
     note_id: u02.l3.note
@@ -127,7 +127,7 @@ steps:
       - examples: [u02.l3.story#7, u02.l3.story#9, u02.l3.story#10]
       - tip: "Watch *amico*: *un amico*, *due amici*, but *un'amica*, *due amiche*. The h keeps the hard sound of the c."
       - p: "*Mi piace* + one thing means \"I like…\": *mi piace il cornetto*. To ask a friend, say *Ti piace?*; to ask someone you call Lei, *Le piace?*. Keep the article, although English drops it: *mi piace il caffè* (I like coffee). Cities take no article: *mi piace Bologna*."
-      - p: "At a neighborhood bar like Bar Aurora, you order at the counter and pay *alla cassa*, at the till, when you've finished. You get *lo scontrino*, the receipt. In busy bars in the center, you often pay at the till first and show the receipt at the counter."
+      - p: "At a neighborhood bar like Bar Aurora, you order at the counter and pay *alla cassa*, at the register, when you've finished. You get *lo scontrino*, the receipt. In busy bars in the center, you often pay at the register first and show the receipt at the counter."
 
   # 5 · Practice: a block on the new material (story lines first), then a mix with Units 0–2.
   #     Each new P item gets at least 4 retrievals in this lesson, counting the preview (docs/04 § Check 3).
@@ -318,7 +318,7 @@ steps:
         tags: [cd:ask-price-pay]
         prompt_it: "Ecco il resto e lo scontrino."
         audio: {speaker: ch:giulia}
-        question_en: "You've paid at the till. What does Giulia give you?"
+        question_en: "You've paid at the register. What does Giulia give you?"
         options: ["Your change and the receipt", "Your coffee and a croissant", "The menu and the price"]
         answer: 0
       - id: u02.l3.ex23
@@ -410,8 +410,8 @@ steps:
         question: which-word
         pair: [casa, cassa]
         play: cassa
-        glosses: {casa: house; home, cassa: till}
-        tip_en: "Cassa (the till) holds the s a little longer than casa (home)."
+        glosses: {casa: house; home, cassa: cash register}
+        tip_en: "Cassa (the cash register) holds the s a little longer than casa (home)."
       - id: u02.l3.ex30
         format: sound-pair
         targets: [{item: s:double-consonants, skill: listen}]
@@ -463,7 +463,7 @@ steps:
         say: "Grazie! Ecco il resto: quaranta centesimi."
 
   # 10 · Use: order for you and Sara at the counter. Two cappuccini 3,20 + two cornetti 2,80 = sei euro (Bar Aurora menu,
-  #      task.yaml), paid at the till afterwards (step 11, CL6).
+  #      task.yaml), paid at the register afterwards (step 11, CL6).
   - kind: use
     id: u02.l3.step-use
     exercise:
@@ -521,7 +521,7 @@ steps:
           en: "Here you are: two cappuccinos and two croissants. Enjoy your breakfast!"
           final: true
 
-  # 11 · Use: pay at the till afterwards (CL6): sei euro for the order above, a ten-euro note, quattro euro back with
+  # 11 · Use: pay at the register afterwards (CL6): sei euro for the order above, a ten-euro bill, quattro euro back with
   #      Ecco il resto (CL35). The goodbye is the register turn (CL37: a Lei goodbye is required).
   - kind: use
     id: u02.l3.step-use-2
@@ -530,11 +530,11 @@ steps:
       format: conversation
       with: ch:giulia
       register: lei
-      title: {en: "Pay at the till"}
+      title: {en: "Pay at the register"}
       tags: [cd:ask-price-pay, cd:choose-tu-lei]
       goals:
         - {id: price, en: "Ask how much it is"}
-        - {id: pay, en: "Pay with a ten-euro note"}
+        - {id: pay, en: "Pay with a ten-euro bill"}
         - {id: bye, en: "Thank Giulia and say goodbye"}
       start: n1
       nodes:
@@ -550,9 +550,9 @@ steps:
           en: "Six euros, thanks."
           expect:
             - {intent: pay, goal: pay, accept: ["ecco dieci euro", "(ecco )dieci euro( grazie)", "(sì )ecco dieci euro"], next: n3}
-          near: [{answer: "(ecco )sei euro", hint: "Pay with a ten-euro note. How do you say ten?"}]
+          near: [{answer: "(ecco )sei euro", hint: "Pay with a ten-euro bill. How do you say ten?"}]
           help: ["Ecco dieci euro."]
-          hint_en: "Pay with a ten-euro note."
+          hint_en: "Pay with a ten-euro bill."
         n3:
           say: "Grazie! Ecco il resto: quattro euro. E lo scontrino!"
           en: "Thank you! Here's your change: four euros. And the receipt!"

@@ -41,5 +41,5 @@ items:
   - {id: 'c:mi-piace', kind: chunk, it: mi piace…, gloss: I like…, match: [mi piace], exemplifies: ['g:piacere-chunk'], status: P, lesson: u02.l3}
   - {id: 'c:ti-piace', kind: chunk, it: 'ti piace…?', gloss: 'do you like…? (informal)', match: [ti piace], exemplifies: ['g:piacere-chunk'], status: P, lesson: u02.l3}
   - {id: 'c:le-piace', kind: chunk, it: 'Le piace…?', gloss: 'do you like…? (formal)', match: [Le piace], case_sensitive: true, exemplifies: ['g:piacere-chunk'], status: P, lesson: u02.l3}
-  - {id: 'c:alla-cassa', kind: chunk, it: alla cassa, gloss: at the till, match: [alla cassa], exemplifies: ['g:articulated-prepositions'], note: 'In a neighborhood bar you order at the counter, then pay alla cassa.', status: R, lesson: u02.l3}
+  - {id: 'c:alla-cassa', kind: chunk, it: alla cassa, gloss: at the register, match: [alla cassa], exemplifies: ['g:articulated-prepositions'], note: 'In a neighborhood bar you order at the counter, then pay alla cassa.', status: R, lesson: u02.l3}
   - {id: 'c:da-mangiare', kind: chunk, it: da mangiare, gloss: to eat (something to eat), match: [da mangiare], note: Introduced as new and glossed in the story., status: R, lesson: u02.l1}

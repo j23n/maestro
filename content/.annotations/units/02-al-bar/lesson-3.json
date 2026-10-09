@@ -452,8 +452,8 @@
    "tokens": [
     {"kind": "name", "span": [0, 5], "surface": "Marco", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [6, 7], "surface": "è", "trailing": " "},
-    {"analyses": ["alla ARTPRE-F:s"], "chunk": "c:alla-cassa", "flags": ["new"], "gloss": "at the till", "kind": "word", "lemma": "alla", "span": [8, 12], "surface": "alla", "trailing": " "},
-    {"analyses": ["cassa NOUN-F:s", "cassare VER:impr+pres+2+s", "cassare VER:ind+pres+3+s"], "chunk": "c:alla-cassa", "flags": ["new"], "gloss": "at the till", "kind": "word", "span": [13, 18], "surface": "cassa"},
+    {"analyses": ["alla ARTPRE-F:s"], "chunk": "c:alla-cassa", "flags": ["new"], "gloss": "at the register", "kind": "word", "lemma": "alla", "span": [8, 12], "surface": "alla", "trailing": " "},
+    {"analyses": ["cassa NOUN-F:s", "cassare VER:impr+pres+2+s", "cassare VER:ind+pres+3+s"], "chunk": "c:alla-cassa", "flags": ["new"], "gloss": "at the register", "kind": "word", "span": [13, 18], "surface": "cassa"},
     {"kind": "punct", "span": [18, 19], "surface": "."}
    ]
   },
@@ -895,7 +895,7 @@
    ]
   },
   {
-   "fragment": [130, 142],
+   "fragment": [134, 146],
    "path": "steps[3].body[6].p",
    "ref": "u02.l3.note",
    "role": "note",
@@ -3901,7 +3901,7 @@
    "role": "sound",
    "text": "cassa",
    "tokens": [
-    {"analyses": ["cassa NOUN-F:s", "cassare VER:impr+pres+2+s", "cassare VER:ind+pres+3+s"], "flags": ["sound", "unresolved"], "gloss": "till", "kind": "word", "span": [0, 5], "surface": "cassa"}
+    {"analyses": ["cassa NOUN-F:s", "cassare VER:impr+pres+2+s", "cassare VER:ind+pres+3+s"], "flags": ["sound", "unresolved"], "gloss": "cash register", "kind": "word", "span": [0, 5], "surface": "cassa"}
    ]
   },
   {
