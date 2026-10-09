@@ -5,7 +5,8 @@ import Foundation
 ///
 /// 1. Digits, prices and times in the raw transcript become Italian words (`ItalianNumbers.spellOutReadings`: an
 ///    `H.MM` that may be a price or a time is tried both ways; a `1` before a word matches *un*/*uno*/*una*/*un'*).
-/// 2. The transcript and every expansion are normalised.
+/// 2. The transcript and every expansion are normalised; then each standalone single letter of the transcript becomes
+///    its Italian name (`letterNames`, from the pack's letter items: *M A R C O* reads *emme a erre ci o*; CL25).
 /// 3. Tokens are compared without accents and with double consonants collapsed (ASR can't be trusted on length).
 /// 4. Pass = every focus token heard and at least 80% of content tokens heard. Content tokens are all tokens
 ///    except `functionWords`; extra words in the transcript don't count against the learner.
@@ -31,9 +32,13 @@ public struct TranscriptMatcher: Sendable {
     public static let contentThreshold = 0.8
 
     public let profile: LearnerProfile
+    /// Spoken spelling: the pack's letter names, which replace single letters in a transcript (docs/05 § Speech
+    /// transcripts, step 2). `.none` matches transcripts as they are.
+    public let letterNames: LetterNames
 
-    public init(profile: LearnerProfile = .unspecified) {
+    public init(profile: LearnerProfile = .unspecified, letterNames: LetterNames = .none) {
         self.profile = profile
+        self.letterNames = letterNames
     }
 
     /// The outcome of matching transcripts against accepted patterns.
@@ -43,7 +48,7 @@ public struct TranscriptMatcher: Sendable {
         public let heard: String
         /// Its index among the alternatives.
         public let transcriptIndex: Int
-        /// The transcript after number conversion and normalisation.
+        /// The transcript after number conversion, normalisation and spelled letters (`m` → `emme`).
         public let heardTokens: [String]
         /// The accepted expansion it was compared with.
         public let expansion: PatternExpansion
@@ -74,7 +79,7 @@ public struct TranscriptMatcher: Sendable {
         var best: Match?
         for (index, transcript) in transcripts.enumerated() {
             for reading in ItalianNumbers.spellOutReadings(transcript) {
-                let tokens = Normalizer.tokens(reading)
+                let tokens = letterNames.apply(Normalizer.tokens(reading))
                 for expansion in expansions {
                     let result = score(tokens, expansion, transcript: transcript, index: index)
                     if let current = best, !Self.isBetter(result, than: current) { continue }

@@ -1,5 +1,5 @@
 {
- "spec": "docs/05 § Speech transcripts. pass = every focus token matched and ≥ 80% of content tokens matched, ignoring accents and collapsing double consonants; numbers converted to Italian words first.",
+ "spec": "docs/05 § Speech transcripts. pass = every focus token matched and ≥ 80% of content tokens matched, ignoring accents and collapsing double consonants; numbers converted to Italian words first. Spoken spelling (CL25): after normalising, each standalone single letter of the transcript (or single letters joined by hyphens) becomes its name from letterNames, which the app reads from the pack's letter items; every case is matched with it.",
  "functionWords": [
   "il",
   "lo",
@@ -67,6 +67,34 @@
   "o",
   "ma"
  ],
+ "letterNames": {
+  "A": "a",
+  "B": "bi",
+  "C": "ci",
+  "D": "di",
+  "E": "e",
+  "F": "effe",
+  "G": "gi",
+  "H": "acca",
+  "I": "i",
+  "J": "i lunga",
+  "K": "cappa",
+  "L": "elle",
+  "M": "emme",
+  "N": "enne",
+  "O": "o",
+  "P": "pi",
+  "Q": "cu",
+  "R": "erre",
+  "S": "esse",
+  "T": "ti",
+  "U": "u",
+  "V": "vu",
+  "W": "doppia vu",
+  "X": "ics",
+  "Y": "ipsilon",
+  "Z": "zeta"
+ },
  "cases": [
   {
    "accept": "vorrei un cappuccino( per favore)",
@@ -154,6 +182,66 @@
    "transcript": "il 1º maggio",
    "pass": false,
    "note": "digits followed by a letter or an ordinal mark stay as they are"
+  },
+  {
+   "accept": "emme, a, erre, ci, o",
+   "transcript": "M A R C O",
+   "pass": true,
+   "note": "spoken spelling: the recogniser writes single letters, which become their names (CL25)"
+  },
+  {
+   "accept": "emme, a, erre, ci, o",
+   "transcript": "m a r c o",
+   "pass": true
+  },
+  {
+   "accept": "emme, a, erre, ci, o",
+   "transcript": "M-A-R-C-O",
+   "pass": true,
+   "note": "the normaliser keeps a hyphen between letters, so the token is m-a-r-c-o: single letters joined by hyphens are spelled too"
+  },
+  {
+   "accept": "emme, a, erre, ci, o",
+   "transcript": "m. a. r. c. o.",
+   "pass": true
+  },
+  {
+   "accept": "Marco, emme, a, erre, ci, o",
+   "transcript": "Marco, M, A, R, C, O.",
+   "pass": true
+  },
+  {
+   "accept": "emme, a, erre, ci, o",
+   "transcript": "N A R C O",
+   "pass": false,
+   "note": "N is enne, not emme"
+  },
+  {
+   "accept": "effe, e, di, e, erre, i, ci, a",
+   "transcript": "F E D E R I C A",
+   "pass": true
+  },
+  {
+   "accept": "doppia esse",
+   "transcript": "doppia S",
+   "pass": true
+  },
+  {
+   "accept": "i lunga, o, enne, e, esse",
+   "transcript": "J O N E S",
+   "pass": true,
+   "note": "J is i lunga and W doppia vu: a name of two words"
+  },
+  {
+   "accept": "doppia vu, a, elle, ti, e, erre",
+   "transcript": "W-A-L-T-E-R",
+   "pass": true
+  },
+  {
+   "accept": "vado a Roma e poi a Milano",
+   "transcript": "Vado a Roma e poi a Milano.",
+   "pass": true,
+   "note": "a vowel's name is the vowel itself: ordinary sentences are unchanged"
   }
  ]
 }

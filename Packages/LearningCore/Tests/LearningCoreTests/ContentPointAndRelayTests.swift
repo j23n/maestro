@@ -62,6 +62,26 @@ import Testing
         #expect(matcher.match(response: heard, points: points, pass: 2).found == ["greet", "price"])
     }
 
+    /// Spoken spelling (CL25): the recogniser writes letters, the spell point of `u00.task.talk` names them. Only a
+    /// spoken response is mapped.
+    @Test func spokenPointsReadSpelledLetters() throws {
+        let spell = try ContentPointMatcher.Point(
+            id: "spell",
+            accept: [
+                "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|doppia vu|ics|ipsilon|zeta}"
+            ])
+        let greet = try ContentPointMatcher.Point(id: "greet", accept: ["{buongiorno|buonasera}"])
+        let spelling = ContentPointMatcher(letterNames: try TranscriptMatcherTests.letters())
+        let heard = "Buongiorno! Marco: M A R C O."
+        #expect(
+            spelling.match(response: heard, points: [greet, spell], pass: 2, spoken: true).found == ["greet", "spell"])
+        #expect(spelling.match(response: "J-O", points: [spell], pass: 1, spoken: true).passed)
+        #expect(spelling.match(response: heard, points: [greet, spell], pass: 2).found == ["greet"])
+        #expect(matcher.match(response: heard, points: [greet, spell], pass: 2, spoken: true).found == ["greet"])
+        // Vowels alone are no spelling here: their names are the vowels, which the point leaves out.
+        #expect(!spelling.match(response: "A E I O U", points: [spell], pass: 1, spoken: true).passed)
+    }
+
     @Test func pointsReadNumbersEitherWay() throws {
         let time = try ContentPointMatcher.Point(id: "time", accept: ["alle {otto|nove} e trenta"])
         #expect(matcher.match(response: "Arrivo alle 8.30.", points: [time], pass: 1).passed)

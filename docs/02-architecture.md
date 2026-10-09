@@ -72,7 +72,8 @@ Sources/LearningCore/
   FSRS/         FSRS6.swift, Rating.swift, MemoryState.swift
   Grading/      Normalizer.swift, AnswerPattern.swift (parser + expansion), TypedAnswerGrader.swift,
                 ChoiceGrader.swift, OrderGrader.swift, DictationGrader.swift, TranscriptMatcher.swift,
-                ContentPointMatcher.swift, EnglishAnswerGrader.swift, ItalianNumbers.swift
+                ContentPointMatcher.swift, EnglishAnswerGrader.swift, ItalianNumbers.swift,
+                LetterNames.swift (spoken spelling: the pack's letter names for single letters in transcripts)
   Feedback/     FeedbackMachine.swift (attempt 1 → hint → attempt 2 → answer + rule)
   Learner/      RatingPolicy.swift, Replay.swift (pure reducer: events → LearnerState), Eligibility.swift,
                 Progress.swift (words known, can-dos, weekly goal)

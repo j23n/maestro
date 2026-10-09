@@ -4,7 +4,8 @@ import Foundation
 /// patterns occurs as a contiguous token sequence in the normalised response, ignoring accents, and for a spoken
 /// response (talk) also consonant length, as for transcripts (ASR can't be trusted on it). The task passes when at
 /// least `pass` points are found. Digits, prices and times are spelled out first, as for transcripts (every
-/// reading of an ambiguous `H.MM` is tried; a `1` before a word stands for *un*/*uno*/*una*/*un'*).
+/// reading of an ambiguous `H.MM` is tried; a `1` before a word stands for *un*/*uno*/*una*/*un'*), and in a spoken
+/// response single letters become their Italian names (`letterNames`: *M A R C O* reads *emme a erre ci o*; CL25).
 public struct ContentPointMatcher: Sendable {
     /// One content point (`points` in a talk or writing exercise; docs/06).
     public struct Point: Sendable, Hashable {
@@ -37,16 +38,21 @@ public struct ContentPointMatcher: Sendable {
     }
 
     public let profile: LearnerProfile
+    /// Spoken spelling: the pack's letter names, which replace single letters in a spoken response (docs/05 § Speech
+    /// transcripts, step 2). Typed responses are never mapped.
+    public let letterNames: LetterNames
 
-    public init(profile: LearnerProfile = .unspecified) {
+    public init(profile: LearnerProfile = .unspecified, letterNames: LetterNames = .none) {
         self.profile = profile
+        self.letterNames = letterNames
     }
 
     /// - Parameter spoken: the response is a speech transcript (talk spoken), so double consonants are collapsed on
-    ///   both sides before comparing.
+    ///   both sides before comparing and spelled letters become their names.
     public func match(response: String, points: [Point], pass: Int, spoken: Bool = false) -> Result {
         let readings = ItalianNumbers.spellOutReadings(response).map { reading in
-            let tokens = Normalizer.tokens(reading)
+            let normalised = Normalizer.tokens(reading)
+            let tokens = spoken ? letterNames.apply(normalised) : normalised
             return (tokens: tokens, keys: tokens.map { Self.key($0, spoken: spoken) })
         }
         var found: [String] = []
