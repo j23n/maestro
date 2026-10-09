@@ -183,6 +183,12 @@ steps:
           - {item: c:scusi, skill: read}
         tags: [cd:dont-understand, sy:cefr.reading]
         pairs: [["non capisco", "I don't understand"], ["può ripetere?", "can you say that again?"], ["come si dice…?", "how do you say…?"], ["scusi", "excuse me"]]
+      - id: u00.l2.ex62
+        format: choice
+        tags: [cd:greet-farewell, sy:ss.greetings-register, sy:cefr.reading]
+        question_en: "Which line of the list is for a friend, not for the driver?"
+        options: ["Hi! How's it going?", "Good evening!", "Can you say that again?"]
+        answer: 0
 
   # 5 · Read and listen: the taxi ride, then check meaning in English
   - kind: story
@@ -225,6 +231,12 @@ steps:
         tags: [cd:dont-understand]
         question_en: "What new word does Marco learn at the end?"
         options: ["Good night", "Thank you", "Eighteen"]
+        answer: 0
+      - id: u00.l2.q4
+        format: choice
+        tags: [cd:count-to-20, sy:cefr.oral-comprehension]
+        question_en: "How much change does Marco get?"
+        options: ["€2", "€18", "€20"]
         answer: 0
 
   # 6 · Practice: the story's sentences first, then the teens; the mix sets the confusable numbers side by side
@@ -382,7 +394,55 @@ steps:
         near: [{answer: "{uno|dodici}( euro)", hint: "Uno is one and dodici is twelve. Eleven comes between them."}]
         audio_after: true
 
-  # 7 · Sounds: double consonants in the numbers, and c and g before i
+  # 7 · Repeat after me (fluency, CL21): the story's lines, said along with the audio (Scusi, non capisco and
+  #     Diciotto euro are repeated in the practice above). Repeats aren't graded as retrievals.
+  - kind: practice
+    id: u00.l2.step-practice-3
+    block:
+      - id: u00.l2.ex63
+        format: repeat
+        targets: [{item: w:diciassette, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:count-to-20]
+        source: u00.l2.ride#7
+        say: "Diciassette euro?"
+      - id: u00.l2.ex64
+        format: repeat
+        targets: [{item: w:diciotto, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:count-to-20]
+        source: u00.l2.ride#8
+        say: "No, no: diciotto. Uno, otto."
+      - id: u00.l2.ex65
+        format: repeat
+        targets: [{item: w:venti, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:count-to-20]
+        source: u00.l2.ride#9
+        say: "Ah, diciotto! Ok. Venti euro."
+      - id: u00.l2.ex66
+        format: repeat
+        targets: [{item: w:due, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:count-to-20]
+        source: u00.l2.ride#10
+        say: "Grazie! Due euro, prego."
+      - id: u00.l2.ex67
+        format: repeat
+        targets: [{item: w:tre, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:count-to-20]
+        source: u00.l2.ride#11
+        say: "Uno, due, tre... ok!"
+      - id: u00.l2.ex68
+        format: repeat
+        targets: [{item: c:come-si-dice, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:dont-understand]
+        source: u00.l2.ride#13
+        say: 'Buonanotte. Si dice "buonanotte".'
+      - id: u00.l2.ex69
+        format: repeat
+        targets: [{item: w:buonanotte, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:greet-farewell]
+        source: u00.l2.ride#14
+        say: "Ah, buonanotte! Grazie, buonanotte!"
+
+  # 8 · Sounds: double consonants in the numbers, and c and g before i
   - kind: sounds
     id: u00.l2.step-sounds
     exercises:
@@ -412,7 +472,7 @@ steps:
         glosses: {giro: "a turn; a ride", ghiro: dormouse}
         tip_en: "g before i sounds like the j in jeep; gh before i sounds like the g in give."
 
-  # 8 · Use: your own taxi ride ends; you don't catch the price, check it and say good night (Lei).
+  # 9 · Use: your own taxi ride ends; you don't catch the price, check it, pay with a twenty and say good night (Lei).
   - kind: use
     id: u00.l2.step-use
     exercise:
@@ -425,6 +485,7 @@ steps:
       goals:
         - {id: clarify, en: "Say sorry, you don't understand"}
         - {id: price, en: "Say the price back to check it"}
+        - {id: pay, en: "Pay with a twenty-euro note"}
         - {id: bye, en: "Say good night"}
       start: n1
       nodes:
@@ -450,8 +511,16 @@ steps:
           help: ["Ah, diciotto euro! Ok."]
           hint_en: "Say the price back to check it."
         n3:
-          say: "Sì! Grazie, buonanotte!"
-          en: "Yes! Thank you, good night!"
+          say: "Sì, diciotto."
+          en: "Yes, eighteen."
+          expect:
+            - {intent: pay, goal: pay, accept: ["(ok )venti euro", "(ok )venti( euro)( grazie)"], next: n4}
+          near: [{answer: "(ok )diciotto( euro)", hint: "You only have a twenty-euro note. Say what you're giving the driver."}]
+          help: ["Ok, venti euro."]
+          hint_en: "You only have a twenty-euro note. Say what you're giving the driver."
+        n4:
+          say: "Grazie! Due euro, prego. Buonanotte!"
+          en: "Thank you! Two euros change, here you are. Good night!"
           expect:
             - intent: bye
               goal: bye

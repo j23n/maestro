@@ -45,6 +45,11 @@ steps:
         question_en: "Marco says one goodbye, then changes it. Why?"
         options: ["Ciao is for friends; arrivederci is polite", "Ciao means hello, not goodbye", "Arrivederci means thank you"]
         answer: 0
+      - id: u00.l1.ex35
+        format: true-false
+        tags: [cd:politeness, sy:cefr.oral-comprehension]
+        statement_en: "Marco thanks the crew member."
+        answer: true
 
   # 3 · Real-world reading: the sign in arrivals
   - kind: reading
@@ -69,6 +74,12 @@ steps:
         tags: [cd:greet-farewell, sy:cefr.reading]
         question_en: "What does Benvenuti! on the sign mean?"
         options: ["Welcome!", "Goodbye!", "Good evening!"]
+        answer: 0
+      - id: u00.l1.ex36
+        format: choice
+        tags: [sy:cefr.reading, sy:cefr.international-words]
+        question_en: "Which way is the café?"
+        options: ["Left", "Right", "Upstairs"]
         answer: 0
 
   # 4 · Preview: yes and no, small talk, and scusa (for friends), just before the story that needs them
@@ -120,6 +131,12 @@ steps:
         tags: [sy:cefr.oral-comprehension]
         question_en: "Where is Marco from?"
         options: ["Toronto, Canada", "Bologna", "The United States"]
+        answer: 0
+      - id: u00.l1.q4
+        format: choice
+        tags: [cd:greet-farewell, sy:cefr.oral-comprehension]
+        question_en: "What does the driver say when he hears where Marco is from?"
+        options: ["Welcome!", "Good night!", "Sorry!"]
         answer: 0
 
   # 6 · Practice: a block on the new chunks (story sentences first), then a mix of the easily confused pairs:
@@ -332,7 +349,55 @@ steps:
         answer: "bene grazie"
         audio_after: true
 
-  # 7 · Sounds: double consonants and pure vowels by ear (rule 11: hearing is tested; saying is practised in the
+  # 7 · Repeat after me (fluency, CL21): the story's lines, said along with the audio. Repeats aren't graded as
+  #     retrievals; they train saying the chunks at speed.
+  - kind: practice
+    id: u00.l1.step-practice-2
+    block:
+      - id: u00.l1.ex37
+        format: repeat
+        targets: [{item: c:per-favore, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:politeness]
+        source: u00.l1.taxi-stand#1
+        say: "Scusi! Taxi, per favore!"
+      - id: u00.l1.ex38
+        format: repeat
+        targets: [{item: w:prego, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:politeness]
+        source: u00.l1.taxi-stand#2
+        say: "Sì, sì. Prego!"
+      - id: u00.l1.ex39
+        format: repeat
+        targets: [{item: w:no, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:politeness]
+        source: u00.l1.taxi-stand#9
+        say: "No, no. No hotel."
+      - id: u00.l1.ex40
+        format: repeat
+        targets: [{item: w:bene, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:greet-farewell]
+        source: u00.l1.taxi-stand#10
+        say: "Ah, ok! Bene, bene!"
+      - id: u00.l1.ex41
+        format: repeat
+        targets: [{item: w:si, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:greet-farewell]
+        source: u00.l1.taxi-stand#12
+        say: "Sì, sì! Toronto, Canada."
+      - id: u00.l1.ex42
+        format: repeat
+        targets: [{item: c:benvenuto, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:greet-farewell]
+        source: u00.l1.taxi-stand#13
+        say: "Ah, Canada! Benvenuto!"
+      - id: u00.l1.ex43
+        format: repeat
+        targets: [{item: w:grazie, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:greet-farewell]
+        source: u00.l1.taxi-stand#16
+        say: "Bene, grazie!"
+
+  # 8 · Sounds: double consonants and pure vowels by ear (rule 11: hearing is tested; saying is practised in the
   #     repeat exercises above, not machine-checked). The single-or-double answers differ.
   - kind: sounds
     id: u00.l1.step-sounds
@@ -370,7 +435,7 @@ steps:
         glosses: {sete: thirst, seta: silk}
         tip_en: "Italian vowels stay pure, even at the end of a word: -e and -a sound clearly different."
 
-  # 8 · Use: your own arrival at the taxi stand, late in the evening (Lei).
+  # 9 · Use: your own arrival at the taxi stand, late in the evening (Lei).
   - kind: use
     id: u00.l1.step-use
     exercise:
@@ -383,6 +448,7 @@ steps:
       goals:
         - {id: greet, en: "Greet the driver: it's late in the evening"}
         - {id: answer, en: "Say you're not going to a hotel"}
+        - {id: fine, en: "Say how you are"}
         - {id: thanks, en: "Thank the driver"}
       start: n1
       nodes:
@@ -404,8 +470,16 @@ steps:
           help: ["No, grazie."]
           hint_en: "You're not going to a hotel. Say no."
         n3:
-          say: "Ok! Prego!"
-          en: "OK! Please, get in!"
+          say: "Ok! Bene! Come va?"
+          en: "OK! Fine! How's it going?"
+          expect:
+            - {intent: fine, goal: fine, accept: ["bene( grazie)", "(ok )bene grazie( e Lei)"], next: n4}
+          near: [{answer: "bene grazie e tu", hint: "You don't know the driver, and e tu is for friends. Leave it out."}]
+          help: ["Bene, grazie!"]
+          hint_en: "The driver asks how it's going. Say you're fine, thanks."
+        n4:
+          say: "Bene! Prego!"
+          en: "Good! Please, get in!"
           expect:
             - {intent: thanks, goal: thanks, accept: ["grazie( grazie)", "(ok )grazie( buonasera)"], next: end}
           help: ["Grazie!"]

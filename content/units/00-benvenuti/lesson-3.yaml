@@ -48,6 +48,12 @@ steps:
         question_en: "How is Marco?"
         options: ["Fine", "Tired", "Lost"]
         answer: 0
+      - id: u00.l3.ex32
+        format: true-false
+        targets: [{item: c:benvenuto, skill: listen}]
+        tags: [cd:greet-farewell, sy:cefr.oral-comprehension]
+        statement_en: "The neighbor welcomes Marco to the building."
+        answer: true
 
   # 2 · Preview: the alphabet, first half (CL38): A to M. Names that are also words carry ~letter.
   - kind: preview
@@ -244,12 +250,47 @@ steps:
           - {item: w:ipsilon, skill: read}
         tags: [cd:spell-name, sy:ss.alphabet]
         pairs: [["acca", "H"], ["i lunga", "J"], ["cappa", "K"], ["doppia vu", "W"], ["ics", "X"], ["ipsilon", "Y"]]
+      - id: u00.l3.ex33
+        format: choice
+        targets: [{item: w:ics, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet, sy:cefr.international-words]
+        question_en: "The last line has the letters of words from other languages. Which of these words has one of them?"
+        options: ["taxi", "ciao", "grazie"]
+        answer: 0
 
-  # 7 · Practice: whole names and words, with both halves. Names spelled aloud (which name is it?), then names to
+  # 7 · Practice: whole names and words, with both halves. First the alphabet's lines again, said along with the audio
+  #     (fluency, CL21; repeats aren't graded as retrievals); then names spelled aloud (which name is it?), and names to
   #     spell, one with a double letter (Rossi). Names are only words to spell here, not people in the story.
   - kind: practice
     id: u00.l3.step-practice-3
     block:
+      - id: u00.l3.ex27
+        format: repeat
+        targets: [{item: s:alphabet, skill: speak}]
+        tags: [sy:cefr.phonological-control, sy:ss.alphabet, cd:spell-name]
+        source: u00.l3.alphabet#1
+        lemmas: {a: w:a~letter, ci: w:ci~letter, di: w:di~letter, e: w:e~letter}
+        say: "A, bi, ci, di, e, effe, gi."
+      - id: u00.l3.ex28
+        format: repeat
+        targets: [{item: s:alphabet, skill: speak}]
+        tags: [sy:cefr.phonological-control, sy:ss.alphabet, cd:spell-name]
+        source: u00.l3.alphabet#2
+        lemmas: {i: w:i~letter, o: w:o~letter}
+        say: "Acca, i, elle, emme, enne, o."
+      - id: u00.l3.ex29
+        format: repeat
+        targets: [{item: s:alphabet, skill: speak}]
+        tags: [sy:cefr.phonological-control, sy:ss.alphabet, cd:spell-name]
+        source: u00.l3.alphabet#3
+        lemmas: {ti: w:ti~letter}
+        say: "Pi, cu, erre, esse, ti, u, vu, zeta."
+      - id: u00.l3.ex30
+        format: repeat
+        targets: [{item: s:alphabet, skill: speak}]
+        tags: [sy:cefr.phonological-control, sy:ss.alphabet, cd:spell-name]
+        source: u00.l3.alphabet#4
+        say: "I lunga, cappa, doppia vu, ics, ipsilon."
       - id: u00.l3.ex18
         format: choice
         targets: [{item: w:esse, skill: listen}, {item: w:a~letter, skill: listen}, {item: w:erre, skill: listen}]
@@ -348,10 +389,34 @@ steps:
         glosses: {gi: "the letter G", ci: "the letter C"}
         tip_en: "G is gi and C is ci: the g of gelato and the c of ciao."
 
-  # 9 · Use: later that morning a neighbor of yours knocks; you don't catch her name, she spells it, you say it back
-  #     (Lei). The conversation's `lemmas:` read the spelled vowels, di and ci as letters. Its ID is ex31, not the
-  #     next free number: ch:extra's voice is picked by fnv1a64 of the ID (voices.yaml), and ex31 gives Federica a
-  #     woman's voice (it-IT-IrmaNeural); ex27 to ex30 are not used yet.
+  # 9 · Repeat after me (fluency, CL21): the morning's lines from the listening, just before your own morning
+  #     conversation.
+  - kind: practice
+    id: u00.l3.step-practice-4
+    block:
+      - id: u00.l3.ex34
+        format: repeat
+        targets: [{item: c:come-va, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:greet-farewell]
+        source: u00.l3.morning#3
+        say: "Benvenuto! Come va?"
+      - id: u00.l3.ex35
+        format: repeat
+        targets: [{item: c:buona-giornata, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:greet-farewell, sy:fn.good-wishes]
+        source: u00.l3.morning#5
+        say: "Bene! Buona giornata!"
+      - id: u00.l3.ex36
+        format: repeat
+        targets: [{item: w:arrivederci, skill: speak}]
+        tags: [sy:cefr.phonological-control, cd:greet-farewell]
+        source: u00.l3.morning#6
+        say: "Grazie! Buona giornata! Arrivederci!"
+
+  # 10 · Use: later that morning a neighbor of yours knocks; you don't catch her name, she spells it, you say it back
+  #      (Lei). The conversation's `lemmas:` read the spelled vowels, di and ci as letters. Its ID is ex31, not the
+  #      next number in file order: ch:extra's voice is picked by fnv1a64 of the ID (voices.yaml), and ex31 gives
+  #      Federica a woman's voice (it-IT-IrmaNeural).
   - kind: use
     id: u00.l3.step-use
     exercise:

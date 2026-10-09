@@ -1477,7 +1477,109 @@
    ]
   },
   {
-   "path": "steps[6].exercises[0].word",
+   "path": "steps[6].block[0].say",
+   "ref": "u00.l1.ex37",
+   "role": "say",
+   "text": "Scusi! Taxi, per favore!",
+   "tokens": [
+    {"analyses": ["scusare VER:ind+pres+2+s", "scusare VER:sub+pres+1+s", "scusare VER:sub+pres+2+s", "scusare VER:sub+pres+3+s"], "chunk": "c:scusi", "kind": "word", "lemma": "scusare", "span": [0, 5], "surface": "Scusi"},
+    {"kind": "punct", "span": [5, 6], "surface": "!", "trailing": " "},
+    {"analyses": ["taxi NOUN-M:p", "taxi NOUN-M:s"], "flags": ["allowlisted"], "gloss": "taxi", "kind": "word", "lemma": "taxi", "span": [7, 11], "surface": "Taxi"},
+    {"kind": "punct", "span": [11, 12], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [13, 16], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [17, 23], "surface": "favore"},
+    {"kind": "punct", "span": [23, 24], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[6].block[1].say",
+   "ref": "u00.l1.ex38",
+   "role": "say",
+   "text": "Sì, sì. Prego!",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [4, 6], "surface": "sì"},
+    {"kind": "punct", "span": [6, 7], "surface": ".", "trailing": " "},
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [8, 13], "surface": "Prego"},
+    {"kind": "punct", "span": [13, 14], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[6].block[2].say",
+   "ref": "u00.l1.ex39",
+   "role": "say",
+   "text": "No, no. No hotel.",
+   "tokens": [
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [0, 2], "surface": "No"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [4, 6], "surface": "no"},
+    {"kind": "punct", "span": [6, 7], "surface": ".", "trailing": " "},
+    {"analyses": ["no ADV"], "item": "w:no", "kind": "word", "lemma": "no", "span": [8, 10], "surface": "No", "trailing": " "},
+    {"analyses": ["hotel NOUN-M:p", "hotel NOUN-M:s"], "flags": ["allowlisted"], "gloss": "hotel", "kind": "word", "lemma": "hotel", "span": [11, 16], "surface": "hotel"},
+    {"kind": "punct", "span": [16, 17], "surface": "."}
+   ]
+  },
+  {
+   "path": "steps[6].block[3].say",
+   "ref": "u00.l1.ex40",
+   "role": "say",
+   "text": "Ah, ok! Bene, bene!",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [4, 6], "surface": "ok"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [8, 12], "surface": "Bene"},
+    {"kind": "punct", "span": [12, 13], "surface": ",", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [14, 18], "surface": "bene"},
+    {"kind": "punct", "span": [18, 19], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[6].block[4].say",
+   "ref": "u00.l1.ex41",
+   "role": "say",
+   "text": "Sì, sì! Toronto, Canada.",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [4, 6], "surface": "sì"},
+    {"kind": "punct", "span": [6, 7], "surface": "!", "trailing": " "},
+    {"kind": "name", "span": [8, 15], "surface": "Toronto"},
+    {"kind": "punct", "span": [15, 16], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [17, 23], "surface": "Canada"},
+    {"kind": "punct", "span": [23, 24], "surface": "."}
+   ]
+  },
+  {
+   "path": "steps[6].block[5].say",
+   "ref": "u00.l1.ex42",
+   "role": "say",
+   "text": "Ah, Canada! Benvenuto!",
+   "tokens": [
+    {"analyses": ["ah INT"], "flags": ["allowlisted"], "kind": "word", "lemma": "ah", "span": [0, 2], "surface": "Ah"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"kind": "name", "span": [4, 10], "surface": "Canada"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["benvenuto ADJ:pos+m+s", "benvenuto NOUN-M:s"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [12, 21], "surface": "Benvenuto"},
+    {"kind": "punct", "span": [21, 22], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[6].block[6].say",
+   "ref": "u00.l1.ex43",
+   "role": "say",
+   "text": "Bene, grazie!",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [6, 12], "surface": "grazie"},
+    {"kind": "punct", "span": [12, 13], "surface": "!"}
+   ]
+  },
+  {
+   "path": "steps[7].exercises[0].word",
    "ref": "u00.l1.ex30",
    "role": "sound",
    "text": "arrivederci",
@@ -1486,7 +1588,7 @@
    ]
   },
   {
-   "path": "steps[6].exercises[1].word",
+   "path": "steps[7].exercises[1].word",
    "ref": "u00.l1.ex31",
    "role": "sound",
    "text": "buonasera",
@@ -1495,7 +1597,7 @@
    ]
   },
   {
-   "path": "steps[6].exercises[2].pair[0]",
+   "path": "steps[7].exercises[2].pair[0]",
    "ref": "u00.l1.ex32",
    "role": "sound",
    "text": "pena",
@@ -1504,7 +1606,7 @@
    ]
   },
   {
-   "path": "steps[6].exercises[2].pair[1]",
+   "path": "steps[7].exercises[2].pair[1]",
    "ref": "u00.l1.ex32",
    "role": "sound",
    "text": "penna",
@@ -1513,7 +1615,7 @@
    ]
   },
   {
-   "path": "steps[6].exercises[3].pair[0]",
+   "path": "steps[7].exercises[3].pair[0]",
    "ref": "u00.l1.ex33",
    "role": "sound",
    "text": "sete",
@@ -1522,7 +1624,7 @@
    ]
   },
   {
-   "path": "steps[6].exercises[3].pair[1]",
+   "path": "steps[7].exercises[3].pair[1]",
    "ref": "u00.l1.ex33",
    "role": "sound",
    "text": "seta",
@@ -1531,7 +1633,7 @@
    ]
   },
   {
-   "path": "steps[7].exercise.nodes.end.say",
+   "path": "steps[8].exercise.nodes.end.say",
    "ref": "u00.l1.ex34/end",
    "role": "say",
    "text": "Prego, prego!",
@@ -1547,7 +1649,7 @@
    "model": true,
    "norm": "buonasera taxi per favore",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[0]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[0]",
    "pattern": "buonasera( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1564,7 +1666,7 @@
    "model": false,
    "norm": "buonasera taxi",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[0]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[0]",
    "pattern": "buonasera( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1579,7 +1681,7 @@
    "model": false,
    "norm": "buonasera per favore",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[0]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[0]",
    "pattern": "buonasera( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1595,7 +1697,7 @@
    "model": false,
    "norm": "buonasera",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[0]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[0]",
    "pattern": "buonasera( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1609,7 +1711,7 @@
    "model": false,
    "norm": "scusi buonasera taxi per favore",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[1]",
    "pattern": "scusi buonasera( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1627,7 +1729,7 @@
    "model": false,
    "norm": "scusi buonasera taxi",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[1]",
    "pattern": "scusi buonasera( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1643,7 +1745,7 @@
    "model": false,
    "norm": "scusi buonasera per favore",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[1]",
    "pattern": "scusi buonasera( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1660,7 +1762,7 @@
    "model": false,
    "norm": "scusi buonasera",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[1]",
    "pattern": "scusi buonasera( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1675,7 +1777,7 @@
    "model": false,
    "norm": "scusi taxi per favore buonasera",
    "of": 2,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(scusi )taxi per favore buonasera",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1693,7 +1795,7 @@
    "model": false,
    "norm": "taxi per favore buonasera",
    "of": 2,
-   "path": "steps[7].exercise.nodes.n1.expect[0].accept[2]",
+   "path": "steps[8].exercise.nodes.n1.expect[0].accept[2]",
    "pattern": "(scusi )taxi per favore buonasera",
    "ref": "u00.l1.ex34/n1",
    "role": "accept",
@@ -1706,7 +1808,7 @@
    ]
   },
   {
-   "path": "steps[7].exercise.nodes.n1.help[0]",
+   "path": "steps[8].exercise.nodes.n1.help[0]",
    "ref": "u00.l1.ex34/n1",
    "role": "help",
    "text": "Buonasera! Taxi, per favore.",
@@ -1725,7 +1827,7 @@
    "model": false,
    "norm": "buongiorno taxi per favore",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.near[0].answer",
+   "path": "steps[8].exercise.nodes.n1.near[0].answer",
    "pattern": "buongiorno( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "near",
@@ -1742,7 +1844,7 @@
    "model": false,
    "norm": "buongiorno taxi",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.near[0].answer",
+   "path": "steps[8].exercise.nodes.n1.near[0].answer",
    "pattern": "buongiorno( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "near",
@@ -1757,7 +1859,7 @@
    "model": false,
    "norm": "buongiorno per favore",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.near[0].answer",
+   "path": "steps[8].exercise.nodes.n1.near[0].answer",
    "pattern": "buongiorno( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "near",
@@ -1773,7 +1875,7 @@
    "model": false,
    "norm": "buongiorno",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.near[0].answer",
+   "path": "steps[8].exercise.nodes.n1.near[0].answer",
    "pattern": "buongiorno( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "near",
@@ -1787,7 +1889,7 @@
    "model": false,
    "norm": "ciao taxi per favore",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "path": "steps[8].exercise.nodes.n1.near[1].answer",
    "pattern": "ciao( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "near",
@@ -1804,7 +1906,7 @@
    "model": false,
    "norm": "ciao taxi",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "path": "steps[8].exercise.nodes.n1.near[1].answer",
    "pattern": "ciao( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "near",
@@ -1819,7 +1921,7 @@
    "model": false,
    "norm": "ciao per favore",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "path": "steps[8].exercise.nodes.n1.near[1].answer",
    "pattern": "ciao( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "near",
@@ -1835,7 +1937,7 @@
    "model": false,
    "norm": "ciao",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n1.near[1].answer",
+   "path": "steps[8].exercise.nodes.n1.near[1].answer",
    "pattern": "ciao( taxi)( per favore)",
    "ref": "u00.l1.ex34/n1",
    "role": "near",
@@ -1845,7 +1947,7 @@
    ]
   },
   {
-   "path": "steps[7].exercise.nodes.n1.say",
+   "path": "steps[8].exercise.nodes.n1.say",
    "ref": "u00.l1.ex34/n1",
    "role": "say",
    "text": "Buonasera!",
@@ -1859,7 +1961,7 @@
    "model": true,
    "norm": "no grazie",
    "of": 1,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[0]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[0]",
    "pattern": "no grazie",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -1874,7 +1976,7 @@
    "model": false,
    "norm": "no no hotel grazie per favore",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -1893,7 +1995,7 @@
    "model": false,
    "norm": "no no hotel grazie",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -1910,7 +2012,7 @@
    "model": false,
    "norm": "no no hotel per favore",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -1928,7 +2030,7 @@
    "model": false,
    "norm": "no no hotel",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -1944,7 +2046,7 @@
    "model": false,
    "norm": "no no grazie per favore",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -1962,7 +2064,7 @@
    "model": false,
    "norm": "no no grazie",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -1978,7 +2080,7 @@
    "model": false,
    "norm": "no no per favore",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -1995,7 +2097,7 @@
    "model": false,
    "norm": "no no",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -2010,7 +2112,7 @@
    "model": false,
    "norm": "no hotel grazie per favore",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -2028,7 +2130,7 @@
    "model": false,
    "norm": "no hotel grazie",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -2044,7 +2146,7 @@
    "model": false,
    "norm": "no hotel per favore",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -2061,7 +2163,7 @@
    "model": false,
    "norm": "no hotel",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -2076,7 +2178,7 @@
    "model": false,
    "norm": "no grazie per favore",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -2093,7 +2195,7 @@
    "model": false,
    "norm": "no grazie",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -2108,7 +2210,7 @@
    "model": false,
    "norm": "no per favore",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -2124,7 +2226,7 @@
    "model": false,
    "norm": "no",
    "of": 16,
-   "path": "steps[7].exercise.nodes.n2.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n2.expect[0].accept[1]",
    "pattern": "no( no)( hotel)( grazie)( per favore)",
    "ref": "u00.l1.ex34/n2",
    "role": "accept",
@@ -2134,7 +2236,7 @@
    ]
   },
   {
-   "path": "steps[7].exercise.nodes.n2.help[0]",
+   "path": "steps[8].exercise.nodes.n2.help[0]",
    "ref": "u00.l1.ex34/n2",
    "role": "help",
    "text": "No, grazie.",
@@ -2146,7 +2248,7 @@
    ]
   },
   {
-   "path": "steps[7].exercise.nodes.n2.say",
+   "path": "steps[8].exercise.nodes.n2.say",
    "ref": "u00.l1.ex34/n2",
    "role": "say",
    "text": "Sì, prego! Hotel?",
@@ -2162,11 +2264,150 @@
   {
    "expansion": 0,
    "model": true,
+   "norm": "bene grazie",
+   "of": 2,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[0]",
+   "pattern": "bene( grazie)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "bene grazie",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "bene",
+   "of": 2,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[0]",
+   "pattern": "bene( grazie)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "bene",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "ok bene grazie e lei",
+   "of": 4,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[1]",
+   "pattern": "(ok )bene grazie( e Lei)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "ok bene grazie e Lei",
+   "tokens": [
+    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "ok", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [3, 7], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [8, 14], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [17, 20], "surface": "Lei"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "ok bene grazie",
+   "of": 4,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[1]",
+   "pattern": "(ok )bene grazie( e Lei)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "ok bene grazie",
+   "tokens": [
+    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "ok", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [3, 7], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [8, 14], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "bene grazie e lei",
+   "of": 4,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[1]",
+   "pattern": "(ok )bene grazie( e Lei)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "bene grazie e Lei",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [14, 17], "surface": "Lei"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "bene grazie",
+   "of": 4,
+   "path": "steps[8].exercise.nodes.n3.expect[0].accept[1]",
+   "pattern": "(ok )bene grazie( e Lei)",
+   "ref": "u00.l1.ex34/n3",
+   "role": "accept",
+   "text": "bene grazie",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie"}
+   ]
+  },
+  {
+   "path": "steps[8].exercise.nodes.n3.help[0]",
+   "ref": "u00.l1.ex34/n3",
+   "role": "help",
+   "text": "Bene, grazie!",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [6, 12], "surface": "grazie"},
+    {"kind": "punct", "span": [12, 13], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "bene grazie e tu",
+   "of": 1,
+   "path": "steps[8].exercise.nodes.n3.near[0].answer",
+   "pattern": "bene grazie e tu",
+   "ref": "u00.l1.ex34/n3",
+   "role": "near",
+   "text": "bene grazie e tu",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [14, 16], "surface": "tu"}
+   ]
+  },
+  {
+   "path": "steps[8].exercise.nodes.n3.say",
+   "ref": "u00.l1.ex34/n3",
+   "role": "say",
+   "text": "Ok! Bene! Come va?",
+   "tokens": [
+    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "Ok"},
+    {"kind": "punct", "span": [2, 3], "surface": "!", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [4, 8], "surface": "Bene"},
+    {"kind": "punct", "span": [8, 9], "surface": "!", "trailing": " "},
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [10, 14], "surface": "Come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [15, 17], "surface": "va"},
+    {"kind": "punct", "span": [17, 18], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
    "norm": "grazie grazie",
    "of": 2,
-   "path": "steps[7].exercise.nodes.n3.expect[0].accept[0]",
+   "path": "steps[8].exercise.nodes.n4.expect[0].accept[0]",
    "pattern": "grazie( grazie)",
-   "ref": "u00.l1.ex34/n3",
+   "ref": "u00.l1.ex34/n4",
    "role": "accept",
    "text": "grazie grazie",
    "tokens": [
@@ -2179,9 +2420,9 @@
    "model": false,
    "norm": "grazie",
    "of": 2,
-   "path": "steps[7].exercise.nodes.n3.expect[0].accept[0]",
+   "path": "steps[8].exercise.nodes.n4.expect[0].accept[0]",
    "pattern": "grazie( grazie)",
-   "ref": "u00.l1.ex34/n3",
+   "ref": "u00.l1.ex34/n4",
    "role": "accept",
    "text": "grazie",
    "tokens": [
@@ -2193,9 +2434,9 @@
    "model": false,
    "norm": "ok grazie buonasera",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n3.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n4.expect[0].accept[1]",
    "pattern": "(ok )grazie( buonasera)",
-   "ref": "u00.l1.ex34/n3",
+   "ref": "u00.l1.ex34/n4",
    "role": "accept",
    "text": "ok grazie buonasera",
    "tokens": [
@@ -2209,9 +2450,9 @@
    "model": false,
    "norm": "ok grazie",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n3.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n4.expect[0].accept[1]",
    "pattern": "(ok )grazie( buonasera)",
-   "ref": "u00.l1.ex34/n3",
+   "ref": "u00.l1.ex34/n4",
    "role": "accept",
    "text": "ok grazie",
    "tokens": [
@@ -2224,9 +2465,9 @@
    "model": false,
    "norm": "grazie buonasera",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n3.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n4.expect[0].accept[1]",
    "pattern": "(ok )grazie( buonasera)",
-   "ref": "u00.l1.ex34/n3",
+   "ref": "u00.l1.ex34/n4",
    "role": "accept",
    "text": "grazie buonasera",
    "tokens": [
@@ -2239,9 +2480,9 @@
    "model": false,
    "norm": "grazie",
    "of": 4,
-   "path": "steps[7].exercise.nodes.n3.expect[0].accept[1]",
+   "path": "steps[8].exercise.nodes.n4.expect[0].accept[1]",
    "pattern": "(ok )grazie( buonasera)",
-   "ref": "u00.l1.ex34/n3",
+   "ref": "u00.l1.ex34/n4",
    "role": "accept",
    "text": "grazie",
    "tokens": [
@@ -2249,8 +2490,8 @@
    ]
   },
   {
-   "path": "steps[7].exercise.nodes.n3.help[0]",
-   "ref": "u00.l1.ex34/n3",
+   "path": "steps[8].exercise.nodes.n4.help[0]",
+   "ref": "u00.l1.ex34/n4",
    "role": "help",
    "text": "Grazie!",
    "tokens": [
@@ -2259,15 +2500,15 @@
    ]
   },
   {
-   "path": "steps[7].exercise.nodes.n3.say",
-   "ref": "u00.l1.ex34/n3",
+   "path": "steps[8].exercise.nodes.n4.say",
+   "ref": "u00.l1.ex34/n4",
    "role": "say",
-   "text": "Ok! Prego!",
+   "text": "Bene! Prego!",
    "tokens": [
-    {"analyses": ["ok NOUN-M:p", "ok NOUN-M:s"], "flags": ["allowlisted"], "gloss": "OK", "kind": "word", "lemma": "ok", "span": [0, 2], "surface": "Ok"},
-    {"kind": "punct", "span": [2, 3], "surface": "!", "trailing": " "},
-    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [4, 9], "surface": "Prego"},
-    {"kind": "punct", "span": [9, 10], "surface": "!"}
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
+    {"kind": "punct", "span": [4, 5], "surface": "!", "trailing": " "},
+    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [6, 11], "surface": "Prego"},
+    {"kind": "punct", "span": [11, 12], "surface": "!"}
    ]
   },
   {
