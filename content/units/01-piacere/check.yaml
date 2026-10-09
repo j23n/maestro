@@ -87,7 +87,7 @@ sections:
             title: {en: "Language school: registration form"}
             layout:
               type: form
-              title: "Scuola di italiano – Iscrizione"
+              title: "Scuola Arcobaleno – Iscrizione"
               fields:
                 - {label: Nome, value: Emma}
                 - {label: Cognome, value: Clarke}
@@ -95,7 +95,7 @@ sections:
                 - {label: Luogo di nascita, value: "Manchester (Inghilterra)"}
                 - {label: Città, value: Bologna}
                 - {label: Email, value: emma.clarke@example.com}
-              ignore: ["Scuola di italiano – Iscrizione", Emma, Clarke, "Manchester (Inghilterra)", emma.clarke@example.com]
+              ignore: ["Scuola Arcobaleno – Iscrizione", Emma, Clarke, "Manchester (Inghilterra)", emma.clarke@example.com]
         statement_en: "Emma lives in Manchester."
         answer: false
       - id: u01.check.07

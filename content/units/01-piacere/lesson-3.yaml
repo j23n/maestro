@@ -373,7 +373,7 @@ steps:
           lines:
             - {speaker: narrator, it: "Ci, elle, a, erre, cappa, e.", en: "C, L, A, R, K, E.", lemmas: {ci: w:ci~letter, a: w:a~letter, e: w:e~letter}}
         question_en: "A classmate at the school spells her last name. Which is it?"
-        options: ["Clarke", "Clark", "Karle"]
+        options: ["Clarke", "Clark", "Klarke"]
         answer: 0
       - id: u01.l3.ex43
         format: choice
