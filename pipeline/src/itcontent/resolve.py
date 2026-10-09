@@ -17,7 +17,9 @@ tokens and issues. The order for each word token outside a chunk:
    not the letter `w:ci~letter`); one candidate left is taken, several are an error naming the line and the
    candidates. A rule's conditions look at the neighbours' *context*: the readings of the items each neighbour can
    still resolve to after `lemmas:` and its default (all its candidates' when it has a rule of its own; its Morph-it!
-   readings when it has no candidate or is in a chunk), so a letter noun *o* never makes *uno* an article.
+   readings when it has no candidate or is in a chunk), so a letter noun *o* never makes *uno* an article. An
+   allowlisted name is always a proper noun (`NPR`, synthesised when Morph-it! lacks it), so *la Federica* is the
+   article.
 3. **The lexical-article rule** (ADR-20): an article directly before a noun item (or an allowlisted noun such as
    *bar*), or before an adjective and a noun item, is part of that noun until the article's own unit
    (`points.yaml`): it takes the noun's item, the `lexical_article` flag and no detection.
@@ -315,6 +317,14 @@ class Lexicon:
             cands[fp[0]] = fp[1]
         return cands
 
+    def name_readings(self, surface: str) -> tuple[Analysis, ...]:
+        """An allowlisted name's readings: Morph-it!'s for its exact form, plus a synthetic proper-noun reading when
+        none is one (*Federica*, *Mimì*), so to the *la / l'* rule every name is a proper noun (CL7)."""
+        raw = self.morph.get(surface)
+        if any(any_pos(x.category, ("NPR",)) for x in raw):
+            return raw
+        return (*raw, Analysis(surface, "NPR", synthetic=True))
+
     def pos_readings(self, raw: Sequence[Analysis], choice: Mapping[str, Any]) -> tuple[Analysis, ...]:
         """The Morph-it! readings a `{pos: [...]}` choice keeps."""
         cats = [str(x) for x in choice.get("pos") or []]
@@ -391,7 +401,7 @@ class Lexicon:
             if a.kind == WORD:
                 a.raw = self.morph.lookup(a.surface)
             elif a.kind == NAME:
-                a.raw = a.context = self.morph.get(a.surface)
+                a.raw = a.context = self.name_readings(a.surface)
 
         # chunks first
         for s, e, cid in self.chunks.match(toks, self.slot_heads):
