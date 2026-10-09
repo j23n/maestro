@@ -38,7 +38,7 @@ You draft; people decide. Everything you write is a **draft** until the content 
 | new-token budget | too many new tokens in a text | move items to the preview, cut, or replace with known words |
 | production gate | a model answer uses an item or grammar point not introduced for production | change the first expansion; keep correct alternatives later in the pattern |
 | later form in a text | a form the learner should only recognise here | list it in the line's `recognise: [form]` with a `gloss:`; it counts toward the new-token budget and never appears in answers |
-| ambiguous token | the form matches two items | add `lemmas: {form: item-id}` on the line |
+| ambiguous token | the form matches two items | add `lemmas: {form: item-id}` on the line, or on the exercise or real-world layout for strings outside text lines (a spelled name: `{a: w:a~letter}`) |
 | register mismatch | a line's `register` disagrees with the story bible | fix the line, not the bible; ask if the bible looks wrong |
 | alignment | an exercise without tags, or a can-do without practice or check items | add tags or items |
 | recycling warnings | too few encounters | reuse the item in later practice, stories and checks |

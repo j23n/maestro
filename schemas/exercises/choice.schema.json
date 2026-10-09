@@ -10,6 +10,7 @@
     "format": {"const": "choice"},
     "targets": {"$ref": "../common.schema.json#/$defs/targets"},
     "tags": {"$ref": "../common.schema.json#/$defs/tags"},
+    "lemmas": {"$ref": "../common.schema.json#/$defs/lemmas"},
     "source": {"$ref": "../common.schema.json#/$defs/source"},
     "prompt_it": {"type": ["string", "null"]},
     "audio": {"$ref": "../common.schema.json#/$defs/audio"},

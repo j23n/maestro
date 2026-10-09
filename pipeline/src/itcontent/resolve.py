@@ -138,6 +138,7 @@ class Annotated:
     tokens: list[TokAnn]
     detections: list[Detection]
     issues: list[Issue]
+    used_lemmas: frozenset[str] = frozenset()  # the (folded) `lemmas` keys this string contains
 
 
 @dataclass
@@ -149,6 +150,9 @@ class Ctx:
     foreign: Sequence[str] = ()
     gloss: Mapping[str, str] = field(default_factory=dict)
     lemmas: Mapping[str, Any] = field(default_factory=dict)
+    # True when `lemmas` is an exercise's or a layout's: it covers several strings, so a key this string doesn't
+    # contain is fine here (the annotator reports a key none of them contains)
+    shared_lemmas: bool = False
     recognise: Sequence[str] = ()
     strict: bool = True  # False for an accepted pattern's other expansions
     pending: bool = False  # unit spec title of a unit without an items file
@@ -423,8 +427,9 @@ class Lexicon:
             if a.kind != WORD or a.chunk is not None:
                 continue
             self._resolve(anns, k, lemmas, used_lemmas, ctx, issues)
-        for key in sorted(set(lemmas) - used_lemmas):
-            issues.append(Issue("error", None, f"lemmas key '{key}' is not in the line"))
+        if not ctx.shared_lemmas:
+            for key in sorted(set(lemmas) - used_lemmas):
+                issues.append(Issue("error", None, f"lemmas key '{key}' is not in the line"))
 
         # the lexical-article rule
         for k, a in enumerate(anns):
@@ -502,7 +507,7 @@ class Lexicon:
             for a in anns[d.start : d.end + 1]:
                 if d.point not in a.detections:
                     a.detections.append(d.point)
-        return Annotated(text, lead, anns, detections, issues)
+        return Annotated(text, lead, anns, detections, issues, frozenset(used_lemmas))
 
     def _resolve(
         self,

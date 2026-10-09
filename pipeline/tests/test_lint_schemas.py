@@ -49,7 +49,7 @@ CASES: dict[str, tuple[str, list[str]]] = {
         LESSON,
         [
             f"{E} › steps[0].block[0].prompt_eng (line 14): unknown key 'prompt_eng' (format recall); allowed: answer, "
-            "audio_after, context_it, format, hint, id, near, prompt_en, rule, score, source, tags, targets"
+            "audio_after, context_it, format, hint, id, lemmas, near, prompt_en, rule, score, source, tags, targets"
         ],
     ),
     "lesson-format-not-allowed.yaml": (

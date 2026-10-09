@@ -136,6 +136,12 @@
         "additionalProperties": false
       }
     },
+    "lemmas": {
+      "description": "Disambiguation overrides {Italian form: item ID} (docs/03 § Texts, § Exercises): on a text line for that line, on an exercise for all its own Italian strings, on a real-world layout for all its strings.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "format": "id:lexical_item"}
+    },
     "line": {
       "description": "A text line (docs/03 § Texts).",
       "type": "object",
@@ -148,11 +154,7 @@
         "en": {"type": "string"},
         "foreign": {"$ref": "#/$defs/nonEmptyStrings"},
         "gloss": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/nonEmptyString"}},
-        "lemmas": {
-          "type": "object",
-          "minProperties": 1,
-          "additionalProperties": {"type": "string", "format": "id:lexical_item"}
-        },
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "recognise": {"$ref": "#/$defs/nonEmptyStrings"},
         "allow": {
           "type": "object",
@@ -270,6 +272,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "title": {"$ref": "#/$defs/nonEmptyString"},
         "sections": {
           "type": "array",
@@ -306,6 +309,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "shop": {"$ref": "#/$defs/nonEmptyString"},
         "rows": {
           "type": "array",
@@ -332,6 +336,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "lines": {"$ref": "#/$defs/nonEmptyStrings"},
         "style": {"enum": ["info", "warning", "closed"], "title": "sign style"}
       },
@@ -343,6 +348,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "title": {"$ref": "#/$defs/nonEmptyString"},
         "rows": {
           "type": "array",
@@ -364,6 +370,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "title": {"$ref": "#/$defs/nonEmptyString"},
         "columns": {"$ref": "#/$defs/nonEmptyStrings"},
         "rows": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/strings"}}
@@ -376,6 +383,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "title": {"$ref": "#/$defs/nonEmptyString"},
         "fields": {
           "type": "array",
@@ -396,6 +404,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "title": {"$ref": "#/$defs/nonEmptyString"},
         "body": {"$ref": "#/$defs/nonEmptyStrings"},
         "contact": {"type": "string"}
@@ -408,6 +417,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "from": {"$ref": "#/$defs/nonEmptyString"},
         "time": {"type": "string"},
         "bubbles": {"$ref": "#/$defs/nonEmptyStrings"}
@@ -420,6 +430,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "greeting": {"$ref": "#/$defs/nonEmptyString"},
         "body": {"$ref": "#/$defs/nonEmptyStrings"},
         "closing": {"$ref": "#/$defs/nonEmptyString"},
@@ -434,6 +445,7 @@
       "properties": {
         "type": true,
         "ignore": {"$ref": "#/$defs/strings"},
+        "lemmas": {"$ref": "#/$defs/lemmas"},
         "title": {"type": "string"},
         "items": {"$ref": "#/$defs/nonEmptyStrings"}
       },

@@ -22,6 +22,7 @@ from itcontent.patterns import PatternError, expand
 PathT = tuple[str | int, ...]
 GAP = re.compile(r"\[\[(.*?)\]\]")
 LAYOUT_NON_TEXT = frozenset({"type", "style", "ignore"})
+LAYOUT_AUTHORING_ONLY = frozenset({"lemmas"})  # annotation overrides (docs/03 § Texts): not in the payload
 # Optional layout keys, present as null when not authored (docs/06 § 4).
 LAYOUT_OPTIONAL: dict[str, tuple[str, ...]] = {
     "receipt": ("footer",),
@@ -426,7 +427,7 @@ BODIES: dict[str, Callable[[ExerciseInput], dict[str, Any]]] = {
 
 def layout_payload(layout: Mapping[str, Any], lock: LockFile, path: PathT, targets: frozenset[str]) -> dict[str, Any]:
     """The authored layout with every Italian string as a TokenizedText; strings in `ignore`, and strings with only
-    digits and punctuation (prices, times), stay plain strings."""
+    digits and punctuation (prices, times), stay plain strings. Its `lemmas` only steer annotation and are left out."""
     ignore = {str(v) for v in seq(layout.get("ignore"))}
 
     def walk(node: Any, p: PathT) -> Any:
@@ -442,7 +443,7 @@ def layout_payload(layout: Mapping[str, Any], lock: LockFile, path: PathT, targe
         s: LockString = lock.plain(p, text)
         return tokenized(s, targets) if has_words(s) else text
 
-    out = walk(dict(layout), path)
+    out = walk({k: v for k, v in layout.items() if k not in LAYOUT_AUTHORING_ONLY}, path)
     kind = str(layout.get("type", ""))
     out.setdefault("ignore", [])
     for key in LAYOUT_OPTIONAL.get(kind, ()):

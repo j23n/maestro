@@ -256,6 +256,94 @@ def test_pos_defaults_keep_the_article_and_the_clitic_over_a_letter(course):
     assert ann(bare, "Sei di Bologna?", "u01").tokens[1].candidates == ("w:di", "w:di~letter")
 
 
+def spell_in_copy(repo: Path, exercise_keys: str, layout_keys: str) -> None:
+    """The letters and their defaults, a dictation that spells MARCO and a menu row that spells ABC, with exercise- and
+    layout-level `lemmas:` (docs/03 § Texts, § Exercises)."""
+    items = repo / "content/items/u00.yaml"
+    letters = "".join(
+        f"  - {{id: '{iid}', it: {it['it']}, pos: noun, gender: f, plural: invariable, gloss: a letter, status: P, "
+        "lesson: u00.l2}\n"
+        for iid, it in [*LETTERS.items(), *{"w:erre": {"it": "erre"}, "w:bi": {"it": "bi"}}.items()]
+    )
+    items.write_text(items.read_text(encoding="utf-8") + letters, encoding="utf-8")
+    dis = repo / "content/disambiguation.yaml"
+    defaults = "".join(
+        f"  {form}: {choice if isinstance(choice, str) else '{pos: [' + ', '.join(choice['pos']) + ']}'}\n"
+        for form, choice in LETTER_DEFAULTS.items()
+    )
+    dis.write_text(dis.read_text(encoding="utf-8") + defaults, "utf-8")
+    lesson = repo / "content/units/02-al-bar/lesson-1.yaml"
+    text = lesson.read_text(encoding="utf-8")
+    old = '        say: "Vorrei un cornetto, per favore."\n        slow: true\n'
+    assert old in text
+    new = (
+        '        say: "Emme, a, erre, ci, o."\n        slow: true\n'
+        '        near: [{answer: "emme a erre ci", hint: "One more letter."}]\n'
+        f"        lemmas: {{{exercise_keys}}}\n"
+    )
+    lesson.write_text(text.replace(old, new), encoding="utf-8")
+    task = repo / "content/units/02-al-bar/task.yaml"
+    text = task.read_text(encoding="utf-8")
+    old = '              - {name: cornetto, price: "1,40"}\n        ignore: [Caffetteria, Colazione]\n'
+    assert text.count(old) == 1
+    new = (
+        '              - {name: cornetto, price: "1,40"}\n              - {name: "a, bi, ci", price: "1,00"}\n'
+        f"        ignore: [Caffetteria, Colazione]\n        lemmas: {{{layout_keys}}}\n"
+    )
+    task.write_text(text.replace(old, new), encoding="utf-8")
+
+
+def lock_items(result, lock: str, path: str) -> list[list[str | None]]:
+    strings = json.loads(result.locks[lock])["strings"]
+    return [[t.get("item") for t in x["tokens"] if t["kind"] == "word"] for x in strings if x["path"] == path]
+
+
+def test_exercise_and_layout_lemmas_cover_all_their_strings(course_copy):
+    """An exercise's `lemmas:` applies to each of its Italian strings (`say` and the near-miss here) and a layout's to
+    each of its strings; a key no string contains is an error at the map, not one per string."""
+    spell_in_copy(
+        course_copy,
+        "a: 'w:a~letter', ci: 'w:ci~letter', o: 'w:o~letter', e: 'w:e~letter'",
+        "a: 'w:a~letter', ci: 'w:ci~letter', o: 'w:o~letter'",
+    )
+    result = annotate_course(load_course(course_copy), morphit.load())
+    assert sorted(str(f).split(": ", 1)[1] for f in result.errors) == [
+        "content/units/02-al-bar/lesson-1.yaml:194 › steps[3].block[11].lemmas: lemmas key 'e' is in none of the "
+        "exercise's Italian strings",
+        "content/units/02-al-bar/task.yaml:96 › relay.source.text.layout.lemmas: lemmas key 'o' is in none of the "
+        "layout's Italian strings",
+    ]
+    lesson, task = lock_path("content/units/02-al-bar/lesson-1.yaml"), lock_path("content/units/02-al-bar/task.yaml")
+    letters = ["w:emme", "w:a~letter", "w:erre", "w:ci~letter", "w:o~letter"]
+    assert lock_items(result, lesson, "steps[3].block[11].say") == [letters]
+    assert lock_items(result, lesson, "steps[3].block[11].near[0].answer") == [letters[:4]]
+    assert lock_items(result, task, "relay.source.text.layout.sections[1].rows[1].name") == [
+        ["w:a~letter", "w:bi", "w:ci~letter"]
+    ]
+    # elsewhere the defaults hold: the golden story's e is still "and"
+    story = json.loads(result.locks[lesson])["strings"]
+    assert {t.get("item") for x in story if x["role"] == "line" for t in x["tokens"] if t["surface"] == "e"} == {"w:e"}
+
+
+def test_layout_lemmas_stay_out_of_the_payload(course_copy, tmp_path):
+    from itcontent.pack.build import build_pack
+
+    spell_in_copy(
+        course_copy, "a: 'w:a~letter', ci: 'w:ci~letter', o: 'w:o~letter'", "a: 'w:a~letter', ci: 'w:ci~letter'"
+    )
+    assert run_annotate(course_copy, echo=lambda _: None) == 0
+    out = tmp_path / "p.sqlite"
+    build_pack(course_copy, mode="dev", out=out, echo=lambda _: None)  # lints: the schemas take both maps
+    import sqlite3
+
+    con = sqlite3.connect(out)
+    layout = json.loads(con.execute("SELECT layout FROM texts WHERE id = 'u02.task.menu'").fetchone()[0])
+    con.close()
+    assert "lemmas" not in layout
+    row = layout["sections"][1]["rows"][1]["name"]
+    assert [t["itemId"] for t in row["tokens"] if t["kind"] == "word"] == ["w:a~letter", "w:bi", "w:ci~letter"]
+
+
 def test_names_are_case_sensitive_and_overridable(lex):
     a = ann(lex, "Rosa è rosa.", strict=False)
     assert [(t.surface, t.kind, t.item) for t in a.tokens if t.kind != "punct"] == [

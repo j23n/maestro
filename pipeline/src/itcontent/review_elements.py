@@ -458,7 +458,16 @@ def layout_html(layout: dict[str, Any]) -> str:
     parts.append("</div>")
     if layout.get("ignore"):
         parts.append(f'<p class="small">Decorative, not glossed: {esc(", ".join(map(str, layout["ignore"])))}</p>')
-    return "".join(parts) + rest(layout, shown)
+    shown.add("lemmas")
+    return "".join(parts) + read_as(layout) + rest(layout, shown)
+
+
+def read_as(data: dict[str, Any]) -> str:
+    """An exercise's or a layout's `lemmas:` ({Italian form: item}), shown like a line's."""
+    lemmas = data.get("lemmas")
+    if not isinstance(lemmas, dict) or not lemmas:
+        return ""
+    return dl([(LINE_MAPS["lemmas"], "<br>".join(f"{it(k)} → {esc(v)}" for k, v in lemmas.items()))])
 
 
 def text_elements(ctx: Context, text: dict[str, Any], file: str, depth: int, *, owner: str = "") -> list[Element]:
@@ -656,7 +665,7 @@ def exercise_elements(ctx: Context, ex: dict[str, Any], file: str, depth: int, w
     fmt = str(ex.get("format", ""))
     parts: list[str] = []
     nested: list[Element] = []
-    shown = {"format", "targets", "tags", "source", "audio_text", "score", "near", "hint", "rule", "tip_en"}
+    shown = {"format", "targets", "tags", "source", "audio_text", "score", "near", "hint", "rule", "tip_en", "lemmas"}
     if ex.get("source") is not None:
         source_html, nested = _source(ctx, ex["source"], file, depth)
         parts.append(source_html)
@@ -674,6 +683,7 @@ def exercise_elements(ctx: Context, ex: dict[str, Any], file: str, depth: int, w
             prompt = prompt or ex[key]
     quote = _format_parts(ctx, ex, parts, shown) or prompt
     parts.append(ctx.nears(ex.get("near")))
+    parts.append(read_as(ex))
     for key in ("hint", "rule", "tip_en"):
         if ex.get(key):
             parts.append(row(label(key), md(ex[key])))

@@ -217,7 +217,7 @@ text:
     - {speaker: ch:marco, to: ch:giulia, register: lei, it: 'Scusi, come si dice "croissant" in italiano?', en: 'Excuse me, how do you say "croissant" in Italian?', foreign: [croissant]}
 ```
 
-Line fields: `speaker` (a character, `narrator` or `announcer`), `to` and `register` (`tu | lei`) whenever someone is addressed, `it`, `en`. Options: `foreign` (tokens excluded from the level gate and shown in italics), `gloss` (context glosses, e.g. `{da mangiare: to eat}`), `lemmas` (disambiguation, e.g. `{porta: w:porta~door}`), `recognise` (later forms to recognise only; each needs a `gloss`; `docs/04` § Annotation), `allow: {reason: …}` (a reviewed exception to the morphology gate), `say` (IPA overrides for this line, e.g. `{ancora: "anˈkoːra"}`), and `pause_ms` (extra pause after the line in audio). Real-world texts add `layout` (`docs/06` § Real-world reading).
+Line fields: `speaker` (a character, `narrator` or `announcer`), `to` and `register` (`tu | lei`) whenever someone is addressed, `it`, `en`. Options: `foreign` (tokens excluded from the level gate and shown in italics), `gloss` (context glosses, e.g. `{da mangiare: to eat}`), `lemmas` (disambiguation, e.g. `{porta: w:porta~door}`), `recognise` (later forms to recognise only; each needs a `gloss`; `docs/04` § Annotation), `allow: {reason: …}` (a reviewed exception to the morphology gate), `say` (IPA overrides for this line, e.g. `{ancora: "anˈkoːra"}`), and `pause_ms` (extra pause after the line in audio). Real-world texts add `layout` (`docs/06` § Real-world reading); a layout may carry its own `lemmas`, which apply to every string of the layout (a spelled name in a `list`: `lemmas: {a: w:a~letter}`). A line's `lemmas` key that the line doesn't contain is an error; a layout's key that none of its strings contains is one too.
 
 Write numbers, times and prices in words in texts that will be voiced (`sei euro e venti`, not `6,20 €`), so audio, word timings and highlighting line up. Real-world layouts may show digits, because they aren't voiced.
 
@@ -238,6 +238,8 @@ Write numbers, times and prices in words in texts that will be voiced (`sei euro
 ```
 
 `near` lists anticipated wrong answers with a targeted hint; `outcome: almost` marks a near-miss that is nearly right (a wrong article on the right noun) rather than wrong. Hints must point at the problem without giving the answer away. `audio_after: true` plays the model answer after the learner answers.
+
+`lemmas: {form: item-id}` on an exercise disambiguates every Italian string of the exercise itself (prompts, `say`, options, match sides, tiles, every expansion of `answer`, `accept`, `points` and near-miss patterns, conversation `say` and `help`, talk and writing `model`; `docs/06` § Which strings are Italian), the way a line's `lemmas` does for that line; its inline texts (`audio_text`, an inline `source`) keep their own lines' `lemmas`. A key need not occur in every string, but one that none of them contains is an error. Example: the Unit 0 talk spells *Marco: emme, a, erre, ci, o* with `lemmas: {a: w:a~letter, ci: w:ci~letter, o: w:o~letter}`, so its vowels are letters, not Unit 1's *a* and *o*.
 
 Authors list only **primary targets**. The pipeline derives every other requirement (each word shown or expected) from the annotations and compiles it to `exercise_requires`, which drives eligibility (`docs/04` § Requirements).
 
