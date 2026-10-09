@@ -1,5 +1,5 @@
 {
- "spec": "Hand-made examples of every payload shape in schemas/pack-payloads.schema.json (one per exercise format and step kind, a grammar note body, both assessments and a real-world layout), shaped after the golden sample. Token item IDs are illustrative. The pipeline test validates them against the schema; LearningCore decodes them (M2.1). The generated fixtures/packs/mini-payloads.json must validate against the same schema.",
+ "spec": "Hand-made examples of every payload shape in schemas/pack-payloads.schema.json (one per exercise format and step kind, a grammar note body, both assessments and a real-world layout), shaped after the golden sample, plus Unit 0's recall that spells Rossi (u00.l3.ex22) as the pack builds it: a pattern's `spelling` (CL40), with doppia's null letter. Token item IDs are illustrative. The pipeline test validates them against the schema; LearningCore decodes them (M2.1). The generated fixtures/packs/mini-payloads.json must validate against the same schema.",
  "exercises": [
   {
    "id": "u02.l1.ex01",
@@ -1432,6 +1432,91 @@
    "answer": true,
    "audioTextId": null,
    "plays": null
+  },
+  {
+   "id": "u00.l3.ex22",
+   "format": "recall",
+   "role": "learn",
+   "unitId": "u00",
+   "stepId": "u00.l3.step-practice-3",
+   "score": 1,
+   "targets": [
+    {
+     "itemId": "w:erre",
+     "skill": "recall"
+    },
+    {
+     "itemId": "w:o~letter",
+     "skill": "recall"
+    },
+    {
+     "itemId": "c:doppia",
+     "skill": "recall"
+    },
+    {
+     "itemId": "w:esse",
+     "skill": "recall"
+    },
+    {
+     "itemId": "w:i~letter",
+     "skill": "recall"
+    }
+   ],
+   "tags": [
+    "cd:spell-name",
+    "sy:ss.alphabet",
+    "sy:ss.double-consonants"
+   ],
+   "source": null,
+   "hint": "Use the Italian names of the letters, with commas between them. Rossi has a double letter.",
+   "rule": null,
+   "near": [
+    {
+     "answer": {
+      "source": "erre, o, esse, i",
+      "expansions": [
+       "erre o esse i"
+      ],
+      "spelling": null
+     },
+     "outcome": "wrong",
+     "hint": "Count the s's in Rossi."
+    }
+   ],
+   "audioAfter": true,
+   "promptEn": "Spell \"Rossi\" with the Italian letter names.",
+   "contextIt": null,
+   "answer": {
+    "source": "{erre, o, doppia esse, i|erre, o, due esse, i|erre, o, esse, esse, i}",
+    "expansions": [
+     "erre o doppia esse i",
+     "erre o due esse i",
+     "erre o esse esse i"
+    ],
+    "spelling": [
+     {
+      "name": "doppia",
+      "letter": null
+     },
+     {
+      "name": "erre",
+      "letter": "R"
+     },
+     {
+      "name": "esse",
+      "letter": "S"
+     },
+     {
+      "name": "i",
+      "letter": "I"
+     },
+     {
+      "name": "o",
+      "letter": "O"
+     }
+    ]
+   },
+   "answerAudioId": null
   }
  ],
  "steps": [

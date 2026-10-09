@@ -29,7 +29,8 @@ import Testing
         -> ExerciseEnvironment
     {
         ExerciseEnvironment(
-            context: context, profile: profile, knownForms: app.knownForms, nowMs: { 0 }, canSpeak: canSpeak)
+            context: context, profile: profile, knownForms: app.knownForms, letterNames: app.letterNames, nowMs: { 0 },
+            canSpeak: canSpeak)
     }
 
     // MARK: - Every format

@@ -12,18 +12,27 @@ import Foundation
 ///
 /// The doubling word (*doppia*, the pack's `c:doppia`) lets a spelled answer say a double letter either way (CL40:
 /// *doppia esse* or *esse esse*); it is never mapped to, only read (`LetterReader`).
+///
+/// Some names are also ordinary words: a vowel's (the vowel itself: *a*, *e*, *i*, *o*, *u*) and those the pack marks
+/// as words too (`alsoWords`: *di*, *ci*, *ti*). The others are never an ordinary word (`neverWords`: *bi*, *emme*,
+/// *i lunga*…), so hearing one is hearing a spelling (CL40's extra letters, CL41's spell points).
 public struct LetterNames: Sendable, Hashable {
     /// Lowercase letter (a one-character string) → the normalised tokens of its name.
     let names: [String: [String]]
     /// The doubling word's normalised tokens, when the pack has one.
     public let doubling: [String]?
+    /// The names (normalised tokens) that are never an ordinary word (CL41): every letter's name except a vowel's,
+    /// which is the letter itself, and those of the letters in `alsoWords`.
+    public let neverWords: Set<[String]>
 
     /// - Parameters:
     ///   - names: letter (`"B"`: one ASCII letter, either case) → its Italian name as the pack writes it (`"bi"`,
     ///     `"i lunga"`). An entry whose key isn't one ASCII letter, or whose name normalises to nothing, is left out
     ///     (the pack reader refuses such a row before it gets here).
     ///   - doubling: the doubling word as the pack writes it (`c:doppia`'s `it`), if any.
-    public init(_ names: [String: String] = [:], doubling: String? = nil) {
+    ///   - alsoWords: the letters whose names the pack also has as ordinary words (`PackReader.letterNames()`: a letter
+    ///     item whose ID carries a sense, `w:di~letter`, or whose name is a form of an item that isn't a letter).
+    public init(_ names: [String: String] = [:], doubling: String? = nil, alsoWords: Set<String> = []) {
         var map: [String: [String]] = [:]
         for (letter, name) in names {
             guard let key = Self.key(letter) else { continue }
@@ -33,6 +42,8 @@ public struct LetterNames: Sendable, Hashable {
         self.names = map
         let doublingTokens = doubling.map(Normalizer.tokens) ?? []
         self.doubling = doublingTokens.isEmpty ? nil : doublingTokens
+        let words = Set(alsoWords.compactMap(Self.key))
+        neverWords = Set(map.compactMap { letter, name in name == [letter] || words.contains(letter) ? nil : name })
     }
 
     /// No letters: transcripts are matched as they are (a pack without letter items).

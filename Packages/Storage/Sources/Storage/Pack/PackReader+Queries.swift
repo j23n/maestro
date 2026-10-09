@@ -212,8 +212,10 @@ extension PackReader {
     /// The letter items' names (`items.letter` → `items.it`) for spoken spelling: the transcript matchers replace a
     /// recognised single letter with its name (`TranscriptMatcher(profile:letterNames:)`, docs/05 § Speech
     /// transcripts), and the doubling word (`doublingItem`'s `it`, when the pack has it) lets a spelled answer say a
-    /// double letter either way (CL40). Empty for a pack without letter items. A letter that isn't one of A–Z, or a
-    /// name that is only punctuation, is a `malformedRow`.
+    /// double letter either way (CL40). A letter's name is also an ordinary word (`LetterNames(alsoWords:)`, CL41) when
+    /// its item carries a sense (`w:di~letter`: a homograph of a word, docs/03 § IDs) or another item that isn't a
+    /// letter has it as a form (*ci* in *ci vediamo*). Empty for a pack without letter items. A letter that isn't one
+    /// of A–Z, or a name that is only punctuation, is a `malformedRow`.
     public func letterNames() async throws(PackError) -> LetterNames {
         try await read { db in try Self.letterNames(db) }
     }
@@ -273,7 +275,12 @@ extension PackReader {
     }
 
     static func letterNames(_ db: Database) throws -> LetterNames {
+        let wordForms = Set(
+            try db.packRows(PackSQL.wordForms).map { row in
+                Normalizer.normalize(try PackRow(row, table: "forms", id: "?").string("form"))
+            })
         var names: [String: String] = [:]
+        var alsoWords: Set<String> = []
         for row in try db.packRows(PackSQL.letterNames) {
             let r = PackRow(row, table: "items")
             let letter = try r.string("letter")
@@ -282,11 +289,14 @@ extension PackReader {
             else { throw r.fail("letter '\(letter)' is not one letter A–Z") }
             guard !Normalizer.tokens(name).isEmpty else { throw r.fail("the letter \(letter) has no name ('\(name)')") }
             names[letter] = name
+            if try r.string("id").contains("~") || wordForms.contains(Normalizer.normalize(name)) {
+                alsoWords.insert(letter)
+            }
         }
         let doubling = try db.packRow(PackSQL.item, [doublingItem.rawValue]).map { row in
             try PackRow(row, table: "items").string("it")
         }
-        return LetterNames(names, doubling: doubling)
+        return LetterNames(names, doubling: doubling, alsoWords: alsoWords)
     }
 
     /// The chunk *doppia* (CL23): before a letter, that letter twice (*doppia esse*). The pack builder knows it by this

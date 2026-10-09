@@ -117,11 +117,75 @@ import Testing
         #expect(found("Rossi: erre o doppia esse i") == ["spell", "spell-more"])  // doppia esse
         #expect(found("S S") == ["spell-more"])  // esse esse reads as doppia esse
         #expect(found("Livia: L I V I A") == ["spell", "spell-more"])
-        #expect(found("vi a") == ["spell"])  // vi for vu
+        #expect(found("Livia: elle i vi a") == ["spell", "spell-more"])  // vi for vu
+        #expect(found("vi a") == [])  // CL41: vi and a may be words; no name in the run is only a letter
         #expect(found("Buonasera, sono di Roma e abito a Bologna.") == [])
         #expect(found("A E I O U") == [])
-        // Typed answers are words, as before.
+        // Typed answers are words, inside a real spelling (CL41).
         #expect(spelling.match(response: "emme a erre", points: points, pass: 2).found == ["spell", "spell-more"])
+        #expect(spelling.match(response: "e ci vediamo", points: points, pass: 2).found == [])
+    }
+
+    /// The points of `u00.task.talk` and `u00.check.12` as the pack builds them, and responses to them
+    /// (`fixtures/grading/content-points.json`): a spell point is found only inside a run of letter names that holds a
+    /// name that is never an ordinary word, typed or spoken (CL41), so a greeting and *e ci vediamo* fails while the
+    /// models find all three points.
+    @Test func everyContentPointCase() throws {
+        struct Fixture: Decodable {
+            struct Pattern: Decodable {
+                let source: String
+                let spelling: [SpellingName]?
+            }
+            struct Point: Decodable {
+                let id: String
+                let accept: [Pattern]
+            }
+            struct Exercise: Decodable {
+                let pass: Int
+                let model: String
+                let points: [Point]
+            }
+            struct Case: Decodable {
+                let exercise: String
+                let response: String
+                let spoken: Bool
+                let found: [String]
+            }
+            let exercises: [String: Exercise]
+            let cases: [Case]
+        }
+        let fixture = try JSONDecoder().decode(
+            Fixture.self, from: Fixtures.data("fixtures/grading/content-points.json"))
+        #expect(fixture.cases.count >= 26)
+        let matcher = ContentPointMatcher(letterNames: try TranscriptMatcherTests.letters())
+        func points(_ exercise: Fixture.Exercise) throws -> [ContentPointMatcher.Point] {
+            try exercise.points.map { point in
+                ContentPointMatcher.Point(
+                    id: point.id,
+                    accept: try point.accept.map { a in
+                        var pattern = try AnswerPattern(a.source)
+                        pattern.spelling = a.spelling
+                        return pattern
+                    })
+            }
+        }
+        for c in fixture.cases {
+            let exercise = try #require(fixture.exercises[c.exercise])
+            let result = matcher.match(
+                response: c.response, points: try points(exercise), pass: exercise.pass, spoken: c.spoken)
+            #expect(result.found == c.found, "\(c.exercise), spoken \(c.spoken): \(c.response)")
+        }
+        for (id, exercise) in fixture.exercises {
+            for spoken in [false, true] {
+                let model = matcher.match(
+                    response: exercise.model, points: try points(exercise), pass: exercise.pass, spoken: spoken)
+                #expect(model.found.count == exercise.points.count && model.passed, "\(id)'s model")
+                let farewell = matcher.match(
+                    response: "Buonasera… e ci vediamo!", points: try points(exercise), pass: exercise.pass,
+                    spoken: spoken)
+                #expect(!farewell.passed, "\(id): a greeting and e ci vediamo")
+            }
+        }
     }
 
     /// CL31: in speech an elided form the forms table pairs is read both ways; typed answers are as written.

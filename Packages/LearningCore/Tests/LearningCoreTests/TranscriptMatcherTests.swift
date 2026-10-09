@@ -18,6 +18,8 @@ import Testing
         let letterNames: [String: String]
         /// The doubling word (`c:doppia`'s `it`).
         let doubling: String
+        /// The letters whose names the pack also has as ordinary words (`LetterNames(alsoWords:)`).
+        let alsoWords: Set<String>
         /// A slice of the pack's `forms` table: [form, item].
         let forms: [[String]]
         let cases: [Case]
@@ -38,7 +40,7 @@ import Testing
 
     @Test func everyTranscriptCase() throws {
         let fixture = try Self.fixture()
-        #expect(fixture.cases.count >= 49)
+        #expect(fixture.cases.count >= 56)
         #expect(fixture.letterNames.count == 26)
         let matcher = TranscriptMatcher(letterNames: try Self.letters(), knownForms: fixture.knownForms)
         for c in fixture.cases {
@@ -133,7 +135,7 @@ import Testing
 
     static func letters() throws -> LetterNames {
         let fixture = try fixture()
-        return LetterNames(fixture.letterNames, doubling: fixture.doubling)
+        return LetterNames(fixture.letterNames, doubling: fixture.doubling, alsoWords: fixture.alsoWords)
     }
 
     /// A pattern as the pack gives it when it spells: `spelling` names every letter it uses (CL40).

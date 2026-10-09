@@ -558,7 +558,14 @@ def lock_entry(path: str, tokens: list[tuple[str, str | None, str | None]], flag
             "role": "answer",
             "text": " ".join(t[0] for t in tokens),
             "tokens": [
-                {"surface": s, "kind": "word", "item": i, "chunk": c, "flags": (flags or {}).get(n, [])}
+                {
+                    "surface": s,
+                    "trailing": " " if n < len(tokens) - 1 else "",
+                    "kind": "word",
+                    "item": i,
+                    "chunk": c,
+                    "flags": (flags or {}).get(n, []),
+                }
                 for n, (s, i, c) in enumerate(tokens)
             ],
         },
@@ -634,3 +641,149 @@ def test_spelled_payloads_carry_their_spelling():
         "w:elle": "L",
         "c:doppia": None,
     }
+
+
+# CL40: every payload path that writes a pattern's `spelling` (payloads.repeat, ExerciseInput.pattern for conversation
+# `accept`, talk and writing `points`, writing `fields`). Rossi spelled with doppia, as Unit 0 does.
+ROSSI = [
+    ("erre", "w:erre", None),
+    ("o", "w:o~letter", None),
+    ("doppia", "c:doppia", "c:doppia"),
+    ("esse", "w:esse", None),
+    ("i", "w:i~letter", None),
+]
+ROSSI_LETTERS = {**LETTERS, "w:erre": "R", "w:o~letter": "O", "w:esse": "S", "w:i~letter": "I"}
+ROSSI_SPELLING = [
+    {"name": "doppia", "letter": None},
+    {"name": "erre", "letter": "R"},
+    {"name": "esse", "letter": "S"},
+    {"name": "i", "letter": "I"},
+    {"name": "o", "letter": "O"},
+]
+SURNAME = [("Rossi", None, None)]
+
+
+def spelled_input(data: dict, entries: dict[str, list[tuple[str, str | None, str | None]]]) -> ExerciseInput:
+    lock = LockFile("content/x.yaml", [lock_entry(path, tokens) for path, tokens in entries.items()])
+    return ExerciseInput(
+        data, ("ex",), lock, "u00", None, None, "learn", frozenset(), None, None, lambda _: None, ROSSI_LETTERS
+    )
+
+
+def patterns_conform(root, *found: dict) -> None:
+    schema = json.loads((root / "schemas" / "pack-payloads.schema.json").read_text(encoding="utf-8"))
+    v = jsonschema.Draft202012Validator({"$ref": "#/$defs/pattern", "$defs": schema["$defs"]})
+    for p in found:
+        assert not list(v.iter_errors(p)), p
+
+
+def test_a_spelled_repeat_carries_its_spelling(root):
+    """`repeat`: the accept pattern is the `say` text; it spells when the say's tokens resolve to letters."""
+    say = " ".join(t[0] for t in ROSSI)
+    x = spelled_input({"id": "u00.l3.ex40", "format": "repeat", "say": say}, {"ex.say": ROSSI})
+    accept = exercise_payload(x)["accept"]
+    assert accept == {"source": say, "expansions": [say], "spelling": ROSSI_SPELLING}
+    words = spelled_input({"id": "u00.l3.ex41", "format": "repeat", "say": "Rossi"}, {"ex.say": SURNAME})
+    assert exercise_payload(words)["accept"]["spelling"] is None
+    unlettered = ExerciseInput(**{**x.__dict__, "letters": {}})
+    assert exercise_payload(unlettered)["accept"]["spelling"] is None
+    patterns_conform(root, accept)
+
+
+def test_a_conversation_accept_carries_its_spelling(root):
+    """Conversation `accept`: each pattern of an intent has its own spelling, null for one in words."""
+    data = {
+        "id": "u00.l3.ex31",
+        "format": "conversation",
+        "with": "ch:extra",
+        "start": "n1",
+        "nodes": {
+            "n1": {
+                "say": "Come si scrive",
+                "en": "How do you spell it?",
+                "expect": [{"intent": "spell", "accept": ["erre, o, doppia esse, i", "Rossi"], "next": "end"}],
+            },
+            "end": {"say": "Grazie", "en": "Thanks!", "final": True},
+        },
+    }
+    x = spelled_input(
+        data,
+        {
+            "ex.nodes.n1.say": [("Come", None, None), ("si", None, None), ("scrive", None, None)],
+            "ex.nodes.n1.expect[0].accept[0]": ROSSI,
+            "ex.nodes.n1.expect[0].accept[1]": SURNAME,
+            "ex.nodes.end.say": [("Grazie", "w:grazie", None)],
+        },
+    )
+    accept = exercise_payload(x)["nodes"][0]["expect"][0]["accept"]
+    assert [a["spelling"] for a in accept] == [ROSSI_SPELLING, None]
+    patterns_conform(root, *accept)
+
+
+def test_talk_and_writing_points_carry_their_spelling(root):
+    """Talk and writing `points`: a point's spelled pattern carries its spelling, the others null."""
+    points = [
+        {"id": "spell", "en": "Spell your surname", "accept": ["erre, o, doppia esse, i"]},
+        {"id": "name", "en": "Say your surname", "accept": ["Rossi"]},
+    ]
+    entries = {"ex.points[0].accept[0]": ROSSI, "ex.points[1].accept[0]": SURNAME, "ex.model": [*SURNAME, *ROSSI]}
+    talk = spelled_input(
+        {
+            "id": "u00.task.talk",
+            "format": "talk",
+            "prompt_en": "Say and spell your surname",
+            "points": points,
+            "pass": 2,
+            "model": "Rossi erre o doppia esse i",
+            "duration_s": {"min": 5, "max": 30},
+        },
+        entries,
+    )
+    writing = spelled_input(
+        {
+            "id": "u00.task.write",
+            "format": "writing",
+            "kind": "message",
+            "prompt_en": "Write and spell your surname",
+            "points": points,
+            "pass": 2,
+            "model": "Rossi erre o doppia esse i",
+        },
+        entries,
+    )
+    for x in (talk, writing):
+        found = exercise_payload(x)["points"]
+        assert [[a["spelling"] for a in p["accept"]] for p in found] == [[ROSSI_SPELLING], [None]]
+        patterns_conform(root, *(a for p in found for a in p["accept"]))
+
+
+def test_writing_fields_carry_their_spelling(root):
+    """Writing `fields`: a field's accepted patterns each carry their spelling; a field without `accept` has none."""
+    data = {
+        "id": "u00.task.form",
+        "format": "writing",
+        "kind": "form",
+        "prompt_en": "Spell your surname on the form",
+        "fields": [
+            {
+                "label_it": "Cognome",
+                "label_en": "Surname",
+                "type": "text",
+                "accept": ["erre, o, doppia esse, i", "Rossi"],
+            },
+            {"label_it": "Nome", "label_en": "First name", "type": "text"},
+        ],
+    }
+    x = spelled_input(
+        data,
+        {
+            "ex.fields[0].label_it": [("Cognome", None, None)],
+            "ex.fields[0].accept[0]": ROSSI,
+            "ex.fields[0].accept[1]": SURNAME,
+            "ex.fields[1].label_it": [("Nome", None, None)],
+        },
+    )
+    fields = exercise_payload(x)["fields"]
+    assert [a["spelling"] for a in fields[0]["accept"]] == [ROSSI_SPELLING, None]
+    assert fields[1]["accept"] is None
+    patterns_conform(root, *fields[0]["accept"])

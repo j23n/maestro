@@ -40,4 +40,21 @@ import Testing
         let names = try TranscriptMatcherTests.letters()
         for vowel in ["a", "e", "i", "o", "u"] { #expect(names.name(of: vowel) == [vowel]) }
     }
+
+    /// CL41: a name is never an ordinary word unless it is a vowel's (the letter itself) or the pack says it is also a
+    /// word (`alsoWords`). With the Unit 0 letters that leaves exactly the consonants but *di*, *ci*, *ti*, and the
+    /// two-word names.
+    @Test func namesThatAreNeverWords() throws {
+        let names = try TranscriptMatcherTests.letters()
+        let never = Set(names.neverWords.map { $0.joined(separator: " ") })
+        #expect(
+            never == [
+                "bi", "effe", "gi", "acca", "elle", "emme", "enne", "pi", "cu", "erre", "esse", "vu", "zeta", "cappa",
+                "ics", "ipsilon", "i lunga", "doppia vu",
+            ])
+        // Without the pack's word letters only the vowels may be words; keys take either case.
+        let bare = LetterNames(["B": "bi", "C": "ci", "E": "e"])
+        #expect(bare.neverWords == [["bi"], ["ci"]])
+        #expect(LetterNames(["B": "bi", "C": "ci", "E": "e"], alsoWords: ["c", "Z", "?"]).neverWords == [["bi"]])
+    }
 }

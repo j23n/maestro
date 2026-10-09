@@ -20,7 +20,8 @@ final class PlacementSessionModel {
     private(set) var payload: ExercisePayload?
     @ObservationIgnored let content: ContentIndex
     @ObservationIgnored let bundle: LessonBundle
-    @ObservationIgnored private let env: ExerciseEnvironment
+    /// What its exercises grade with (the pack's forms and letter names, from `AppModel`).
+    @ObservationIgnored let env: ExerciseEnvironment
     /// The event sink (`attempt` events, context `placement`). Exercise models hold their sink weakly; this model
     /// is the sink they see, so it lives as long as the sitting.
     @ObservationIgnored private let inner: (any AttemptSink)?

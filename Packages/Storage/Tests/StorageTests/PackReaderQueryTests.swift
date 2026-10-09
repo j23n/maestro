@@ -208,6 +208,31 @@ import Testing
         #expect(TranscriptMatcher(letterNames: names).match(transcript: "B-A-J", accepted: marco)?.passed == true)
     }
 
+    /// CL41: a letter's name is also an ordinary word when its item carries a sense (`w:ci~letter`) or an item that
+    /// isn't a letter has it as a form (`w:di~prep`'s *di*, though the letter kept the plain ID); a vowel's name is the
+    /// vowel. Every other name is never a word, even when another letter item has it as a form (*vu* in *doppia vu*).
+    @Test func namesThatAreAlsoWordsComeFromThePack() async throws {
+        let reader = try PackReader(url: try TestPack.build { db in
+            try Self.addLetters(db, [
+                ("w:bi", "word", "bi", "B"), ("w:ci~letter", "word", "ci", "C"), ("w:di", "word", "di", "D"),
+                ("w:u", "word", "u", "U"), ("w:vu", "word", "vu", "V"), ("c:doppia-vu", "chunk", "doppia vu", "W"),
+            ])
+            try TestPack.insert(db, "items", [
+                ["id": "w:di~prep", "kind": "word", "it": "di", "gloss_en": "of", "unit_id": "u01",
+                 "lesson_id": "u01.l1"],
+            ])
+            try TestPack.insert(db, "forms", [
+                ["form": "di", "item_id": "w:di~prep", "morph": ""], ["form": "di", "item_id": "w:di", "morph": ""],
+                ["form": "vu", "item_id": "c:doppia-vu", "morph": ""], ["form": "bi", "item_id": "w:bi", "morph": ""],
+            ])
+        })
+        let names = try await reader.letterNames()
+        #expect(names.count == 6)
+        #expect(names.neverWords == [["bi"], ["vu"], ["doppia", "vu"]])
+        #expect(names == LetterNames(
+            ["B": "bi", "C": "ci", "D": "di", "U": "u", "V": "vu", "W": "doppia vu"], alsoWords: ["C", "D"]))
+    }
+
     /// CL40: the doubling word is the item `c:doppia`, read by its ID.
     @Test func theDoublingWordIsTheDoppiaItem() async throws {
         let reader = try PackReader(url: try TestPack.build { db in

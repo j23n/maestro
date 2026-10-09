@@ -73,7 +73,11 @@ Sources/LearningCore/
   Grading/      Normalizer.swift, AnswerPattern.swift (parser + expansion), TypedAnswerGrader.swift,
                 ChoiceGrader.swift, OrderGrader.swift, DictationGrader.swift, TranscriptMatcher.swift,
                 ContentPointMatcher.swift, EnglishAnswerGrader.swift, ItalianNumbers.swift,
-                LetterNames.swift (spoken spelling: the pack's letter names for single letters in transcripts)
+                LetterNames.swift (spoken spelling: the pack's letter names for single letters in transcripts, and
+                the names that are never an ordinary word, `neverWords`), SpelledAnswers.swift (`SpellingName`, a
+                pattern's spelling from the pack; `LetterReader`, spelled runs read letter for letter, CL40, and a
+                response's real spellings for spell points, CL41), KnownForms.swift (the pack's forms table: writing
+                suggestions, `elisions` and `elisionReadings`, an elided form read both ways in speech, CL31)
   Feedback/     FeedbackMachine.swift (attempt 1 → hint → attempt 2 → answer + rule)
   Learner/      RatingPolicy.swift, Replay.swift (pure reducer: events → LearnerState), Eligibility.swift,
                 Progress.swift (words known, can-dos, weekly goal)

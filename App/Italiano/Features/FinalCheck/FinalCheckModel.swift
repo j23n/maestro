@@ -32,7 +32,8 @@ final class FinalCheckSessionModel {
     @ObservationIgnored let bundle: LessonBundle
     @ObservationIgnored let recorder = CheckRecorder()
     @ObservationIgnored let log: FinalCheckLog
-    @ObservationIgnored private let env: ExerciseEnvironment
+    /// What its exercises grade with (the pack's forms and letter names, from `AppModel`).
+    @ObservationIgnored let env: ExerciseEnvironment
     /// The event sink (context `final`). Exercise models hold their sink weakly; this model is the sink they see.
     @ObservationIgnored private let inner: (any AttemptSink)?
 

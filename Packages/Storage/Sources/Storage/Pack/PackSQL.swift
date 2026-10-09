@@ -67,6 +67,11 @@ enum PackSQL {
     static let forms = "SELECT form, item_id FROM forms"
     /// Letter items (spoken spelling, docs/05 § Speech transcripts): each letter with the name its item says.
     static let letterNames = "SELECT id, letter, it FROM items WHERE letter IS NOT NULL ORDER BY letter"
+    /// The forms of every item that isn't a letter item: a letter's name among them is also an ordinary word (CL41).
+    static let wordForms = """
+        SELECT DISTINCT form FROM forms WHERE item_id NOT IN (SELECT id FROM items WHERE letter IS NOT NULL) \
+        ORDER BY form
+        """
     static let sound = "SELECT item_id, pairs FROM sounds WHERE item_id = ?"
     static let sounds = "SELECT item_id, pairs FROM sounds ORDER BY item_id"
 
@@ -107,9 +112,9 @@ enum PackSQL {
         stepIntroduces, exercise, allExercisePayloads, exerciseHeads, exercisesTargeting, matchPayloads,
         exerciseTargets, exerciseRequires, exerciseTags, note, noteHeads, allNotes, noteItems, allNoteItems,
         notesForItem, assessment, assessments, item, items, itemsInUnit, itemSkills, allItemSkills, itemRequires,
-        allItemRequires, formsOfItem, forms, letterNames, sound, sounds, text, allTexts, textHeads, textAudio,
-        textForAudio, textLines, textTokens, audioTokens, textRequires, audio, allAudio, characters, character,
-        countries, country,
+        allItemRequires, formsOfItem, forms, letterNames, wordForms, sound, sounds, text, allTexts, textHeads,
+        textAudio, textForAudio, textLines, textTokens, audioTokens, textRequires, audio, allAudio, characters,
+        character, countries, country,
     ]
 }
 

@@ -1,0 +1,465 @@
+{
+ "spec": "docs/05 § Other graders, content points (CL40, CL41). The points of u00.task.talk and u00.check.12 as the pack builds them (source and spelling; graders parse the source); letter names, doubling and alsoWords are those of grading/transcripts.json. A point whose pattern spells is found only inside a run of letter names (each token part of a name the pack or the pattern has, or the doubling word) that holds a name that is never an ordinary word (every letter's name but the vowels' and alsoWords') or a letter the recogniser wrote alone (a spoken response's single consonant or hyphenated letters); typed and spoken alike. Spoken, its letters are read letter for letter (CL40); typed, its names as written. found lists the points found, in the exercise's order.",
+ "exercises": {
+  "u00.task.talk": {
+   "pass": 2,
+   "model": "Buongiorno! Marco: emme, a, erre, ci, o.",
+   "points": [
+    {
+     "id": "greet",
+     "accept": [
+      {
+       "source": "{buongiorno|buonasera}",
+       "spelling": null
+      }
+     ]
+    },
+    {
+     "id": "spell",
+     "accept": [
+      {
+       "source": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|i greca|zeta} {a|e|i|o|u|ipsilon|i greca}",
+       "spelling": [
+        {"name": "a", "letter": "A"},
+        {"name": "acca", "letter": "H"},
+        {"name": "bi", "letter": "B"},
+        {"name": "cappa", "letter": "K"},
+        {"name": "ci", "letter": "C"},
+        {"name": "cu", "letter": "Q"},
+        {"name": "di", "letter": "D"},
+        {"name": "e", "letter": "E"},
+        {"name": "effe", "letter": "F"},
+        {"name": "elle", "letter": "L"},
+        {"name": "emme", "letter": "M"},
+        {"name": "enne", "letter": "N"},
+        {"name": "erre", "letter": "R"},
+        {"name": "esse", "letter": "S"},
+        {"name": "gi", "letter": "G"},
+        {"name": "i", "letter": "I"},
+        {"name": "i lunga", "letter": "J"},
+        {"name": "ics", "letter": "X"},
+        {"name": "ipsilon", "letter": "Y"},
+        {"name": "o", "letter": "O"},
+        {"name": "pi", "letter": "P"},
+        {"name": "ti", "letter": "T"},
+        {"name": "u", "letter": "U"},
+        {"name": "vi", "letter": "V"},
+        {"name": "vu", "letter": "V"},
+        {"name": "zeta", "letter": "Z"}
+       ]
+      },
+      {
+       "source": "{a|e|i|o|u} {a|e|i|o|u}",
+       "spelling": [
+        {"name": "a", "letter": "A"},
+        {"name": "e", "letter": "E"},
+        {"name": "i", "letter": "I"},
+        {"name": "o", "letter": "O"},
+        {"name": "u", "letter": "U"}
+       ]
+      }
+     ]
+    },
+    {
+     "id": "spell-more",
+     "accept": [
+      {
+       "source": "{a|e|i|o|u|ipsilon|i greca|doppia|due} {bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|i greca|zeta}",
+       "spelling": [
+        {"name": "a", "letter": "A"},
+        {"name": "acca", "letter": "H"},
+        {"name": "bi", "letter": "B"},
+        {"name": "cappa", "letter": "K"},
+        {"name": "ci", "letter": "C"},
+        {"name": "cu", "letter": "Q"},
+        {"name": "di", "letter": "D"},
+        {"name": "doppia", "letter": null},
+        {"name": "doppia vi", "letter": "W"},
+        {"name": "doppia vu", "letter": "W"},
+        {"name": "e", "letter": "E"},
+        {"name": "effe", "letter": "F"},
+        {"name": "elle", "letter": "L"},
+        {"name": "emme", "letter": "M"},
+        {"name": "enne", "letter": "N"},
+        {"name": "erre", "letter": "R"},
+        {"name": "esse", "letter": "S"},
+        {"name": "gi", "letter": "G"},
+        {"name": "i", "letter": "I"},
+        {"name": "i lunga", "letter": "J"},
+        {"name": "ics", "letter": "X"},
+        {"name": "ipsilon", "letter": "Y"},
+        {"name": "o", "letter": "O"},
+        {"name": "pi", "letter": "P"},
+        {"name": "ti", "letter": "T"},
+        {"name": "u", "letter": "U"},
+        {"name": "vi", "letter": "V"},
+        {"name": "vu", "letter": "V"},
+        {"name": "zeta", "letter": "Z"}
+       ]
+      },
+      {
+       "source": "{a|e|i|o|u} {a|e|i|o|u}",
+       "spelling": [
+        {"name": "a", "letter": "A"},
+        {"name": "e", "letter": "E"},
+        {"name": "i", "letter": "I"},
+        {"name": "o", "letter": "O"},
+        {"name": "u", "letter": "U"}
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "u00.check.12": {
+   "pass": 2,
+   "model": "Buonasera! Marco: emme, a, erre, ci, o.",
+   "points": [
+    {
+     "id": "greet",
+     "accept": [
+      {
+       "source": "buonasera",
+       "spelling": null
+      }
+     ]
+    },
+    {
+     "id": "spell",
+     "accept": [
+      {
+       "source": "{bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|i greca|zeta} {a|e|i|o|u|ipsilon|i greca}",
+       "spelling": [
+        {"name": "a", "letter": "A"},
+        {"name": "acca", "letter": "H"},
+        {"name": "bi", "letter": "B"},
+        {"name": "cappa", "letter": "K"},
+        {"name": "ci", "letter": "C"},
+        {"name": "cu", "letter": "Q"},
+        {"name": "di", "letter": "D"},
+        {"name": "e", "letter": "E"},
+        {"name": "effe", "letter": "F"},
+        {"name": "elle", "letter": "L"},
+        {"name": "emme", "letter": "M"},
+        {"name": "enne", "letter": "N"},
+        {"name": "erre", "letter": "R"},
+        {"name": "esse", "letter": "S"},
+        {"name": "gi", "letter": "G"},
+        {"name": "i", "letter": "I"},
+        {"name": "i lunga", "letter": "J"},
+        {"name": "ics", "letter": "X"},
+        {"name": "ipsilon", "letter": "Y"},
+        {"name": "o", "letter": "O"},
+        {"name": "pi", "letter": "P"},
+        {"name": "ti", "letter": "T"},
+        {"name": "u", "letter": "U"},
+        {"name": "vi", "letter": "V"},
+        {"name": "vu", "letter": "V"},
+        {"name": "zeta", "letter": "Z"}
+       ]
+      },
+      {
+       "source": "{a|e|i|o|u} {a|e|i|o|u}",
+       "spelling": [
+        {"name": "a", "letter": "A"},
+        {"name": "e", "letter": "E"},
+        {"name": "i", "letter": "I"},
+        {"name": "o", "letter": "O"},
+        {"name": "u", "letter": "U"}
+       ]
+      }
+     ]
+    },
+    {
+     "id": "spell-more",
+     "accept": [
+      {
+       "source": "{a|e|i|o|u|ipsilon|i greca|doppia|due} {bi|ci|di|effe|gi|acca|i lunga|cappa|elle|emme|enne|pi|cu|erre|esse|ti|vu|vi|ics|ipsilon|i greca|zeta}",
+       "spelling": [
+        {"name": "a", "letter": "A"},
+        {"name": "acca", "letter": "H"},
+        {"name": "bi", "letter": "B"},
+        {"name": "cappa", "letter": "K"},
+        {"name": "ci", "letter": "C"},
+        {"name": "cu", "letter": "Q"},
+        {"name": "di", "letter": "D"},
+        {"name": "doppia", "letter": null},
+        {"name": "doppia vi", "letter": "W"},
+        {"name": "doppia vu", "letter": "W"},
+        {"name": "e", "letter": "E"},
+        {"name": "effe", "letter": "F"},
+        {"name": "elle", "letter": "L"},
+        {"name": "emme", "letter": "M"},
+        {"name": "enne", "letter": "N"},
+        {"name": "erre", "letter": "R"},
+        {"name": "esse", "letter": "S"},
+        {"name": "gi", "letter": "G"},
+        {"name": "i", "letter": "I"},
+        {"name": "i lunga", "letter": "J"},
+        {"name": "ics", "letter": "X"},
+        {"name": "ipsilon", "letter": "Y"},
+        {"name": "o", "letter": "O"},
+        {"name": "pi", "letter": "P"},
+        {"name": "ti", "letter": "T"},
+        {"name": "u", "letter": "U"},
+        {"name": "vi", "letter": "V"},
+        {"name": "vu", "letter": "V"},
+        {"name": "zeta", "letter": "Z"}
+       ]
+      },
+      {
+       "source": "{a|e|i|o|u} {a|e|i|o|u}",
+       "spelling": [
+        {"name": "a", "letter": "A"},
+        {"name": "e", "letter": "E"},
+        {"name": "i", "letter": "I"},
+        {"name": "o", "letter": "O"},
+        {"name": "u", "letter": "U"}
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "cases": [
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buongiorno! Marco: emme, a, erre, ci, o.",
+   "spoken": false,
+   "found": [
+    "greet",
+    "spell",
+    "spell-more"
+   ],
+   "note": "the model scores 3/3"
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buongiorno! Marco: emme, a, erre, ci, o.",
+   "spoken": true,
+   "found": [
+    "greet",
+    "spell",
+    "spell-more"
+   ]
+  },
+  {
+   "exercise": "u00.check.12",
+   "response": "Buonasera! Marco: emme, a, erre, ci, o.",
+   "spoken": false,
+   "found": [
+    "greet",
+    "spell",
+    "spell-more"
+   ],
+   "note": "the model scores 3/3"
+  },
+  {
+   "exercise": "u00.check.12",
+   "response": "Buonasera! Marco: emme, a, erre, ci, o.",
+   "spoken": true,
+   "found": [
+    "greet",
+    "spell",
+    "spell-more"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buonasera… e ci vediamo!",
+   "spoken": false,
+   "found": [
+    "greet"
+   ],
+   "note": "CL41: e ci is no spelling (e and ci may be words), so the check fails"
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buonasera e a presto!",
+   "spoken": false,
+   "found": [
+    "greet"
+   ],
+   "note": "CL41: e a is no spelling"
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buonasera… e ci vediamo!",
+   "spoken": true,
+   "found": [
+    "greet"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buonasera e a presto!",
+   "spoken": true,
+   "found": [
+    "greet"
+   ]
+  },
+  {
+   "exercise": "u00.check.12",
+   "response": "Buonasera… e ci vediamo!",
+   "spoken": false,
+   "found": [
+    "greet"
+   ],
+   "note": "CL41: e ci is no spelling (e and ci may be words), so the check fails"
+  },
+  {
+   "exercise": "u00.check.12",
+   "response": "Buonasera e a presto!",
+   "spoken": false,
+   "found": [
+    "greet"
+   ],
+   "note": "CL41: e a is no spelling"
+  },
+  {
+   "exercise": "u00.check.12",
+   "response": "Buonasera… e ci vediamo!",
+   "spoken": true,
+   "found": [
+    "greet"
+   ]
+  },
+  {
+   "exercise": "u00.check.12",
+   "response": "Buonasera e a presto!",
+   "spoken": true,
+   "found": [
+    "greet"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buonasera! M A R C O",
+   "spoken": true,
+   "found": [
+    "greet",
+    "spell",
+    "spell-more"
+   ],
+   "note": "the recogniser's letters: emme and erre are only letters"
+  },
+  {
+   "exercise": "u00.check.12",
+   "response": "Buonasera! M A R C O",
+   "spoken": true,
+   "found": [
+    "greet",
+    "spell",
+    "spell-more"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buonasera! Emme, a, erre, ci, o.",
+   "spoken": false,
+   "found": [
+    "greet",
+    "spell",
+    "spell-more"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buonasera! emme a erre ci o",
+   "spoken": true,
+   "found": [
+    "greet",
+    "spell",
+    "spell-more"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Mia: emme, i, a",
+   "spoken": false,
+   "found": [
+    "spell",
+    "spell-more"
+   ],
+   "note": "emme makes the run a spelling; i, a inside it is the vowel pair"
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Mia: emme, i, a",
+   "spoken": true,
+   "found": [
+    "spell",
+    "spell-more"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Mia: M I A",
+   "spoken": true,
+   "found": [
+    "spell",
+    "spell-more"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Rossi: R O S S I",
+   "spoken": true,
+   "found": [
+    "spell",
+    "spell-more"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Rossi: erre, o, doppia esse, i",
+   "spoken": false,
+   "found": [
+    "spell",
+    "spell-more"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Ada: a, di, a",
+   "spoken": false,
+   "found": [],
+   "note": "CL41: a, di and a may all be words, so typed this is no spelling"
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Ada: A D A",
+   "spoken": true,
+   "found": [
+    "spell",
+    "spell-more"
+   ],
+   "note": "the recogniser wrote D as a letter: a letter it writes alone is never a word"
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buonasera, sono di Roma e abito a Bologna.",
+   "spoken": true,
+   "found": [
+    "greet"
+   ]
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "Buongiorno, vi a…",
+   "spoken": true,
+   "found": [
+    "greet"
+   ],
+   "note": "CL41: vi may be a word (vu is the letter's name), and a is a vowel"
+  },
+  {
+   "exercise": "u00.task.talk",
+   "response": "M J",
+   "spoken": true,
+   "found": [],
+   "note": "J is i lunga: emme, i (M I) never ends inside it, and M J is no consonant before a vowel"
+  }
+ ]
+}

@@ -2,8 +2,9 @@
 `schemas/pack-payloads.schema.json`, validated by the build).
 
 Keys are camelCase and every optional key is present (null when absent). Italian strings travel as `TokenizedText`
-built from the lock files; answer patterns as `{source, expansions}`, where `expansions` are the learner-independent
-normalised expansions (slots stay placeholders) for the review mode's answer key. Audio IDs are null until TTS (M5.1).
+built from the lock files; answer patterns as `{source, expansions, spelling}`, where `expansions` are the
+learner-independent normalised expansions (slots stay placeholders) for the review mode's answer key and `spelling`
+(CL40) is null unless the pattern spells (`spelling_of`). Audio IDs are null until TTS (M5.1).
 """
 
 from __future__ import annotations
