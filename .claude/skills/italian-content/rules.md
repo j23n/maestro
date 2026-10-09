@@ -43,7 +43,7 @@ Also:
 4. **Pairs, then context.** New words start as Italian–English pairs with retrieval, then appear in the story. Other words get English on tap. Stories always come with audio.
 5. **Ten encounters per word.** About five retrievals in the introducing lesson, then reviews and reuse in later stories: at least ten meaningful encounters in all.
 6. **Block, then mix.** A short block on a new structure, then mixed with confusable earlier ones. Errors in mixed practice are not penalised in the UI.
-7. **Balance the four strands** (input, output, language focus, fluency) per unit within `checker.yaml`'s bands: input and output 15–35%, fluency 10–35%, language focus at most 60% in Units 0–2 and 50% from Unit 3 (CL21).
+7. **Balance the four strands** (input, output, language focus, fluency) per unit within `checker.yaml`'s bands: input and output 15–35%, fluency 10–35%, language focus at most 60% in Units 1–2 and 50% from Unit 3 (CL21); Unit 0 allows input from 10% and language focus up to 65% (CL39).
 8. **Stepped feedback.** First error: point, hint and retry. Second: the answer and a one-line rule.
 9. **Spiral.** At least 30% of each unit's content words come from earlier units, and every grammar point returns in at least two later units (or the final review).
 10. **Keep the plot thin.** The story recycles language; no decorative subplots.
