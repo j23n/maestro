@@ -55,7 +55,7 @@ import Testing
         let spelled = try #require(TalkModel(payload: payload, env: env(try Self.letters()), sink: sink))
         spelled.submitSpoken(heard)
         #expect(spelled.found == ["greet", "spell"])
-        let unmapped = try #require(TalkModel(payload: payload, env: env(.none), sink: sink))
+        let unmapped = try #require(TalkModel(payload: payload, env: env(.empty), sink: sink))
         unmapped.submitSpoken(heard)
         #expect(unmapped.found == ["greet"])
     }
@@ -72,7 +72,7 @@ import Testing
         let spelled = try #require(ConversationModel(payload: payload, env: env(try Self.letters()), sink: sink))
         spelled.submitSpoken(heard)
         #expect(spelled.nodeID == "n3")
-        let unmapped = try #require(ConversationModel(payload: payload, env: env(.none), sink: sink))
+        let unmapped = try #require(ConversationModel(payload: payload, env: env(.empty), sink: sink))
         unmapped.submitSpoken(heard)
         #expect(unmapped.nodeID == "n1")
     }
@@ -83,7 +83,7 @@ import Testing
         let spelled = try #require(RepeatModel(payload: payload, env: env(try Self.letters()), sink: sink))
         spelled.submit(heard)
         #expect(spelled.passed == true && spelled.heard == "m. a. r. c. o.")
-        let unmapped = try #require(RepeatModel(payload: payload, env: env(.none), sink: sink))
+        let unmapped = try #require(RepeatModel(payload: payload, env: env(.empty), sink: sink))
         unmapped.submit(heard)
         #expect(unmapped.passed == false)
     }
@@ -97,7 +97,7 @@ import Testing
         let heard = SpeechResult(transcript: "L U C A", alternatives: [], confidence: nil)
         let spelled = TypedExerciseModel(task: task, env: env(try Self.letters()), sink: sink)
         spelled.submitSpoken(heard)
-        let unmapped = TypedExerciseModel(task: task, env: env(.none), sink: sink)
+        let unmapped = TypedExerciseModel(task: task, env: env(.empty), sink: sink)
         unmapped.submitSpoken(heard)
         #expect(sink.drafts.map(\.outcome) == [.correct, .wrong])
         #expect(sink.drafts.allSatisfy { $0.mode == .spoken })

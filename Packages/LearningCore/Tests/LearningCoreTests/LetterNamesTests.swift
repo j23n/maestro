@@ -19,7 +19,7 @@ import Testing
         let names = LetterNames(["MM": "emme emme", "1": "uno", "è": "e", "Q": " … ", "": "niente", "B": "bi"])
         #expect(names.count == 1)
         #expect(names.name(of: "b") == ["bi"])
-        #expect(LetterNames.none.isEmpty)
+        #expect(LetterNames.empty.isEmpty)
         #expect(LetterNames.key("Z") == "z" && LetterNames.key("ß") == nil && LetterNames.key("-") == nil)
     }
 
@@ -33,7 +33,7 @@ import Testing
         // Words, hyphenated words, elisions, accented vowels and digits stay as they are.
         let words = ["e-mail", "l'acqua", "è", "sì", "marco", "a1", "c'è", "di", "ma-rco", "u"]
         #expect(names.apply(words) == words)
-        #expect(LetterNames.none.apply(["m", "a"]) == ["m", "a"])
+        #expect(LetterNames.empty.apply(["m", "a"]) == ["m", "a"])
     }
 
     @Test func vowelsAreTheirOwnNames() throws {

@@ -33,10 +33,10 @@ public struct TranscriptMatcher: Sendable {
 
     public let profile: LearnerProfile
     /// Spoken spelling: the pack's letter names, which replace single letters in a transcript (docs/05 § Speech
-    /// transcripts, step 2). `.none` matches transcripts as they are.
+    /// transcripts, step 2). `.empty` matches transcripts as they are.
     public let letterNames: LetterNames
 
-    public init(profile: LearnerProfile = .unspecified, letterNames: LetterNames = .none) {
+    public init(profile: LearnerProfile = .unspecified, letterNames: LetterNames = .empty) {
         self.profile = profile
         self.letterNames = letterNames
     }

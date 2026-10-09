@@ -42,7 +42,7 @@ public struct ContentPointMatcher: Sendable {
     /// transcripts, step 2). Typed responses are never mapped.
     public let letterNames: LetterNames
 
-    public init(profile: LearnerProfile = .unspecified, letterNames: LetterNames = .none) {
+    public init(profile: LearnerProfile = .unspecified, letterNames: LetterNames = .empty) {
         self.profile = profile
         self.letterNames = letterNames
     }

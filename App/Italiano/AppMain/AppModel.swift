@@ -52,7 +52,7 @@ final class AppModel {
     @ObservationIgnored private(set) var factory: EventFactory?
     @ObservationIgnored private(set) var knownForms: KnownForms = .empty
     /// Spoken spelling: the pack's letter names for the transcript matchers (docs/05 § Speech transcripts).
-    @ObservationIgnored private(set) var letterNames: LetterNames = .none
+    @ObservationIgnored private(set) var letterNames: LetterNames = .empty
     @ObservationIgnored private(set) var audioCatalog: PackAudioCatalog?
     @ObservationIgnored private(set) var words: [ItemID: WordInfo] = [:]
     @ObservationIgnored private(set) var wordSources: [WordSource] = []

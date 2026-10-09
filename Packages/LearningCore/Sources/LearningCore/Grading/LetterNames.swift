@@ -27,7 +27,7 @@ public struct LetterNames: Sendable, Hashable {
     }
 
     /// No letters: transcripts are matched as they are (a pack without letter items).
-    public static let none = LetterNames()
+    public static let empty = LetterNames()
 
     public var isEmpty: Bool { names.isEmpty }
 
