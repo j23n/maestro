@@ -10,9 +10,14 @@ tokens and issues. The order for each word token outside a chunk:
    word items whose `it` equals it with a compatible POS. Articles (ART) map to `g:indefinite-article` /
    `g:definite-article` and articulated prepositions (ARTPRE) to `g:articulated-prepositions` / `-lo-gli`, never
    to word items.
-2. **Choice.** The line's `lemmas:` override, then the `disambiguation.yaml` context rule for the form (applied
-   whenever the form has one, since a rule may also rule out an article reading, as for clitic *la*), then its
-   defaults; one candidate left is taken, several are an error naming the line and the candidates.
+2. **Choice.** The `lemmas:` override (of the line, or of the exercise or layout the string belongs to), then the
+   `disambiguation.yaml` context rule for the form (applied whenever the form has one, since a rule may also rule out
+   an article reading, as for clitic *la*), then its default: an item ID (among several candidates), or `{pos: […]}`,
+   which, like a rule's choice, keeps only those Morph-it! readings even with one candidate (*ci* is the clitic,
+   not the letter `w:ci~letter`); one candidate left is taken, several are an error naming the line and the
+   candidates. A rule's conditions look at the neighbours' *context*: the readings of the items each neighbour can
+   still resolve to after `lemmas:` and its default (all its candidates' when it has a rule of its own; its Morph-it!
+   readings when it has no candidate or is in a chunk), so a letter noun *o* never makes *uno* an article.
 3. **The lexical-article rule** (ADR-20): an article directly before a noun item (or an allowlisted noun such as
    *bar*), or before an adjective and a noun item, is part of that noun until the article's own unit
    (`points.yaml`): it takes the noun's item, the `lexical_article` flag and no detection.
@@ -87,7 +92,7 @@ Position = tuple[int, int, int]  # (unit index, lesson K or a container rank, st
 class TokAnn:
     tok: Token
     raw: tuple[Analysis, ...] = ()  # every Morph-it! analysis of the surface
-    context: tuple[Analysis, ...] = ()  # raw plus readings synthesised from items (what neighbours are matched on)
+    context: tuple[Analysis, ...] = ()  # the readings neighbours' context rules see (`Lexicon.context_readings`)
     analyses: tuple[Analysis, ...] = ()  # left after disambiguation
     item: str | None = None
     chunk: str | None = None
@@ -222,7 +227,11 @@ class Lexicon:
             forms = r.get("forms") or ([r["form"]] if "form" in r else [])
             for f in forms:
                 self.rules[fold(str(f))] = r
-        self.defaults = {fold(str(k)): str(v) for k, v in (disambiguation.get("defaults") or {}).items()}
+        # an item ID, or {pos: [...]} (the Morph-it! readings to keep, as a context rule's choice)
+        self.defaults: dict[str, str | Mapping[str, Any]] = {
+            fold(str(k)): (v if isinstance(v, Mapping) else str(v))
+            for k, v in (disambiguation.get("defaults") or {}).items()
+        }
 
     # ------------------------------------------------------------ construction from the course
 
@@ -302,6 +311,44 @@ class Lexicon:
             cands[fp[0]] = fp[1]
         return cands
 
+    def pos_readings(self, raw: Sequence[Analysis], choice: Mapping[str, Any]) -> tuple[Analysis, ...]:
+        """The Morph-it! readings a `{pos: [...]}` choice keeps."""
+        cats = [str(x) for x in choice.get("pos") or []]
+        return tuple(x for x in raw if any_pos(x.category, cats))
+
+    def context_readings(self, a: TokAnn, lemmas: Mapping[str, Any]) -> tuple[Analysis, ...]:
+        """What a neighbour's context rule sees of this token (docs/04 § Annotation step 4): the readings of the items
+        it can still resolve to after `lemmas:` and its default, never those of a homograph it can't be (a letter
+        noun *o* next to *uno*). A chunk's tokens and tokens without candidates keep their Morph-it! readings; a form
+        with a context rule of its own keeps every candidate's, since that rule hasn't chosen yet."""
+        norm = a.norm
+        if a.chunk is not None:
+            return a.raw
+        if norm in lemmas:
+            choice = lemmas[norm]
+            if isinstance(choice, Mapping):
+                return self.pos_readings(a.raw, choice)
+            item = self.items.get(str(choice))
+            if item is None:
+                return a.raw  # reported when the token is resolved
+            return tuple(x for x in a.raw if self.compatible(x, item)) or self.synthesise(item, norm)
+        if norm in self.rules:
+            return a.raw + tuple(
+                x
+                for iid in self.by_form.get(norm, [])
+                if not any(self.compatible(r, self.items[iid]) for r in a.raw)
+                for x in self.synthesise(self.items[iid], norm)
+            )
+        default = self.defaults.get(norm)
+        if isinstance(default, Mapping):
+            return self.pos_readings(a.raw, default)
+        cands = self.candidates(a.raw, norm)
+        if len(cands) > 1 and default in cands:
+            return cands[str(default)]
+        if not cands:
+            return a.raw
+        return tuple(dict.fromkeys(x for an in cands.values() for x in an))
+
     def introduced_before(self, item_id: str, pos: Position) -> bool:
         at = self.intro.get(item_id)
         return at is not None and at < pos
@@ -339,12 +386,6 @@ class Lexicon:
         for a in anns:
             if a.kind == WORD:
                 a.raw = self.morph.lookup(a.surface)
-                a.context = a.raw + tuple(
-                    x
-                    for iid in self.by_form.get(a.norm, [])
-                    if not any(self.compatible(r, self.items[iid]) for r in a.raw)
-                    for x in self.synthesise(self.items[iid], a.norm)
-                )
             elif a.kind == NAME:
                 a.raw = a.context = self.morph.get(a.surface)
 
@@ -353,6 +394,9 @@ class Lexicon:
             for a in anns[s:e]:
                 a.chunk = cid
                 a.analyses = a.raw
+        for a in anns:
+            if a.kind == WORD:
+                a.context = self.context_readings(a, lemmas)
 
         # line fields: gloss, recognise, lemmas
         glossable = frozenset({WORD, FOREIGN, NAME})
@@ -512,9 +556,11 @@ class Lexicon:
                     cands = {choice: cands[choice]}
                 elif isinstance(choice, Mapping):
                     cands = self._pos_filter(a, choice)
-            if len(cands) > 1 and self.defaults.get(norm) in cands:
-                d = self.defaults[norm]
-                cands = {d: cands[d]}
+            default = self.defaults.get(norm)
+            if rule is None and isinstance(default, Mapping):
+                cands = self._pos_filter(a, default)  # even with one candidate: it rules a reading out
+            elif len(cands) > 1 and isinstance(default, str) and default in cands:
+                cands = {default: cands[default]}
         if len(cands) == 1:
             (iid, an), *_ = cands.items()
             a.item, a.analyses = iid, an
@@ -531,8 +577,7 @@ class Lexicon:
             issues.append(Issue("error" if ctx.strict else "warning", k, msg))
 
     def _pos_filter(self, a: TokAnn, choice: Mapping[str, Any]) -> dict[str, tuple[Analysis, ...]]:
-        cats = [str(x) for x in choice.get("pos") or []]
-        kept = tuple(x for x in a.raw if any_pos(x.category, cats))
+        kept = self.pos_readings(a.raw, choice)
         a.analyses = kept  # what the rule chose, even if no item matches it (then the token is unknown)
         return self.candidates(kept, a.norm, synthesise=False)
 

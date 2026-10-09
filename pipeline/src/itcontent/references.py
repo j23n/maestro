@@ -606,7 +606,8 @@ class Checker:
             for key in ("choose", "otherwise"):
                 self.ref(_map(rule).get(key), doc.loc.child("context_rules", i, key), "lexical_item", pending=True)
         for form, item in _map(data.get("defaults")).items():
-            self.ref(item, doc.loc.child("defaults", form), "lexical_item", pending=True)
+            if not isinstance(item, dict):  # {pos: [...]} names no item
+                self.ref(item, doc.loc.child("defaults", form), "lexical_item", pending=True)
 
     # ------------------------------------------------------------ IDs across the course
 

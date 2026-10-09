@@ -34,23 +34,41 @@ def course(seed_root):
     return load_course(seed_root)
 
 
-def make_lexicon(course, extra: dict | None = None) -> Lexicon:
+def make_lexicon(course, extra: dict | None = None, defaults: dict | None = None) -> Lexicon:
     base = Lexicon.from_course(course, morphit.load())
-    if not extra:
+    if not extra and not defaults:
         return base
-    items = {**base.items, **extra}
+    items = {**base.items, **(extra or {})}
+    disambiguation = dict(course.singles["disambiguation"].data or {})
+    disambiguation["defaults"] = {**(disambiguation.get("defaults") or {}), **(defaults or {})}
     return Lexicon(
         items=items,
-        item_unit={**base.item_unit, **dict.fromkeys(extra, "u02")},
+        item_unit={**base.item_unit, **dict.fromkeys(extra or {}, "u02")},
         unit_index=base.unit_index,
         point_unit=base.point_unit,
         allowlist=(course.singles["allowlist"].data or {}),
-        disambiguation=(course.singles["disambiguation"].data or {}),
+        disambiguation=disambiguation,
         morph=base.morph,
         detector=base.detector,
         intro=base.intro,
         slot_heads=base.slot_heads,
     )
+
+
+# Unit 0's letter names (live course): homographs of Unit 1 words (a, e, o, di) and of function words with no item (i,
+# ci), as content/disambiguation.yaml sets them up.
+LETTERS = {
+    iid: {"id": iid, "it": iid[2:].split("~")[0], "pos": "noun", "gender": "f", "plural": "invariable"}
+    for iid in ("w:a~letter", "w:e~letter", "w:i~letter", "w:o~letter", "w:di~letter", "w:ci~letter", "w:emme")
+}
+LETTER_DEFAULTS = {
+    "a": "w:a",
+    "e": "w:e",
+    "o": "w:o",
+    "di": "w:di",
+    "i": {"pos": ["ART"]},
+    "ci": {"pos": ["CI", "ADV", "PRO"]},
+}
 
 
 @pytest.fixture(scope="session")
@@ -197,6 +215,45 @@ def test_defaults_and_ambiguity_errors_name_the_candidates(course, lex):
     assert b.tokens[0].item == "w:ecco~2" and not b.issues
     assert any("unknown item w:nope" in m for m in errors(ann(lex, "Ecco.", lemmas={"ecco": "w:nope"})))
     assert any("lemmas key 'oggi'" in m for m in errors(ann(lex, "Ecco.", lemmas={"oggi": "w:oggi"})))
+
+
+def test_letter_homographs_dont_mislead_the_context_rules(course):
+    """docs/04 § Annotation step 4: a rule sees only the readings of the items a neighbour can still resolve to after
+    `lemmas:` and its default, so the letter nouns o and di don't make uno an article (u02.l3 "Sì! Uno o due?") or sei
+    the number six (Unit 1 "Sei di …?"); before, every same-spelling item's reading was in the context."""
+    lex = make_lexicon(course, LETTERS, LETTER_DEFAULTS)
+    a = ann(lex, "Sì! Uno o due?")
+    assert not a.issues and words(a)["Uno"][0] == "w:uno" and words(a)["o"][0] == "w:o"
+    o = next(t for t in a.tokens if t.surface == "o")
+    assert {x.category for x in o.context} == {"CON"}  # no synthetic NOUN-F reading of w:o~letter
+    b = ann(lex, "Sei di Bologna?", "u01")
+    assert not b.issues and words(b)["Sei"][0] == "w:essere" and words(b)["di"][0] == "w:di"
+    # the override steers the context too: as the letter, o is a noun, and uno before a noun is the article
+    c = ann(lex, "Uno o.", lemmas={"o": "w:o~letter"})
+    assert c.tokens[0].item == "g:indefinite-article" and c.tokens[1].item == "w:o~letter"
+
+
+def test_pos_defaults_keep_the_article_and_the_clitic_over_a_letter(course):
+    """A `{pos: [...]}` default keeps those Morph-it! readings even with one candidate: i stays the article and ci the
+    clitic (no item yet) unless `lemmas:` names the letter."""
+    lex = make_lexicon(course, LETTERS, LETTER_DEFAULTS)
+    i = ann(lex, "I cornetti, per favore.").tokens[0]
+    assert i.item == "w:cornetto" and "lexical_article" in i.flags  # the lexical-article rule still applies
+    ci = ann(lex, "Ci sono due cornetti.", strict=False).tokens[0]
+    assert ci.item is None and ci.candidates == () and ci.analyses == ci.raw  # its Morph-it! readings, as before
+    assert any("untaught lemma 'ci'" in m for m in errors(ann(lex, "Ci sono due cornetti.")))
+    spelled = ann(lex, "Emme, a, ci, i, o.", lemmas={"a": "w:a~letter", "ci": "w:ci~letter", "i": "w:i~letter"})
+    assert [t.item for t in spelled.tokens if t.kind == "word"] == [
+        "w:emme",
+        "w:a~letter",
+        "w:ci~letter",
+        "w:i~letter",
+        "w:o",  # no override: the conjunction, by default
+    ]
+    # without the defaults the letters would take over (one candidate) or make the word ambiguous
+    bare = make_lexicon(course, LETTERS)
+    assert ann(bare, "Ci sono due cornetti.", strict=False).tokens[0].item == "w:ci~letter"
+    assert ann(bare, "Sei di Bologna?", "u01").tokens[1].candidates == ("w:di", "w:di~letter")
 
 
 def test_names_are_case_sensitive_and_overridable(lex):
