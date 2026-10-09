@@ -7,7 +7,7 @@ title: {it: Benvenuti!, en: Welcome!}
 episode: 'Marco lands in Bologna: greetings at the airport, a taxi, and the door of his new flat'
 arc: arrival
 est_hours: 2
-lessons: 2
+lessons: 3                 # CL27: lesson 3 is the next morning (the neighbor, the alphabet, Federica)
 can_do:
 - id: cd:greet-farewell
   text: Greet people and say goodbye, by time of day

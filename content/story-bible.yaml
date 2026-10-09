@@ -26,7 +26,7 @@ characters:
     # Confirmed by the content lead (docs/13 CL16).
     born: Toronto (Unit 1 Lesson 2, "Sono nato e abito a Toronto")
     home: lives in Toronto; in Bologna only for the three-month stay, so drafts say "sono a Bologna", never "abito a Bologna"
-    arrival: "lands late in the evening and takes a taxi from the airport rank (u00.l1; the same unnamed driver in u00.l2, fare diciotto euro); an unnamed neighbor greets him the next morning (u00.l2); u01.l1 is that same day (Signora Rossi on the stairs that morning, the listening that evening); u01.l2 is the following morning at Il Cortile (\"Sono appena arrivato a Bologna\", never ieri)"
+    arrival: "lands late in the evening and takes a taxi from the airport rank (u00.l1; the same unnamed driver in u00.l2, fare diciotto euro); an unnamed neighbor greets him the next morning (u00.l3); u01.l1 is that same day (Signora Rossi on the stairs that morning, the listening that evening); u01.l2 is the following morning at Il Cortile (\"Sono appena arrivato a Bologna\", never ieri)"
   - id: ch:rossi
     name: Signora Rossi
     first_name: Anna (rarely used)
@@ -78,7 +78,7 @@ characters:
     # Confirmed by the content lead (docs/13 CL15): the receptionist stays unnamed, and lines avoid agreeing with them.
     u01_roles: "the coworking space's receptionist (unnamed, gender not fixed; u01.l2); Hugo, a French neighbor born in Canada (u01.check.02); Lucía Ortega, a Spanish classmate at the language school (u01.l3 form); Emma Clarke, an English classmate there (u01.check.06)"
     # Confirmed by the content lead (docs/13 CL26).
-    u00_roles: "Federica, a neighbor of yours, who knocks at your door the morning after Marco arrives and spells her name (Unit 0 lesson 3 after the split, CL27); the Lesson 2 taxi driver and Marco's neighbor stay unnamed"
+    u00_roles: "Federica, a neighbor of yours, who knocks at your door the morning after Marco arrives and spells her name (u00.l3, CL26, CL27); the taxi driver (u00.l1, u00.l2) and Marco's neighbor stay unnamed"
 
 places:
   - {name: Bar Aurora, kind: fictional, note: near the coworking space}

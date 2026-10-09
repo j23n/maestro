@@ -1,0 +1,429 @@
+# Unit 0, Lesson 3 (C3 draft; split from Lesson 2 by CL27). The next morning: a neighbor greets Marco at the door
+# of his flat, then the alphabet (cd:spell-name) in two halves (CL38): A to M previewed and practised, then N to Z
+# with doppia (CL23) and the five letters of foreign words, practised and mixed with the first half; then the
+# alphabet read aloud, whole names spelled to recognise and to spell, the letter sound pairs, and a neighbor of yours,
+# Federica, who spells her name at your door (CL26). Pre-A1: chunks only, no grammar note. Letter names that are
+# also words (a, e, i, o, di, ci, ti) are letters only where a line's or an exercise's `lemmas:` says so.
+# Story line references (#n) are 1-based.
+id: u00.l3
+title: {it: "Buongiorno, Federica!", en: "Good morning, Federica!"}
+scene: The next morning a neighbor greets Marco at the door of his flat; later a neighbor of yours, Federica, spells her name at your door; everyone uses Lei
+review: {status: draft, by: null, date: null, hash: null}
+
+steps:
+  # 1 · Listening: the next morning, a neighbor at the door of Marco's flat (audio first)
+  - kind: listening
+    id: u00.l3.step-listening
+    text:
+      id: u00.l3.morning
+      kind: dialogue
+      title: {en: "At the door, the next morning"}
+      lines:
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Buongiorno!", en: "Good morning!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Buongiorno!", en: "Good morning!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Benvenuto! Come va?", en: "Welcome! How's it going?"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Bene, grazie!", en: "Fine, thanks!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Bene! Buona giornata!", en: "Good! Have a good day!"}
+        - {speaker: ch:marco, to: ch:extra, register: lei, it: "Grazie! Buona giornata! Arrivederci!", en: "Thank you! Have a good day! Goodbye!"}
+        - {speaker: ch:extra, to: ch:marco, register: lei, it: "Arrivederci!", en: "Goodbye!"}
+    plays: unlimited
+    exercises:
+      - id: u00.l3.ex01
+        format: choice
+        targets: [{item: w:buongiorno, skill: listen}]
+        tags: [cd:greet-farewell, sy:cefr.oral-comprehension]
+        question_en: "What time of day is it?"
+        options: ["Morning", "Evening", "Late at night"]
+        answer: 0
+      - id: u00.l3.ex02
+        format: true-false
+        targets: [{item: c:buona-giornata, skill: listen}]
+        tags: [cd:greet-farewell, sy:fn.good-wishes]
+        statement_en: "The neighbor wishes Marco a good day."
+        answer: true
+      - id: u00.l3.ex03
+        format: choice
+        targets: [{item: w:bene, skill: listen}]
+        tags: [cd:greet-farewell, sy:cefr.oral-comprehension]
+        question_en: "How is Marco?"
+        options: ["Fine", "Tired", "Lost"]
+        answer: 0
+
+  # 2 · Preview: the alphabet, first half (CL38): A to M. Names that are also words carry ~letter.
+  - kind: preview
+    id: u00.l3.step-preview
+    batches:
+      - [w:a~letter, w:bi, w:ci~letter, w:di~letter, w:e~letter, w:effe]
+      - [w:gi, w:acca, w:i~letter, w:elle, w:emme]
+
+  # 3 · Practice A to M: the consonant names in a match, the vowels English speakers mix up (Italian e sounds like the
+  #     English letter A, Italian i like the English letter E), a name spelled aloud and a name to spell.
+  #     Each spelled string reads its vowels, di, ci and ti as letters through the exercise's or line's `lemmas:`.
+  - kind: practice
+    id: u00.l3.step-practice
+    block:
+      - id: u00.l3.ex04
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: w:bi, skill: read}
+          - {item: w:ci~letter, skill: read}
+          - {item: w:di~letter, skill: read}
+          - {item: w:effe, skill: read}
+          - {item: w:gi, skill: read}
+          - {item: w:acca, skill: read}
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {ci: w:ci~letter, di: w:di~letter}
+        pairs: [["bi", "B"], ["ci", "C"], ["di", "D"], ["effe", "F"], ["gi", "G"], ["acca", "H"]]
+      - id: u00.l3.ex05
+        format: choice
+        targets: [{item: w:e~letter, skill: listen}, {item: w:i~letter, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        audio_text:
+          id: u00.l3.ex05.audio
+          kind: dialogue
+          lines:
+            - {speaker: narrator, it: "E, i.", en: "E, I.", lemmas: {e: w:e~letter, i: w:i~letter}}
+        question_en: "Listen. Which two letters do you hear?"
+        options: ["E, I", "A, E", "I, E"]
+        answer: 0
+        hint: "Italian vowels are named by their own sound, not by their English names."
+      - id: u00.l3.ex06
+        format: choice
+        targets: [{item: w:emme, skill: listen}, {item: w:i~letter, skill: listen}, {item: w:ci~letter, skill: listen}, {item: w:acca, skill: listen}, {item: w:e~letter, skill: listen}, {item: w:elle, skill: listen}, {item: w:a~letter, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        audio_text:
+          id: u00.l3.ex06.audio
+          kind: dialogue
+          lines:
+            - {speaker: narrator, it: "Emme, i, ci, acca, e, elle, a.", en: "M, I, C, H, E, L, A.", lemmas: {i: w:i~letter, ci: w:ci~letter, e: w:e~letter, a: w:a~letter}}
+        question_en: "Someone spells a name. Which name is it?"
+        options: ["Michela", "Michele", "Micaela"]
+        answer: 0
+      - id: u00.l3.ex07
+        format: recall
+        targets: [{item: w:a~letter, skill: recall}, {item: w:elle, skill: recall}, {item: w:i~letter, skill: recall}, {item: w:ci~letter, skill: recall}, {item: w:e~letter, skill: recall}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        prompt_en: 'Spell the name "Alice", letter by letter.'
+        hint: "Use the Italian names of the letters, with commas between them."
+        lemmas: {a: w:a~letter, i: w:i~letter, ci: w:ci~letter, e: w:e~letter}
+        answer: "a, elle, i, ci, e"
+        audio_after: true
+
+  # 4 · Preview: the second half (CL38): N to Z, doppia for a double letter (CL23), then i lunga, cappa, doppia vu,
+  #     ics and ipsilon (only words and names from other languages use them).
+  - kind: preview
+    id: u00.l3.step-preview-2
+    batches:
+      - [w:enne, w:o~letter, w:pi, w:cu, w:erre, w:esse]
+      - [w:ti~letter, w:u, w:vu, w:zeta, c:doppia]
+      - [c:i-lunga, w:cappa, c:doppia-vu, w:ics, w:ipsilon]
+
+  # 5 · Practice N to Z and doppia: matches, a name and two numbers to spell (quattro has a double letter), then a mix
+  #     with the first half: the letter names ending in -i, and those ending in -e, side by side.
+  - kind: practice
+    id: u00.l3.step-practice-2
+    block:
+      - id: u00.l3.ex08
+        format: match
+        targets:
+          - {item: w:enne, skill: read}
+          - {item: w:pi, skill: read}
+          - {item: w:cu, skill: read}
+          - {item: w:erre, skill: read}
+          - {item: w:esse, skill: read}
+          - {item: w:ti~letter, skill: read}
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {ti: w:ti~letter}
+        pairs: [["enne", "N"], ["pi", "P"], ["cu", "Q"], ["erre", "R"], ["esse", "S"], ["ti", "T"]]
+      - id: u00.l3.ex09
+        format: match
+        targets:
+          - {item: w:vu, skill: read}
+          - {item: w:zeta, skill: read}
+          - {item: c:i-lunga, skill: read}
+          - {item: w:cappa, skill: read}
+          - {item: c:doppia-vu, skill: read}
+          - {item: w:ipsilon, skill: read}
+        tags: [cd:spell-name, sy:ss.alphabet]
+        pairs: [["vu", "V"], ["zeta", "Z"], ["i lunga", "J"], ["cappa", "K"], ["doppia vu", "W"], ["ipsilon", "Y"]]
+      - id: u00.l3.ex10
+        format: choice
+        targets: [{item: c:doppia, skill: listen}, {item: w:enne, skill: listen}, {item: w:a~letter, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet, sy:ss.double-consonants]
+        audio_text:
+          id: u00.l3.ex10.audio
+          kind: dialogue
+          lines:
+            - {speaker: narrator, it: "A, doppia enne, a.", en: "A, double N, A.", lemmas: {a: w:a~letter}}
+        question_en: "Someone spells a name. Which name is it?"
+        options: ["Anna", "Ana", "Hanna"]
+        answer: 0
+      - id: u00.l3.ex11
+        format: recall
+        targets: [{item: w:cu, skill: recall}, {item: w:u, skill: recall}, {item: c:doppia, skill: recall}, {item: w:ti~letter, skill: recall}, {item: w:erre, skill: recall}, {item: w:o~letter, skill: recall}]
+        tags: [cd:spell-name, sy:ss.alphabet, sy:ss.double-consonants]
+        prompt_en: 'Spell "quattro" (4), letter by letter.'
+        hint: "Use the Italian names of the letters, with commas between them. Quattro has a double letter."
+        lemmas: {a: w:a~letter, ti: w:ti~letter, o: w:o~letter}
+        answer: "{cu, u, a, doppia ti, erre, o|cu, u, a, ti, ti, erre, o}"
+        near: [{answer: "cu, u, a, ti, erre, o", hint: "Count the t's in quattro."}]
+        audio_after: true
+      - id: u00.l3.ex12
+        format: recall
+        targets: [{item: w:zeta, skill: recall}, {item: w:e~letter, skill: recall}, {item: w:erre, skill: recall}, {item: w:o~letter, skill: recall}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        prompt_en: 'Spell "zero" (0), letter by letter.'
+        hint: "Use the Italian names of the letters, with commas between them."
+        lemmas: {e: w:e~letter, o: w:o~letter}
+        answer: "zeta, e, erre, o"
+        audio_after: true
+    mix:
+      - id: u00.l3.ex13
+        format: match
+        targets:
+          - {item: w:bi, skill: read}
+          - {item: w:ci~letter, skill: read}
+          - {item: w:di~letter, skill: read}
+          - {item: w:gi, skill: read}
+          - {item: w:pi, skill: read}
+          - {item: w:ti~letter, skill: read}
+        tags: [cd:spell-name, sy:ss.alphabet]
+        lemmas: {ci: w:ci~letter, di: w:di~letter, ti: w:ti~letter}
+        pairs: [["bi", "B"], ["ci", "C"], ["di", "D"], ["gi", "G"], ["pi", "P"], ["ti", "T"]]
+      - id: u00.l3.ex14
+        format: match
+        targets:
+          - {item: w:effe, skill: read}
+          - {item: w:elle, skill: read}
+          - {item: w:emme, skill: read}
+          - {item: w:enne, skill: read}
+          - {item: w:erre, skill: read}
+          - {item: w:esse, skill: read}
+        tags: [cd:spell-name, sy:ss.alphabet]
+        pairs: [["effe", "F"], ["elle", "L"], ["emme", "M"], ["enne", "N"], ["erre", "R"], ["esse", "S"]]
+      - id: u00.l3.ex15
+        format: recall
+        targets: [{item: w:vu, skill: recall}, {item: w:e~letter, skill: recall}, {item: w:enne, skill: recall}, {item: w:ti~letter, skill: recall}, {item: w:i~letter, skill: recall}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        prompt_en: 'Spell "venti" (20), letter by letter.'
+        hint: "Use the Italian names of the letters, with commas between them."
+        lemmas: {e: w:e~letter, ti: w:ti~letter, i: w:i~letter}
+        answer: "{vu, e, enne, ti, i|vi, e, enne, ti, i}"
+        audio_after: true
+
+  # 6 · Listening: the whole alphabet (audio first): the 21 letters of Italian words, then the five of foreign words.
+  #     Spelled vowels, di, ci and ti need `lemmas:` on their lines.
+  - kind: listening
+    id: u00.l3.step-listening-2
+    text:
+      id: u00.l3.alphabet
+      kind: dialogue
+      title: {en: "The Italian alphabet"}
+      lines:
+        - {speaker: narrator, it: "A, bi, ci, di, e, effe, gi.", en: "A, B, C, D, E, F, G.", lemmas: {a: w:a~letter, ci: w:ci~letter, di: w:di~letter, e: w:e~letter}}
+        - {speaker: narrator, it: "Acca, i, elle, emme, enne, o.", en: "H, I, L, M, N, O.", lemmas: {i: w:i~letter, o: w:o~letter}}
+        - {speaker: narrator, it: "Pi, cu, erre, esse, ti, u, vu, zeta.", en: "P, Q, R, S, T, U, V, Z.", lemmas: {ti: w:ti~letter}}
+        - {speaker: narrator, it: "I lunga, cappa, doppia vu, ics, ipsilon.", en: "J, K, W, X, Y."}
+    plays: unlimited
+    exercises:
+      - id: u00.l3.ex16
+        format: choice
+        targets: [{item: c:i-lunga, skill: listen}, {item: w:cappa, skill: listen}, {item: c:doppia-vu, skill: listen}, {item: w:ics, skill: listen}, {item: w:ipsilon, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet, sy:cefr.oral-comprehension]
+        question_en: "Listen to the last line. Which five letters are they?"
+        options: ["J, K, W, X, Y", "H, J, K, Q, W", "G, K, V, X, Z"]
+        answer: 0
+      - id: u00.l3.ex17
+        format: match
+        targets:                      # targets[i] belongs to pairs[i]
+          - {item: w:acca, skill: read}
+          - {item: c:i-lunga, skill: read}
+          - {item: w:cappa, skill: read}
+          - {item: c:doppia-vu, skill: read}
+          - {item: w:ics, skill: read}
+          - {item: w:ipsilon, skill: read}
+        tags: [cd:spell-name, sy:ss.alphabet]
+        pairs: [["acca", "H"], ["i lunga", "J"], ["cappa", "K"], ["doppia vu", "W"], ["ics", "X"], ["ipsilon", "Y"]]
+
+  # 7 · Practice: whole names and words, with both halves. Names spelled aloud (which name is it?), then names to
+  #     spell, one with a double letter (Rossi). Names are only words to spell here, not people in the story.
+  - kind: practice
+    id: u00.l3.step-practice-3
+    block:
+      - id: u00.l3.ex18
+        format: choice
+        targets: [{item: w:esse, skill: listen}, {item: w:a~letter, skill: listen}, {item: w:erre, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        audio_text:
+          id: u00.l3.ex18.audio
+          kind: dialogue
+          lines:
+            - {speaker: narrator, it: "Esse, a, erre, a.", en: "S, A, R, A.", lemmas: {a: w:a~letter}}
+        question_en: "Someone spells a name. Which name is it?"
+        options: ["Sara", "Zara", "Sarah"]
+        answer: 0
+      - id: u00.l3.ex19
+        format: choice
+        targets: [{item: w:emme, skill: listen}, {item: w:a~letter, skill: listen}, {item: w:erre, skill: listen}, {item: w:ci~letter, skill: listen}, {item: w:o~letter, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        audio_text:
+          id: u00.l3.ex19.audio
+          kind: dialogue
+          lines:
+            - {speaker: narrator, it: "Emme, a, erre, ci, o.", en: "M, A, R, C, O.", lemmas: {a: w:a~letter, ci: w:ci~letter, o: w:o~letter}}
+        question_en: "Someone spells a name. Which name is it?"
+        options: ["Marco", "Marko", "Mirco"]
+        answer: 0
+      - id: u00.l3.ex20
+        format: choice
+        targets: [{item: w:bi, skill: listen}, {item: w:o~letter, skill: listen}, {item: w:elle, skill: listen}, {item: w:gi, skill: listen}, {item: w:enne, skill: listen}, {item: w:a~letter, skill: listen}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        audio_text:
+          id: u00.l3.ex20.audio
+          kind: dialogue
+          lines:
+            - {speaker: narrator, it: "Bi, o, elle, o, gi, enne, a.", en: "B, O, L, O, G, N, A.", lemmas: {o: w:o~letter, a: w:a~letter}}
+        question_en: "Someone spells a city. Which one is it?"
+        options: ["Bologna", "Bolonia", "Polonia"]
+        answer: 0
+    mix:
+      - id: u00.l3.ex21
+        format: recall
+        targets: [{item: w:elle, skill: recall}, {item: w:u, skill: recall}, {item: w:ci~letter, skill: recall}, {item: w:a~letter, skill: recall}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        prompt_en: 'Spell the name "Luca", letter by letter.'
+        hint: "Use the Italian names of the letters, with commas between them."
+        lemmas: {ci: w:ci~letter, a: w:a~letter}
+        answer: "elle, u, ci, a"
+        audio_after: true
+      - id: u00.l3.ex22
+        format: recall
+        targets: [{item: w:erre, skill: recall}, {item: w:o~letter, skill: recall}, {item: c:doppia, skill: recall}, {item: w:esse, skill: recall}, {item: w:i~letter, skill: recall}]
+        tags: [cd:spell-name, sy:ss.alphabet, sy:ss.double-consonants]
+        prompt_en: 'Spell the surname "Rossi", letter by letter.'
+        hint: "Use the Italian names of the letters, with commas between them. Rossi has a double letter."
+        lemmas: {o: w:o~letter, i: w:i~letter}
+        answer: "{erre, o, doppia esse, i|erre, o, esse, esse, i}"
+        near: [{answer: "erre, o, esse, i", hint: "Count the s's in Rossi."}]
+        audio_after: true
+      - id: u00.l3.ex23
+        format: recall
+        targets: [{item: w:effe, skill: recall}, {item: w:e~letter, skill: recall}, {item: w:di~letter, skill: recall}, {item: w:erre, skill: recall}, {item: w:i~letter, skill: recall}, {item: w:ci~letter, skill: recall}, {item: w:a~letter, skill: recall}]
+        tags: [cd:spell-name, sy:ss.alphabet]
+        prompt_en: 'Spell the name "Federica", letter by letter.'
+        hint: "Use the Italian names of the letters, with commas between them."
+        lemmas: {e: w:e~letter, di: w:di~letter, i: w:i~letter, ci: w:ci~letter, a: w:a~letter}
+        answer: "effe, e, di, e, erre, i, ci, a"
+        audio_after: true
+
+  # 8 · Sounds: letter names that English speakers mix up (h and k, m and n, g and c)
+  - kind: sounds
+    id: u00.l3.step-sounds
+    exercises:
+      - id: u00.l3.ex24
+        format: sound-pair
+        targets: [{item: s:alphabet, skill: listen}, {item: w:acca, skill: listen}, {item: w:cappa, skill: listen}]
+        tags: [sy:ss.alphabet, cd:spell-name]
+        question: which-word
+        pair: [acca, cappa]
+        play: cappa
+        glosses: {acca: "the letter H", cappa: "the letter K"}
+        tip_en: "H is acca and K is cappa. Italian words with k are rare."
+      - id: u00.l3.ex25
+        format: sound-pair
+        targets: [{item: s:alphabet, skill: listen}, {item: w:emme, skill: listen}, {item: w:enne, skill: listen}]
+        tags: [sy:ss.alphabet, cd:spell-name]
+        question: which-word
+        pair: [emme, enne]
+        play: enne
+        glosses: {emme: "the letter M", enne: "the letter N"}
+      - id: u00.l3.ex26
+        format: sound-pair
+        targets: [{item: s:alphabet, skill: listen}, {item: w:gi, skill: listen}, {item: w:ci~letter, skill: listen}]
+        tags: [sy:ss.alphabet, cd:spell-name]
+        question: which-word
+        lemmas: {ci: w:ci~letter}
+        pair: [gi, ci]
+        play: gi
+        glosses: {gi: "the letter G", ci: "the letter C"}
+        tip_en: "G is gi and C is ci: the g of gelato and the c of ciao."
+
+  # 9 · Use: later that morning a neighbor of yours knocks; you don't catch her name, she spells it, you say it back
+  #     (Lei). The conversation's `lemmas:` read the spelled vowels, di and ci as letters. Its ID is ex31, not the
+  #     next free number: ch:extra's voice is picked by fnv1a64 of the ID (voices.yaml), and ex31 gives Federica a
+  #     woman's voice (it-IT-IrmaNeural); ex27 to ex30 are not used yet.
+  - kind: use
+    id: u00.l3.step-use
+    exercise:
+      id: u00.l3.ex31
+      format: conversation
+      with: ch:extra
+      register: lei
+      title: {en: "Meet a neighbor at your door"}
+      tags: [cd:spell-name, cd:dont-understand, cd:greet-farewell]
+      lemmas: {e: w:e~letter, di: w:di~letter, i: w:i~letter, ci: w:ci~letter, a: w:a~letter}
+      goals:
+        - {id: greet, en: "Say good morning"}
+        - {id: clarify, en: "Ask her to say her name again"}
+        - {id: name, en: "Say her name back"}
+        - {id: answer, en: "Say how you are"}
+        - {id: bye, en: "Say thank you and goodbye"}
+      start: n1
+      nodes:
+        n1:
+          say: "Buongiorno!"
+          en: "Good morning!"
+          expect:
+            - {intent: greet, goal: greet, accept: ["buongiorno"], next: n2}
+          near:
+            - {answer: "buonasera", hint: "It's ten in the morning. Which greeting fits?"}
+            - {answer: "ciao", hint: "You don't know your neighbor yet. Ciao is for friends."}
+          help: ["Buongiorno!"]
+          hint_en: "It's ten in the morning. Greet your neighbor."
+        n2:
+          say: "Federica!"
+          en: "I'm Federica!"
+          expect:
+            - intent: clarify
+              goal: clarify
+              accept:
+                - "(scusi )(non capisco )può ripetere( per favore)"
+                - "(scusi )non capisco( per favore)"
+              next: n3
+          near: [{answer: "scusa( non capisco)( può ripetere)( per favore)", hint: "You don't know your neighbor. Scusa or scusi?"}]
+          help: ["Scusi, può ripetere?"]
+          hint_en: "You didn't catch her name. Ask her to say it again."
+        n3:
+          say: "Federica: effe, e, di, e, erre, i, ci, a."
+          en: "Federica: F, E, D, E, R, I, C, A."
+          expect:
+            - {intent: name, goal: name, accept: ["(ah )Federica( grazie)", "(ah )sì Federica( grazie)"], next: n4}
+          help: ["Ah, Federica!"]
+          hint_en: "Say her name back."
+        n4:
+          say: "Sì! Come va?"
+          en: "That's right! How's it going?"
+          expect:
+            - {intent: answer, goal: answer, accept: ["bene( grazie)", "bene grazie e Lei"], next: n5}
+          near: [{answer: "bene grazie e tu", hint: "You don't know your neighbor, and e tu is for friends. Leave it out."}]
+          help: ["Bene, grazie!"]
+          hint_en: "Say you're fine, thanks."
+        n5:
+          say: "Bene! Buona giornata!"
+          en: "Good! Have a good day!"
+          expect:
+            - intent: bye
+              goal: bye
+              accept:
+                - "(grazie )buona giornata( arrivederci)"
+                - "(grazie )arrivederci( buona giornata)"
+              next: end
+          near:
+            - {answer: "(grazie )ciao", hint: "You don't know your neighbor well. Which goodbye is polite?"}
+            - {answer: "(grazie )buonanotte", hint: "It's the morning. What do you wish someone for the day?"}
+          help: ["Grazie, buona giornata!"]
+          hint_en: "Say thank you and goodbye."
+        end:
+          say: "Arrivederci!"
+          en: "Goodbye!"
+          final: true

@@ -3,7 +3,7 @@
 # gendered forms (no benvenuto/benvenuta), because the learner's gender varies.
 # The talk's spell point accepts consonant letter names only, since a vowel's name is also a word (a, e, o): one of them
 # in the answer counts as spelling. The talk's `lemmas:` read the spelled a and o, and ci, di and ti, as letters
-# (u00.l2 teaches the alphabet).
+# (u00.l3 teaches the alphabet).
 id: u00.task
 review: {status: draft, by: null, date: null, hash: null}
 
