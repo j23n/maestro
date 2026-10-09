@@ -21,6 +21,7 @@ characters:
     family: grandson of emigrants who left a village in the Apennines south of Bologna in the 1960s
     stay: three months in Bologna, renting a small flat in Signora Rossi's building
     character: friendly, curious, a bit clumsy with the language, keen to find his family's village
+    course: takes the Italian course at Scuola Arcobaleno from Unit 1 (the school phones him in u01.l3; CL28)
     first_unit: u00
     # Confirmed by the content lead (docs/13 CL16).
     born: Toronto (Unit 1 Lesson 2, "Sono nato e abito a Toronto")
@@ -76,8 +77,8 @@ characters:
     rule: strangers and staff use Lei with Marco and with you; each minor role gets a fresh name if named at all
     # Confirmed by the content lead (docs/13 CL15): the receptionist stays unnamed, and lines avoid agreeing with them.
     u01_roles: "the coworking space's receptionist (unnamed, gender not fixed; u01.l2); Hugo, a French neighbor born in Canada (u01.check.02); Lucía Ortega, a Spanish classmate at the language school (u01.l3 form); Emma Clarke, an English classmate there (u01.check.06)"
-    # Proposed in C3 (Unit 0 alphabet); content lead to confirm.
-    u00_roles: "Federica, a neighbor of yours, who knocks at your door the morning after Marco arrives and spells her name (u00.l2.ex61); the Lesson 2 taxi driver and Marco's neighbor stay unnamed"
+    # Confirmed by the content lead (docs/13 CL26).
+    u00_roles: "Federica, a neighbor of yours, who knocks at your door the morning after Marco arrives and spells her name (Unit 0 lesson 3 after the split, CL27); the Lesson 2 taxi driver and Marco's neighbor stay unnamed"
 
 places:
   - {name: Bar Aurora, kind: fictional, note: near the coworking space}

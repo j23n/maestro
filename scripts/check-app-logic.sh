@@ -22,8 +22,9 @@ neutral() {  # neutral <file> <allowed-modules-regex>
   return 0
 }
 
-# One work directory per checkout, so worktrees (parallel agents) never share one.
-work="${TMPDIR:-/tmp}/italiano-app-logic-$(printf '%s' "$root" | cksum | cut -d' ' -f1)"
+# One work directory per checkout, inside it (`.build/` is gitignored), so worktrees (parallel agents) never share
+# one and removing a worktree removes its build too. In $TMPDIR, one ~650 MB build per worktree outlived it.
+work="$root/.build/app-logic"
 # Two runs in the same checkout (make test and make lint-guards side by side) take turns instead of rebuilding
 # each other's sources mid-build.
 mkdir -p "$work"
