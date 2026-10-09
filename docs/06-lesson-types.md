@@ -54,7 +54,7 @@ Design references are in `design/screens/`. Their **sample text is placeholder**
 
 ## Payloads
 
-Each section below shows the **authoring YAML**. The compiled JSON payload in the pack is defined exactly by **`schemas/pack-payloads.schema.json`** (the contract between the pipeline and LearningCore; `fixtures/packs/payload-examples.json` has one example of every shape, validated by the pipeline tests). In short, it has the authored fields in camelCase (`prompt_en` → `promptEn`), every optional key present with `null`, plus:
+Each section below shows the **authoring YAML**. The compiled JSON payload in the pack is defined exactly by **`schemas/pack-payloads.schema.json`** (the contract between the pipeline and LearningCore; `fixtures/packs/payload-examples.json` has one example of every shape, plus Unit 0's recall that spells *Rossi* for a pattern's `spelling`, validated by the pipeline tests). In short, it has the authored fields in camelCase (`prompt_en` → `promptEn`), every optional key present with `null`, plus:
 
 - answer patterns as `{source, expansions, spelling}`: the authored pattern (LearningCore parses it, because personal slots need the learner), its learner-independent expansions, for the review mode's answer key, and `spelling` (CL40), null unless the pattern's tokens resolve to letter items or to *doppia* (`c:doppia`): then each name it spells with and the letter it names (`[{name: "doppia", letter: null}, {name: "erre", letter: "R"}, …]` for *erre, o, doppia esse, i*; *doppia*, the next letter twice, has a null letter), which the speech and content-point graders compare letter for letter (`docs/05` § Speech transcripts);
 - resolved `audioId`s (or null when audio is missing in a dev pack);
