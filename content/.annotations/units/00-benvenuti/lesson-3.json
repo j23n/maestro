@@ -1018,19 +1018,6 @@
   },
   {
    "path": "steps[8].block[0].say",
-   "ref": "u00.l3.ex34",
-   "role": "say",
-   "text": "Benvenuto! Come va?",
-   "tokens": [
-    {"analyses": ["benvenuto ADJ:pos+m+s", "benvenuto NOUN-M:s"], "chunk": "c:benvenuto", "kind": "word", "lemma": "benvenuto", "span": [0, 9], "surface": "Benvenuto"},
-    {"kind": "punct", "span": [9, 10], "surface": "!", "trailing": " "},
-    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [11, 15], "surface": "Come", "trailing": " "},
-    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [16, 18], "surface": "va"},
-    {"kind": "punct", "span": [18, 19], "surface": "?"}
-   ]
-  },
-  {
-   "path": "steps[8].block[1].say",
    "ref": "u00.l3.ex35",
    "role": "say",
    "text": "Bene! Buona giornata!",
@@ -1043,7 +1030,7 @@
    ]
   },
   {
-   "path": "steps[8].block[2].say",
+   "path": "steps[8].block[1].say",
    "ref": "u00.l3.ex36",
    "role": "say",
    "text": "Grazie! Buona giornata! Arrivederci!",

@@ -1493,20 +1493,6 @@
   },
   {
    "path": "steps[6].block[1].say",
-   "ref": "u00.l1.ex38",
-   "role": "say",
-   "text": "Sì, sì. Prego!",
-   "tokens": [
-    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
-    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
-    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [4, 6], "surface": "sì"},
-    {"kind": "punct", "span": [6, 7], "surface": ".", "trailing": " "},
-    {"analyses": ["prego INT"], "item": "w:prego", "kind": "word", "lemma": "prego", "span": [8, 13], "surface": "Prego"},
-    {"kind": "punct", "span": [13, 14], "surface": "!"}
-   ]
-  },
-  {
-   "path": "steps[6].block[2].say",
    "ref": "u00.l1.ex39",
    "role": "say",
    "text": "No, no. No hotel.",
@@ -1521,7 +1507,7 @@
    ]
   },
   {
-   "path": "steps[6].block[3].say",
+   "path": "steps[6].block[2].say",
    "ref": "u00.l1.ex40",
    "role": "say",
    "text": "Ah, ok! Bene, bene!",
@@ -1537,7 +1523,7 @@
    ]
   },
   {
-   "path": "steps[6].block[4].say",
+   "path": "steps[6].block[3].say",
    "ref": "u00.l1.ex41",
    "role": "say",
    "text": "Sì, sì! Toronto, Canada.",
@@ -1553,7 +1539,7 @@
    ]
   },
   {
-   "path": "steps[6].block[5].say",
+   "path": "steps[6].block[4].say",
    "ref": "u00.l1.ex42",
    "role": "say",
    "text": "Ah, Canada! Benvenuto!",
@@ -1567,7 +1553,7 @@
    ]
   },
   {
-   "path": "steps[6].block[6].say",
+   "path": "steps[6].block[5].say",
    "ref": "u00.l1.ex43",
    "role": "say",
    "text": "Bene, grazie!",

@@ -307,14 +307,6 @@ steps:
         say: "Sedici, diciassette, diciotto, diciannove, venti."
         slow: true
         hint: "Three of the numbers have a double consonant."
-      - id: u00.l2.ex29
-        format: recall
-        targets: [{item: w:diciotto, skill: recall}]
-        tags: [cd:count-to-20, cd:politeness]
-        prompt_en: "Eighteen euros, please."
-        answer: "diciotto euro( per favore)"
-        near: [{answer: "diciassette euro( per favore)", hint: "Diciassette is seventeen."}]
-        audio_after: true
       - id: u00.l2.ex30
         format: repeat
         targets: [{item: w:diciotto, skill: speak}]
@@ -472,7 +464,8 @@ steps:
         glosses: {giro: "a turn; a ride", ghiro: dormouse}
         tip_en: "g before i sounds like the j in jeep; gh before i sounds like the g in give."
 
-  # 9 · Use: your own taxi ride ends; you don't catch the price, check it, pay with a twenty and say good night (Lei).
+  # 9 · Use: your own taxi ride ends: the driver asks how it's going, you don't catch the price, check it, pay with a
+  #     twenty and say good night (Lei), as Marco does in the story.
   - kind: use
     id: u00.l2.step-use
     exercise:
@@ -483,15 +476,24 @@ steps:
       title: {en: "Pay the taxi driver"}
       tags: [cd:dont-understand, cd:count-to-20, cd:greet-farewell]
       goals:
+        - {id: fine, en: "Say how you are"}
         - {id: clarify, en: "Say sorry, you don't understand"}
         - {id: price, en: "Say the price back to check it"}
         - {id: pay, en: "Pay with a twenty-euro note"}
         - {id: bye, en: "Say good night"}
-      start: n1
+      start: n0
       nodes:
+        n0:
+          say: "Come va? Bene?"
+          en: "How's it going? All good?"
+          expect:
+            - {intent: fine, goal: fine, accept: ["bene( grazie)", "(sì )bene grazie( e Lei)"], next: n1}
+          near: [{answer: "bene grazie e tu", hint: "You don't know the driver, and e tu is for friends. Leave it out."}]
+          help: ["Bene, grazie!"]
+          hint_en: "The driver asks how it's going. Say you're fine, thanks."
         n1:
-          say: "Diciotto euro, per favore."
-          en: "Eighteen euros, please."
+          say: "Bene, bene! Diciotto euro, per favore."
+          en: "Good, good! Eighteen euros, please."
           expect:
             - intent: clarify
               goal: clarify

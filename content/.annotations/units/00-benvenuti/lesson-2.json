@@ -1378,71 +1378,7 @@
    ]
   },
   {
-   "expansion": 0,
-   "model": true,
-   "norm": "diciotto euro per favore",
-   "of": 2,
-   "path": "steps[5].block[8].answer",
-   "pattern": "diciotto euro( per favore)",
-   "ref": "u00.l2.ex29",
-   "role": "answer",
-   "text": "diciotto euro per favore",
-   "tokens": [
-    {"analyses": ["diciotto DET-NUM-CARD", "diciotto PRO-NUM"], "item": "w:diciotto", "kind": "word", "lemma": "diciotto", "span": [0, 8], "surface": "diciotto", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [9, 13], "surface": "euro", "trailing": " "},
-    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [14, 17], "surface": "per", "trailing": " "},
-    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [18, 24], "surface": "favore"}
-   ]
-  },
-  {
-   "expansion": 1,
-   "model": false,
-   "norm": "diciotto euro",
-   "of": 2,
-   "path": "steps[5].block[8].answer",
-   "pattern": "diciotto euro( per favore)",
-   "ref": "u00.l2.ex29",
-   "role": "answer",
-   "text": "diciotto euro",
-   "tokens": [
-    {"analyses": ["diciotto DET-NUM-CARD", "diciotto PRO-NUM"], "item": "w:diciotto", "kind": "word", "lemma": "diciotto", "span": [0, 8], "surface": "diciotto", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [9, 13], "surface": "euro"}
-   ]
-  },
-  {
-   "expansion": 0,
-   "model": false,
-   "norm": "diciassette euro per favore",
-   "of": 2,
-   "path": "steps[5].block[8].near[0].answer",
-   "pattern": "diciassette euro( per favore)",
-   "ref": "u00.l2.ex29",
-   "role": "near",
-   "text": "diciassette euro per favore",
-   "tokens": [
-    {"analyses": ["diciassette DET-NUM-CARD", "diciassette PRO-NUM"], "item": "w:diciassette", "kind": "word", "lemma": "diciassette", "span": [0, 11], "surface": "diciassette", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [12, 16], "surface": "euro", "trailing": " "},
-    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [17, 20], "surface": "per", "trailing": " "},
-    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [21, 27], "surface": "favore"}
-   ]
-  },
-  {
-   "expansion": 1,
-   "model": false,
-   "norm": "diciassette euro",
-   "of": 2,
-   "path": "steps[5].block[8].near[0].answer",
-   "pattern": "diciassette euro( per favore)",
-   "ref": "u00.l2.ex29",
-   "role": "near",
-   "text": "diciassette euro",
-   "tokens": [
-    {"analyses": ["diciassette DET-NUM-CARD", "diciassette PRO-NUM"], "item": "w:diciassette", "kind": "word", "lemma": "diciassette", "span": [0, 11], "surface": "diciassette", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [12, 16], "surface": "euro"}
-   ]
-  },
-  {
-   "path": "steps[5].block[9].say",
+   "path": "steps[5].block[8].say",
    "ref": "u00.l2.ex30",
    "role": "say",
    "text": "Diciotto euro, per favore.",
@@ -1460,7 +1396,7 @@
    "model": true,
    "norm": "venti euro",
    "of": 2,
-   "path": "steps[5].block[10].answer",
+   "path": "steps[5].block[9].answer",
    "pattern": "{venti euro|venti}",
    "ref": "u00.l2.ex46",
    "role": "answer",
@@ -1475,7 +1411,7 @@
    "model": false,
    "norm": "venti",
    "of": 2,
-   "path": "steps[5].block[10].answer",
+   "path": "steps[5].block[9].answer",
    "pattern": "{venti euro|venti}",
    "ref": "u00.l2.ex46",
    "role": "answer",
@@ -1489,7 +1425,7 @@
    "model": false,
    "norm": "dieci euro",
    "of": 4,
-   "path": "steps[5].block[10].near[0].answer",
+   "path": "steps[5].block[9].near[0].answer",
    "pattern": "{dieci|dodici}( euro)",
    "ref": "u00.l2.ex46",
    "role": "near",
@@ -1504,7 +1440,7 @@
    "model": false,
    "norm": "dieci",
    "of": 4,
-   "path": "steps[5].block[10].near[0].answer",
+   "path": "steps[5].block[9].near[0].answer",
    "pattern": "{dieci|dodici}( euro)",
    "ref": "u00.l2.ex46",
    "role": "near",
@@ -1518,7 +1454,7 @@
    "model": false,
    "norm": "dodici euro",
    "of": 4,
-   "path": "steps[5].block[10].near[0].answer",
+   "path": "steps[5].block[9].near[0].answer",
    "pattern": "{dieci|dodici}( euro)",
    "ref": "u00.l2.ex46",
    "role": "near",
@@ -1533,7 +1469,7 @@
    "model": false,
    "norm": "dodici",
    "of": 4,
-   "path": "steps[5].block[10].near[0].answer",
+   "path": "steps[5].block[9].near[0].answer",
    "pattern": "{dieci|dodici}( euro)",
    "ref": "u00.l2.ex46",
    "role": "near",
@@ -1990,6 +1926,143 @@
   {
    "expansion": 0,
    "model": true,
+   "norm": "bene grazie",
+   "of": 2,
+   "path": "steps[8].exercise.nodes.n0.expect[0].accept[0]",
+   "pattern": "bene( grazie)",
+   "ref": "u00.l2.ex44/n0",
+   "role": "accept",
+   "text": "bene grazie",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "bene",
+   "of": 2,
+   "path": "steps[8].exercise.nodes.n0.expect[0].accept[0]",
+   "pattern": "bene( grazie)",
+   "ref": "u00.l2.ex44/n0",
+   "role": "accept",
+   "text": "bene",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "sì bene grazie e lei",
+   "of": 4,
+   "path": "steps[8].exercise.nodes.n0.expect[0].accept[1]",
+   "pattern": "(sì )bene grazie( e Lei)",
+   "ref": "u00.l2.ex44/n0",
+   "role": "accept",
+   "text": "sì bene grazie e Lei",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [3, 7], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [8, 14], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [17, 20], "surface": "Lei"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "sì bene grazie",
+   "of": 4,
+   "path": "steps[8].exercise.nodes.n0.expect[0].accept[1]",
+   "pattern": "(sì )bene grazie( e Lei)",
+   "ref": "u00.l2.ex44/n0",
+   "role": "accept",
+   "text": "sì bene grazie",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [3, 7], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [8, 14], "surface": "grazie"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "bene grazie e lei",
+   "of": 4,
+   "path": "steps[8].exercise.nodes.n0.expect[0].accept[1]",
+   "pattern": "(sì )bene grazie( e Lei)",
+   "ref": "u00.l2.ex44/n0",
+   "role": "accept",
+   "text": "bene grazie e Lei",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-lei", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "chunk": "c:e-lei", "kind": "word", "lemma": "lei", "span": [14, 17], "surface": "Lei"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "bene grazie",
+   "of": 4,
+   "path": "steps[8].exercise.nodes.n0.expect[0].accept[1]",
+   "pattern": "(sì )bene grazie( e Lei)",
+   "ref": "u00.l2.ex44/n0",
+   "role": "accept",
+   "text": "bene grazie",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie"}
+   ]
+  },
+  {
+   "path": "steps[8].exercise.nodes.n0.help[0]",
+   "ref": "u00.l2.ex44/n0",
+   "role": "help",
+   "text": "Bene, grazie!",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [6, 12], "surface": "grazie"},
+    {"kind": "punct", "span": [12, 13], "surface": "!"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "bene grazie e tu",
+   "of": 1,
+   "path": "steps[8].exercise.nodes.n0.near[0].answer",
+   "pattern": "bene grazie e tu",
+   "ref": "u00.l2.ex44/n0",
+   "role": "near",
+   "text": "bene grazie e tu",
+   "tokens": [
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "bene", "trailing": " "},
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [5, 11], "surface": "grazie", "trailing": " "},
+    {"analyses": ["e CON"], "chunk": "c:e-tu", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["tu PRO-PERS-2-F-S", "tu PRO-PERS-2-M-S"], "chunk": "c:e-tu", "kind": "word", "lemma": "tu", "span": [14, 16], "surface": "tu"}
+   ]
+  },
+  {
+   "path": "steps[8].exercise.nodes.n0.say",
+   "ref": "u00.l2.ex44/n0",
+   "role": "say",
+   "text": "Come va? Bene?",
+   "tokens": [
+    {"analyses": ["come WH"], "chunk": "c:come-va", "kind": "word", "lemma": "come", "span": [0, 4], "surface": "Come", "trailing": " "},
+    {"analyses": ["andare VER:ind+pres+3+s"], "chunk": "c:come-va", "kind": "word", "lemma": "andare", "span": [5, 7], "surface": "va"},
+    {"kind": "punct", "span": [7, 8], "surface": "?", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [9, 13], "surface": "Bene"},
+    {"kind": "punct", "span": [13, 14], "surface": "?"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": true,
    "norm": "scusi non capisco può ripetere per favore",
    "of": 8,
    "path": "steps[8].exercise.nodes.n1.expect[0].accept[0]",
@@ -2361,14 +2434,18 @@
    "path": "steps[8].exercise.nodes.n1.say",
    "ref": "u00.l2.ex44/n1",
    "role": "say",
-   "text": "Diciotto euro, per favore.",
+   "text": "Bene, bene! Diciotto euro, per favore.",
    "tokens": [
-    {"analyses": ["diciotto DET-NUM-CARD", "diciotto PRO-NUM"], "item": "w:diciotto", "kind": "word", "lemma": "diciotto", "span": [0, 8], "surface": "Diciotto", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [9, 13], "surface": "euro"},
-    {"kind": "punct", "span": [13, 14], "surface": ",", "trailing": " "},
-    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [15, 18], "surface": "per", "trailing": " "},
-    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [19, 25], "surface": "favore"},
-    {"kind": "punct", "span": [25, 26], "surface": "."}
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [0, 4], "surface": "Bene"},
+    {"kind": "punct", "span": [4, 5], "surface": ",", "trailing": " "},
+    {"analyses": ["bene ADV"], "item": "w:bene", "kind": "word", "lemma": "bene", "span": [6, 10], "surface": "bene"},
+    {"kind": "punct", "span": [10, 11], "surface": "!", "trailing": " "},
+    {"analyses": ["diciotto DET-NUM-CARD", "diciotto PRO-NUM"], "item": "w:diciotto", "kind": "word", "lemma": "diciotto", "span": [12, 20], "surface": "Diciotto", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [21, 25], "surface": "euro"},
+    {"kind": "punct", "span": [25, 26], "surface": ",", "trailing": " "},
+    {"analyses": ["per PRE"], "chunk": "c:per-favore", "kind": "word", "lemma": "per", "span": [27, 30], "surface": "per", "trailing": " "},
+    {"analyses": ["favore NOUN-M:s"], "chunk": "c:per-favore", "kind": "word", "lemma": "favore", "span": [31, 37], "surface": "favore"},
+    {"kind": "punct", "span": [37, 38], "surface": "."}
    ]
   },
   {

@@ -360,12 +360,6 @@ steps:
         tags: [sy:cefr.phonological-control, cd:politeness]
         source: u00.l1.taxi-stand#1
         say: "Scusi! Taxi, per favore!"
-      - id: u00.l1.ex38
-        format: repeat
-        targets: [{item: w:prego, skill: speak}]
-        tags: [sy:cefr.phonological-control, cd:politeness]
-        source: u00.l1.taxi-stand#2
-        say: "Sì, sì. Prego!"
       - id: u00.l1.ex39
         format: repeat
         targets: [{item: w:no, skill: speak}]

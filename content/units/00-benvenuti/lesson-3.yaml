@@ -394,12 +394,6 @@ steps:
   - kind: practice
     id: u00.l3.step-practice-4
     block:
-      - id: u00.l3.ex34
-        format: repeat
-        targets: [{item: c:come-va, skill: speak}]
-        tags: [sy:cefr.phonological-control, cd:greet-farewell]
-        source: u00.l3.morning#3
-        say: "Benvenuto! Come va?"
       - id: u00.l3.ex35
         format: repeat
         targets: [{item: c:buona-giornata, skill: speak}]
