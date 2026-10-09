@@ -318,15 +318,15 @@ steps:
           - {item: w:quaranta, skill: read}
           - {item: w:ottanta, skill: read}
         tags: [cd:ask-price-pay]
-        pairs: [["tre euro e cinquanta", "€3.50"], ["un euro e sessanta", "€1.60"], ["un euro e quaranta", "€1.40"], ["due euro e ottanta", "€2.80"]]
+        pairs: [["due euro e cinquanta", "€2.50"], ["un euro e sessanta", "€1.60"], ["un euro e quaranta", "€1.40"], ["due euro e ottanta", "€2.80"]]
       - id: u02.l2.ex23
         format: choice
         targets: [{item: g:numbers-to-100, skill: read}, {item: w:novanta, skill: read}]
         tags: [cd:ask-price-pay]
-        prompt_it: "Cinque euro e novanta."
+        prompt_it: "Tre euro e novanta."             # today's offer 2,50 + a cornetto 1,40
         audio: {speaker: ch:giulia}
         question_en: "Giulia tells you the price. How much is it?"
-        options: ["€5.90", "€5.09", "€15.90"]
+        options: ["€3.90", "€3.09", "€13.90"]
         answer: 0
       - id: u02.l2.ex24
         format: choice

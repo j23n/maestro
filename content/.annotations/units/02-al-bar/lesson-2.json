@@ -2855,9 +2855,9 @@
    "path": "steps[4].mix[4].pairs[0][0]",
    "ref": "u02.l2.ex22",
    "role": "pair",
-   "text": "tre euro e cinquanta",
+   "text": "due euro e cinquanta",
    "tokens": [
-    {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [0, 3], "surface": "tre", "trailing": " "},
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
     {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [4, 8], "surface": "euro", "trailing": " "},
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
     {"analyses": ["cinquanta DET-NUM-CARD", "cinquanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:cinquanta", "kind": "word", "lemma": "cinquanta", "span": [11, 20], "surface": "cinquanta"}
@@ -2921,13 +2921,13 @@
    "path": "steps[4].mix[5].prompt_it",
    "ref": "u02.l2.ex23",
    "role": "prompt",
-   "text": "Cinque euro e novanta.",
+   "text": "Tre euro e novanta.",
    "tokens": [
-    {"analyses": ["cinque DET-NUM-CARD", "cinque PRO-NUM"], "item": "w:cinque", "kind": "word", "lemma": "cinque", "span": [0, 6], "surface": "Cinque", "trailing": " "},
-    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [7, 11], "surface": "euro", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
-    {"analyses": ["novanta DET-NUM-CARD", "novanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:novanta", "kind": "word", "lemma": "novanta", "span": [14, 21], "surface": "novanta"},
-    {"kind": "punct", "span": [21, 22], "surface": "."}
+    {"analyses": ["tre DET-NUM-CARD", "tre PRO-NUM"], "item": "w:tre", "kind": "word", "lemma": "tre", "span": [0, 3], "surface": "Tre", "trailing": " "},
+    {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [4, 8], "surface": "euro", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
+    {"analyses": ["novanta DET-NUM-CARD", "novanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:novanta", "kind": "word", "lemma": "novanta", "span": [11, 18], "surface": "novanta"},
+    {"kind": "punct", "span": [18, 19], "surface": "."}
    ]
   },
   {
