@@ -108,7 +108,7 @@ facts_to_check:
   - {unit: u02, fact: "CHECKED (CL6): at Bar Aurora you order at the counter and pay Giulia at the till (la cassa) afterwards, getting the receipt (lo scontrino); busy bars in the centre often want you to pay at the till first and show the receipt at the counter (Unit 2 culture note: u02.l3.note; Marco è alla cassa, u02.l3.story#19)"}
   - {unit: u02, fact: "CL36: a neighbourhood bar's chalkboard offers a breakfast deal, cappuccino e cornetto 2,50 (the content lead's example), against 3,00 for the two at counter prices (u02.l2 story #11–14, u02.l2.chalkboard)"}
   - {unit: u02, fact: "CHECKED (CL13): ordering \"un latte\" at an Italian bar gets a glass of milk; the coffee drink is a latte macchiato (u02.l2 story #4–6, ex09, ex10, ex20; u02.l3 story #15–16, q2; the w:latte note)"}
-  - {unit: u02, fact: "CHECKED (CL13): a bar receipt in Unit 2 shows the bar's name, the lines, Totale, Contanti and Resto (a simplified documento commerciale; u02.l3.receipt)"}
+  - {unit: u02, fact: "CHECKED (CL13): a bar receipt in Unit 2 shows the bar's name, the lines, Totale, Contanti and Resto (a simplified documento commerciale; u02.l3.receipt, u02.check.receipt)"}
   - {unit: u06, fact: "Thursday-afternoon closing of food shops in Bologna, before writing opening-hours signs"}
   - {unit: u07, fact: "Mercato delle Erbe hours and closing day; stallholders pick the produce; quantities in etti"}
   - {unit: u09, fact: "floor numbering: terzo piano is the US fourth floor; gloss it"}

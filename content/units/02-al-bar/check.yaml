@@ -1,7 +1,8 @@
-# Unit 2 check (docs/06 §18). SAMPLE ITEMS ONLY: shows the format. The full check (about 18 items,
-# every Unit 2 can-do, all four skills) is drafted in C5 once Lessons 2–3 exist, and reviewed by the
-# assessment reviewer. Check mode: one attempt, no hints, listening plays twice.
-# Prices follow the Bar Aurora menu in task.yaml (caffè 1,20 · cappuccino 1,60 · spremuta 3,20 · cornetto 1,40).
+# Unit 2 check (docs/06 §18). DRAFT (C5): 18 items over listening, reading, writing and speaking, every Unit 2 can-do
+# at least once, and vorrei, the noun plural, the tens and prices, and mi/ti/Le piace assessed (CL10). Check mode: one
+# attempt, no hints, listening plays twice. No new situations or facts: Bar Aurora, Giulia, Sara and customers at the
+# counter (minor roles, ch:extra, who use Lei). You order at the counter and pay afterwards (CL6); prices follow the
+# Bar Aurora menu in task.yaml (caffè 1,20 · cappuccino 1,60 · spremuta 3,20 · cornetto 1,40).
 id: u02.check
 review: {status: draft, by: null, date: null, hash: null}
 pass: {overall: 0.70, section_min: 0.50}
@@ -26,10 +27,48 @@ sections:
         answer: 0
       - id: u02.check.02
         format: dictation
-        targets: [{item: w:spremuta, skill: listen}]
-        tags: [sy:cefr.orthographic-control]
-        say: "Vorrei una spremuta."
+        targets: [{item: c:vorrei, skill: listen}, {item: s:double-consonants, skill: listen}]
+        tags: [cd:order-food-drink, sy:cefr.orthographic-control, sy:ss.double-consonants]
+        say: "Vorrei due cappuccini, per favore."
         plays: 2
+      - id: u02.check.10
+        format: choice
+        targets: [{item: g:numbers-to-100, skill: listen}, {item: w:quaranta, skill: listen}]
+        tags: [cd:ask-price-pay, sy:ex.cils-listening]
+        audio_text:                        # caffè 1,20 + spremuta 3,20, paid at the end
+          id: u02.check.10.audio
+          kind: dialogue
+          lines:
+            - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Un caffè e una spremuta, per favore.", en: "A coffee and a fresh orange juice, please."}
+            - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Ecco!", en: "Here you are!"}
+            - {speaker: ch:extra, to: ch:giulia, register: lei, it: "Grazie! Scusi, quant'è?", en: "Thank you! Excuse me, how much is it?"}
+            - {speaker: ch:giulia, to: ch:extra, register: lei, it: "Quattro euro e quaranta.", en: "€4.40."}
+        plays: 2
+        question_en: "How much does the customer pay?"
+        options: ["€4.40", "€4.14", "€14.40"]
+        answer: 0
+      - id: u02.check.11
+        format: choice
+        targets: [{item: w:solo, skill: listen}, {item: c:ti-piace, skill: listen}]
+        tags: [cd:order-food-drink, sy:fn.likes-wants, sy:ex.cils-listening]
+        audio_text:
+          id: u02.check.11.audio
+          kind: dialogue
+          lines:
+            - {speaker: ch:giulia, to: ch:sara, register: tu, it: "Ciao, Sara! Un cornetto? Ti piace, vero?", en: "Hi, Sara! A croissant? You like them, don't you?"}
+            - {speaker: ch:sara, to: ch:giulia, register: tu, it: "Sì, mi piace! Ma oggi solo una spremuta, grazie.", en: "Yes, I do! But just a fresh orange juice today, thanks."}
+        plays: 2
+        question_en: "What does Sara have today?"
+        options: ["Just a fresh orange juice", "A croissant and a fresh orange juice", "Just a croissant"]
+        answer: 0
+      - id: u02.check.12
+        format: sound-pair
+        targets: [{item: s:double-consonants, skill: listen}]
+        tags: [sy:ss.double-consonants]
+        question: which-word
+        pair: [caro, carro]
+        play: caro
+        glosses: {caro: "expensive; dear", carro: cart}
 
   - id: reading
     title_en: Reading
@@ -54,6 +93,33 @@ sections:
         source: {text: u02.task.menu}
         friend_en: "Can you get me a croissant? How much is it?"
         answer_en: {type: price, value: 1.40}
+      - id: u02.check.13
+        format: choice
+        targets: [{item: w:resto, skill: read}, {item: w:totale, skill: read}]
+        tags: [cd:ask-price-pay, sy:ex.cils-reading]
+        source:
+          text:                            # caffè 1,20 × 2 + cornetto 1,40 = 3,80; five euros in cash (CL13e)
+            id: u02.check.receipt
+            kind: real_world
+            title: {en: "A receipt from Bar Aurora"}
+            layout:
+              type: receipt
+              shop: Bar Aurora
+              rows:
+                - {name: caffè, qty: 2, price: "2,40"}
+                - {name: cornetto, qty: 1, price: "1,40"}
+              total: "Totale 3,80"
+              footer: "Contanti 5,00 · Resto 1,20"
+        question_en: "How much change did the customer get?"
+        options: ["€1.20", "€3.80", "€5.00"]
+        answer: 0
+      - id: u02.check.14
+        format: choice
+        targets: [{item: c:le-piace, skill: read}, {item: g:tu-lei, skill: read}]
+        tags: [sy:fn.likes-wants, cd:choose-tu-lei]
+        question_en: "You want to ask Signora Rossi if she likes the cappuccino. What do you say?"
+        options: ["Le piace il cappuccino?", "Ti piace il cappuccino?", "Mi piace il cappuccino?"]
+        answer: 0
 
   - id: writing
     title_en: Writing
@@ -70,6 +136,27 @@ sections:
         tags: [cd:order-food-drink]
         prompt_en: "a cappuccino"
         answer: "un [cappuccino]"
+      - id: u02.check.15
+        format: cloze
+        targets: [{item: g:noun-plural, skill: recall}]
+        tags: [cd:order-food-drink, sy:gr.noun-gender-number]
+        text: "Vorrei due [[spremute]], per favore."
+        prompt_en: "I'd like two fresh orange juices, please."
+        rule: "Regular plurals: masculine -o becomes -i, feminine -a becomes -e."
+      - id: u02.check.16
+        format: recall
+        targets: [{item: c:vorrei, skill: recall}, {item: w:solo, skill: recall}]
+        tags: [cd:order-food-drink, sy:ss.vorrei-polite]
+        prompt_en: "I'd like just a coffee, please."
+        answer: "{vorrei|io vorrei} solo un caffè( {per favore|grazie})"
+        rule: "Vorrei is the polite way to say what you'd like; solo (just) goes before un caffè."
+      - id: u02.check.17
+        format: recall
+        targets: [{item: g:numbers-to-100, skill: recall}, {item: w:ottanta, skill: recall}]
+        tags: [cd:ask-price-pay, sy:gr.cardinal-numbers]
+        prompt_en: "€4.80 (a cappuccino and a fresh orange juice)"
+        answer: "{quattro euro e [ottanta]|quattro euro e ottanta centesimi|quattro euro ottanta|quattro e ottanta}"
+        rule: "A price is the euros, e, then the cents: quattro euro e ottanta is €4.80."
 
   - id: speaking
     title_en: Speaking
@@ -92,8 +179,9 @@ sections:
                 goal: order
                 accept:
                   - "(buongiorno )(vorrei )un caffè e un cornetto( per favore)"
-                  - "(buongiorno )(vorrei )un cornetto e un caffè( per favore)"
-                  - "(buongiorno )(vorrei )un {caffè e un cornetto|cornetto e un caffè} grazie"
+                  - "(buongiorno )({vorrei|prendo} )un cornetto e un caffè( per favore)"
+                  - "(buongiorno )({vorrei|prendo} )un {caffè e un cornetto|cornetto e un caffè} grazie"
+                  - "(buongiorno )prendo un caffè e un cornetto( per favore)"
                 next: n2
             help: []
           n2:
@@ -114,3 +202,35 @@ sections:
         pass: 2
         model: "Scusi! Un caffè, per favore."
         duration_s: {min: 3, max: 30}
+      - id: u02.check.18
+        format: conversation
+        score: 2
+        with: ch:giulia
+        register: lei
+        title: {en: "Order for you and Sara"}
+        tags: [cd:order-food-drink, sy:fn.likes-wants, sy:ex.cils-dialogue, sy:ex.plida-role-play]
+        goals:
+          - {id: order, en: "Order two cappuccinos, for you and Sara"}
+          - {id: like, en: "Say you like it"}
+        start: n1
+        nodes:
+          n1:
+            say: "Buongiorno! Cosa prende?"
+            en: "Good morning! What will you have?"
+            expect:
+              - intent: order
+                goal: order
+                accept:
+                  - "(buongiorno )({vorrei|prendo} )due cappuccini( per favore)"
+                  - "(buongiorno )({vorrei|prendo} )due cappuccini grazie"
+                next: n2
+            near: [{answer: "(buongiorno )({vorrei|prendo} )due cappuccino( {per favore|grazie})", outcome: almost, hint: "Two cappuccinos: change the last vowel for more than one."}]
+            help: []
+          n2:
+            say: "Ecco! Le piace il cappuccino?"
+            en: "Here you are! Do you like the cappuccino?"
+            expect:
+              - {intent: like, goal: like, accept: ["sì mi piace( è buono)", "sì grazie mi piace( è buono)", "(sì )mi piace molto( è buono)", "(sì )(grazie )è buono", "mi piace( è buono)"], next: end}
+            near: [{answer: "(sì )ti piace", hint: "Ti piace asks a question. Talk about yourself: I like it."}]
+            help: []
+          end: {say: "Bene! Tre euro e venti, grazie.", en: "Good! €3.20, thanks.", final: true}     # 1,60 × 2
