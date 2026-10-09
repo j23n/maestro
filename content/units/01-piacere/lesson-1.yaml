@@ -240,10 +240,11 @@ steps:
         targets: [{item: c:puo-ripetere, skill: recall}]
         tags: [cd:dont-understand, cd:choose-tu-lei]
         prompt_en: "Sorry, can you say that again? (to Signora Rossi)"
-        answer: "{scusi può ripetere|può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|può ripetere per favore|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora può ripetere}"
+        answer: "{scusi può ripetere|scusi può ripetere per favore|scusi non capisco può ripetere|scusi non capisco può ripetere per favore|scusi signora può ripetere( per favore)|signora scusi può ripetere( per favore)}"
         near:
-          - {answer: "(scusa )puoi ripetere( per favore)", hint: "Puoi is the tu form. Signora Rossi gets Lei."}
+          - {answer: "({scusa|scusi} )puoi ripetere( per favore)", hint: "Puoi is the tu form. Signora Rossi gets Lei."}
           - {answer: "scusa( non capisco) può ripetere( per favore)", hint: "Scusa is for people you call tu. Which word goes with Lei?"}
+          - {answer: "(signora )può ripetere( per favore)", outcome: almost, hint: "Start by saying sorry, the polite way."}
         audio_after: true
 
   # 5 · Note: di, a and in for places, and e (and) without an accent
@@ -466,15 +467,59 @@ steps:
         glosses: {"È di Bologna?": "Is she from Bologna?", "È di Bologna.": "She's from Bologna."}
         tip_en: "No question word here, so only the tune tells you: up at the end for a question."
 
-  # 9 · Use: a spoken recall in the story's situation (Signora Rossi says tu; you answer with Lei)
+  # 9 · Use: a short conversation in the story's situation. Signora Rossi says tu to you (`register`); you answer with
+  #     Lei (`learner_register`). Each register turn needs its Lei word (CL37), so a tu slip misses in speech too.
   - kind: use
     id: u01.l1.step-use
     exercise:
       id: u01.l1.ex36
-      format: recall
-      targets: [{item: c:mi-chiamo, skill: recall}, {item: c:come-si-chiama, skill: recall}]
+      format: conversation
+      with: ch:rossi
+      register: tu
+      learner_register: lei
+      title: {en: "Meet Signora Rossi on the stairs"}
       tags: [cd:introduce-yourself, cd:choose-tu-lei]
-      context_it: "Buongiorno! Tu come ti chiami?"
-      prompt_en: "Signora Rossi stops you on the stairs and asks your name. Answer, and ask hers."
-      answer: "{mi chiamo {NAME} e Lei come si chiama|buongiorno mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei|sono {NAME} e Lei come si chiama|sono {NAME} e Lei|{NAME} e Lei come si chiama|mi chiamo {NAME} e Lei come si chiama signora|buongiorno signora mi chiamo {NAME} e Lei come si chiama|mi chiamo {NAME} e Lei signora}"
-      near: [{answer: "{mi chiamo {NAME}|sono {NAME}|{NAME}} e tu( come ti chiami)", hint: "Signora Rossi is older than you, so you call her Lei."}]
+      goals:
+        - {id: name, en: "Say your name and ask hers"}
+        - {id: how, en: "Say how you are and ask how she is"}
+      start: n1
+      nodes:
+        n1:
+          say: "Buongiorno! Tu come ti chiami?"
+          en: "Good morning! What's your name?"
+          expect:
+            - intent: name
+              goal: name
+              accept:
+                - "(buongiorno )(signora )mi chiamo {NAME} e Lei come si chiama"
+                - "(buongiorno )(signora )(io )sono {NAME} e Lei come si chiama"
+                - "(buongiorno )(signora )mi chiamo {NAME} e Lei( signora)"
+                - "(buongiorno )(signora )(io )sono {NAME} e Lei( signora)"
+                - "(buongiorno )(signora )mi chiamo {NAME} e Lei signora come si chiama"
+                - "(buongiorno )(signora )mi chiamo {NAME} (Lei )come si chiama( signora)"
+              next: n2
+          near:
+            - {answer: "(buongiorno )({mi chiamo|io sono|sono} ){NAME} e tu( come ti chiami)", hint: "Signora Rossi says tu to you, but you call her Lei."}
+            - {answer: "(buongiorno )({mi chiamo|io sono|sono} ){NAME}( e) come ti chiami", hint: "Come ti chiami is for people you call tu. Ask her name with Lei."}
+          help: ["Mi chiamo… E Lei, come si chiama?"]
+          hint_en: "Say your name, and ask hers."
+        n2:
+          say: "Io sono la signora Rossi. Piacere! E come stai?"
+          en: "I'm Signora Rossi. Nice to meet you! And how are you?"
+          expect:
+            - intent: ask-back
+              goal: how
+              accept:
+                - "(piacere )(signora )(bene )(grazie )e Lei( come sta)( signora)"
+                - "(piacere )(signora )(bene )(grazie )(signora )come sta"
+                - "(piacere )(bene )(grazie )e Lei come va( signora)"
+              next: end
+          near:
+            - {answer: "(piacere )(signora )(bene )(grazie )e tu( come stai)", hint: "She says tu to you, but you answer with Lei."}
+            - {answer: "(piacere )(signora )(bene )(grazie )come stai( signora)", hint: "Come stai is for people you call tu. Signora Rossi gets Lei."}
+          help: ["Piacere, signora! Bene, grazie. E Lei?"]
+          hint_en: "Say you're fine, and ask how she is."
+        end:
+          say: "Bene, bene, grazie! Ciao, ci vediamo!"
+          en: "Fine, fine, thank you! Bye, see you!"
+          final: true

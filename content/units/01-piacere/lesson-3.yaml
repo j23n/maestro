@@ -419,17 +419,74 @@ steps:
         play: "È canadese."
         glosses: {"È canadese?": "Is he Canadian?", "È canadese.": "He's Canadian."}
 
-  # 9 · Use: a spoken recall in the story's situation (introduce Sara to Signora Rossi, who gets Lei)
+  # 9 · Use: a short conversation in the story's situation. Signora Rossi says tu to you (`register`); you answer with
+  #     Lei (`learner_register`), introduce Sara with Le presento and say goodbye politely. Each register turn needs its
+  #     Lei word (CL37), so a tu slip misses in speech too.
   - kind: use
     id: u01.l3.step-use
     exercise:
       id: u01.l3.ex33
-      format: recall
-      targets: [{item: c:le-presento, skill: recall}]
+      format: conversation
+      with: ch:rossi
+      register: tu
+      learner_register: lei
+      title: {en: "Introduce Sara to Signora Rossi"}
       tags: [cd:introduce-others, cd:choose-tu-lei]
-      prompt_en: "You and your friend Sara meet Signora Rossi at the door. Introduce Sara to her."
-      answer: "{signora Le presento Sara|Le presento Sara|buongiorno signora Le presento Sara|signora questa è Sara|questa è Sara|buongiorno signora questa è Sara}"
-      near:
-        - {answer: "(signora )ti presento Sara", hint: "Ti presento is for people you call tu. Signora Rossi gets Lei."}
-        - {answer: "(signora )questo è Sara", outcome: almost, hint: "Sara is a woman: check the ending."}
-      audio_after: true
+      goals:
+        - {id: how, en: "Say how you are and ask how she is"}
+        - {id: intro, en: "Introduce your friend Sara"}
+        - {id: bye, en: "Say goodbye politely"}
+      start: n1
+      nodes:
+        n1:
+          say: "Ciao! Come va?"
+          en: "Hi! How's it going?"
+          expect:
+            - intent: ask-back
+              goal: how
+              accept:
+                - "(bene )(grazie )e Lei( signora)( come sta)"
+                - "(bene )(grazie )(signora )come sta"
+                - "(bene )(grazie )e Lei come va( signora)"
+              next: n2
+          near:
+            - {answer: "(bene )(grazie )e tu( come stai)", hint: "Signora Rossi says tu to you, but you answer with Lei."}
+            - {answer: "(bene )(grazie )come stai( signora)", hint: "Come stai is for people you call tu. Signora Rossi gets Lei."}
+          help: ["Bene, grazie. E Lei, signora?"]
+          hint_en: "Say you're fine, and ask how she is."
+        n2:
+          say: "Bene, bene! E lei come si chiama?"
+          en: "Fine, fine! And what's her name?"
+          expect:
+            - intent: intro
+              goal: intro
+              accept:
+                - "(signora )Le presento Sara"
+                - "(sì )(signora )Le presento Sara( signora)"
+                - "(signora )Le presento la mia amica Sara"
+              next: n3
+          near:
+            - {answer: "(signora )ti presento Sara", hint: "Ti presento is for people you call tu. Signora Rossi gets Lei."}
+            - {answer: "(signora )({lei è|questa è|si chiama} )Sara", hint: "That's her name. Now introduce her, the way you do with someone you call Lei."}
+          help: ["Signora, Le presento Sara."]
+          hint_en: "Introduce Sara. You call Signora Rossi Lei."
+        n3:
+          say: "Piacere, Sara! Allora, a presto!"
+          en: "Nice to meet you, Sara! Well then, see you soon!"
+          expect:
+            - intent: bye
+              goal: bye
+              accept:
+                - "a presto signora buona giornata"
+                - "(grazie )arrivederci( signora)( {a presto|buona giornata})"
+                - "(a presto )(grazie )(signora )buona giornata( signora)( arrivederci)"
+              next: end
+          near:
+            - {answer: "ciao( signora)( a presto)( signora)", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}
+            - {answer: "a presto( signora)", outcome: almost, hint: "Good. Add a polite goodbye too: arrivederci, or buona giornata."}
+          help: ["A presto, signora! Buona giornata!"]
+          hint_en: "Say goodbye politely."
+        end:
+          say: "Ciao, ciao!"
+          en: "Bye-bye!"
+          final: true

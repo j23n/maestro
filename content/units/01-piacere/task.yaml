@@ -74,11 +74,13 @@ conversations:
           - intent: bye
             goal: bye
             accept:
-              - "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)"
-              - "(sì )ci vediamo( signora)( arrivederci)"
-              - "arrivederci signora {buona giornata|a presto}"
+              - "arrivederci( signora)( {e buona giornata|buona giornata|a presto})"
+              - "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)"
+              - "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)"
             next: end
-        near: [{answer: "ciao( signora)", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}]
+        near:
+          - {answer: "ciao( signora)( {ci vediamo|a presto})", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}
+          - {answer: "(sì )({ci vediamo|a presto})( signora)", outcome: almost, hint: "Good. Add a polite goodbye too: arrivederci, or buona giornata."}
         help: ["Arrivederci, signora!"]
         hint_en: "Say goodbye politely."
       end:

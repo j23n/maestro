@@ -4124,307 +4124,33 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [2, 2]}
+   ],
    "expansion": 0,
    "model": true,
-   "norm": "arrivederci signora",
-   "of": 10,
+   "norm": "arrivederci signora e buona giornata",
+   "of": 8,
    "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
+   "pattern": "arrivederci( signora)( {e buona giornata|buona giornata|a presto})",
    "ref": "u01.task.conv1/n4",
    "role": "accept",
-   "text": "arrivederci signora",
+   "text": "arrivederci signora e buona giornata",
    "tokens": [
     {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [12, 19], "surface": "signora"}
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [12, 19], "surface": "signora", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [20, 21], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [22, 27], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [28, 36], "surface": "giornata"}
    ]
   },
   {
    "expansion": 1,
-   "model": false,
-   "norm": "arrivederci",
-   "of": 10,
-   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "arrivederci",
-   "tokens": [
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci"}
-   ]
-  },
-  {
-   "expansion": 2,
-   "model": false,
-   "norm": "buona giornata signora",
-   "of": 10,
-   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "buona giornata signora",
-   "tokens": [
-    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
-    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [15, 22], "surface": "signora"}
-   ]
-  },
-  {
-   "expansion": 3,
-   "model": false,
-   "norm": "buona giornata",
-   "of": 10,
-   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "buona giornata",
-   "tokens": [
-    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
-    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata"}
-   ]
-  },
-  {
-   "expansion": 4,
-   "model": false,
-   "norm": "a presto signora",
-   "of": 10,
-   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "a presto signora",
-   "tokens": [
-    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
-    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [9, 16], "surface": "signora"}
-   ]
-  },
-  {
-   "expansion": 5,
-   "model": false,
-   "norm": "a presto",
-   "of": 10,
-   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "a presto",
-   "tokens": [
-    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
-    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:conjunctions", "tokens": [1, 1]}
-   ],
-   "expansion": 6,
-   "model": false,
-   "norm": "arrivederci e buona giornata signora",
-   "of": 10,
-   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "arrivederci e buona giornata signora",
-   "tokens": [
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
-    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [14, 19], "surface": "buona", "trailing": " "},
-    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [20, 28], "surface": "giornata", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [29, 36], "surface": "signora"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:conjunctions", "tokens": [1, 1]}
-   ],
-   "expansion": 7,
-   "model": false,
-   "norm": "arrivederci e buona giornata",
-   "of": 10,
-   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "arrivederci e buona giornata",
-   "tokens": [
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
-    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [14, 19], "surface": "buona", "trailing": " "},
-    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [20, 28], "surface": "giornata"}
-   ]
-  },
-  {
-   "expansion": 8,
-   "model": false,
-   "norm": "grazie arrivederci signora",
-   "of": 10,
-   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "grazie arrivederci signora",
-   "tokens": [
-    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [19, 26], "surface": "signora"}
-   ]
-  },
-  {
-   "expansion": 9,
-   "model": false,
-   "norm": "grazie arrivederci",
-   "of": 10,
-   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
-   "pattern": "{arrivederci|buona giornata|a presto|arrivederci e buona giornata|grazie arrivederci}( signora)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "grazie arrivederci",
-   "tokens": [
-    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci"}
-   ]
-  },
-  {
-   "expansion": 0,
-   "model": false,
-   "norm": "sì ci vediamo signora arrivederci",
-   "of": 8,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
-   "pattern": "(sì )ci vediamo( signora)( arrivederci)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "sì ci vediamo signora arrivederci",
-   "tokens": [
-    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [14, 21], "surface": "signora", "trailing": " "},
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [22, 33], "surface": "arrivederci"}
-   ]
-  },
-  {
-   "expansion": 1,
-   "model": false,
-   "norm": "sì ci vediamo signora",
-   "of": 8,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
-   "pattern": "(sì )ci vediamo( signora)( arrivederci)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "sì ci vediamo signora",
-   "tokens": [
-    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [14, 21], "surface": "signora"}
-   ]
-  },
-  {
-   "expansion": 2,
-   "model": false,
-   "norm": "sì ci vediamo arrivederci",
-   "of": 8,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
-   "pattern": "(sì )ci vediamo( signora)( arrivederci)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "sì ci vediamo arrivederci",
-   "tokens": [
-    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo", "trailing": " "},
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci"}
-   ]
-  },
-  {
-   "expansion": 3,
-   "model": false,
-   "norm": "sì ci vediamo",
-   "of": 8,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
-   "pattern": "(sì )ci vediamo( signora)( arrivederci)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "sì ci vediamo",
-   "tokens": [
-    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo"}
-   ]
-  },
-  {
-   "expansion": 4,
-   "model": false,
-   "norm": "ci vediamo signora arrivederci",
-   "of": 8,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
-   "pattern": "(sì )ci vediamo( signora)( arrivederci)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "ci vediamo signora arrivederci",
-   "tokens": [
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora", "trailing": " "},
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [19, 30], "surface": "arrivederci"}
-   ]
-  },
-  {
-   "expansion": 5,
-   "model": false,
-   "norm": "ci vediamo signora",
-   "of": 8,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
-   "pattern": "(sì )ci vediamo( signora)( arrivederci)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "ci vediamo signora",
-   "tokens": [
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora"}
-   ]
-  },
-  {
-   "expansion": 6,
-   "model": false,
-   "norm": "ci vediamo arrivederci",
-   "of": 8,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
-   "pattern": "(sì )ci vediamo( signora)( arrivederci)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "ci vediamo arrivederci",
-   "tokens": [
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
-    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [11, 22], "surface": "arrivederci"}
-   ]
-  },
-  {
-   "expansion": 7,
-   "model": false,
-   "norm": "ci vediamo",
-   "of": 8,
-   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
-   "pattern": "(sì )ci vediamo( signora)( arrivederci)",
-   "ref": "u01.task.conv1/n4",
-   "role": "accept",
-   "text": "ci vediamo",
-   "tokens": [
-    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
-    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo"}
-   ]
-  },
-  {
-   "expansion": 0,
    "model": false,
    "norm": "arrivederci signora buona giornata",
-   "of": 2,
-   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
-   "pattern": "arrivederci signora {buona giornata|a presto}",
+   "of": 8,
+   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "arrivederci( signora)( {e buona giornata|buona giornata|a presto})",
    "ref": "u01.task.conv1/n4",
    "role": "accept",
    "text": "arrivederci signora buona giornata",
@@ -4436,12 +4162,12 @@
    ]
   },
   {
-   "expansion": 1,
+   "expansion": 2,
    "model": false,
    "norm": "arrivederci signora a presto",
-   "of": 2,
-   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
-   "pattern": "arrivederci signora {buona giornata|a presto}",
+   "of": 8,
+   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "arrivederci( signora)( {e buona giornata|buona giornata|a presto})",
    "ref": "u01.task.conv1/n4",
    "role": "accept",
    "text": "arrivederci signora a presto",
@@ -4450,6 +4176,1823 @@
     {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [12, 19], "surface": "signora", "trailing": " "},
     {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [20, 21], "surface": "a", "trailing": " "},
     {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [22, 28], "surface": "presto"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "arrivederci signora",
+   "of": 8,
+   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "arrivederci( signora)( {e buona giornata|buona giornata|a presto})",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "arrivederci signora",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [12, 19], "surface": "signora"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "arrivederci e buona giornata",
+   "of": 8,
+   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "arrivederci( signora)( {e buona giornata|buona giornata|a presto})",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "arrivederci e buona giornata",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [14, 19], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [20, 28], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "arrivederci buona giornata",
+   "of": 8,
+   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "arrivederci( signora)( {e buona giornata|buona giornata|a presto})",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [12, 17], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [18, 26], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "arrivederci a presto",
+   "of": 8,
+   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "arrivederci( signora)( {e buona giornata|buona giornata|a presto})",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "arrivederci a presto",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [12, 13], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [14, 20], "surface": "presto"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "arrivederci",
+   "of": 8,
+   "path": "conversations[0].nodes.n4.expect[0].accept[0]",
+   "pattern": "arrivederci( signora)( {e buona giornata|buona giornata|a presto})",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "arrivederci",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "grazie sì ci vediamo arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì ci vediamo arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [10, 12], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [13, 20], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [21, 32], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [33, 40], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [41, 46], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [47, 55], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie sì ci vediamo arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì ci vediamo arrivederci signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [10, 12], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [13, 20], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [21, 32], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [33, 40], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "grazie sì ci vediamo arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì ci vediamo arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [10, 12], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [13, 20], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [21, 32], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [33, 38], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [39, 47], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "grazie sì ci vediamo arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì ci vediamo arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [10, 12], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [13, 20], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [21, 32], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "grazie sì a presto arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì a presto arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [10, 11], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [12, 18], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [19, 30], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [31, 38], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [39, 44], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [45, 53], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "grazie sì a presto arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì a presto arrivederci signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [10, 11], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [12, 18], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [19, 30], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [31, 38], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "grazie sì a presto arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì a presto arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [10, 11], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [12, 18], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [19, 30], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [31, 36], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [37, 45], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "grazie sì a presto arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì a presto arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [10, 11], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [12, 18], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [19, 30], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "grazie sì arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [10, 21], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [22, 29], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [30, 35], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [36, 44], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "grazie sì arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì arrivederci signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [10, 21], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [22, 29], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "grazie sì arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [10, 21], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [22, 27], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [28, 36], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "grazie sì arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie sì arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [7, 9], "surface": "sì", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [10, 21], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 12,
+   "model": false,
+   "norm": "grazie ci vediamo arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [18, 29], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [30, 37], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [38, 43], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [44, 52], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 13,
+   "model": false,
+   "norm": "grazie ci vediamo arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo arrivederci signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [18, 29], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [30, 37], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 14,
+   "model": false,
+   "norm": "grazie ci vediamo arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [18, 29], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [30, 35], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [36, 44], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 15,
+   "model": false,
+   "norm": "grazie ci vediamo arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [18, 29], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 16,
+   "model": false,
+   "norm": "grazie a presto arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [16, 27], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [28, 35], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [36, 41], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [42, 50], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 17,
+   "model": false,
+   "norm": "grazie a presto arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto arrivederci signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [16, 27], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [28, 35], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 18,
+   "model": false,
+   "norm": "grazie a presto arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [16, 27], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [28, 33], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [34, 42], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 19,
+   "model": false,
+   "norm": "grazie a presto arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [16, 27], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 20,
+   "model": false,
+   "norm": "grazie arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [19, 26], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [27, 32], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [33, 41], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 21,
+   "model": false,
+   "norm": "grazie arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie arrivederci signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [19, 26], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 22,
+   "model": false,
+   "norm": "grazie arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [19, 24], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [25, 33], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 23,
+   "model": false,
+   "norm": "grazie arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [7, 18], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 24,
+   "model": false,
+   "norm": "sì ci vediamo arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì ci vediamo arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [26, 33], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [34, 39], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [40, 48], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 25,
+   "model": false,
+   "norm": "sì ci vediamo arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì ci vediamo arrivederci signora",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [26, 33], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 26,
+   "model": false,
+   "norm": "sì ci vediamo arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì ci vediamo arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 27,
+   "model": false,
+   "norm": "sì ci vediamo arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì ci vediamo arrivederci",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [14, 25], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 28,
+   "model": false,
+   "norm": "sì a presto arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì a presto arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [3, 4], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [5, 11], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [12, 23], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [24, 31], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [32, 37], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [38, 46], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 29,
+   "model": false,
+   "norm": "sì a presto arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì a presto arrivederci signora",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [3, 4], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [5, 11], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [12, 23], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [24, 31], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 30,
+   "model": false,
+   "norm": "sì a presto arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì a presto arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [3, 4], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [5, 11], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [12, 23], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [24, 29], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [30, 38], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 31,
+   "model": false,
+   "norm": "sì a presto arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì a presto arrivederci",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [3, 4], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [5, 11], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [12, 23], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 32,
+   "model": false,
+   "norm": "sì arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [3, 14], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [15, 22], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [23, 28], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [29, 37], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 33,
+   "model": false,
+   "norm": "sì arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì arrivederci signora",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [3, 14], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [15, 22], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 34,
+   "model": false,
+   "norm": "sì arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [3, 14], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [15, 20], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [21, 29], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 35,
+   "model": false,
+   "norm": "sì arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "sì arrivederci",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [3, 14], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 36,
+   "model": false,
+   "norm": "ci vediamo arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [11, 22], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [23, 30], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [31, 36], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [37, 45], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 37,
+   "model": false,
+   "norm": "ci vediamo arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo arrivederci signora",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [11, 22], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [23, 30], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 38,
+   "model": false,
+   "norm": "ci vediamo arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [11, 22], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [23, 28], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [29, 37], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 39,
+   "model": false,
+   "norm": "ci vediamo arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo arrivederci",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [11, 22], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 40,
+   "model": false,
+   "norm": "a presto arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [9, 20], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [21, 28], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [29, 34], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [35, 43], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 41,
+   "model": false,
+   "norm": "a presto arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto arrivederci signora",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [9, 20], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [21, 28], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 42,
+   "model": false,
+   "norm": "a presto arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [9, 20], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [21, 26], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [27, 35], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 43,
+   "model": false,
+   "norm": "a presto arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto arrivederci",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [9, 20], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 44,
+   "model": false,
+   "norm": "arrivederci signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "arrivederci signora buona giornata",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [12, 19], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [20, 25], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [26, 34], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 45,
+   "model": false,
+   "norm": "arrivederci signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "arrivederci signora",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [12, 19], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 46,
+   "model": false,
+   "norm": "arrivederci buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "arrivederci buona giornata",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [12, 17], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [18, 26], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 47,
+   "model": false,
+   "norm": "arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[1]",
+   "pattern": "(grazie )(sì )({ci vediamo|a presto} )arrivederci( signora)( buona giornata)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "arrivederci",
+   "tokens": [
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [0, 11], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "grazie ci vediamo signora buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo signora buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [18, 25], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [41, 48], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [49, 60], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie ci vediamo signora buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo signora buona giornata signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [18, 25], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [41, 48], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "grazie ci vediamo signora buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo signora buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [18, 25], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [41, 52], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "grazie ci vediamo signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo signora buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [18, 25], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [26, 31], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [32, 40], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "grazie ci vediamo buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [18, 23], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [24, 32], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [33, 40], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [41, 52], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "grazie ci vediamo buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo buona giornata signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [18, 23], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [24, 32], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [33, 40], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "grazie ci vediamo buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [18, 23], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [24, 32], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [33, 44], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "grazie ci vediamo buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie ci vediamo buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [7, 9], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [10, 17], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [18, 23], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [24, 32], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "grazie a presto signora buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto signora buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [16, 23], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [24, 29], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [30, 38], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [39, 46], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [47, 58], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "grazie a presto signora buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto signora buona giornata signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [16, 23], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [24, 29], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [30, 38], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [39, 46], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "grazie a presto signora buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto signora buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [16, 23], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [24, 29], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [30, 38], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [39, 50], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "grazie a presto signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto signora buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [16, 23], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [24, 29], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [30, 38], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 12,
+   "model": false,
+   "norm": "grazie a presto buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [16, 21], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [22, 30], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [31, 38], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [39, 50], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 13,
+   "model": false,
+   "norm": "grazie a presto buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto buona giornata signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [16, 21], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [22, 30], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [31, 38], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 14,
+   "model": false,
+   "norm": "grazie a presto buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [16, 21], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [22, 30], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [31, 42], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 15,
+   "model": false,
+   "norm": "grazie a presto buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie a presto buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [16, 21], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [22, 30], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 16,
+   "model": false,
+   "norm": "grazie signora buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie signora buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [7, 14], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [15, 20], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [21, 29], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [30, 37], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [38, 49], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 17,
+   "model": false,
+   "norm": "grazie signora buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie signora buona giornata signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [7, 14], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [15, 20], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [21, 29], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [30, 37], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 18,
+   "model": false,
+   "norm": "grazie signora buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie signora buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [7, 14], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [15, 20], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [21, 29], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [30, 41], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 19,
+   "model": false,
+   "norm": "grazie signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie signora buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [7, 14], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [15, 20], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [21, 29], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 20,
+   "model": false,
+   "norm": "grazie buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [22, 29], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [30, 41], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 21,
+   "model": false,
+   "norm": "grazie buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie buona giornata signora",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [22, 29], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 22,
+   "model": false,
+   "norm": "grazie buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [22, 33], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 23,
+   "model": false,
+   "norm": "grazie buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "grazie buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 24,
+   "model": false,
+   "norm": "ci vediamo signora buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo signora buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [19, 24], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [25, 33], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [34, 41], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [42, 53], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 25,
+   "model": false,
+   "norm": "ci vediamo signora buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo signora buona giornata signora",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [19, 24], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [25, 33], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [34, 41], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 26,
+   "model": false,
+   "norm": "ci vediamo signora buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo signora buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [19, 24], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [25, 33], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [34, 45], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 27,
+   "model": false,
+   "norm": "ci vediamo signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo signora buona giornata",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [19, 24], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [25, 33], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 28,
+   "model": false,
+   "norm": "ci vediamo buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [11, 16], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [17, 25], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [26, 33], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [34, 45], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 29,
+   "model": false,
+   "norm": "ci vediamo buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo buona giornata signora",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [11, 16], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [17, 25], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [26, 33], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 30,
+   "model": false,
+   "norm": "ci vediamo buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [11, 16], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [17, 25], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [26, 37], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 31,
+   "model": false,
+   "norm": "ci vediamo buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "ci vediamo buona giornata",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [11, 16], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [17, 25], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 32,
+   "model": false,
+   "norm": "a presto signora buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto signora buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [9, 16], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [17, 22], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [23, 31], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [32, 39], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [40, 51], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 33,
+   "model": false,
+   "norm": "a presto signora buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto signora buona giornata signora",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [9, 16], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [17, 22], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [23, 31], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [32, 39], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 34,
+   "model": false,
+   "norm": "a presto signora buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto signora buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [9, 16], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [17, 22], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [23, 31], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [32, 43], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 35,
+   "model": false,
+   "norm": "a presto signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto signora buona giornata",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [9, 16], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [17, 22], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [23, 31], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 36,
+   "model": false,
+   "norm": "a presto buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [24, 31], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [32, 43], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 37,
+   "model": false,
+   "norm": "a presto buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto buona giornata signora",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [24, 31], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 38,
+   "model": false,
+   "norm": "a presto buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [24, 35], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 39,
+   "model": false,
+   "norm": "a presto buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "a presto buona giornata",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 40,
+   "model": false,
+   "norm": "signora buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "signora buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [8, 13], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [14, 22], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [23, 30], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [31, 42], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 41,
+   "model": false,
+   "norm": "signora buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "signora buona giornata signora",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [8, 13], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [14, 22], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [23, 30], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 42,
+   "model": false,
+   "norm": "signora buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "signora buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [8, 13], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [14, 22], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [23, 34], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 43,
+   "model": false,
+   "norm": "signora buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "signora buona giornata",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [8, 13], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [14, 22], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 44,
+   "model": false,
+   "norm": "buona giornata signora arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "buona giornata signora arrivederci",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [15, 22], "surface": "signora", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [23, 34], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 45,
+   "model": false,
+   "norm": "buona giornata signora",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "buona giornata signora",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [15, 22], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 46,
+   "model": false,
+   "norm": "buona giornata arrivederci",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [15, 26], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 47,
+   "model": false,
+   "norm": "buona giornata",
+   "of": 48,
+   "path": "conversations[0].nodes.n4.expect[0].accept[2]",
+   "pattern": "(grazie )({ci vediamo|a presto} )(signora )buona giornata( signora)( arrivederci)",
+   "ref": "u01.task.conv1/n4",
+   "role": "accept",
+   "text": "buona giornata",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata"}
    ]
   },
   {
@@ -4467,10 +6010,44 @@
   {
    "expansion": 0,
    "model": false,
-   "norm": "ciao signora",
-   "of": 2,
+   "norm": "ciao signora ci vediamo",
+   "of": 6,
    "path": "conversations[0].nodes.n4.near[0].answer",
-   "pattern": "ciao( signora)",
+   "pattern": "ciao( signora)( {ci vediamo|a presto})",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "ciao signora ci vediamo",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [5, 12], "surface": "signora", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [13, 15], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [16, 23], "surface": "vediamo"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "ciao signora a presto",
+   "of": 6,
+   "path": "conversations[0].nodes.n4.near[0].answer",
+   "pattern": "ciao( signora)( {ci vediamo|a presto})",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "ciao signora a presto",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [5, 12], "surface": "signora", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [13, 14], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [15, 21], "surface": "presto"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "ciao signora",
+   "of": 6,
+   "path": "conversations[0].nodes.n4.near[0].answer",
+   "pattern": "ciao( signora)( {ci vediamo|a presto})",
    "ref": "u01.task.conv1/n4",
    "role": "near",
    "text": "ciao signora",
@@ -4480,17 +6057,220 @@
    ]
   },
   {
-   "expansion": 1,
+   "expansion": 3,
+   "model": false,
+   "norm": "ciao ci vediamo",
+   "of": 6,
+   "path": "conversations[0].nodes.n4.near[0].answer",
+   "pattern": "ciao( signora)( {ci vediamo|a presto})",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "ciao ci vediamo",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [5, 7], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [8, 15], "surface": "vediamo"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "ciao a presto",
+   "of": 6,
+   "path": "conversations[0].nodes.n4.near[0].answer",
+   "pattern": "ciao( signora)( {ci vediamo|a presto})",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "ciao a presto",
+   "tokens": [
+    {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [5, 6], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [7, 13], "surface": "presto"}
+   ]
+  },
+  {
+   "expansion": 5,
    "model": false,
    "norm": "ciao",
-   "of": 2,
+   "of": 6,
    "path": "conversations[0].nodes.n4.near[0].answer",
-   "pattern": "ciao( signora)",
+   "pattern": "ciao( signora)( {ci vediamo|a presto})",
    "ref": "u01.task.conv1/n4",
    "role": "near",
    "text": "ciao",
    "tokens": [
     {"analyses": ["ciao INT"], "item": "w:ciao", "kind": "word", "lemma": "ciao", "span": [0, 4], "surface": "ciao"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "sì ci vediamo signora",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "sì ci vediamo signora",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [14, 21], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "sì ci vediamo",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "sì ci vediamo",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [3, 5], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [6, 13], "surface": "vediamo"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "sì a presto signora",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "sì a presto signora",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [3, 4], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [5, 11], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [12, 19], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "sì a presto",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "sì a presto",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [3, 4], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [5, 11], "surface": "presto"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "sì signora",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "sì signora",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [3, 10], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "sì",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "sì",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "sì"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "ci vediamo signora",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "ci vediamo signora",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "ci vediamo",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "ci vediamo",
+   "tokens": [
+    {"analyses": ["ci ADV", "ci CI", "ci PRO-PERS-CLI-1-F-P", "ci PRO-PERS-CLI-1-M-P"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "ci", "span": [0, 2], "surface": "ci", "trailing": " "},
+    {"analyses": ["vedere VER:impr+pres+1+p", "vedere VER:ind+pres+1+p", "vedere VER:sub+pres+1+p"], "chunk": "c:ci-vediamo", "kind": "word", "lemma": "vedere", "span": [3, 10], "surface": "vediamo"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "a presto signora",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "a presto signora",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [9, 16], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "a presto",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "a presto",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "signora",
+   "of": 12,
+   "path": "conversations[0].nodes.n4.near[1].answer",
+   "pattern": "(sì )({ci vediamo|a presto})( signora)",
+   "ref": "u01.task.conv1/n4",
+   "role": "near",
+   "text": "signora",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora"}
    ]
   },
   {

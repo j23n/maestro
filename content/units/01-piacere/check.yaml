@@ -223,7 +223,7 @@ sections:
             expect:
               - intent: bye
                 goal: bye
-                accept: ["arrivederci", "grazie arrivederci", "(grazie )arrivederci {e buona giornata|buona giornata|a presto}", "(grazie )buona giornata", "(grazie )a presto"]
+                accept: ["arrivederci", "grazie arrivederci", "(grazie )arrivederci {e buona giornata|buona giornata|a presto}", "(grazie )(a presto )buona giornata( arrivederci)", "(grazie )a presto arrivederci"]
                 next: end
             near: [{answer: "(grazie )ciao", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}]
             help: []

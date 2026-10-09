@@ -1296,10 +1296,64 @@
   {
    "expansion": 0,
    "model": false,
-   "norm": "grazie buona giornata",
-   "of": 2,
+   "norm": "grazie a presto buona giornata arrivederci",
+   "of": 8,
    "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[3]",
-   "pattern": "(grazie )buona giornata",
+   "pattern": "(grazie )(a presto )buona giornata( arrivederci)",
+   "ref": "u01.check.16/n4",
+   "role": "accept",
+   "text": "grazie a presto buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [16, 21], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [22, 30], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [31, 42], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 1,
+   "model": false,
+   "norm": "grazie a presto buona giornata",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[3]",
+   "pattern": "(grazie )(a presto )buona giornata( arrivederci)",
+   "ref": "u01.check.16/n4",
+   "role": "accept",
+   "text": "grazie a presto buona giornata",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [16, 21], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [22, 30], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "grazie buona giornata arrivederci",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[3]",
+   "pattern": "(grazie )(a presto )buona giornata( arrivederci)",
+   "ref": "u01.check.16/n4",
+   "role": "accept",
+   "text": "grazie buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [7, 12], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [13, 21], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [22, 33], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "grazie buona giornata",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[3]",
+   "pattern": "(grazie )(a presto )buona giornata( arrivederci)",
    "ref": "u01.check.16/n4",
    "role": "accept",
    "text": "grazie buona giornata",
@@ -1310,12 +1364,63 @@
    ]
   },
   {
-   "expansion": 1,
+   "expansion": 4,
+   "model": false,
+   "norm": "a presto buona giornata arrivederci",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[3]",
+   "pattern": "(grazie )(a presto )buona giornata( arrivederci)",
+   "ref": "u01.check.16/n4",
+   "role": "accept",
+   "text": "a presto buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [24, 35], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "a presto buona giornata",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[3]",
+   "pattern": "(grazie )(a presto )buona giornata( arrivederci)",
+   "ref": "u01.check.16/n4",
+   "role": "accept",
+   "text": "a presto buona giornata",
+   "tokens": [
+    {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [9, 14], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [15, 23], "surface": "giornata"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "buona giornata arrivederci",
+   "of": 8,
+   "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[3]",
+   "pattern": "(grazie )(a presto )buona giornata( arrivederci)",
+   "ref": "u01.check.16/n4",
+   "role": "accept",
+   "text": "buona giornata arrivederci",
+   "tokens": [
+    {"analyses": ["buono ADJ:pos+f+s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "buono", "span": [0, 5], "surface": "buona", "trailing": " "},
+    {"analyses": ["giornata NOUN-F:s"], "chunk": "c:buona-giornata", "kind": "word", "lemma": "giornata", "span": [6, 14], "surface": "giornata", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [15, 26], "surface": "arrivederci"}
+   ]
+  },
+  {
+   "expansion": 7,
    "model": false,
    "norm": "buona giornata",
-   "of": 2,
+   "of": 8,
    "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[3]",
-   "pattern": "(grazie )buona giornata",
+   "pattern": "(grazie )(a presto )buona giornata( arrivederci)",
    "ref": "u01.check.16/n4",
    "role": "accept",
    "text": "buona giornata",
@@ -1327,32 +1432,34 @@
   {
    "expansion": 0,
    "model": false,
-   "norm": "grazie a presto",
+   "norm": "grazie a presto arrivederci",
    "of": 2,
    "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[4]",
-   "pattern": "(grazie )a presto",
+   "pattern": "(grazie )a presto arrivederci",
    "ref": "u01.check.16/n4",
    "role": "accept",
-   "text": "grazie a presto",
+   "text": "grazie a presto arrivederci",
    "tokens": [
     {"analyses": ["grazie INT"], "item": "w:grazie", "kind": "word", "lemma": "grazie", "span": [0, 6], "surface": "grazie", "trailing": " "},
     {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [7, 8], "surface": "a", "trailing": " "},
-    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto"}
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [9, 15], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [16, 27], "surface": "arrivederci"}
    ]
   },
   {
    "expansion": 1,
    "model": false,
-   "norm": "a presto",
+   "norm": "a presto arrivederci",
    "of": 2,
    "path": "sections[3].exercises[0].nodes.n4.expect[0].accept[4]",
-   "pattern": "(grazie )a presto",
+   "pattern": "(grazie )a presto arrivederci",
    "ref": "u01.check.16/n4",
    "role": "accept",
-   "text": "a presto",
+   "text": "a presto arrivederci",
    "tokens": [
     {"analyses": ["a PRE"], "chunk": "c:a-presto", "kind": "word", "lemma": "a", "span": [0, 1], "surface": "a", "trailing": " "},
-    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto"}
+    {"analyses": ["prestare VER:ind+pres+1+s", "presto ADJ:pos+m+s", "presto ADV"], "chunk": "c:a-presto", "kind": "word", "span": [2, 8], "surface": "presto", "trailing": " "},
+    {"analyses": ["arrivederci INT"], "item": "w:arrivederci", "kind": "word", "lemma": "arrivederci", "span": [9, 20], "surface": "arrivederci"}
    ]
   },
   {
