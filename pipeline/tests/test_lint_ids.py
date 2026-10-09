@@ -254,6 +254,39 @@ def test_unit_spec_task_conversation_must_exist_once_the_task_is_written(course_
     ) in found
 
 
+CHECK_U02 = "content/units/02-al-bar/check.yaml"
+INLINE_CHECK_TEXT = """source:
+          text:
+            id: {tid}
+            kind: real_world
+            title: {{en: "Price list"}}
+            layout: {{type: form, title: Bar Aurora, fields: [{{label: Caffè, value: "1,20"}}]}}"""
+
+
+@pytest.mark.parametrize(
+    ("tid", "problem"),
+    [
+        ("u02.check.prices", None),
+        ("u02.task.prices", "text ID u02.task.prices doesn't fit here: expected u02.check.<name>"),
+        ("u03.check.prices", "text ID u03.check.prices doesn't fit here: expected u02.check.<name>"),
+        ("u02.check.items", "'u02.check.items' is not a valid text ID like u02.l1.story (docs/03 § IDs)"),
+    ],
+)
+def test_a_text_defined_in_a_check_is_named_after_the_check(course_copy, tid, problem):
+    """docs/03 § IDs (CL33): a text written inline in a unit check is uNN.check.<name>."""
+    check = course_copy / CHECK_U02
+    text = check.read_text(encoding="utf-8")
+    assert "source: {text: u02.task.menu}" in text
+    check.write_text(text.replace("source: {text: u02.task.menu}", INLINE_CHECK_TEXT.format(tid=tid), 1), "utf-8")
+    found = [f for f in strs(course_copy) if f.startswith(f"error: {CHECK_U02}")]
+    want = (
+        []
+        if problem is None
+        else [f"error: {CHECK_U02} › sections[1].exercises[0].source.text.id (line 42): {problem}"]
+    )
+    assert found == want
+
+
 def test_unit_id_matches_its_folder(course_copy):
     spec = course_copy / "content/units/03-la-famiglia/unit.yaml"
     spec.write_text(spec.read_text(encoding="utf-8").replace("id: u03", "id: u13"), encoding="utf-8")
@@ -342,6 +375,10 @@ def test_id_helpers():
     assert ids.describe("can_do|syllabus") == "can-do or syllabus entry"
     good = {
         "u02.task.conv1.audio": "text",
+        "u01.check.classmate-form": "text",  # a text defined in a check (CL33)
+        "u01.check.classmate-form#2": "text_line",
+        "u02.check.items-list": "text",
+        "u02.check.01.audio": "text",
         "pl.03.audio#1": "text_line",
         "fin.listening.01.audio": "text",
         "u02.task.conv1/n3b": "conversation_node_ref",
@@ -356,5 +393,13 @@ def test_id_helpers():
     }
     for value, kind in good.items():
         assert ids.is_valid(value, kind), (value, kind)
-    for value, kind in {"g:articles": "lexical_item", "kind:quiz": "coverage_ref", "u02.l1.step-quiz": "step"}.items():
+    bad = {
+        "g:articles": "lexical_item",
+        "kind:quiz": "coverage_ref",
+        "u02.l1.step-quiz": "step",
+        "u02.check.01": "text",  # a check exercise; a check text's name starts with a letter
+        "u02.check.items": "text",  # the review target for the unit spec's check plan
+        "u02.check.items#1": "text_line",
+    }
+    for value, kind in bad.items():
         assert not ids.is_valid(value, kind), (value, kind)

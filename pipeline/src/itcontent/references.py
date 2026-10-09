@@ -509,6 +509,8 @@ class Checker:
                 self.error(t.loc.child("id"), f"text ID {tid} doesn't fit here: expected {lesson}.<name>")
             elif container == "task" and not re.fullmatch(rf"{unit}\.task\.{ids.SLUG}", tid):
                 self.error(t.loc.child("id"), f"text ID {tid} doesn't fit here: expected {unit}.task.<name>")
+            elif container == "check" and not re.fullmatch(rf"{unit}\.check\.{ids.CHECK_TEXT_NAME}", tid):
+                self.error(t.loc.child("id"), f"text ID {tid} doesn't fit here: expected {unit}.check.<name>")
         for i, line in enumerate(_seq(t.data.get("lines"))):
             line = _map(line)
             lloc = t.loc.child("lines", i)

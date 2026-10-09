@@ -61,7 +61,7 @@ The product's success (did people learn and keep coming back?) is measured by th
 | **Syllabus item** | One line of the A1 inventory (grammar, function, topic, sound or register, CEFR scale, exam task type) with an ID such as `sy:gr.articles`. |
 | **Unit / lesson / step** | A unit has an opener, three lessons, a unit task, a unit check and fluency replay. A lesson's steps, by `kind`: `preview`, `story` (or `listening`, `reading`), `note`, `practice`, `sounds`, `use` — in plain words: preview, read and listen, notice, practise, hear, use. |
 | **Exercise** | One atomic graded question in a given **format** (cloze, recall, choice…). Steps contain exercises; reviews reuse them. |
-| **Strand** | Nation's four strands: input, output, language focus, fluency. Each unit balances them at roughly a quarter each. |
+| **Strand** | Nation's four strands: input, output, language focus, fluency. Each unit keeps every strand within a band of its estimated time (`docs/04` § Check 3): language focus may take up to 60% in Units 0–2 and 50% after, the meaning-focused strands keep a floor. |
 | **Event** | An immutable record of something the learner did (attempt, introduction, completion). The event log is the only learner data that syncs. |
 | **Content pack** | The compiled read-only SQLite file plus audio that ships in the app. |
 | **Content lead** | The qualified Italian L2 teacher who signs off the syllabus and approves every unit. |

@@ -23,10 +23,20 @@
     },
     "strands": {
       "type": "object",
-      "required": ["min_share", "max_share", "by_kind"],
+      "required": ["bands", "by_kind"],
       "properties": {
-        "min_share": {"$ref": "#/$defs/share"},
-        "max_share": {"$ref": "#/$defs/share"},
+        "bands": {
+          "type": "object",
+          "description": "Each strand's share of a complete unit's estimated minutes (check 3 · strand balance, CL21).",
+          "required": ["input", "output", "language-focus", "fluency"],
+          "propertyNames": {"enum": ["input", "output", "language-focus", "fluency"], "title": "strand"},
+          "additionalProperties": {
+            "type": "object",
+            "required": ["min", "max"],
+            "properties": {"min": {"$ref": "#/$defs/bound"}, "max": {"$ref": "#/$defs/bound"}},
+            "additionalProperties": false
+          }
+        },
         "by_kind": {
           "type": "object",
           "propertyNames": {
@@ -38,11 +48,34 @@
       },
       "additionalProperties": false
     },
-    "durations_seconds": {"type": "object", "additionalProperties": {"type": "number", "exclusiveMinimum": 0}},
+    "durations_seconds": {
+      "type": "object",
+      "required": ["audio_per_word"],
+      "properties": {
+        "audio_per_word": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Check 3 only: seconds of audio per word of a story or listening text (CL21)."
+        }
+      },
+      "additionalProperties": {"type": "number", "exclusiveMinimum": 0}
+    },
     "warnings_fail_in_release": {"type": "boolean"}
   },
   "additionalProperties": false,
   "$defs": {
-    "share": {"type": "number", "minimum": 0, "maximum": 1}
+    "share": {"type": "number", "minimum": 0, "maximum": 1},
+    "bound": {
+      "description": "A share, or {unit: share} where each share holds from its unit on (course order; the first key is the course's first unit).",
+      "oneOf": [
+        {"$ref": "#/$defs/share"},
+        {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {"pattern": "^u[0-9]{2}$", "title": "unit"},
+          "additionalProperties": {"$ref": "#/$defs/share"}
+        }
+      ]
+    }
   }
 }

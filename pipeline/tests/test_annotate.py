@@ -204,6 +204,48 @@ def test_disambiguation_context_rules(lex):
     assert any("untaught lemma 'la'" in m for m in errors(ann(lex, "La vedo.", "u07")))
 
 
+@pytest.fixture(scope="module")
+def live_lex(root) -> Lexicon:
+    """The live course's lexicon (its allowlist and `disambiguation.yaml`)."""
+    return Lexicon.from_course(load_course(root), morphit.load())
+
+
+@pytest.mark.parametrize(
+    ("text", "article"),
+    [
+        ("L'Italia? Sì!", "L'"),  # Italia, Sara: NPR in Morph-it!
+        ("Benvenuto, Marco! Ecco l'Italia.", "l'"),
+        ("Ecco la Sara.", "la"),
+        ("Ecco la Federica.", "la"),  # Federica, Mimì, Aurora: allowlisted, not in Morph-it!
+        ("Ecco la Mimì.", "la"),
+        ("Ecco l'Aurora.", "l'"),
+    ],
+)
+def test_an_article_before_a_proper_noun_is_the_article(live_lex, text, article):
+    """CL7: the live la / l' rule lists NPR among the next words, and every allowlisted name is a proper noun (a
+    synthetic NPR reading when Morph-it! has none), so the article before a name is the definite article, not the
+    clitic pronoun, and strict mode finds nothing untaught."""
+    a = ann(live_lex, text, "u03")
+    art = next(t for t in a.tokens if t.surface == article)
+    assert art.item == "g:definite-article" and {x.category for x in art.analyses} <= {"ART-F", "ART-M"}, text
+    assert not errors(a), errors(a)
+    name = a.tokens[a.tokens.index(art) + 1]
+    assert name.kind == "name" and [x.category for x in name.context if x.category == "NPR"] == ["NPR"]
+
+
+def test_the_clitic_stays_before_a_verb_and_the_seed_rule_predates_cl7(live_lex, lex):
+    la = ann(live_lex, "La vedo.", "u07", strict=False).tokens[0]
+    assert la.item is None and {x.category for x in la.analyses} == {"PRO-PERS-CLI-3-F-S"}
+    before = ann(lex, "L'Italia è bella.", "u03", strict=False).tokens[0]  # the seed's rule has no NPR
+    assert before.item is None and {x.category for x in before.analyses} == {
+        "PRO-PERS-CLI-3-F-S",
+        "PRO-PERS-CLI-3-M-S",
+    }
+    assert [str(x) for x in lex.name_readings("Federica")] == ["Federica NPR"]  # synthesised
+    assert [x.synthetic for x in lex.name_readings("Federica")] == [True]
+    assert [x.synthetic for x in lex.name_readings("Sara")] == [False]  # Morph-it!'s own
+
+
 def test_defaults_and_ambiguity_errors_name_the_candidates(course, lex):
     assert words(ann(lex, "Ecco la porta."))["porta"][0] == "w:porta~door"  # defaults: porta
     amb = make_lexicon(course, {"w:ecco~2": {"id": "w:ecco~2", "it": "ecco", "pos": "adv"}})
