@@ -200,4 +200,35 @@ struct LetterReader: Sendable {
         if unit == .double || range.count > 1 || range.contains(where: spelled.contains) { return true }
         return never.contains([keys[range.lowerBound]])
     }
+
+    /// CL41: the runs of letter names in a response (maximal spans whose every token is part of a heard name) that hold
+    /// a real spelling: a name that is never an ordinary word (`never`) or a letter the recogniser wrote as one
+    /// (`spelled`). A spell point is found only inside one, so *e ci vediamo* and *e a presto* spell nothing, while
+    /// *emme, i, a* and *M A R C O* do.
+    func spellings(in tokens: [String], spelled: Set<Int>) -> [Range<Int>] {
+        let keys = tokens.map(TranscriptMatcher.key)
+        var covered = [Bool](repeating: false, count: keys.count)
+        var sure = spelled
+        for k in keys.indices {
+            for length in 1...longest where k + length <= keys.count {
+                let name = Array(keys[k..<(k + length)])
+                guard heard[name] != nil else { continue }
+                for t in k..<(k + length) { covered[t] = true }
+                if never.contains(name) { sure.insert(k) }
+            }
+        }
+        var runs: [Range<Int>] = []
+        var k = 0
+        while k < keys.count {
+            guard covered[k] else {
+                k += 1
+                continue
+            }
+            var end = k
+            while end < keys.count && covered[end] { end += 1 }
+            if (k..<end).contains(where: sure.contains) { runs.append(k..<end) }
+            k = end
+        }
+        return runs
+    }
 }

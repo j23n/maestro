@@ -63,7 +63,8 @@ struct ExerciseEnvironment: Sendable {
         TranscriptMatcher(profile: profile, letterNames: letterNames, knownForms: knownForms)
     }
 
-    /// Content points (talk, writing) with the same pack data; only spoken responses use the letters and elisions.
+    /// Content points (talk, writing) with the same pack data: spoken responses read letters and elisions, and a
+    /// point that spells is found only inside a real spelling, typed or spoken (CL41), which the letter names tell.
     var contentPointMatcher: ContentPointMatcher {
         ContentPointMatcher(profile: profile, letterNames: letterNames, knownForms: knownForms)
     }

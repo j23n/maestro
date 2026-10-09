@@ -329,7 +329,7 @@ enum AutoAnswer {
 
     private static func freeText(_ m: WritingModel) -> String {
         let points = (m.writing.points ?? []).compactMap { try? $0.matcherPoint() }
-        let matcher = ContentPointMatcher(profile: m.env.profile)
+        let matcher = m.env.contentPointMatcher
         let candidates = [m.writing.model?.text, joinedPoints(m.writing.points ?? [], profile: m.env.profile)]
             .compactMap { $0 }
         return candidates.first { text in

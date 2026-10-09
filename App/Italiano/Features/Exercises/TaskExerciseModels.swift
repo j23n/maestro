@@ -314,8 +314,7 @@ final class WritingModel {
             response = zip(fields, fieldValues).map { "\($0.labelIt.text): \($1)" }.joined(separator: "\n")
         } else {
             let points = (writing.points ?? []).compactMap { try? $0.matcherPoint() }
-            let r = ContentPointMatcher(profile: env.profile).match(
-                response: text, points: points, pass: writing.pass ?? 0)
+            let r = env.contentPointMatcher.match(response: text, points: points, pass: writing.pass ?? 0)
             result = r
             suggestions = WritingChecker.spellingSuggestions(text, knownForms: env.knownForms)
             passed = r.passed && wordCountOK

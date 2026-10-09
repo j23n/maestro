@@ -153,6 +153,48 @@ import Testing
         #expect(body.answer.spelling == recall.answer.spelling)
     }
 
+    /// CL41: a spell point is found only inside a run of letter names holding one that is never an ordinary word,
+    /// typed or spoken: a greeting and *e ci vediamo* spells nothing. Writing grades with the pack's letters too.
+    @Test func aSpellPointNeedsARealSpelling() throws {
+        let spelling: [String: String?] = ["emme": "M", "a": "A", "e": "E", "i": "I", "o": "O", "ci": "C", "erre": "R"]
+        let spell = Self.pattern("{emme|ci|erre} {a|e|i|o}", spelling: spelling)
+        let more = Self.pattern("{a|e|i|o} {emme|ci|erre}", spelling: spelling)
+        let talk = try Self.exercise("u02.task.talk") { raw in
+            var points = try #require(raw["points"] as? [[String: Any]])
+            points[1] = ["id": "spell", "en": "Spell your name", "accept": [spell]]
+            points.append(["id": "spell-more", "en": "Keep spelling", "accept": [more]])
+            raw["points"] = points
+        }
+        func found(_ response: String, _ mode: AnswerMode) throws -> Set<String> {
+            let model = try #require(TalkModel(payload: talk, env: env(try Self.letters()), sink: sink))
+            model.submit(transcript: response, mode: mode)
+            return model.found
+        }
+        for mode in [AnswerMode.typed, .spoken] {
+            #expect(try found("Buonasera… e ci vediamo!", mode) == ["greet"])
+            #expect(try found("Buonasera e a presto", mode) == ["greet"])
+            #expect(try found("Buonasera! Marco: emme, a, erre, ci, o.", mode) == ["greet", "spell", "spell-more"])
+            #expect(try found("Mia: emme, i, a", mode) == ["spell"])  // i, a is no vowel before a consonant here
+        }
+        #expect(try found("Buonasera! M A R C O", .spoken) == ["greet", "spell", "spell-more"])
+
+        let writing = try Self.exercise("u01.task.write") { raw in
+            raw["kind"] = "message"
+            raw["fields"] = NSNull()
+            raw["points"] = [
+                ["id": "spell", "en": "Spell your name", "accept": [spell]],
+                ["id": "spell-more", "en": "Keep spelling", "accept": [more]],
+            ]
+            raw["pass"] = 2
+        }
+        for (text, passed) in [("Mi chiamo Marco: emme, a, erre, ci, o.", true), ("Ciao e ci vediamo, a presto!", false)] {
+            let model = try #require(WritingModel(payload: writing, env: env(try Self.letters()), sink: sink))
+            model.text = text
+            model.submit()
+            #expect(model.result?.passed == passed, "\(text)")
+        }
+    }
+
     /// AppModel reads the names from the pack and hands the same table to every player it launches: a lesson, a
     /// review, placement and the final check. `fixtures/packs/assessment.sqlite` is the mini pack (whose frozen seed
     /// course has no letter items) plus two letter items, `c:doppia` and the assessments placement and the final check
