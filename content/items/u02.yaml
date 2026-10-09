@@ -5,11 +5,11 @@ review: {status: draft, by: null, date: null, hash: null}
 items:
   - {id: 'w:caffe', it: caffè, pos: noun, gloss: coffee; espresso, gender: m, plural: invariable, topics: ['topic:food-drink'], note: 'In a bar, un caffè is an espresso.', status: P, lesson: u02.l1}
   - {id: 'w:cappuccino', it: cappuccino, pos: noun, gloss: cappuccino, gender: m, plural: cappuccini, topics: ['topic:food-drink'], status: P, lesson: u02.l1}
-  - {id: 'w:cornetto', it: cornetto, pos: noun, gloss: croissant, gender: m, plural: cornetti, topics: ['topic:food-drink'], note: In Bologna many people call it a brioche., status: P, lesson: u02.l1}
+  - {id: 'w:cornetto', it: cornetto, pos: noun, gloss: croissant, gender: m, plural: cornetti, topics: ['topic:food-drink'], note: Many people in Bologna and the north call it a brioche., status: P, lesson: u02.l1}
   - {id: 'w:spremuta', it: spremuta, pos: noun, gloss: fresh-squeezed juice (usually orange), gender: f, plural: spremute, topics: ['topic:food-drink'], note: 'una spremuta d''arancia: a fresh orange juice.', status: P, lesson: u02.l1}
   - {id: 'w:ecco', it: ecco, pos: adv, gloss: here is; here you are; there's, status: P, lesson: u02.l1}
   - {id: 'w:oggi', it: oggi, pos: adv, gloss: today, status: P, lesson: u02.l1}
-  - {id: 'w:buono', it: buono, pos: adj, gloss: good; tasty, gender: mf, topics: ['topic:food-drink'], status: P, lesson: u02.l1}
+  - {id: 'w:buono', it: buono, pos: adj, gloss: good; tasty, gender: mf, forms: [buon], topics: ['topic:food-drink'], status: P, lesson: u02.l1}
   - {id: 'w:amico', it: amico, pos: noun, gloss: friend, gender: mf, plural: amici, forms: [amica, amici, amiche], topics: ['topic:feelings'], recall_answer: '{l''amico|l''amica|un amico|un''amica}', note: 'un amico (a male friend), un''amica (a female friend).', status: P, lesson: u02.l1}
   - {id: 'w:certo', it: certo, pos: adv, gloss: of course; certainly, status: P, lesson: u02.l3}
   - {id: 'w:latte', it: latte, pos: noun, gloss: milk, gender: m, plural: invariable, false_friend: true, topics: ['topic:food-drink'], note: Un latte is a glass of milk. The coffee drink is un latte macchiato., status: P, lesson: u02.l2}

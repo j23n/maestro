@@ -933,7 +933,7 @@
    "role": "near",
    "text": "buon giorno",
    "tokens": [
-    {"analyses": ["buon ADJ:pos+f+p", "buon ADJ:pos+f+s", "buon ADJ:pos+m+p", "buon ADJ:pos+m+s"], "flags": ["unresolved"], "kind": "word", "lemma": "buon", "span": [0, 4], "surface": "buon", "trailing": " "},
+    {"analyses": ["buon ADJ:pos+f+p", "buon ADJ:pos+f+s", "buon ADJ:pos+m+p", "buon ADJ:pos+m+s"], "item": "w:buono", "kind": "word", "lemma": "buon", "span": [0, 4], "surface": "buon", "trailing": " "},
     {"analyses": ["giorno NOUN-M:s"], "flags": ["unresolved"], "kind": "word", "lemma": "giorno", "span": [5, 11], "surface": "giorno"}
    ]
   },
