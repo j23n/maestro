@@ -48,6 +48,9 @@ struct ExerciseEnvironment: Sendable {
     var context: AttemptContext
     var profile: LearnerProfile
     var knownForms: KnownForms
+    /// The pack's letter names: spoken spelling in transcripts (*M A R C O* reads *emme a erre ci o*; docs/05 § Speech
+    /// transcripts). Every speaking format passes it to its matcher.
+    var letterNames: LetterNames = .none
     /// Milliseconds now (the app's Clock); used for latency only.
     var nowMs: @Sendable () -> Int64
     /// Speech is available and switched on (docs/09): shows "Say it" and the mic.

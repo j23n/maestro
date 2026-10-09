@@ -96,7 +96,7 @@ final class ConversationModel {
 
     func submitSpoken(_ result: SpeechResult) {
         guard env.canSpeak else { return }
-        let matcher = TranscriptMatcher(profile: env.profile)
+        let matcher = TranscriptMatcher(profile: env.profile, letterNames: env.letterNames)
         var heard = result.transcript
         let match = bestIntent { patterns in
             guard let m = matcher.match(transcripts: result.allTranscripts, accepted: patterns) else { return false }
@@ -242,7 +242,7 @@ final class TalkModel {
         guard !(isAssessment && attempts > 0) else { return }
         attempts += 1
         response = transcript
-        let r = ContentPointMatcher(profile: env.profile)
+        let r = ContentPointMatcher(profile: env.profile, letterNames: env.letterNames)
             .match(response: transcript, points: points, pass: talk.pass, spoken: mode == .spoken)
         result = r
         let outcome: AttemptOutcome = r.passed ? .correct : .wrong
