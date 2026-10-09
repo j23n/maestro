@@ -48,7 +48,7 @@ sounds: ['s:intonation', 's:accents-e-si']
 texts:
   stories: {count: 3, words: 90-160, new_token_max: 0.05}
   listening: [dialogue, phone]
-  real_world: [form, sign]
+  real_world: [form]          # CL32: no sign in Unit 1
 tasks:
   conversation:
   - {id: u01.task.conv1, brief: 'Meet Signora Rossi: she says tu, you answer with Lei'}
