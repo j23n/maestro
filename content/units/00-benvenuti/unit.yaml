@@ -31,7 +31,7 @@ can_do:
   syllabus: ['sy:fn.numbers-prices-times']
 grammar: []
 chunks: scusi, scusa, non capisco, può ripetere?, come si dice…?, ci vediamo, come va?, bene grazie e tu?, buona
-  giornata, benvenuto/a!; every noun with its article
+  giornata, benvenuto/a!, doppia, i lunga, doppia vu; every noun with its article
 items:
   new_words: 35-45
   topics: ['topic:languages', 'topic:identity']
@@ -40,7 +40,7 @@ recycle_from: []
 sounds: ['s:alphabet', 's:pure-vowels', 's:c-g-front', 's:double-consonants']
 texts:
   stories: {count: 2, words: 40-120, new_token_max: 0.05}   # 40, not 60: docs/13 CL18
-  listening: [dialogue, announcement]
+  listening: [dialogue]           # CL39: no announcement in Unit 0
   real_world: [sign, list]
 tasks:
   conversation:
