@@ -13,11 +13,14 @@ import Testing
 @Suite struct SpokenSpellingTests {
     let sink = RecordingAttemptSink()
 
-    /// The Unit 0 letter items' names as the pack carries them (`fixtures/grading/transcripts.json`).
+    /// The Unit 0 letter items' names as the pack carries them (`fixtures/grading/transcripts.json`), with the letters
+    /// whose names are also words.
     static func letters() throws -> LetterNames {
         let url = PayloadFixtures.repoRoot.appendingPathComponent("fixtures/grading/transcripts.json")
         let doc = try #require(try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
-        return LetterNames(try #require(doc["letterNames"] as? [String: String]))
+        return LetterNames(
+            try #require(doc["letterNames"] as? [String: String]),
+            alsoWords: Set(try #require(doc["alsoWords"] as? [String])))
     }
 
     /// A pattern as payloads carry it (the expansions are only the answer key; graders parse the source): `spelling`

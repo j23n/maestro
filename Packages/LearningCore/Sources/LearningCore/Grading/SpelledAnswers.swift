@@ -36,6 +36,9 @@ struct LetterReader: Sendable {
     let expected: [[String]: Unit]
     /// The same plus the pack's letter names and doubling word, for the transcript.
     let heard: [[String]: Unit]
+    /// The pack's names that are never an ordinary word (`LetterNames.neverWords`), as comparison keys: hearing one is
+    /// hearing a letter. Every other name may be a word (a vowel, *di*, *ci*, *ti*, *vi*).
+    let never: Set<[String]>
     /// The most tokens a name has.
     let longest: Int
 
@@ -66,6 +69,7 @@ struct LetterReader: Sendable {
         }
         self.expected = expected
         self.heard = heard
+        never = Set(letters.neverWords.map { $0.map(TranscriptMatcher.key) })
         longest = heard.keys.map(\.count).max() ?? 1
     }
 
@@ -144,41 +148,56 @@ struct LetterReader: Sendable {
     }
 
     /// The first span from `start` on that reads as exactly `letters` with no letter right before or after it: a
-    /// missing or extra letter fails the run. A neighbour that may be an ordinary word (a vowel, *di*, *ci*, *ti*
-    /// as the recogniser wrote them: function words) doesn't count as a letter; one the recogniser wrote as a single
-    /// consonant (`spelled`), a name of two words, a doubling word or any other letter name does.
+    /// missing or extra letter fails the run. A neighbour that may be an ordinary word (a vowel as the recogniser wrote
+    /// it, *è* included, or *di*, *ci*, *ti*: a name that isn't one of `never`) doesn't count as a letter; one the
+    /// recogniser wrote as a single consonant (`spelled`), a name of two words, a doubling word or a name that is never
+    /// a word does. A span never ends inside a longer name (`endsInsideName`: *elle, i* is not *elle, i lunga*).
     func span(of letters: [Character], in tokens: [String], spelled: Set<Int>, from start: Int) -> Range<Int>? {
         let keys = tokens.map(TranscriptMatcher.key)
         guard start <= keys.count else { return nil }
-        for s in start..<keys.count where !letterEnds(at: s, keys, tokens, spelled) {
+        for s in start..<keys.count where !letterEnds(at: s, keys, spelled) {
             for e in ends(keys, from: s, reading: letters[...]).sorted()
-            where !letterStarts(at: e, keys, tokens, spelled) {
+            where !letterStarts(at: e, keys, spelled) && !endsInsideName(s..<e, keys) {
                 return s..<e
             }
         }
         return nil
     }
 
+    /// Whether a heard name that starts inside `run` goes on past its end, so the run would end inside that name: a
+    /// transcript's *elle i lunga* (L J) has no run *elle, i* (L I).
+    func endsInsideName(_ run: Range<Int>, _ keys: [String]) -> Bool {
+        guard longest > 1 else { return false }
+        return run.contains { k in
+            (2...longest).contains { length in
+                k + length > run.upperBound && k + length <= keys.count && heard[Array(keys[k..<(k + length)])] != nil
+            }
+        }
+    }
+
     /// Whether a name that is surely a letter ends right before `end`.
-    func letterEnds(at end: Int, _ keys: [String], _ tokens: [String], _ spelled: Set<Int>) -> Bool {
+    func letterEnds(at end: Int, _ keys: [String], _ spelled: Set<Int>) -> Bool {
         for length in 1...longest where end - length >= 0 {
             let range = (end - length)..<end
-            if let unit = heard[Array(keys[range])], isSure(unit, range, tokens, spelled) { return true }
+            if let unit = heard[Array(keys[range])], isSure(unit, range, keys, spelled) { return true }
         }
         return false
     }
 
     /// Whether a name that is surely a letter starts at `start`.
-    func letterStarts(at start: Int, _ keys: [String], _ tokens: [String], _ spelled: Set<Int>) -> Bool {
+    func letterStarts(at start: Int, _ keys: [String], _ spelled: Set<Int>) -> Bool {
         for length in 1...longest where start + length <= keys.count {
             let range = start..<(start + length)
-            if let unit = heard[Array(keys[range])], isSure(unit, range, tokens, spelled) { return true }
+            if let unit = heard[Array(keys[range])], isSure(unit, range, keys, spelled) { return true }
         }
         return false
     }
 
-    private func isSure(_ unit: Unit, _ range: Range<Int>, _ tokens: [String], _ spelled: Set<Int>) -> Bool {
+    /// A doubling word, a name of two words, a letter the recogniser wrote as one, or a name that is never an ordinary
+    /// word. A one-word name that may be a word isn't: the vowels (whose names are themselves, so *è* too: keys have no
+    /// accents) and the names the pack also has as words.
+    private func isSure(_ unit: Unit, _ range: Range<Int>, _ keys: [String], _ spelled: Set<Int>) -> Bool {
         if unit == .double || range.count > 1 || range.contains(where: spelled.contains) { return true }
-        return !TranscriptMatcher.functionWords.contains(tokens[range.lowerBound])
+        return never.contains([keys[range.lowerBound]])
     }
 }

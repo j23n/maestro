@@ -1,5 +1,5 @@
 {
- "spec": "docs/05 § Speech transcripts. pass = every focus token matched and ≥ 80% of content tokens matched, ignoring accents and collapsing double consonants; numbers converted to Italian words first. Spoken spelling (CL25): after normalising, each standalone single letter of the transcript (or single letters joined by hyphens) becomes its name from letterNames, which the app reads from the pack's letter items; every case is matched with it. CL40: a case's `spelling` is what the pack builder writes for a pattern whose tokens resolve to letter items (or doppia, the doubling word, letter null); such a pattern is right only letter for letter (every run of letters heard whole, nothing missing or added), and letters are content tokens. CL31: `forms` is a slice of the pack's forms table; an elided form it pairs with exactly one full form of the same item (anch' with anche; never l', which has several) is read both ways, and the transcript as heard is always one of the readings.",
+ "spec": "docs/05 § Speech transcripts. pass = every focus token matched and ≥ 80% of content tokens matched, ignoring accents and collapsing double consonants; numbers converted to Italian words first. Spoken spelling (CL25): after normalising, each standalone single letter of the transcript (or single letters joined by hyphens) becomes its name from letterNames, which the app reads from the pack's letter items; every case is matched with it. CL40: a case's `spelling` is what the pack builder writes for a pattern whose tokens resolve to letter items (or doppia, the doubling word, letter null); such a pattern is right only letter for letter (every run of letters heard whole, nothing missing or added), and letters are content tokens. `alsoWords` are the letters whose names the pack also has as ordinary words (an item ID with a sense, w:di~letter, or another item's form); with the vowels (named by themselves) their names may be words, so next to a spelling they are no extra letter (è included: keys have no accents), while every other name is one (CL41's names that are never an ordinary word). A run never ends inside a longer heard name (elle, i is not heard in L J, elle i lunga). CL31: `forms` is a slice of the pack's forms table; an elided form it pairs with exactly one full form of the same item (anch' with anche; never l', which has several) is read both ways, and the transcript as heard is always one of the readings.",
  "functionWords": [
   "il",
   "lo",
@@ -96,6 +96,15 @@
   "Z": "zeta"
  },
  "doubling": "doppia",
+ "alsoWords": [
+  "A",
+  "C",
+  "D",
+  "E",
+  "I",
+  "O",
+  "T"
+ ],
  "forms": [
   [
    "anch'",
@@ -640,6 +649,147 @@
    "transcript": "Luca: L U C A, e tu?",
    "pass": true,
    "note": "a vowel next to the spelling may be an ordinary word (e tu)"
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "L U C A, è giusto?",
+   "pass": true,
+   "note": "è next to the spelling may be the word è: a vowel as the recogniser wrote it, accent included"
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "Luca, L U C A. È Luca.",
+   "pass": true
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "L U C A B",
+   "pass": false,
+   "note": "B (bi) is never an ordinary word: an extra letter"
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "elle u ci a bi",
+   "pass": false,
+   "note": "bi as a name is a letter too"
+  },
+  {
+   "accept": "elle, i",
+   "spelling": [
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    }
+   ],
+   "transcript": "L I",
+   "pass": true
+  },
+  {
+   "accept": "elle, i",
+   "spelling": [
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    }
+   ],
+   "transcript": "L J",
+   "pass": false,
+   "note": "J is i lunga: the run elle, i must not end inside a longer name the transcript has"
+  },
+  {
+   "accept": "elle, i",
+   "spelling": [
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    }
+   ],
+   "transcript": "elle i lunga",
+   "pass": false
   },
   {
    "accept": "elle, u, ci, a",
