@@ -1,21 +1,26 @@
-# Unit 2, Lesson 3. DRAFT (C5) for the content lead: plural nouns, ordering for two, mi/ti/Le piace.
-# Prices follow the Bar Aurora menu in task.yaml (caffè 1,20 · cappuccino 1,60 · spremuta 3,20 · cornetto 1,40).
-# Shape as in the golden sample (lesson-1.yaml), plus a phone call (listening) and the receipt (real-world reading).
+# Unit 2, Lesson 3. DRAFT (C5) for the content lead: plural nouns, ordering for two, mi/ti/Le piace, paying at the till.
+# Prices follow the Bar Aurora menu in task.yaml (caffè 1,20 · cappuccino 1,60 · spremuta 3,20 · cornetto 1,40). You
+# order at the counter and pay Giulia alla cassa afterwards, getting the change (Ecco il resto) and the receipt (CL6,
+# CL35). Shape as in the golden sample (lesson-1.yaml), plus a phone call (listening), the receipt (real-world reading,
+# CL13e: the bar's name, the lines, Totale, Contanti, Resto) and a second use at the till.
 # Story line references (#n) are 1-based.
 id: u02.l3
 title: {it: "Mi piace!", en: "I like it!"}
-scene: Sara phones Marco and they meet at Bar Aurora; they order two croissants, talk about what Marco likes, and he pays
+scene: Sara phones Marco and they meet at Bar Aurora; they order two croissants, talk about what Marco likes, and he pays at the till
 review: {status: draft, by: null, date: null, hash: null}
 
 steps:
-  # 1 · Preview: the chunks for liking and ordering, then the words of the scene
+  # 1 · Preview: the chunks for liking and ordering, then the words of the scene (the receipt's own words come in a
+  #     second preview just before the receipt)
   - kind: preview
     id: u02.l3.step-preview
     batches:
       - [c:mi-piace, c:ti-piace, c:le-piace, c:prendo]
-      - [c:avete, w:certo, w:arancia, w:scontrino]
+      - [c:avete, w:certo, w:arancia]
+      - [w:solo, w:resto, w:scontrino]
 
-  # 2 · Listening: Sara phones Marco (audio first; the transcript opens after the questions)
+  # 2 · Listening: Sara phones Marco (audio first; the transcript opens after the questions).
+  #     *Pronto* stays glossed here until Unit 1's c:pronto is merged (CL34).
   - kind: listening
     id: u02.l3.step-listening
     text:
@@ -49,7 +54,7 @@ steps:
         answer: false
 
   # 3 · Read and listen. Sara: spremuta 3,20 + cornetto 1,40; Marco: cappuccino 1,60 + cornetto 1,40
-  #     = sette euro e sessanta. He pays with ten euros and gets due euro e quaranta back.
+  #     = sette euro e sessanta. At the till he gives eight euros and gets quaranta centesimi back (CL35).
   - kind: story
     id: u02.l3.step-story
     text:
@@ -63,7 +68,7 @@ steps:
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E Lei, cosa prende?", en: "And you, what will you have?"}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Prendo un cappuccino, per favore.", en: "I'll have a cappuccino, please."}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E da mangiare?", en: "Anything to eat?"}
-        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, avete ancora cornetti?", en: "Excuse me, do you still have croissants?", recognise: [ancora], gloss: {ancora: still}}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, avete ancora cornetti?", en: "Excuse me, do you still have croissants?", gloss: {ancora: still}}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Certo! Un cornetto?", en: "Of course! One croissant?"}
         - {speaker: ch:sara, to: ch:giulia, register: tu, it: "Due cornetti, Giulia, per favore!", en: "Two croissants, Giulia, please!"}
         - {speaker: ch:giulia, it: "Ecco: una spremuta, un cappuccino e due cornetti.", en: "Here you are: a fresh orange juice, a cappuccino and two croissants."}
@@ -72,13 +77,14 @@ steps:
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "E ti piace il caffè italiano?", en: "And do you like Italian coffee?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì, mi piace! E il cappuccino è buono.", en: "Yes, I like it! And the cappuccino's good."}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "E un latte, oggi?", en: "And a latte today?"}
-        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "No, grazie! Un latte è solo latte!", en: 'No, thanks! "Un latte" is just milk!', recognise: [solo], gloss: {solo: just}}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "No, grazie! Un latte è solo latte!", en: 'No, thanks! "Un latte" is just milk!'}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "E Bologna? Ti piace?", en: "And Bologna? Do you like it?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sì! Mi piace Bologna, e mi piace il bar Aurora.", en: "Yes! I like Bologna, and I like Bar Aurora."}
+        - {speaker: narrator, it: "Marco è alla cassa.", en: "Marco is at the till.", gloss: {alla cassa: at the till}}
         - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Scusi, quant'è?", en: "Excuse me, how much is it?"}
         - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Sette euro e sessanta.", en: "€7.60."}
-        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Ecco dieci euro.", en: "Here's ten euros."}
-        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Grazie! Ecco due euro e quaranta, e lo scontrino.", en: "Thank you! Here's €2.40, and the receipt."}
+        - {speaker: ch:marco, to: ch:giulia, register: lei, it: "Ecco otto euro.", en: "Here's eight euros."}
+        - {speaker: ch:giulia, to: ch:marco, register: lei, it: "Grazie! Ecco il resto: quaranta centesimi. E lo scontrino!", en: "Thank you! Here's your change: forty cents. And the receipt!", gloss: {centesimi: cents}}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Grazie, Marco! Buono, il cornetto!", en: "Thanks, Marco! The croissant's good!"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Prego!", en: "You're welcome!"}
     questions:
@@ -98,10 +104,10 @@ steps:
         format: choice
         tags: [cd:ask-price-pay]
         question_en: "How much change does Marco get?"
-        options: ["€2.40", "€7.60", "€3.40"]
+        options: ["€0.40", "€7.60", "€2.40"]
         answer: 0
 
-  # 4 · Note: plurals, from the story's own lines
+  # 4 · Note: plurals, from the story's own lines; piacere; paying at the till (CL6's culture note)
   - kind: note
     id: u02.l3.step-note
     note_id: u02.l3.note
@@ -122,6 +128,7 @@ steps:
       - examples: [u02.l3.story#7, u02.l3.story#9, u02.l3.story#10]
       - tip: "Watch *amico*: *un amico*, *due amici*, but *un'amica*, *due amiche*. The h keeps the hard sound of the c."
       - p: "*Mi piace* means \"I like\". To ask a friend, say *Ti piace?*; to ask someone you call Lei, *Le piace?*. Keep the article, although English drops it: *mi piace il caffè* (I like coffee)."
+      - p: "At a neighborhood bar like Bar Aurora, you order at the counter and pay *alla cassa*, at the till, when you've finished. You get *lo scontrino*, the receipt. In busy bars in the center, you often pay at the till first and show the receipt at the counter."
 
   # 5 · Practice: a block on the new material (story lines first), then a mix with Units 0–2.
   #     Each new P item gets at least 4 retrievals in this lesson, counting the preview (docs/04 § Check 3).
@@ -183,7 +190,7 @@ steps:
         targets: [{item: c:avete, skill: recall}, {item: g:noun-plural, skill: recall}]
         tags: [cd:order-food-drink]
         prompt_en: "Do you have croissants? (at the café)"
-        answer: "{avete cornetti|(buongiorno )(senta )(scusi )avete ({i|dei} )cornetti|(scusi )avete un cornetto|ci sono cornetti}"
+        answer: "{avete cornetti|(buongiorno )(senta )(scusi )avete( ancora) ({i|dei} )cornetti|(scusi )avete( ancora) un cornetto|ci sono( ancora) cornetti}"
         near: [{answer: "(scusi )avete cornetto", outcome: almost, hint: "More than one croissant: change the last vowel."}]
         audio_after: true
       - id: u02.l3.ex10
@@ -216,6 +223,22 @@ steps:
         prompt_en: "Do you like the cappuccino? (to Signora Rossi)"
         answer: "{Le piace il cappuccino|il cappuccino Le piace|signora( Rossi) Le piace il cappuccino|Le piace il cappuccino signora( Rossi)}"
         near: [{answer: "ti piace il cappuccino", hint: "You say Lei to Signora Rossi. Which form goes with Lei?"}]
+        audio_after: true
+      - id: u02.l3.ex35
+        format: cloze
+        targets: [{item: w:solo, skill: recall}]
+        tags: [cd:order-food-drink]
+        source: u02.l3.story#16
+        text: "No, grazie! Un latte è [[solo]] latte!"
+        prompt_en: "No, thanks! \"Un latte\" is just milk!"
+        hint: "The word for just."
+      - id: u02.l3.ex36
+        format: recall
+        targets: [{item: w:solo, skill: recall}]
+        tags: [cd:order-food-drink]
+        prompt_en: "Just a coffee, thanks."
+        answer: "{solo un caffè( {grazie|per favore})|no grazie solo un caffè( {grazie|per favore})|vorrei solo un caffè( {grazie|per favore})|prendo solo un caffè( {grazie|per favore})}"
+        near: [{answer: "(vorrei )un caffè( {grazie|per favore})", hint: "Good Italian, but say \"just\" too: it goes before un caffè."}]
         audio_after: true
       - id: u02.l3.ex14
         format: cloze
@@ -283,12 +306,22 @@ steps:
         pairs: [["certo", "of course"], ["lo scontrino", "the receipt"], ["l'arancia", "the orange"], ["prendo…", "I'll have…"], ["avete…?", "do you have…?"], ["mi piace", "I like"]]
       - id: u02.l3.ex22
         format: cloze
-        targets: [{item: w:scontrino, skill: recall}]
+        targets: [{item: w:resto, skill: recall}]
         tags: [cd:ask-price-pay]
-        source: u02.l3.story#22
-        text: "Ecco due euro e quaranta, e lo [[scontrino]]."
-        prompt_en: "Here's €2.40, and the receipt."
-        hint: "The paper you get when you pay."
+        source: u02.l3.story#23
+        text: "Ecco il [[resto]]: quaranta centesimi."
+        prompt_en: "Here's your change: forty cents."
+        hint: "The money you get back when you pay."
+        near: [{answer: scontrino, hint: "Lo scontrino is the receipt. Giulia is giving Marco his money back."}]
+      - id: u02.l3.ex38
+        format: choice
+        targets: [{item: w:resto, skill: read}, {item: w:scontrino, skill: read}]
+        tags: [cd:ask-price-pay]
+        prompt_it: "Ecco il resto e lo scontrino."
+        audio: {speaker: ch:giulia}
+        question_en: "You've paid at the till. What does Giulia give you?"
+        options: ["Your change and the receipt", "Your coffee and a croissant", "The menu and the price"]
+        answer: 0
       - id: u02.l3.ex23
         format: sentence-building
         targets: [{item: w:buono, skill: recall}, {item: w:oggi, skill: recall}]
@@ -316,12 +349,21 @@ steps:
         hint: "Spremuta is feminine."
         near: [{answer: un, hint: "Spremuta ends in -a. Masculine or feminine?"}, {answer: due, hint: "Only one fresh orange juice."}]
 
-  # 6 · Real-world reading: the receipt from the story (cappuccino 1,60 · spremuta 3,20 · 2 cornetti 2,80 = 7,60)
+  # 6 · Two words from the receipt, just before it (R: read only)
+  - kind: preview
+    id: u02.l3.step-preview-2
+    batches:
+      - [w:totale, w:contanti]
+
+  # 7 · Real-world reading: the receipt from the story (cappuccino 1,60 · spremuta 3,20 · 2 cornetti 2,80 = 7,60;
+  #     contanti 8,00, resto 0,40). CL13e: the bar's name, the lines, Totale, Contanti and Resto, nothing else. The
+  #     receipt layout has no labelled payment lines, so Totale goes in `total` and Contanti and Resto in `footer`.
   - kind: reading
     id: u02.l3.step-reading
     text:
       id: u02.l3.receipt
       kind: real_world
+      title: {en: "Marco's receipt from Bar Aurora"}
       layout:
         type: receipt
         shop: Bar Aurora
@@ -329,8 +371,8 @@ steps:
           - {name: cappuccino, qty: 1, price: "1,60"}
           - {name: spremuta, qty: 1, price: "3,20"}
           - {name: cornetto, qty: 2, price: "2,80"}
-        total: "7,60"
-        footer: Grazie e arrivederci!
+        total: "Totale 7,60"
+        footer: "Contanti 8,00 · Resto 0,40"
     exercises:
       - id: u02.l3.ex26
         format: true-false
@@ -345,12 +387,20 @@ steps:
         answer: 0
       - id: u02.l3.ex28
         format: choice
+        targets: [{item: w:totale, skill: read}]
         tags: [cd:ask-price-pay, sy:cefr.reading]
         question_en: "How much did the whole order cost?"
-        options: ["€7.60", "€10.00", "€2.40"]
+        options: ["€7.60", "€8.00", "€0.40"]
+        answer: 0
+      - id: u02.l3.ex39
+        format: choice
+        targets: [{item: w:contanti, skill: read}]
+        tags: [cd:ask-price-pay, sy:cefr.reading]
+        question_en: "How much cash did Marco give Giulia?"
+        options: ["€8.00", "€7.60", "€10.00"]
         answer: 0
 
-  # 7 · Sounds: double consonants (rule 11). Answers mix single and double.
+  # 8 · Sounds: double consonants (rule 11), with cassa from the scene. Answers mix single and double.
   - kind: sounds
     id: u02.l3.step-sounds
     exercises:
@@ -359,10 +409,10 @@ steps:
         targets: [{item: s:double-consonants, skill: listen}]
         tags: [sy:ss.double-consonants]
         question: which-word
-        pair: [nono, nonno]
-        play: nonno
-        glosses: {nono: ninth, nonno: grandfather}
-        tip_en: "Nonno holds the n a little longer."
+        pair: [casa, cassa]
+        play: cassa
+        glosses: {casa: house; home, cassa: till}
+        tip_en: "Cassa (the till) holds the s a little longer than casa (home)."
       - id: u02.l3.ex30
         format: sound-pair
         targets: [{item: s:double-consonants, skill: listen}]
@@ -378,7 +428,8 @@ steps:
         word: arancia
         answer: single
 
-  # 8 · Use: order for you and Sara. Two cappuccini 3,20 + two cornetti 2,80 = sei euro (Bar Aurora menu, task.yaml).
+  # 9 · Use: order for you and Sara at the counter. Two cappuccini 3,20 + two cornetti 2,80 = sei euro (Bar Aurora menu,
+  #      task.yaml), paid at the till afterwards (step 10, CL6).
   - kind: use
     id: u02.l3.step-use
     exercise:
@@ -415,7 +466,7 @@ steps:
           expect:
             - intent: ask-have
               goal: ask
-              accept: ["(scusi )avete cornetti", "(scusi )avete {i|dei} cornetti", "(scusi )avete un cornetto"]
+              accept: ["(scusi )avete cornetti", "(scusi )avete ancora cornetti", "(scusi )avete( ancora) {i|dei} cornetti", "(scusi )avete( ancora) un cornetto"]
               next: n3
           near: [{answer: "(scusi )avete cornetto", outcome: almost, hint: "More than one croissant: change the last vowel."}]
           help: ["Scusi, avete cornetti?"]
@@ -432,6 +483,51 @@ steps:
           help: ["Due, per favore."]
           hint_en: "Ask for two."
         end:
-          say: "Ecco: due cappuccini e due cornetti. Sei euro, grazie!"
-          en: "Here you are: two cappuccinos and two croissants. Six euros, thanks!"
+          say: "Ecco: due cappuccini e due cornetti. Buona colazione!"
+          en: "Here you are: two cappuccinos and two croissants. Enjoy your breakfast!"
+          final: true
+
+  # 10 · Use: pay at the till afterwards (CL6): sei euro for the order above, a ten-euro note, quattro euro back with
+  #      Ecco il resto (CL35). The goodbye is the register turn (CL37: a Lei goodbye is required).
+  - kind: use
+    id: u02.l3.step-use-2
+    exercise:
+      id: u02.l3.ex44
+      format: conversation
+      with: ch:giulia
+      register: lei
+      title: {en: "Pay at the till"}
+      tags: [cd:ask-price-pay, cd:choose-tu-lei]
+      goals:
+        - {id: price, en: "Ask how much it is"}
+        - {id: pay, en: "Pay with a ten-euro note"}
+        - {id: bye, en: "Thank Giulia and say goodbye"}
+      start: n1
+      nodes:
+        n1:
+          say: "Prego!"
+          en: "Yes?"
+          expect:
+            - {intent: ask-price, goal: price, accept: ["(scusi ){quant'è|quanto è|quanto costa}( per favore)", "(buongiorno )(scusi ){quant'è|quanto è}"], next: n2}
+          help: ["Scusi, quant'è?"]
+          hint_en: "Ask how much it is."
+        n2:
+          say: "Sei euro, grazie."
+          en: "Six euros, thanks."
+          expect:
+            - {intent: pay, goal: pay, accept: ["ecco dieci euro", "(ecco )dieci euro( grazie)", "(sì )ecco dieci euro"], next: n3}
+          near: [{answer: "(ecco )sei euro", hint: "Pay with a ten-euro note. How do you say ten?"}]
+          help: ["Ecco dieci euro."]
+          hint_en: "Pay with a ten-euro note."
+        n3:
+          say: "Grazie! Ecco il resto: quattro euro. E lo scontrino!"
+          en: "Thank you! Here's your change: four euros. And the receipt!"
+          expect:
+            - {intent: bye, goal: bye, accept: ["(grazie )(e ){arrivederci|buona giornata}", "{arrivederci|buona giornata} e grazie", "grazie arrivederci e buona giornata"], next: end}
+          near: [{answer: "(grazie )ciao", hint: "Giulia says Lei to you. Which goodbye goes with Lei?"}]
+          help: ["Grazie, arrivederci!"]
+          hint_en: "Thank Giulia and say goodbye."
+        end:
+          say: "Arrivederci! Buona giornata!"
+          en: "Goodbye! Have a good day!"
           final: true

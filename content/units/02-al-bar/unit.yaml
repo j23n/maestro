@@ -34,7 +34,7 @@ grammar:
 - {id: 'g:lei-questions', status: R}
 - {id: 'g:piacere-chunk', status: chunk}
 chunks: vorrei, prendo, avete…?, quant'è?, quanto costa?, al bar; mi piace, ti piace?, Le piace?; senta; cosa prende?
-  (R)
+  (R); alla cassa (R, CL6)
 items:
   new_words: 55-65
   topics: ['topic:food-drink', 'topic:shopping']

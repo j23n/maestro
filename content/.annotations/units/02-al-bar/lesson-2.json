@@ -84,7 +84,7 @@
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [28, 30], "surface": "un", "trailing": " "},
     {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [31, 36], "surface": "latte", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [37, 38], "surface": "è", "trailing": " "},
-    {"analyses": ["solare VER:ind+pres+1+s", "solo ADJ:pos+m+s", "solo ADV"], "flags": ["new", "recognise"], "gloss": "just", "kind": "word", "span": [39, 43], "surface": "solo", "trailing": " "},
+    {"analyses": ["solo ADV"], "flags": ["new", "recognise"], "gloss": "just", "item": "w:solo", "kind": "word", "lemma": "solo", "span": [39, 43], "surface": "solo", "trailing": " "},
     {"analyses": ["latta NOUN-F:p", "latte NOUN-M:s"], "item": "w:latte", "kind": "word", "span": [44, 49], "surface": "latte"},
     {"kind": "punct", "span": [49, 50], "surface": "!"}
    ]
@@ -2339,7 +2339,8 @@
   {
    "detections": [
     {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:numbers-to-100", "tokens": [3, 3]}
+    {"point": "g:numbers-to-100", "tokens": [3, 3]},
+    {"point": "g:noun-plural", "tokens": [4, 4]}
    ],
    "expansion": 1,
    "model": false,
@@ -2355,7 +2356,7 @@
     {"analyses": ["euro NOUN-M:p", "euro NOUN-M:s"], "flags": ["allowlisted"], "gloss": "euro", "kind": "word", "lemma": "euro", "span": [4, 8], "surface": "euro", "trailing": " "},
     {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
     {"analyses": ["ottanta DET-NUM-CARD", "ottanta PRO-NUM"], "detections": ["g:numbers-to-100"], "item": "w:ottanta", "kind": "word", "lemma": "ottanta", "span": [11, 18], "surface": "ottanta", "trailing": " "},
-    {"analyses": ["centesimo ADJ:pos+m+p", "centesimo NOUN-M:p"], "flags": ["unresolved"], "kind": "word", "lemma": "centesimo", "span": [19, 28], "surface": "centesimi"}
+    {"analyses": ["centesimo NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:centesimo", "kind": "word", "lemma": "centesimo", "span": [19, 28], "surface": "centesimi"}
    ]
   },
   {

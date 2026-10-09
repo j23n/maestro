@@ -1,5 +1,5 @@
-# Unit 2 items: SEED. Lesson 1 in full, plus the Lesson 2–3 items the sample task, check and answer
-# alternatives use, incl. the tens for numbers to 100 (C2 completes the unit: about 55–65 items).
+# Unit 2 items. Lessons 1–3 as drafted, incl. the tens for numbers to 100 and the content-lead decisions CL5, CL8, CL20,
+# CL35 and CL36 (docs/13). C2 completes the unit to the spec's 55–65 items.
 unit: u02
 review: {status: draft, by: null, date: null, hash: null}
 items:
@@ -23,6 +23,12 @@ items:
   - {id: 'w:ottanta', it: ottanta, pos: num, gloss: eighty, status: P, lesson: u02.l2}
   - {id: 'w:novanta', it: novanta, pos: num, gloss: ninety, status: P, lesson: u02.l2}
   - {id: 'w:scontrino', it: scontrino, pos: noun, gloss: receipt, gender: m, plural: scontrini, topics: ['topic:shopping'], note: 'lo scontrino, uno scontrino: s + consonant takes lo and uno.', status: P, lesson: u02.l3}
+  - {id: 'w:solo', it: solo, pos: adv, gloss: just; only, note: 'Solo un caffè, grazie: just a coffee, thanks.', status: P, lesson: u02.l3}
+  - {id: 'w:resto', it: resto, pos: noun, gloss: change (money back), gender: m, plural: resti, topics: ['topic:shopping'], note: 'Ecco il resto: here''s your change.', status: P, lesson: u02.l3}
+  - {id: 'w:centesimo', it: centesimo, pos: noun, gloss: cent, gender: m, plural: centesimi, topics: ['topic:shopping'], note: 'Prices usually leave it out: un euro e venti is €1.20.', status: R, lesson: u02.l3}
+  - {id: 'w:totale', it: totale, pos: noun, gloss: total, gender: m, plural: totali, topics: ['topic:shopping'], note: 'On a receipt: what you pay.', status: R, lesson: u02.l3}
+  - {id: 'w:contanti', it: contanti, pos: noun, gloss: cash, gender: m, plural: invariable, articles: {def: i}, topics: ['topic:shopping'], note: 'On a receipt: how much you paid in cash.', status: R, lesson: u02.l3}
+  - {id: 'w:ancora~adverb', it: ancora, pos: adv, gloss: still; again, note: 'Avete ancora cornetti? Do you still have croissants?', status: R, lesson: u02.l3}
   - {id: 'w:cento', it: cento, pos: num, gloss: a hundred, note: 'Prices: un euro e sessanta (€1.60), due euro e venti (€2.20).', status: P, lesson: u02.l2}
   - {id: 'c:vorrei', kind: chunk, it: vorrei, gloss: I'd like, match: [vorrei], exemplifies: ['g:conditional-courtesy'], status: P, lesson: u02.l1}
   - {id: 'c:quant-e', kind: chunk, it: 'quant''è?', gloss: 'how much is it?', match: [quant'è], status: P, lesson: u02.l1}
@@ -35,4 +41,5 @@ items:
   - {id: 'c:mi-piace', kind: chunk, it: mi piace…, gloss: I like…, match: [mi piace], exemplifies: ['g:piacere-chunk'], status: P, lesson: u02.l3}
   - {id: 'c:ti-piace', kind: chunk, it: 'ti piace…?', gloss: 'do you like…? (informal)', match: [ti piace], exemplifies: ['g:piacere-chunk'], status: P, lesson: u02.l3}
   - {id: 'c:le-piace', kind: chunk, it: 'Le piace…?', gloss: 'do you like…? (formal)', match: [Le piace], case_sensitive: true, exemplifies: ['g:piacere-chunk'], status: P, lesson: u02.l3}
+  - {id: 'c:alla-cassa', kind: chunk, it: alla cassa, gloss: at the till, match: [alla cassa], exemplifies: ['g:articulated-prepositions'], note: 'In a neighborhood bar you order at the counter, then pay alla cassa.', status: R, lesson: u02.l3}
   - {id: 'c:da-mangiare', kind: chunk, it: da mangiare, gloss: to eat (something to eat), match: [da mangiare], note: Introduced as new and glossed in the story., status: R, lesson: u02.l1}
