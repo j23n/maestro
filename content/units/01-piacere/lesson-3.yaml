@@ -65,6 +65,12 @@ steps:
         question_en: "What does Marco say about himself?"
         options: ["He's Canadian, but a bit Italian too", "He's Italian, from Bologna", "He's American"]
         answer: 0
+      - id: u01.l3.q4
+        format: choice
+        tags: [cd:choose-tu-lei]
+        question_en: "How do Sara and Marco talk to Signora Rossi?"
+        options: ["With Lei, while she says tu to them", "With tu, like her", "With Lei, like her"]
+        answer: 0
 
   # 3 · Note: introducing people with tu and Lei, and ma / o (built from the story)
   - kind: note
@@ -307,6 +313,12 @@ steps:
         question_en: "Why does the school phone Marco?"
         options: ["To take his details for the course", "To tell him the course is full", "To ask where he lives in Bologna"]
         answer: 0
+      - id: u01.l3.ex62
+        format: choice
+        tags: [cd:give-personal-details, sy:cefr.oral-comprehension]
+        question_en: "What does the caller ask for first?"
+        options: ["His first and last name", "His phone number", "His email"]
+        answer: 0
       - id: u01.l3.ex37
         format: true-false
         tags: [cd:spell-name, sy:ss.alphabet]
@@ -318,6 +330,12 @@ steps:
         question_en: "What is Marco's phone number?"
         options: ["347 812 2015", "347 812 1520", "347 802 2015"]
         answer: 0
+      - id: u01.l3.ex39
+        format: choice
+        tags: [cd:spell-name, sy:ss.alphabet]
+        question_en: "How does Marco spell his last name?"
+        options: ["Lenzi", "Lenti", "Renzi"]
+        answer: 0
 
   # 7 · Practice: spelling with Unit 0's letter names (CL28) and the phone number. Names and places spelled aloud (which
   #     one is it?), the written spelling of a word (confusable names: bi/pi, gi/ci, emme/enne, di/ti, and e/i, which
@@ -326,18 +344,6 @@ steps:
   - kind: practice
     id: u01.l3.step-practice-3
     block:
-      - id: u01.l3.ex39
-        format: choice
-        targets: [{item: w:elle, skill: listen}, {item: w:e~letter, skill: listen}, {item: w:enne, skill: listen}, {item: w:zeta, skill: listen}, {item: w:i~letter, skill: listen}]
-        tags: [cd:spell-name, sy:ss.alphabet]
-        audio_text:
-          id: u01.l3.ex39.audio
-          kind: dialogue
-          lines:
-            - {speaker: ch:marco, it: "Elle, e, enne, zeta, i.", en: "L, E, N, Z, I.", lemmas: {e: w:e~letter, i: w:i~letter}}
-        question_en: "Marco spells his last name. Which is it?"
-        options: ["Lenzi", "Lenti", "Renzi"]
-        answer: 0
       - id: u01.l3.ex40
         format: cloze
         targets: [{item: c:come-si-scrive, skill: recall}]
@@ -464,17 +470,6 @@ steps:
         answer: "{come si scrive|scusi come si scrive|scusa come si scrive|come si scrive per favore|scusi come si scrive per favore|scusa come si scrive per favore}"
         near: [{answer: "(scusi )come si dice", hint: "Come si dice asks for a word in Italian. You want the letters."}]
         audio_after: true
-      - id: u01.l3.ex53
-        format: match
-        targets:                      # targets[i] belongs to pairs[i]
-          - {item: c:pronto, skill: read}
-          - {item: w:scuola, skill: read}
-          - {item: c:come-si-scrive, skill: read}
-          - {item: c:numero-di-telefono, skill: read}
-          - {item: w:nome, skill: read}
-          - {item: w:cognome, skill: read}
-        tags: [cd:give-personal-details, sy:fn.forms]
-        pairs: [["pronto?", "hello? (on the phone)"], ["la scuola", "school"], ["come si scrive?", "how do you spell it?"], ["numero di telefono", "phone number"], ["nome", "first name"], ["cognome", "last name"]]
 
   # 8 · Real-world reading: a classmate's registration form at Scuola Arcobaleno (names, the phone number and the email
   #     aren't annotated)
@@ -526,6 +521,13 @@ steps:
           - {item: c:luogo-di-nascita, skill: read}
         tags: [cd:give-personal-details, sy:fn.forms]
         pairs: [["Nome", "first name"], ["Cognome", "last name"], ["Nazionalità", "nationality"], ["Luogo di nascita", "place of birth"]]
+      - id: u01.l3.ex61
+        format: choice
+        targets: [{item: c:numero-di-telefono, skill: read}]
+        tags: [cd:give-personal-details, sy:fn.forms]
+        question_en: "What is Lucía's phone number?"
+        options: ["348 516 0913", "348 516 0193", "384 516 0913"]
+        answer: 0
 
   # 9 · Practice 2: countries with abito in / negli, and what a form asks
   - kind: practice
@@ -555,14 +557,6 @@ steps:
         answer: "{abito in Inghilterra|io abito in Inghilterra}"
         near: [{answer: "(io )abito a Inghilterra", hint: "Inghilterra is a country: in, not a."}]
         audio_after: true
-      - id: u01.l3.ex34
-        format: cloze
-        targets: [{item: w:nome, skill: recall}]
-        tags: [cd:give-personal-details, sy:fn.forms]
-        text: "[[Nome]] e cognome"
-        prompt_en: "First name and last name (on a form)"
-        hint: "The form asks for the first name first."
-        near: [{answer: cognome, hint: "Cognome is the last name. Here the form asks for the first name."}]
     mix:
       - id: u01.l3.ex28
         format: match
@@ -621,7 +615,42 @@ steps:
         play: "È canadese."
         glosses: {"È canadese?": "Is he Canadian?", "È canadese.": "He's Canadian."}
 
-  # 11 · Use: a short conversation in the story's situation. Signora Rossi says tu to you (`register`); you answer with
+  # 11 · Say it: a repeat-after-me block of the story's lines (fluency, CL21)
+  - kind: practice
+    id: u01.l3.step-practice-4
+    block:
+      - id: u01.l3.ex55
+        format: repeat
+        targets: [{item: c:puoi-ripetere, skill: speak}]
+        tags: [cd:dont-understand, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Scusa, Sara, non capisco. Puoi ripetere, per favore?"
+      - id: u01.l3.ex56
+        format: repeat
+        targets: [{item: c:e-lei, skill: speak}]
+        tags: [cd:choose-tu-lei, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Bene, grazie. E Lei, signora?"
+      - id: u01.l3.ex57
+        format: repeat
+        targets: [{item: c:le-presento, skill: speak}]
+        tags: [cd:introduce-others, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Signora, Le presento Sara. Sara è di Bologna."
+      - id: u01.l3.ex58
+        format: repeat
+        targets: [{item: w:anche, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Anche io sono di Bologna!"
+      - id: u01.l3.ex59
+        format: repeat
+        targets: [{item: w:o, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "E Mimì? È italiana o canadese?"
+      - id: u01.l3.ex60
+        format: repeat
+        targets: [{item: c:a-presto, skill: speak}]
+        tags: [cd:greet-farewell, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "A presto, signora! Buona giornata!"
+
+  # 12 · Use: a short conversation in the story's situation. Signora Rossi says tu to you (`register`); you answer with
   #     Lei (`learner_register`), introduce Sara with Le presento and say goodbye politely. Each register turn needs its
   #     Lei word (CL37), so a tu slip misses in speech too.
   - kind: use

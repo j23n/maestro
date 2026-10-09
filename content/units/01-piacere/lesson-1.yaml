@@ -399,7 +399,8 @@ steps:
         rule: "sì (yes) has an accent; si without one is a different word, as in come si chiama."
         near: [{answer: si, hint: "Without an accent, si is a different word. 'Yes' is written with an accent."}]
 
-  # 7 · Listening: that evening on the stairs (Unit 0 greetings; Marco asks for a word and meets Mimì)
+  # 7 · Listening: that evening on the stairs (Unit 0 greetings; Marco asks for a word and meets Mimì, and Signora Rossi
+  #     tells the cat where he's from)
   - kind: listening
     id: u01.l1.step-listening
     text:
@@ -407,10 +408,11 @@ steps:
       kind: dialogue
       lines:
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Buonasera, signora! Come sta?", en: "Good evening, Signora! How are you?"}
-        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Bene, grazie! E tu, Marco? Come va?", en: "Fine, thanks! And you, Marco? How's it going?"}
+        - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Bene, grazie! E tu, Marco? Come va a Bologna?", en: "Fine, thanks! And you, Marco? How's it going in Bologna?"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Bene, grazie. Scusi, come si dice \"cat\"?", en: "Fine, thanks. Excuse me, how do you say \"cat\"?", foreign: [cat]}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Si dice \"gatto\". E lei è Mimì!", en: "You say \"gatto\". And this is Mimì!", gloss: {gatto: cat}}
-        - {speaker: ch:marco, it: "Ciao, Mimì!", en: "Hi, Mimì!"}
+        - {speaker: ch:marco, it: "Ciao, Mimì! Piacere!", en: "Hi, Mimì! Nice to meet you!"}
+        - {speaker: ch:rossi, it: "Mimì, Marco è di Toronto, in Canada!", en: "Mimì, Marco is from Toronto, in Canada!"}
         - {speaker: ch:marco, to: ch:rossi, register: lei, it: "Buonasera, signora. Ci vediamo!", en: "Good evening, Signora. See you!"}
         - {speaker: ch:rossi, to: ch:marco, register: tu, it: "Ciao, Marco! Ci vediamo!", en: "Bye, Marco! See you!"}
     plays: unlimited
@@ -431,6 +433,12 @@ steps:
         tags: [sy:cefr.oral-comprehension]
         question_en: "Who is Mimì?"
         options: ["A cat", "A neighbor", "A friend"]
+        answer: 0
+      - id: u01.l1.ex45
+        format: choice
+        tags: [cd:say-where-from, sy:cefr.oral-comprehension]
+        question_en: "What does Signora Rossi tell Mimì about Marco?"
+        options: ["Where he's from", "How old he is", "Where he lives in Bologna"]
         answer: 0
 
   # 8 · Sounds: questions rise, statements fall (s:intonation). The answers mix question and statement, so always
@@ -467,7 +475,47 @@ steps:
         glosses: {"È di Bologna?": "Is she from Bologna?", "È di Bologna.": "She's from Bologna."}
         tip_en: "No question word here, so only the tune tells you: up at the end for a question."
 
-  # 9 · Use: a short conversation in the story's situation. Signora Rossi says tu to you (`register`); you answer with
+  # 9 · Say it: a repeat-after-me block of the story's lines, both sides of the tu/Lei exchange (fluency, CL21)
+  - kind: practice
+    id: u01.l1.step-practice-3
+    block:
+      - id: u01.l1.ex39
+        format: repeat
+        targets: [{item: c:puo-ripetere, skill: speak}]
+        tags: [cd:dont-understand, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Scusi, non capisco. Può ripetere, per favore?"
+      - id: u01.l1.ex40
+        format: repeat
+        targets: [{item: c:vero, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Tu sei Marco di Toronto, vero?"
+      - id: u01.l1.ex41
+        format: repeat
+        targets: [{item: c:piacere, skill: speak}]
+        tags: [cd:introduce-yourself, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Sì, sono io! Ah, Lei è la signora Rossi! Piacere!"
+      - id: u01.l1.ex42
+        format: repeat
+        targets: [{item: w:a, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Piacere, Marco! Benvenuto a Bologna!"
+      - id: u01.l1.ex43
+        format: repeat
+        targets: [{item: c:come-sta, skill: speak}]
+        tags: [cd:choose-tu-lei, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Bene, grazie. E Lei, come sta?"
+      - id: u01.l1.ex44
+        format: repeat
+        targets: [{item: w:di, skill: speak}]
+        tags: [cd:say-where-from, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Marco è di Toronto e la signora Rossi è di Bologna."
+      - id: u01.l1.ex46
+        format: repeat
+        targets: [{item: w:signora, skill: speak}]
+        tags: [cd:greet-farewell, sy:cefr.oral-production, sy:cefr.phonological-control]
+        say: "Arrivederci, signora! Buona giornata!"
+
+  # 10 · Use: a short conversation in the story's situation. Signora Rossi says tu to you (`register`); you answer with
   #     Lei (`learner_register`). Each register turn needs its Lei word (CL37), so a tu slip misses in speech too.
   - kind: use
     id: u01.l1.step-use
