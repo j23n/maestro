@@ -414,6 +414,7 @@ steps:
         tags: [cd:count-to-20, cd:give-personal-details, sy:fn.numbers-prices-times]
         say: "Tre quattro sette, otto dodici, venti quindici."
         slow: true
+        hint: "Write the numbers as words, as you hear them."
       - id: u01.l3.ex48
         format: repeat
         targets: [{item: w:zeta, skill: speak}]
@@ -695,12 +696,13 @@ steps:
                 - "(signora )Le presento Sara"
                 - "(sì )(signora )Le presento Sara( signora)"
                 - "(signora )Le presento la mia amica Sara"
+                - "(signora )({lei|questa} )è Sara( signora)"
+                - "(signora )(lei )si chiama Sara( signora)"
               next: n3
           near:
             - {answer: "(signora )ti presento Sara", hint: "Ti presento is for people you call tu. Signora Rossi gets Lei."}
-            - {answer: "(signora )({lei è|questa è|si chiama} )Sara", hint: "That's her name. Now introduce her, the way you do with someone you call Lei."}
           help: ["Signora, Le presento Sara."]
-          hint_en: "Introduce Sara. You call Signora Rossi Lei."
+          hint_en: "Tell her who Sara is. You call Signora Rossi Lei."
         n3:
           say: "Piacere, Sara! Allora, a presto!"
           en: "Nice to meet you, Sara! Well then, see you soon!"

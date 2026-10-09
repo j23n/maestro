@@ -4895,6 +4895,370 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "signora lei è sara signora",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora lei è Sara signora",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [8, 11], "surface": "lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [12, 13], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [14, 18], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [19, 26], "surface": "signora"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "signora lei è sara",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora lei è Sara",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [8, 11], "surface": "lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [12, 13], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [14, 18], "surface": "Sara"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "signora questa è sara signora",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora questa è Sara signora",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["questa PRO-DEMO-F-S", "questo DET-DEMO:f+s"], "chunk": "c:questo-e", "kind": "word", "span": [8, 14], "surface": "questa", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [15, 16], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [17, 21], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [22, 29], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "signora questa è sara",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora questa è Sara",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["questa PRO-DEMO-F-S", "questo DET-DEMO:f+s"], "chunk": "c:questo-e", "kind": "word", "span": [8, 14], "surface": "questa", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [15, 16], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [17, 21], "surface": "Sara"}
+   ]
+  },
+  {
+   "expansion": 4,
+   "model": false,
+   "norm": "signora è sara signora",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora è Sara signora",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 9], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [10, 14], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [15, 22], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 5,
+   "model": false,
+   "norm": "signora è sara",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora è Sara",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 9], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [10, 14], "surface": "Sara"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "lei è sara signora",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "lei è Sara signora",
+   "tokens": [
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [0, 3], "surface": "lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [6, 10], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [11, 18], "surface": "signora"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "lei è sara",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "lei è Sara",
+   "tokens": [
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [0, 3], "surface": "lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [6, 10], "surface": "Sara"}
+   ]
+  },
+  {
+   "expansion": 8,
+   "model": false,
+   "norm": "questa è sara signora",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "questa è Sara signora",
+   "tokens": [
+    {"analyses": ["questa PRO-DEMO-F-S", "questo DET-DEMO:f+s"], "chunk": "c:questo-e", "kind": "word", "span": [0, 6], "surface": "questa", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [9, 13], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [14, 21], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 9,
+   "model": false,
+   "norm": "questa è sara",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "questa è Sara",
+   "tokens": [
+    {"analyses": ["questa PRO-DEMO-F-S", "questo DET-DEMO:f+s"], "chunk": "c:questo-e", "kind": "word", "span": [0, 6], "surface": "questa", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [9, 13], "surface": "Sara"}
+   ]
+  },
+  {
+   "expansion": 10,
+   "model": false,
+   "norm": "è sara signora",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "è Sara signora",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 1], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [2, 6], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [7, 14], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 11,
+   "model": false,
+   "norm": "è sara",
+   "of": 12,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[3]",
+   "pattern": "(signora )({lei|questa} )è Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "è Sara",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 1], "surface": "è", "trailing": " "},
+    {"kind": "name", "span": [2, 6], "surface": "Sara"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "signora lei si chiama sara signora",
+   "of": 8,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "(signora )(lei )si chiama Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora lei si chiama Sara signora",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [8, 11], "surface": "lei", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [12, 14], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [15, 21], "surface": "chiama", "trailing": " "},
+    {"kind": "name", "span": [22, 26], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [27, 34], "surface": "signora"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "signora lei si chiama sara",
+   "of": 8,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "(signora )(lei )si chiama Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora lei si chiama Sara",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [8, 11], "surface": "lei", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [12, 14], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [15, 21], "surface": "chiama", "trailing": " "},
+    {"kind": "name", "span": [22, 26], "surface": "Sara"}
+   ]
+  },
+  {
+   "expansion": 2,
+   "model": false,
+   "norm": "signora si chiama sara signora",
+   "of": 8,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "(signora )(lei )si chiama Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora si chiama Sara signora",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [8, 10], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [11, 17], "surface": "chiama", "trailing": " "},
+    {"kind": "name", "span": [18, 22], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [23, 30], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 3,
+   "model": false,
+   "norm": "signora si chiama sara",
+   "of": 8,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "(signora )(lei )si chiama Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "signora si chiama Sara",
+   "tokens": [
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [8, 10], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [11, 17], "surface": "chiama", "trailing": " "},
+    {"kind": "name", "span": [18, 22], "surface": "Sara"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "lei si chiama sara signora",
+   "of": 8,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "(signora )(lei )si chiama Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "lei si chiama Sara signora",
+   "tokens": [
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [0, 3], "surface": "lei", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [4, 6], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [7, 13], "surface": "chiama", "trailing": " "},
+    {"kind": "name", "span": [14, 18], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [19, 26], "surface": "signora"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "lei si chiama sara",
+   "of": 8,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "(signora )(lei )si chiama Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "lei si chiama Sara",
+   "tokens": [
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [0, 3], "surface": "lei", "trailing": " "},
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [4, 6], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [7, 13], "surface": "chiama", "trailing": " "},
+    {"kind": "name", "span": [14, 18], "surface": "Sara"}
+   ]
+  },
+  {
+   "expansion": 6,
+   "model": false,
+   "norm": "si chiama sara signora",
+   "of": 8,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "(signora )(lei )si chiama Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "si chiama Sara signora",
+   "tokens": [
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [0, 2], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [3, 9], "surface": "chiama", "trailing": " "},
+    {"kind": "name", "span": [10, 14], "surface": "Sara", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [15, 22], "surface": "signora"}
+   ]
+  },
+  {
+   "expansion": 7,
+   "model": false,
+   "norm": "si chiama sara",
+   "of": 8,
+   "path": "steps[11].exercise.nodes.n2.expect[0].accept[4]",
+   "pattern": "(signora )(lei )si chiama Sara( signora)",
+   "ref": "u01.l3.ex33/n2",
+   "role": "accept",
+   "text": "si chiama Sara",
+   "tokens": [
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [0, 2], "surface": "si", "trailing": " "},
+    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [3, 9], "surface": "chiama", "trailing": " "},
+    {"kind": "name", "span": [10, 14], "surface": "Sara"}
+   ]
+  },
+  {
    "path": "steps[11].exercise.nodes.n2.help[0]",
    "ref": "u01.l3.ex33/n2",
    "role": "help",
@@ -4939,140 +5303,6 @@
     {"analyses": ["ti PRO-PERS-CLI-2-F-S", "ti PRO-PERS-CLI-2-M-S"], "chunk": "c:ti-presento", "kind": "word", "lemma": "ti", "span": [0, 2], "surface": "ti", "trailing": " "},
     {"analyses": ["presentare VER:ind+pres+1+s"], "chunk": "c:ti-presento", "kind": "word", "lemma": "presentare", "span": [3, 11], "surface": "presento", "trailing": " "},
     {"kind": "name", "span": [12, 16], "surface": "Sara"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:subject-pronouns", "tokens": [1, 1]}
-   ],
-   "expansion": 0,
-   "model": false,
-   "norm": "signora lei è sara",
-   "of": 8,
-   "path": "steps[11].exercise.nodes.n2.near[1].answer",
-   "pattern": "(signora )({lei è|questa è|si chiama} )Sara",
-   "ref": "u01.l3.ex33/n2",
-   "role": "near",
-   "text": "signora lei è Sara",
-   "tokens": [
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
-    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [8, 11], "surface": "lei", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [12, 13], "surface": "è", "trailing": " "},
-    {"kind": "name", "span": [14, 18], "surface": "Sara"}
-   ]
-  },
-  {
-   "expansion": 1,
-   "model": false,
-   "norm": "signora questa è sara",
-   "of": 8,
-   "path": "steps[11].exercise.nodes.n2.near[1].answer",
-   "pattern": "(signora )({lei è|questa è|si chiama} )Sara",
-   "ref": "u01.l3.ex33/n2",
-   "role": "near",
-   "text": "signora questa è Sara",
-   "tokens": [
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
-    {"analyses": ["questa PRO-DEMO-F-S", "questo DET-DEMO:f+s"], "chunk": "c:questo-e", "kind": "word", "span": [8, 14], "surface": "questa", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [15, 16], "surface": "è", "trailing": " "},
-    {"kind": "name", "span": [17, 21], "surface": "Sara"}
-   ]
-  },
-  {
-   "expansion": 2,
-   "model": false,
-   "norm": "signora si chiama sara",
-   "of": 8,
-   "path": "steps[11].exercise.nodes.n2.near[1].answer",
-   "pattern": "(signora )({lei è|questa è|si chiama} )Sara",
-   "ref": "u01.l3.ex33/n2",
-   "role": "near",
-   "text": "signora si chiama Sara",
-   "tokens": [
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
-    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [8, 10], "surface": "si", "trailing": " "},
-    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [11, 17], "surface": "chiama", "trailing": " "},
-    {"kind": "name", "span": [18, 22], "surface": "Sara"}
-   ]
-  },
-  {
-   "expansion": 3,
-   "model": false,
-   "norm": "signora sara",
-   "of": 8,
-   "path": "steps[11].exercise.nodes.n2.near[1].answer",
-   "pattern": "(signora )({lei è|questa è|si chiama} )Sara",
-   "ref": "u01.l3.ex33/n2",
-   "role": "near",
-   "text": "signora Sara",
-   "tokens": [
-    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [0, 7], "surface": "signora", "trailing": " "},
-    {"kind": "name", "span": [8, 12], "surface": "Sara"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:subject-pronouns", "tokens": [0, 0]}
-   ],
-   "expansion": 4,
-   "model": false,
-   "norm": "lei è sara",
-   "of": 8,
-   "path": "steps[11].exercise.nodes.n2.near[1].answer",
-   "pattern": "(signora )({lei è|questa è|si chiama} )Sara",
-   "ref": "u01.l3.ex33/n2",
-   "role": "near",
-   "text": "lei è Sara",
-   "tokens": [
-    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [0, 3], "surface": "lei", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
-    {"kind": "name", "span": [6, 10], "surface": "Sara"}
-   ]
-  },
-  {
-   "expansion": 5,
-   "model": false,
-   "norm": "questa è sara",
-   "of": 8,
-   "path": "steps[11].exercise.nodes.n2.near[1].answer",
-   "pattern": "(signora )({lei è|questa è|si chiama} )Sara",
-   "ref": "u01.l3.ex33/n2",
-   "role": "near",
-   "text": "questa è Sara",
-   "tokens": [
-    {"analyses": ["questa PRO-DEMO-F-S", "questo DET-DEMO:f+s"], "chunk": "c:questo-e", "kind": "word", "span": [0, 6], "surface": "questa", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "chunk": "c:questo-e", "kind": "word", "lemma": "essere", "span": [7, 8], "surface": "è", "trailing": " "},
-    {"kind": "name", "span": [9, 13], "surface": "Sara"}
-   ]
-  },
-  {
-   "expansion": 6,
-   "model": false,
-   "norm": "si chiama sara",
-   "of": 8,
-   "path": "steps[11].exercise.nodes.n2.near[1].answer",
-   "pattern": "(signora )({lei è|questa è|si chiama} )Sara",
-   "ref": "u01.l3.ex33/n2",
-   "role": "near",
-   "text": "si chiama Sara",
-   "tokens": [
-    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "si", "span": [0, 2], "surface": "si", "trailing": " "},
-    {"analyses": ["chiamare VER:impr+pres+2+s", "chiamare VER:ind+pres+3+s"], "chunk": "c:come-si-chiama", "kind": "word", "lemma": "chiamare", "span": [3, 9], "surface": "chiama", "trailing": " "},
-    {"kind": "name", "span": [10, 14], "surface": "Sara"}
-   ]
-  },
-  {
-   "expansion": 7,
-   "model": false,
-   "norm": "sara",
-   "of": 8,
-   "path": "steps[11].exercise.nodes.n2.near[1].answer",
-   "pattern": "(signora )({lei è|questa è|si chiama} )Sara",
-   "ref": "u01.l3.ex33/n2",
-   "role": "near",
-   "text": "Sara",
-   "tokens": [
-    {"kind": "name", "span": [0, 4], "surface": "Sara"}
    ]
   },
   {
