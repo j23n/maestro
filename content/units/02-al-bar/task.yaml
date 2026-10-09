@@ -97,9 +97,10 @@ talk:
   prompt_en: "You're at Bar Aurora. Greet Giulia, order something for you and a friend, and ask the price."
   points:
     - {id: greet, en: "Greet Giulia", accept: ["{buongiorno|buonasera}"]}
-    - {id: order, en: "Order two things", accept: ["{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}", "due {caffè|cappuccini|cornetti|spremute}"]}
+    - {id: first, en: "Order something", accept: ["{un {caffè|cappuccino|cornetto}|una spremuta}", "due {caffè|cappuccini|cornetti|spremute}"]}
+    - {id: second, en: "Order a second thing, or two of the same", accept: ["e( anche) {un {caffè|cappuccino|cornetto}|una spremuta}", "due {caffè|cappuccini|cornetti|spremute}"]}
     - {id: price, en: "Ask the price", accept: ["{quant'è|quanto è|quanto costa}"]}
-  pass: 2
+  pass: 3                                   # four points: a greeting and a price alone can't pass without an order
   model: "Buongiorno! Vorrei un cappuccino e una spremuta, per favore. Quant'è?"
   duration_s: {min: 5, max: 60}
 

@@ -3046,370 +3046,74 @@
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
    ],
    "expansion": 0,
    "model": false,
-   "norm": "un caffè e un caffè",
-   "of": 16,
+   "norm": "un caffè",
+   "of": 4,
    "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta}",
    "ref": "u02.task.talk",
    "role": "point",
-   "text": "un caffè e un caffè",
+   "text": "un caffè",
    "tokens": [
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
-    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [14, 19], "surface": "caffè"}
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè"}
    ]
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
    ],
    "expansion": 1,
    "model": false,
-   "norm": "un caffè e un cappuccino",
-   "of": 16,
+   "norm": "un cappuccino",
+   "of": 4,
    "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta}",
    "ref": "u02.task.talk",
    "role": "point",
-   "text": "un caffè e un cappuccino",
+   "text": "un cappuccino",
    "tokens": [
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [14, 24], "surface": "cappuccino"}
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino"}
    ]
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
    ],
    "expansion": 2,
    "model": false,
-   "norm": "un caffè e un cornetto",
-   "of": 16,
+   "norm": "un cornetto",
+   "of": 4,
    "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta}",
    "ref": "u02.task.talk",
    "role": "point",
-   "text": "un caffè e un cornetto",
+   "text": "un cornetto",
    "tokens": [
     {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [11, 13], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [14, 22], "surface": "cornetto"}
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto"}
    ]
   },
   {
    "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
+    {"point": "g:indefinite-article", "tokens": [0, 0]}
    ],
    "expansion": 3,
    "model": false,
-   "norm": "un caffè e una spremuta",
-   "of": 16,
+   "norm": "una spremuta",
+   "of": 4,
    "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta}",
    "ref": "u02.task.talk",
    "role": "point",
-   "text": "un caffè e una spremuta",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [3, 8], "surface": "caffè", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [9, 10], "surface": "e", "trailing": " "},
-    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [11, 14], "surface": "una", "trailing": " "},
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [15, 23], "surface": "spremuta"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 4,
-   "model": false,
-   "norm": "un cappuccino e un caffè",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "un cappuccino e un caffè",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [16, 18], "surface": "un", "trailing": " "},
-    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [19, 24], "surface": "caffè"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 5,
-   "model": false,
-   "norm": "un cappuccino e un cappuccino",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "un cappuccino e un cappuccino",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [16, 18], "surface": "un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [19, 29], "surface": "cappuccino"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 6,
-   "model": false,
-   "norm": "un cappuccino e un cornetto",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "un cappuccino e un cornetto",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [16, 18], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [19, 27], "surface": "cornetto"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 7,
-   "model": false,
-   "norm": "un cappuccino e una spremuta",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "un cappuccino e una spremuta",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [3, 13], "surface": "cappuccino", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [14, 15], "surface": "e", "trailing": " "},
-    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [16, 19], "surface": "una", "trailing": " "},
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [20, 28], "surface": "spremuta"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 8,
-   "model": false,
-   "norm": "un cornetto e un caffè",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "un cornetto e un caffè",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [14, 16], "surface": "un", "trailing": " "},
-    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [17, 22], "surface": "caffè"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 9,
-   "model": false,
-   "norm": "un cornetto e un cappuccino",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "un cornetto e un cappuccino",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [14, 16], "surface": "un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [17, 27], "surface": "cappuccino"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 10,
-   "model": false,
-   "norm": "un cornetto e un cornetto",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "un cornetto e un cornetto",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [14, 16], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [17, 25], "surface": "cornetto"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 11,
-   "model": false,
-   "norm": "un cornetto e una spremuta",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "un cornetto e una spremuta",
-   "tokens": [
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [0, 2], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [3, 11], "surface": "cornetto", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [12, 13], "surface": "e", "trailing": " "},
-    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [14, 17], "surface": "una", "trailing": " "},
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [18, 26], "surface": "spremuta"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 12,
-   "model": false,
-   "norm": "una spremuta e un caffè",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "una spremuta e un caffè",
+   "text": "una spremuta",
    "tokens": [
     {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [15, 17], "surface": "un", "trailing": " "},
-    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [18, 23], "surface": "caffè"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 13,
-   "model": false,
-   "norm": "una spremuta e un cappuccino",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "una spremuta e un cappuccino",
-   "tokens": [
-    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [15, 17], "surface": "un", "trailing": " "},
-    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [18, 28], "surface": "cappuccino"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 14,
-   "model": false,
-   "norm": "una spremuta e un cornetto",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "una spremuta e un cornetto",
-   "tokens": [
-    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
-    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [15, 17], "surface": "un", "trailing": " "},
-    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [18, 26], "surface": "cornetto"}
-   ]
-  },
-  {
-   "detections": [
-    {"point": "g:indefinite-article", "tokens": [0, 0]},
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:indefinite-article", "tokens": [3, 3]}
-   ],
-   "expansion": 15,
-   "model": false,
-   "norm": "una spremuta e una spremuta",
-   "of": 16,
-   "path": "talk.points[1].accept[0]",
-   "pattern": "{un {caffè|cappuccino|cornetto}|una spremuta} e {un {caffè|cappuccino|cornetto}|una spremuta}",
-   "ref": "u02.task.talk",
-   "role": "point",
-   "text": "una spremuta e una spremuta",
-   "tokens": [
-    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [0, 3], "surface": "una", "trailing": " "},
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [13, 14], "surface": "e", "trailing": " "},
-    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [15, 18], "surface": "una", "trailing": " "},
-    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [19, 27], "surface": "spremuta"}
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremuta"}
    ]
   },
   {
@@ -3482,11 +3186,244 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 0,
+   "model": false,
+   "norm": "e anche un caffè",
+   "of": 8,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "e( anche) {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "e anche un caffè",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [2, 7], "surface": "anche", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [8, 10], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [11, 16], "surface": "caffè"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "e anche un cappuccino",
+   "of": 8,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "e( anche) {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "e anche un cappuccino",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [2, 7], "surface": "anche", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [8, 10], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [11, 21], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "e anche un cornetto",
+   "of": 8,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "e( anche) {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "e anche un cornetto",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [2, 7], "surface": "anche", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [8, 10], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [11, 19], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [2, 2]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "e anche una spremuta",
+   "of": 8,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "e( anche) {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "e anche una spremuta",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["anche ADV"], "item": "w:anche", "kind": "word", "lemma": "anche", "span": [2, 7], "surface": "anche", "trailing": " "},
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [8, 11], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [12, 20], "surface": "spremuta"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 4,
+   "model": false,
+   "norm": "e un caffè",
+   "of": 8,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "e( anche) {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "e un caffè",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [2, 4], "surface": "un", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [5, 10], "surface": "caffè"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 5,
+   "model": false,
+   "norm": "e un cappuccino",
+   "of": 8,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "e( anche) {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "e un cappuccino",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [2, 4], "surface": "un", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:s"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [5, 15], "surface": "cappuccino"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 6,
+   "model": false,
+   "norm": "e un cornetto",
+   "of": 8,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "e( anche) {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "e un cornetto",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["un ART-M:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "un", "span": [2, 4], "surface": "un", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:s"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [5, 13], "surface": "cornetto"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [0, 0]},
+    {"point": "g:indefinite-article", "tokens": [1, 1]}
+   ],
+   "expansion": 7,
+   "model": false,
+   "norm": "e una spremuta",
+   "of": 8,
+   "path": "talk.points[2].accept[0]",
+   "pattern": "e( anche) {un {caffè|cappuccino|cornetto}|una spremuta}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "e una spremuta",
+   "tokens": [
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [0, 1], "surface": "e", "trailing": " "},
+    {"analyses": ["una ART-F:s"], "detections": ["g:indefinite-article"], "item": "g:indefinite-article", "kind": "word", "lemma": "una", "span": [2, 5], "surface": "una", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:s"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [6, 14], "surface": "spremuta"}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "due caffè",
+   "of": 4,
+   "path": "talk.points[2].accept[1]",
+   "pattern": "due {caffè|cappuccini|cornetti|spremute}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "due caffè",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["caffè NOUN-M:p", "caffè NOUN-M:s"], "item": "w:caffe", "kind": "word", "lemma": "caffè", "span": [4, 9], "surface": "caffè"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "due cappuccini",
+   "of": 4,
+   "path": "talk.points[2].accept[1]",
+   "pattern": "due {caffè|cappuccini|cornetti|spremute}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "due cappuccini",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["cappuccino NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cappuccino", "kind": "word", "lemma": "cappuccino", "span": [4, 14], "surface": "cappuccini"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "due cornetti",
+   "of": 4,
+   "path": "talk.points[2].accept[1]",
+   "pattern": "due {caffè|cappuccini|cornetti|spremute}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "due cornetti",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["cornetto NOUN-M:p"], "detections": ["g:noun-plural"], "item": "w:cornetto", "kind": "word", "lemma": "cornetto", "span": [4, 12], "surface": "cornetti"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:noun-plural", "tokens": [1, 1]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "due spremute",
+   "of": 4,
+   "path": "talk.points[2].accept[1]",
+   "pattern": "due {caffè|cappuccini|cornetti|spremute}",
+   "ref": "u02.task.talk",
+   "role": "point",
+   "text": "due spremute",
+   "tokens": [
+    {"analyses": ["due DET-NUM-CARD", "due PRO-NUM"], "item": "w:due", "kind": "word", "lemma": "due", "span": [0, 3], "surface": "due", "trailing": " "},
+    {"analyses": ["spremuta NOUN-F:p"], "detections": ["g:noun-plural"], "flags": ["synthetic"], "item": "w:spremuta", "kind": "word", "lemma": "spremuta", "span": [4, 12], "surface": "spremute"}
+   ]
+  },
+  {
    "expansion": 0,
    "model": false,
    "norm": "quant'è",
    "of": 3,
-   "path": "talk.points[2].accept[0]",
+   "path": "talk.points[3].accept[0]",
    "pattern": "{quant'è|quanto è|quanto costa}",
    "ref": "u02.task.talk",
    "role": "point",
@@ -3501,7 +3438,7 @@
    "model": false,
    "norm": "quanto è",
    "of": 3,
-   "path": "talk.points[2].accept[0]",
+   "path": "talk.points[3].accept[0]",
    "pattern": "{quant'è|quanto è|quanto costa}",
    "ref": "u02.task.talk",
    "role": "point",
@@ -3516,7 +3453,7 @@
    "model": false,
    "norm": "quanto costa",
    "of": 3,
-   "path": "talk.points[2].accept[0]",
+   "path": "talk.points[3].accept[0]",
    "pattern": "{quant'è|quanto è|quanto costa}",
    "ref": "u02.task.talk",
    "role": "point",
