@@ -11,7 +11,10 @@ final class MacPlayerWindowTests: XCTestCase {
         ui.openUnit(2)
         ui.press("opener.step.0")
         XCTAssertTrue(ui.exists("player.close", timeout: 10))
-        if ui.exists("minipreview.continue", timeout: 2) { ui.press("minipreview.continue") }  // a sheet of its own
+        if ui.exists("minipreview.continue", timeout: 2) {  // a sheet of its own
+            ui.press("minipreview.continue")
+            XCTAssertTrue(ui.element("minipreview.continue").waitForNonExistence(timeout: 5))
+        }
 
         XCTAssertEqual(ui.app.sheets.count, 0, "the player is the window's content, not a sheet")
         XCTAssertFalse(ui.exists("opener.step.0"), "the unit overview has left the window")
