@@ -198,7 +198,7 @@ import Testing
             ])
         })
         let names = try await lettered.letterNames()
-        #expect(names.count == 3)
+        #expect(names.count == 3 && names.doubling == nil)
         #expect(names.name(of: "J") == ["i", "lunga"] && names.name(of: "b") == ["bi"])
         #expect(names.name(of: "a") == ["a"])
         #expect(names.apply(["b", "a", "j"]) == ["bi", "a", "i", "lunga"])
@@ -206,6 +206,23 @@ import Testing
         #expect(report.problems == [] && report.decoded["letters"] == 3)
         let marco = try AnswerPattern("bi, a, i lunga")
         #expect(TranscriptMatcher(letterNames: names).match(transcript: "B-A-J", accepted: marco)?.passed == true)
+    }
+
+    /// CL40: the doubling word is the item `c:doppia`, read by its ID.
+    @Test func theDoublingWordIsTheDoppiaItem() async throws {
+        let reader = try PackReader(url: try TestPack.build { db in
+            try Self.addLetters(db, [("w:esse", "word", "esse", "S")])
+            try TestPack.insert(db, "items", [
+                ["id": PackReader.doublingItem.rawValue, "kind": "chunk", "it": "doppia", "gloss_en": "double",
+                 "unit_id": "u01", "lesson_id": "u01.l1"],
+            ])
+        })
+        let names = try await reader.letterNames()
+        #expect(names.doubling == ["doppia"])
+        var rossi = try AnswerPattern("esse esse")
+        rossi.spelling = [SpellingName(name: "esse", letter: "S")]
+        #expect(TranscriptMatcher(letterNames: names).match(transcript: "doppia S", accepted: rossi)?.passed == true)
+        #expect(TranscriptMatcher(letterNames: names).match(transcript: "S", accepted: rossi)?.passed == false)
     }
 
     @Test func theSchemaKeepsOneItemPerLetterAndOnlyCapitalLetters() throws {

@@ -1,5 +1,5 @@
 {
- "spec": "docs/05 § Speech transcripts. pass = every focus token matched and ≥ 80% of content tokens matched, ignoring accents and collapsing double consonants; numbers converted to Italian words first. Spoken spelling (CL25): after normalising, each standalone single letter of the transcript (or single letters joined by hyphens) becomes its name from letterNames, which the app reads from the pack's letter items; every case is matched with it.",
+ "spec": "docs/05 § Speech transcripts. pass = every focus token matched and ≥ 80% of content tokens matched, ignoring accents and collapsing double consonants; numbers converted to Italian words first. Spoken spelling (CL25): after normalising, each standalone single letter of the transcript (or single letters joined by hyphens) becomes its name from letterNames, which the app reads from the pack's letter items; every case is matched with it. CL40: a case's `spelling` is what the pack builder writes for a pattern whose tokens resolve to letter items (or doppia, the doubling word, letter null); such a pattern is right only letter for letter (every run of letters heard whole, nothing missing or added), and letters are content tokens.",
  "functionWords": [
   "il",
   "lo",
@@ -95,6 +95,7 @@
   "Y": "ipsilon",
   "Z": "zeta"
  },
+ "doubling": "doppia",
  "cases": [
   {
    "accept": "vorrei un cappuccino( per favore)",
@@ -185,55 +186,275 @@
   },
   {
    "accept": "emme, a, erre, ci, o",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "emme",
+     "letter": "M"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
    "transcript": "M A R C O",
    "pass": true,
    "note": "spoken spelling: the recogniser writes single letters, which become their names (CL25)"
   },
   {
    "accept": "emme, a, erre, ci, o",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "emme",
+     "letter": "M"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
    "transcript": "m a r c o",
    "pass": true
   },
   {
    "accept": "emme, a, erre, ci, o",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "emme",
+     "letter": "M"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
    "transcript": "M-A-R-C-O",
    "pass": true,
    "note": "the normaliser keeps a hyphen between letters, so the token is m-a-r-c-o: single letters joined by hyphens are spelled too"
   },
   {
    "accept": "emme, a, erre, ci, o",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "emme",
+     "letter": "M"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
    "transcript": "m. a. r. c. o.",
    "pass": true
   },
   {
    "accept": "Marco, emme, a, erre, ci, o",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "emme",
+     "letter": "M"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
    "transcript": "Marco, M, A, R, C, O.",
    "pass": true
   },
   {
    "accept": "emme, a, erre, ci, o",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "emme",
+     "letter": "M"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
    "transcript": "N A R C O",
    "pass": false,
    "note": "N is enne, not emme"
   },
   {
    "accept": "effe, e, di, e, erre, i, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "di",
+     "letter": "D"
+    },
+    {
+     "name": "e",
+     "letter": "E"
+    },
+    {
+     "name": "effe",
+     "letter": "F"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    }
+   ],
    "transcript": "F E D E R I C A",
    "pass": true
   },
   {
    "accept": "doppia esse",
+   "spelling": [
+    {
+     "name": "doppia",
+     "letter": null
+    },
+    {
+     "name": "esse",
+     "letter": "S"
+    }
+   ],
    "transcript": "doppia S",
    "pass": true
   },
   {
    "accept": "i lunga, o, enne, e, esse",
+   "spelling": [
+    {
+     "name": "e",
+     "letter": "E"
+    },
+    {
+     "name": "enne",
+     "letter": "N"
+    },
+    {
+     "name": "esse",
+     "letter": "S"
+    },
+    {
+     "name": "i lunga",
+     "letter": "J"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
    "transcript": "J O N E S",
    "pass": true,
    "note": "J is i lunga and W doppia vu: a name of two words"
   },
   {
    "accept": "doppia vu, a, elle, ti, e, erre",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "doppia vu",
+     "letter": "W"
+    },
+    {
+     "name": "e",
+     "letter": "E"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "ti",
+     "letter": "T"
+    }
+   ],
    "transcript": "W-A-L-T-E-R",
    "pass": true
   },
@@ -242,6 +463,432 @@
    "transcript": "Vado a Roma e poi a Milano.",
    "pass": true,
    "note": "a vowel's name is the vowel itself: ordinary sentences are unchanged"
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "L U C O",
+   "pass": false,
+   "note": "CL40: one wrong letter is a wrong spelling (ci and a are letters here, content tokens)"
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "L U C A",
+   "pass": true
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "L U A",
+   "pass": false,
+   "note": "a missing letter"
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "L U C C A",
+   "pass": false,
+   "note": "an extra letter inside"
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "L U C A S",
+   "pass": false,
+   "note": "an extra letter after: S was said as a letter"
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "ci",
+     "letter": "C"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "u",
+     "letter": "U"
+    }
+   ],
+   "transcript": "Luca: L U C A, e tu?",
+   "pass": true,
+   "note": "a vowel next to the spelling may be an ordinary word (e tu)"
+  },
+  {
+   "accept": "elle, u, ci, a",
+   "transcript": "L U C O",
+   "pass": true,
+   "note": "no spelling from the pack: the pattern is matched as words (ci, a are function words)"
+  },
+  {
+   "accept": "{vu, e, enne, ti, i|vi, e, enne, ti, i}",
+   "spelling": [
+    {
+     "name": "e",
+     "letter": "E"
+    },
+    {
+     "name": "enne",
+     "letter": "N"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    },
+    {
+     "name": "ti",
+     "letter": "T"
+    },
+    {
+     "name": "vi",
+     "letter": "V"
+    },
+    {
+     "name": "vu",
+     "letter": "V"
+    }
+   ],
+   "transcript": "V E N T I",
+   "pass": true
+  },
+  {
+   "accept": "{vu, e, enne, ti, i|vi, e, enne, ti, i}",
+   "spelling": [
+    {
+     "name": "e",
+     "letter": "E"
+    },
+    {
+     "name": "enne",
+     "letter": "N"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    },
+    {
+     "name": "ti",
+     "letter": "T"
+    },
+    {
+     "name": "vi",
+     "letter": "V"
+    },
+    {
+     "name": "vu",
+     "letter": "V"
+    }
+   ],
+   "transcript": "vi e enne ti i",
+   "pass": true,
+   "note": "vi for vu: an accepted variant"
+  },
+  {
+   "accept": "{vu, e, enne, ti, i|vi, e, enne, ti, i}",
+   "spelling": [
+    {
+     "name": "e",
+     "letter": "E"
+    },
+    {
+     "name": "enne",
+     "letter": "N"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    },
+    {
+     "name": "ti",
+     "letter": "T"
+    },
+    {
+     "name": "vi",
+     "letter": "V"
+    },
+    {
+     "name": "vu",
+     "letter": "V"
+    }
+   ],
+   "transcript": "V E N T",
+   "pass": false
+  },
+  {
+   "accept": "erre, o, doppia esse, i",
+   "spelling": [
+    {
+     "name": "doppia",
+     "letter": null
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "esse",
+     "letter": "S"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
+   "transcript": "R O S S I",
+   "pass": true,
+   "note": "esse esse for doppia esse: both read SS"
+  },
+  {
+   "accept": "erre, o, doppia esse, i",
+   "spelling": [
+    {
+     "name": "doppia",
+     "letter": null
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "esse",
+     "letter": "S"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
+   "transcript": "erre o doppia S i",
+   "pass": true
+  },
+  {
+   "accept": "erre, o, doppia esse, i",
+   "spelling": [
+    {
+     "name": "doppia",
+     "letter": null
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "esse",
+     "letter": "S"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
+   "transcript": "R O S I",
+   "pass": false
+  },
+  {
+   "accept": "erre, o, esse, esse, i",
+   "spelling": [
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "esse",
+     "letter": "S"
+    },
+    {
+     "name": "i",
+     "letter": "I"
+    },
+    {
+     "name": "o",
+     "letter": "O"
+    }
+   ],
+   "transcript": "R O doppia S I",
+   "pass": true,
+   "note": "the pack's doubling word reads in any spelled answer"
+  },
+  {
+   "accept": "{doppia vu|vu doppia}, a, elle, ti, e, erre",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "doppia vu",
+     "letter": "W"
+    },
+    {
+     "name": "e",
+     "letter": "E"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "ti",
+     "letter": "T"
+    },
+    {
+     "name": "vu doppia",
+     "letter": "W"
+    }
+   ],
+   "transcript": "vu doppia A L T E R",
+   "pass": true,
+   "note": "vu doppia for doppia vu"
+  },
+  {
+   "accept": "{doppia vu|vu doppia}, a, elle, ti, e, erre",
+   "spelling": [
+    {
+     "name": "a",
+     "letter": "A"
+    },
+    {
+     "name": "doppia vu",
+     "letter": "W"
+    },
+    {
+     "name": "e",
+     "letter": "E"
+    },
+    {
+     "name": "elle",
+     "letter": "L"
+    },
+    {
+     "name": "erre",
+     "letter": "R"
+    },
+    {
+     "name": "ti",
+     "letter": "T"
+    },
+    {
+     "name": "vu doppia",
+     "letter": "W"
+    }
+   ],
+   "transcript": "W A L T E R",
+   "pass": true
+  },
+  {
+   "accept": "vado a Roma e a Milano",
+   "transcript": "vado Roma Milano",
+   "pass": true,
+   "note": "ordinary a and e stay function words"
   }
  ]
 }

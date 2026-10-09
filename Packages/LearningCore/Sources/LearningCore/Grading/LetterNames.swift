@@ -9,14 +9,21 @@ import Foundation
 /// A vowel's name is the vowel itself, so *a*, *e*, *i*, *o* in ordinary sentences stay as they are. A token of single
 /// letters joined by hyphens (`m-a-r-c-o`: the normaliser keeps a hyphen between two letters) is spelled too; a token
 /// with any longer part (`e-mail`) is not. Patterns and typed answers are never mapped.
+///
+/// The doubling word (*doppia*, the pack's `c:doppia`) lets a spelled answer say a double letter either way (CL40:
+/// *doppia esse* or *esse esse*); it is never mapped to, only read (`LetterReader`).
 public struct LetterNames: Sendable, Hashable {
     /// Lowercase letter (a one-character string) → the normalised tokens of its name.
-    private let names: [String: [String]]
+    let names: [String: [String]]
+    /// The doubling word's normalised tokens, when the pack has one.
+    public let doubling: [String]?
 
-    /// - Parameter names: letter (`"B"`: one ASCII letter, either case) → its Italian name as the pack writes it
-    ///   (`"bi"`, `"i lunga"`). An entry whose key isn't one ASCII letter, or whose name normalises to nothing, is
-    ///   left out (the pack reader refuses such a row before it gets here).
-    public init(_ names: [String: String] = [:]) {
+    /// - Parameters:
+    ///   - names: letter (`"B"`: one ASCII letter, either case) → its Italian name as the pack writes it (`"bi"`,
+    ///     `"i lunga"`). An entry whose key isn't one ASCII letter, or whose name normalises to nothing, is left out
+    ///     (the pack reader refuses such a row before it gets here).
+    ///   - doubling: the doubling word as the pack writes it (`c:doppia`'s `it`), if any.
+    public init(_ names: [String: String] = [:], doubling: String? = nil) {
         var map: [String: [String]] = [:]
         for (letter, name) in names {
             guard let key = Self.key(letter) else { continue }
@@ -24,6 +31,8 @@ public struct LetterNames: Sendable, Hashable {
             if !tokens.isEmpty { map[key] = tokens }
         }
         self.names = map
+        let doublingTokens = doubling.map(Normalizer.tokens) ?? []
+        self.doubling = doublingTokens.isEmpty ? nil : doublingTokens
     }
 
     /// No letters: transcripts are matched as they are (a pack without letter items).
@@ -48,18 +57,27 @@ public struct LetterNames: Sendable, Hashable {
     /// `tokens` (normalised, as `Normalizer.tokens` gives them) with every spelled letter replaced by its name's
     /// tokens: `["m", "a", "r", "c", "o"]` → `["emme", "a", "erre", "ci", "o"]`, `["doppia", "s"]` →
     /// `["doppia", "esse"]`. Every other token is kept as it is.
-    public func apply(_ tokens: [String]) -> [String] {
-        guard !names.isEmpty else { return tokens }
+    public func apply(_ tokens: [String]) -> [String] { marking(tokens).tokens }
+
+    /// `apply(_:)`, plus the indices of the output tokens that are surely letters: those mapped from a single
+    /// consonant (a vowel may be the word *a*, *e*, *i*, *o*) or from single letters joined by hyphens. Spelled
+    /// answers count such a letter next to a spelling as an extra letter (CL40, `LetterReader`).
+    public func marking(_ tokens: [String]) -> (tokens: [String], spelled: Set<Int>) {
+        guard !names.isEmpty else { return (tokens, []) }
         var out: [String] = []
+        var sure = Set<Int>()
         out.reserveCapacity(tokens.count)
         for token in tokens {
             if let spelled = spelled(token) {
+                if token.contains("-") || spelled != [token] {
+                    sure.formUnion(out.count..<(out.count + spelled.count))
+                }
                 out.append(contentsOf: spelled)
             } else {
                 out.append(token)
             }
         }
-        return out
+        return (out, sure)
     }
 
     /// The names of a spelled token: one letter (`m`), or single letters joined by hyphens (`m-a-r-c-o`).

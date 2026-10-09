@@ -37,10 +37,24 @@
     },
     "pattern": {
       "type": "object",
-      "required": ["source", "expansions"],
+      "required": ["source", "expansions", "spelling"],
       "properties": {
         "source": {"type": "string", "description": "the answer pattern as authored (docs/03); the first expansion is the model answer"},
-        "expansions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "normalised, learner-independent (slots as placeholders); for display in the answer key. An all-optional pattern's empty expansion is left out"}
+        "expansions": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "normalised, learner-independent (slots as placeholders); for display in the answer key. An all-optional pattern's empty expansion is left out"},
+        "spelling": {
+          "type": ["array", "null"],
+          "minItems": 1,
+          "description": "CL40, docs/05 § Speech transcripts: for a pattern whose tokens resolve to letter items or c:doppia (from the annotation), each name it spells with and its letter (null for doppia, the next letter twice), sorted by name; null for every other pattern",
+          "items": {
+            "type": "object",
+            "required": ["name", "letter"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1, "description": "normalised: 'elle', 'vi', 'i lunga', 'doppia'"},
+              "letter": {"type": ["string", "null"], "pattern": "^[A-Z]$"}
+            },
+            "additionalProperties": false
+          }
+        }
       }
     },
     "near": {

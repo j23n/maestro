@@ -20,8 +20,12 @@ import Testing
     }
 
     /// A pattern as payloads carry it (the expansions are only the answer key; graders parse the source).
-    static func pattern(_ source: String) -> [String: Any] {
-        ["source": source, "expansions": [Normalizer.normalize(source)]]
+    static func pattern(_ source: String, spelling: [String: String]? = nil) -> [String: Any] {
+        var out: [String: Any] = ["source": source, "expansions": [Normalizer.normalize(source)]]
+        if let spelling {
+            out["spelling"] = spelling.keys.sorted().map { ["name": $0, "letter": spelling[$0] ?? ""] }
+        }
+        return out
     }
 
     /// An example exercise with some of its JSON replaced.
@@ -101,6 +105,20 @@ import Testing
         unmapped.submitSpoken(heard)
         #expect(sink.drafts.map(\.outcome) == [.correct, .wrong])
         #expect(sink.drafts.allSatisfy { $0.mode == .spoken })
+    }
+
+    /// CL40: a recall that spells, as the pack gives it (`spelling`), is right only letter for letter when spoken.
+    @Test func aSpokenSpellingIsRightOnlyLetterForLetter() throws {
+        let payload = try Self.exercise("u02.l1.ex04") { raw in
+            raw["answer"] = Self.pattern("elle, u, ci, a", spelling: ["elle": "L", "u": "U", "ci": "C", "a": "A"])
+            raw["near"] = [Any]()
+        }
+        let task = try #require(TypedTask(payload: payload))
+        for transcript in ["L U C O", "L U C A"] {
+            let model = TypedExerciseModel(task: task, env: env(try Self.letters()), sink: sink)
+            model.submitSpoken(SpeechResult(transcript: transcript, alternatives: [], confidence: nil))
+        }
+        #expect(sink.drafts.map(\.outcome) == [.wrong, .correct])
     }
 
     /// AppModel reads the names from the pack and hands them to every player it launches. (The mini pack, built from

@@ -8,12 +8,16 @@ import Testing
     struct Fixture: Decodable {
         struct Case: Decodable {
             let accept: String
+            /// What the pack builder writes for a pattern that spells (CL40).
+            let spelling: [SpellingName]?
             let transcript: String
             let pass: Bool
         }
         let functionWords: [String]
         /// The letter items' names as the pack carries them (`items.letter` → `items.it`).
         let letterNames: [String: String]
+        /// The doubling word (`c:doppia`'s `it`).
+        let doubling: String
         let cases: [Case]
     }
 
@@ -28,11 +32,13 @@ import Testing
 
     @Test func everyTranscriptCase() throws {
         let fixture = try Self.fixture()
-        #expect(fixture.cases.count >= 27)
+        #expect(fixture.cases.count >= 44)
         #expect(fixture.letterNames.count == 26)
-        let matcher = TranscriptMatcher(letterNames: LetterNames(fixture.letterNames))
+        let matcher = TranscriptMatcher(letterNames: try Self.letters())
         for c in fixture.cases {
-            let match = try #require(matcher.match(transcript: c.transcript, accepted: try AnswerPattern(c.accept)))
+            var accepted = try AnswerPattern(c.accept)
+            accepted.spelling = c.spelling
+            let match = try #require(matcher.match(transcript: c.transcript, accepted: accepted))
             #expect(match.passed == c.pass, "\(c.transcript) for \(c.accept)")
         }
     }
@@ -119,7 +125,17 @@ import Testing
 
     // MARK: - Spoken spelling (CL25)
 
-    static func letters() throws -> LetterNames { LetterNames(try fixture().letterNames) }
+    static func letters() throws -> LetterNames {
+        let fixture = try fixture()
+        return LetterNames(fixture.letterNames, doubling: fixture.doubling)
+    }
+
+    /// A pattern as the pack gives it when it spells: `spelling` names every letter it uses (CL40).
+    static func spelled(_ source: String, _ names: [String: String?]) throws -> AnswerPattern {
+        var pattern = try AnswerPattern(source)
+        pattern.spelling = names.map { SpellingName(name: $0.key, letter: $0.value) }.sorted { $0.name < $1.name }
+        return pattern
+    }
 
     @Test func spelledLettersBecomeTheirNames() throws {
         let spelling = TranscriptMatcher(letterNames: try Self.letters())
@@ -159,6 +175,65 @@ import Testing
             let unmapped = try #require(matcher.match(transcript: transcript, accepted: accepted))
             #expect(match.heardTokens == unmapped.heardTokens, "\(transcript)")
         }
+    }
+
+    // MARK: - Spelled answers (CL40)
+
+    static let luca: [String: String?] = ["elle": "L", "u": "U", "ci": "C", "a": "A"]
+
+    @Test func aSpellingIsRightOnlyLetterForLetter() throws {
+        let spelling = TranscriptMatcher(letterNames: try Self.letters())
+        let luca = try Self.spelled("elle, u, ci, a", Self.luca)
+        let right = try #require(spelling.match(transcript: "L U C A", accepted: luca))
+        #expect(right.passed && right.found == [0, 1, 2, 3])
+        // Letters are content tokens, never function words: ci and a count.
+        #expect(right.contentTotal == 4 && right.contentHeard == 4)
+        for wrong in ["L U C O", "L U A", "L U C C A", "L U C A S", "U L C A"] {
+            let miss = try #require(spelling.match(transcript: wrong, accepted: luca))
+            #expect(!miss.passed, "\(wrong)")
+            #expect(miss.missing == [0, 1, 2, 3] && miss.contentHeard == 0, "\(wrong)")
+        }
+        // Without the pack's spelling the same pattern is words: ci and a are function words, so L U C O passed.
+        #expect(spelling.match(transcript: "L U C O", accepted: try AnswerPattern("elle, u, ci, a"))?.passed == true)
+    }
+
+    @Test func wordsAroundASpellingFollowTheUsualRule() throws {
+        let spelling = TranscriptMatcher(letterNames: try Self.letters())
+        let marco = try Self.spelled(
+            "Mi chiamo Marco: emme, a, erre, ci, o", ["emme": "M", "a": "A", "erre": "R", "ci": "C", "o": "O"])
+        // chiamo and marco are two content words: one heard is 50%, so the words fail even with every letter.
+        #expect(spelling.match(transcript: "Mi chiamo Luigi, M A R C O", accepted: marco)?.passed == false)
+        let heard = try #require(spelling.match(transcript: "chiamo Marco. M A R C O e tu?", accepted: marco))
+        #expect(heard.passed && heard.missing == [0])  // mi is a function word
+        #expect(heard.contentTotal == 7 && heard.contentHeard == 7)
+        // The letters must be heard as letters: Marco said again is not a spelling.
+        #expect(spelling.match(transcript: "Mi chiamo Marco, Marco", accepted: marco)?.passed == false)
+    }
+
+    @Test func acceptedVariantsAndDoubleLettersReadAsTheSameLetters() throws {
+        let spelling = TranscriptMatcher(letterNames: try Self.letters())
+        let rossi = try Self.spelled(
+            "erre, o, doppia esse, i", ["erre": "R", "o": "O", "doppia": nil, "esse": "S", "i": "I"])
+        for heard in ["R O S S I", "erre o doppia esse i", "R, O, doppia S, I", "R-O-S-S-I"] {
+            #expect(spelling.match(transcript: heard, accepted: rossi)?.passed == true, "\(heard)")
+        }
+        #expect(spelling.match(transcript: "R O S I", accepted: rossi)?.passed == false)
+        #expect(spelling.match(transcript: "R O S S S I", accepted: rossi)?.passed == false)
+        let jones = try Self.spelled(
+            "i lunga, o, enne, e, esse", ["i lunga": "J", "o": "O", "enne": "N", "e": "E", "esse": "S"])
+        #expect(spelling.match(transcript: "J O N E S", accepted: jones)?.passed == true)
+        #expect(spelling.match(transcript: "I O N E S", accepted: jones)?.passed == false)  // I is not J
+        let venti = try Self.spelled(
+            "{vu|vi}, e, enne, ti, i", ["vu": "V", "vi": "V", "e": "E", "enne": "N", "ti": "T", "i": "I"])
+        #expect(spelling.match(transcript: "vi e enne ti i", accepted: venti)?.passed == true)
+        #expect(spelling.match(transcript: "V E N T I", accepted: venti)?.passed == true)
+    }
+
+    @Test func ordinaryWordsStayFunctionWords() throws {
+        let spelling = TranscriptMatcher(letterNames: try Self.letters())
+        let sentence = try AnswerPattern("vado a Roma e poi a Milano o a Torino")
+        let heard = try #require(spelling.match(transcript: "vado Roma poi Milano Torino", accepted: sentence))
+        #expect(heard.passed && heard.contentTotal == 5)
     }
 }
 

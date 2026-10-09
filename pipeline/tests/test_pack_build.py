@@ -25,6 +25,8 @@ from itcontent.pack import build as build_mod
 from itcontent.pack import db
 from itcontent.pack.build import AudioOptions, BuildError, build_pack, select_scope, update_ids_lock
 from itcontent.pack.common import Report
+from itcontent.pack.locks import LockFile, LockString
+from itcontent.pack.payloads import ExerciseInput, exercise_payload, spelling_letters, spelling_of
 
 EXPECTED = Path(__file__).parent / "fixtures" / "expected-requirements-u02-l1.json"
 DDL_TABLES = 27
@@ -323,7 +325,11 @@ def test_generated_preview_exercises(dev):
     assert [t["itemId"] for t in match["pairs"][0]["left"]["tokens"]] == ["w:caffe", "w:caffe"]
     recall = payload("u02.l1.step-preview.b1.w-cornetto")
     assert recall["format"] == "recall" and recall["promptEn"] == "croissant"
-    assert recall["answer"] == {"source": "{il|un} [cornetto]", "expansions": ["il cornetto", "un cornetto"]}
+    assert recall["answer"] == {
+        "source": "{il|un} [cornetto]",
+        "expansions": ["il cornetto", "un cornetto"],
+        "spelling": None,
+    }
     assert recall["near"][0]["outcome"] == "correctWithNote"
     assert payload("u02.l1.step-preview.b2.w-amico")["answer"]["source"] == "{l'amico|l'amica|un amico|un'amica}"
     assert payload("u02.l1.step-preview.b1.c-quant-e")["answer"]["source"] == "quant'è"
@@ -337,7 +343,7 @@ def test_cloze_payload_splits_around_the_gap(dev):
     _, con = dev
     p = json.loads(con.execute("SELECT payload FROM exercises WHERE id = 'u02.l1.ex03'").fetchone()[0])
     assert p["before"]["text"] == "Giulia è "
-    assert p["gap"] == {"source": "un'", "expansions": ["un'"]}
+    assert p["gap"] == {"source": "un'", "expansions": ["un'"], "spelling": None}
     assert p["after"]["text"] == "amica di Sara." and p["after"]["lead"] == ""
     assert p["source"] is None
     p = json.loads(con.execute("SELECT payload FROM exercises WHERE id = 'u02.l1.ex01'").fetchone()[0])
@@ -538,3 +544,93 @@ def test_cli_build_and_pack_hash(tmp_path):
     assert res.exit_code == 0 and res.output.strip() == printed
     assert runner.invoke(app, ["build", "--mini", "--release"]).exit_code == 2
     assert runner.invoke(app, ["pack-hash", "--pack", str(tmp_path / "none.sqlite")]).exit_code == 1
+
+
+# ---------------------------------------------------------------- CL40: what a pattern spells
+
+
+def lock_entry(path: str, tokens: list[tuple[str, str | None, str | None]], flags: dict[int, list[str]] | None = None):
+    """A lock string whose word tokens are (surface, item, chunk)."""
+    return LockString.from_json(
+        "content/x.yaml",
+        {
+            "path": path,
+            "role": "answer",
+            "text": " ".join(t[0] for t in tokens),
+            "tokens": [
+                {"surface": s, "kind": "word", "item": i, "chunk": c, "flags": (flags or {}).get(n, [])}
+                for n, (s, i, c) in enumerate(tokens)
+            ],
+        },
+    )
+
+
+LETTERS = {"w:elle": "L", "w:u": "U", "w:ci~letter": "C", "w:a~letter": "A", "c:i-lunga": "J", "c:doppia": None}
+
+
+def test_a_pattern_spells_what_its_annotation_resolves_to_letters():
+    luca = [
+        lock_entry(
+            "a", [("elle", "w:elle", None), ("u", "w:u", None), ("ci", "w:ci~letter", None), ("a", "w:a~letter", None)]
+        )
+    ]
+    assert spelling_of(luca, LETTERS, "x") == [
+        {"name": "a", "letter": "A"},
+        {"name": "ci", "letter": "C"},
+        {"name": "elle", "letter": "L"},
+        {"name": "u", "letter": "U"},
+    ]
+    # A chunk's tokens are one name; doppia doubles; an article (lexical_article) and other words aren't letters.
+    mixed = [
+        lock_entry(
+            "a", [("Marco", "w:marco", None), ("i", "c:i-lunga", "c:i-lunga"), ("lunga", "c:i-lunga", "c:i-lunga")]
+        ),
+        lock_entry(
+            "a",
+            [("la", "w:a~letter", None), ("a", "w:a~letter", None), ("doppia", "c:doppia", "c:doppia")],
+            {0: ["lexical_article"]},
+        ),
+    ]
+    assert spelling_of(mixed, LETTERS, "x") == [
+        {"name": "a", "letter": "A"},
+        {"name": "doppia", "letter": None},
+        {"name": "i lunga", "letter": "J"},
+    ]
+    # No letter: not spelled. The same name as a letter and as a word: an error (the app reads letters by name).
+    assert spelling_of([lock_entry("a", [("vado", "w:andare", None), ("a", "w:a", None)])], LETTERS, "x") is None
+    with pytest.raises(BuildError, match="'a' is a letter in one place and a word in another"):
+        spelling_of([*luca, lock_entry("a", [("a", "w:a", None), ("Roma", None, None)])], LETTERS, "x")
+
+
+def test_spelled_payloads_carry_their_spelling():
+    lock = LockFile(
+        "content/x.yaml",
+        [
+            lock_entry("ex.answer", [("elle", "w:elle", None), ("u", "w:u", None)]),
+            lock_entry("ex.say", [("Elle", "w:elle", None), ("u", "w:u", None)]),
+        ],
+    )
+    x = ExerciseInput(
+        {"id": "u00.l3.ex01", "format": "recall", "answer": "elle, u", "prompt_en": "Spell Lu", "say": "Elle, u."},
+        ("ex",),
+        lock,
+        "u00",
+        "u00.l3.step-practice",
+        "practice",
+        "learn",
+        frozenset(),
+        None,
+        None,
+        lambda _: None,
+        LETTERS,
+    )
+    spelled = [{"name": "elle", "letter": "L"}, {"name": "u", "letter": "U"}]
+    assert exercise_payload(x)["answer"] == {"source": "elle, u", "expansions": ["elle u"], "spelling": spelled}
+    assert x.pattern("answer")["spelling"] == spelled
+    # Without letter items in the pack nothing spells.
+    plain = ExerciseInput(**{**x.__dict__, "letters": {}})
+    assert exercise_payload(plain)["answer"]["spelling"] is None
+    assert spelling_letters({"w:elle": {"letter": "L"}, "w:caffe": {}, "c:doppia": {}}) == {
+        "w:elle": "L",
+        "c:doppia": None,
+    }

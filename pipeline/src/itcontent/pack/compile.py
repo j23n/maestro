@@ -9,6 +9,7 @@ line, as in a payload's token array.
 
 from __future__ import annotations
 
+import functools
 import math
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
@@ -21,7 +22,7 @@ from itcontent.normalize import normalize
 from itcontent.pack import display
 from itcontent.pack.common import BuildError, Report, cjson, mapping, opt_str, seq
 from itcontent.pack.locks import LockFile, Locks, LockString, tokenized
-from itcontent.pack.payloads import ExerciseInput, exercise_payload, layout_payload, pattern
+from itcontent.pack.payloads import ExerciseInput, exercise_payload, layout_payload, pattern, spelling_letters
 from itcontent.pack.requirements import (
     HEARD_TEXT,
     LISTEN,
@@ -280,6 +281,11 @@ class Compiler:
             status = str(p.get("status", "P"))
             skills = {"read": status, "recall": status} if status == "P" else {"read": status}
             self.item_info[pid] = ItemInfo(pid, "grammar", str(p.get("unit")), skills, grammar_status=status)
+
+    @functools.cached_property
+    def letters(self) -> dict[str, str | None]:
+        """Item ID → the letter it spells, or None for the doubling word (CL40; `spelling_letters`)."""
+        return spelling_letters(self.items)
 
     def item_gloss(self, iid: str) -> str | None:
         item = self.items.get(iid)
@@ -754,7 +760,18 @@ class Compiler:
         lock = self.locks[doc.rel]
         source, source_ref, audio_text_id, text_pairs = self.sources(data, path, doc, exclude)
         x = ExerciseInput(
-            data, path, lock, unit_id, step_id, step_kind, role, targets, source, audio_text_id, self.item_gloss
+            data,
+            path,
+            lock,
+            unit_id,
+            step_id,
+            step_kind,
+            role,
+            targets,
+            source,
+            audio_text_id,
+            self.item_gloss,
+            self.letters,
         )
         payload = exercise_payload(x)
         self.exercise_audio(payload, data, doc.rel, unit_id)

@@ -55,13 +55,21 @@ public struct TokenizedText: Codable, Sendable, Hashable {
 public struct PatternPayload: Codable, Sendable, Hashable {
     public let source: String
     public let expansions: [String]
+    /// The names its tokens spell with, when they resolve to letter items or *doppia* (CL40): spoken answers then
+    /// have to give its letters letter for letter (docs/05 § Speech transcripts). nil for every other pattern.
+    public let spelling: [SpellingName]?
 
-    public init(source: String, expansions: [String]) {
+    public init(source: String, expansions: [String], spelling: [SpellingName]? = nil) {
         self.source = source
         self.expansions = expansions
+        self.spelling = spelling
     }
 
-    public func parsed() throws(PatternError) -> AnswerPattern { try AnswerPattern(source) }
+    public func parsed() throws(PatternError) -> AnswerPattern {
+        var pattern = try AnswerPattern(source)
+        pattern.spelling = spelling
+        return pattern
+    }
 }
 
 public struct NearPayload: Codable, Sendable, Hashable {
