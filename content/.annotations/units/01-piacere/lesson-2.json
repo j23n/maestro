@@ -226,13 +226,12 @@
   {
    "detections": [
     {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:simple-prepositions", "tokens": [9, 9]},
-    {"point": "g:past-time-expressions", "tokens": [11, 11]}
+    {"point": "g:simple-prepositions", "tokens": [10, 10]}
    ],
    "path": "steps[1].text.lines[12].it",
    "ref": "u01.l2.story#13",
    "role": "line",
-   "text": "Sono nato e abito a Toronto. Sono arrivato a Bologna ieri.",
+   "text": "Sono nato e abito a Toronto. Sono appena arrivato a Bologna.",
    "tokens": [
     {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-nato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "Sono", "trailing": " "},
     {"analyses": ["nascere VER:part+past+s+m", "nato ADJ:pos+m+s", "nato NOUN-M:s"], "chunk": "c:sono-nato", "kind": "word", "span": [5, 9], "surface": "nato", "trailing": " "},
@@ -242,11 +241,11 @@
     {"kind": "name", "span": [20, 27], "surface": "Toronto"},
     {"kind": "punct", "span": [27, 28], "surface": ".", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "essere", "span": [29, 33], "surface": "Sono", "trailing": " "},
-    {"analyses": ["arrivare VER:part+past+s+m", "arrivato ADJ:pos+m+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [34, 42], "surface": "arrivato", "trailing": " "},
-    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [43, 44], "surface": "a", "trailing": " "},
-    {"kind": "name", "span": [45, 52], "surface": "Bologna", "trailing": " "},
-    {"analyses": ["ieri ADV"], "detections": ["g:past-time-expressions"], "flags": ["new", "recognise"], "gloss": "yesterday", "kind": "word", "lemma": "ieri", "span": [53, 57], "surface": "ieri"},
-    {"kind": "punct", "span": [57, 58], "surface": "."}
+    {"analyses": ["appena ADV"], "chunk": "c:sono-arrivato", "gloss": "just", "kind": "word", "lemma": "appena", "span": [34, 40], "surface": "appena", "trailing": " "},
+    {"analyses": ["arrivare VER:part+past+s+m", "arrivato ADJ:pos+m+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [41, 49], "surface": "arrivato", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [50, 51], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [52, 59], "surface": "Bologna"},
+    {"kind": "punct", "span": [59, 60], "surface": "."}
    ]
   },
   {
@@ -2206,9 +2205,9 @@
    "expansion": 0,
    "model": true,
    "norm": "sono arrivato a bologna",
-   "of": 2,
+   "of": 4,
    "path": "steps[3].block[13].answer",
-   "pattern": "{sono arrivato a Bologna|io sono arrivato a Bologna}",
+   "pattern": "{sono arrivato a Bologna|io sono arrivato a Bologna|sono appena arrivato a Bologna|io sono appena arrivato a Bologna}",
    "ref": "u01.l2.ex14",
    "role": "answer",
    "text": "sono arrivato a Bologna",
@@ -2227,9 +2226,9 @@
    "expansion": 1,
    "model": false,
    "norm": "io sono arrivato a bologna",
-   "of": 2,
+   "of": 4,
    "path": "steps[3].block[13].answer",
-   "pattern": "{sono arrivato a Bologna|io sono arrivato a Bologna}",
+   "pattern": "{sono arrivato a Bologna|io sono arrivato a Bologna|sono appena arrivato a Bologna|io sono appena arrivato a Bologna}",
    "ref": "u01.l2.ex14",
    "role": "answer",
    "text": "io sono arrivato a Bologna",
@@ -2243,15 +2242,82 @@
   },
   {
    "detections": [
-    {"point": "g:subject-pronouns", "tokens": [0, 0]},
     {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "sono appena arrivato a bologna",
+   "of": 4,
+   "path": "steps[3].block[13].answer",
+   "pattern": "{sono arrivato a Bologna|io sono arrivato a Bologna|sono appena arrivato a Bologna|io sono appena arrivato a Bologna}",
+   "ref": "u01.l2.ex14",
+   "role": "answer",
+   "text": "sono appena arrivato a Bologna",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["appena ADV"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "appena", "span": [5, 11], "surface": "appena", "trailing": " "},
+    {"analyses": ["arrivare VER:part+past+s+m", "arrivato ADJ:pos+m+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [12, 20], "surface": "arrivato", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [21, 22], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [23, 30], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [4, 4]}
+   ],
+   "expansion": 3,
+   "model": false,
+   "norm": "io sono appena arrivato a bologna",
+   "of": 4,
+   "path": "steps[3].block[13].answer",
+   "pattern": "{sono arrivato a Bologna|io sono arrivato a Bologna|sono appena arrivato a Bologna|io sono appena arrivato a Bologna}",
+   "ref": "u01.l2.ex14",
+   "role": "answer",
+   "text": "io sono appena arrivato a Bologna",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["appena ADV"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "appena", "span": [8, 14], "surface": "appena", "trailing": " "},
+    {"analyses": ["arrivare VER:part+past+s+m", "arrivato ADJ:pos+m+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [15, 23], "surface": "arrivato", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [24, 25], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [26, 33], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [4, 4]}
    ],
    "expansion": 0,
    "model": false,
-   "norm": "io sono arrivata a bologna",
-   "of": 2,
+   "norm": "io sono appena arrivata a bologna",
+   "of": 4,
    "path": "steps[3].block[13].near[0].answer",
-   "pattern": "(io )sono arrivata a Bologna",
+   "pattern": "(io )sono (appena )arrivata a Bologna",
+   "ref": "u01.l2.ex14",
+   "role": "near",
+   "text": "io sono appena arrivata a Bologna",
+   "tokens": [
+    {"analyses": ["io PRO-PERS-1-F-S", "io PRO-PERS-1-M-S"], "detections": ["g:subject-pronouns"], "item": "w:io", "kind": "word", "lemma": "io", "span": [0, 2], "surface": "io", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "essere", "span": [3, 7], "surface": "sono", "trailing": " "},
+    {"analyses": ["appena ADV"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "appena", "span": [8, 14], "surface": "appena", "trailing": " "},
+    {"analyses": ["arrivare VER:part+past+s+f", "arrivato ADJ:pos+f+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [15, 23], "surface": "arrivata", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [24, 25], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [26, 33], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 1,
+   "model": false,
+   "norm": "io sono arrivata a bologna",
+   "of": 4,
+   "path": "steps[3].block[13].near[0].answer",
+   "pattern": "(io )sono (appena )arrivata a Bologna",
    "ref": "u01.l2.ex14",
    "role": "near",
    "text": "io sono arrivata a Bologna",
@@ -2265,14 +2331,35 @@
   },
   {
    "detections": [
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 2,
+   "model": false,
+   "norm": "sono appena arrivata a bologna",
+   "of": 4,
+   "path": "steps[3].block[13].near[0].answer",
+   "pattern": "(io )sono (appena )arrivata a Bologna",
+   "ref": "u01.l2.ex14",
+   "role": "near",
+   "text": "sono appena arrivata a Bologna",
+   "tokens": [
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "sono", "trailing": " "},
+    {"analyses": ["appena ADV"], "chunk": "c:sono-arrivato", "kind": "word", "lemma": "appena", "span": [5, 11], "surface": "appena", "trailing": " "},
+    {"analyses": ["arrivare VER:part+past+s+f", "arrivato ADJ:pos+f+s"], "chunk": "c:sono-arrivato", "kind": "word", "span": [12, 20], "surface": "arrivata", "trailing": " "},
+    {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [21, 22], "surface": "a", "trailing": " "},
+    {"kind": "name", "span": [23, 30], "surface": "Bologna"}
+   ]
+  },
+  {
+   "detections": [
     {"point": "g:simple-prepositions", "tokens": [2, 2]}
    ],
-   "expansion": 1,
+   "expansion": 3,
    "model": false,
    "norm": "sono arrivata a bologna",
-   "of": 2,
+   "of": 4,
    "path": "steps[3].block[13].near[0].answer",
-   "pattern": "(io )sono arrivata a Bologna",
+   "pattern": "(io )sono (appena )arrivata a Bologna",
    "ref": "u01.l2.ex14",
    "role": "near",
    "text": "sono arrivata a Bologna",

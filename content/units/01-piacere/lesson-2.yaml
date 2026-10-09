@@ -1,5 +1,6 @@
 # Unit 1, Lesson 2. DRAFT (C3): the Italian must be reviewed by the content lead before it is approved.
-# Marco's first morning at the coworking space: the receptionist (a minor role) uses Lei, Sara uses tu.
+# Marco's first morning at the coworking space (the day after lesson 1, CL16: "Sono appena arrivato", never ieri):
+# the receptionist (a minor role) uses Lei, Sara uses tu.
 # Note: nationalities (-o/-a and -e) and non. Story line references (#n) are 1-based.
 id: u01.l2
 title: {it: "Di dove sei?", en: "Where are you from?"}
@@ -35,7 +36,7 @@ steps:
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Piacere! Di dove sei? Sei inglese?", en: "Nice to meet you! Where are you from? Are you English?"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "No, non sono inglese. Sono canadese.", en: "No, I'm not English. I'm Canadian."}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Ah, canadese! Dove abiti in Canada?", en: "Oh, Canadian! Where do you live in Canada?"}
-        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sono nato e abito a Toronto. Sono arrivato a Bologna ieri.", en: "I was born in Toronto and I live there. I arrived in Bologna yesterday.", recognise: [ieri], gloss: {ieri: yesterday}}
+        - {speaker: ch:marco, to: ch:sara, register: tu, it: "Sono nato e abito a Toronto. Sono appena arrivato a Bologna.", en: "I was born in Toronto and I live there. I've just arrived in Bologna.", gloss: {appena: just}}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Benvenuto a Bologna!", en: "Welcome to Bologna!"}
         - {speaker: ch:marco, to: ch:sara, register: tu, it: "Grazie! E tu, Sara? Sei italiana?", en: "Thanks! And you, Sara? Are you Italian?"}
         - {speaker: ch:sara, to: ch:marco, register: tu, it: "Sì, sono italiana. Sono di Bologna.", en: "Yes, I'm Italian. I'm from Bologna."}
@@ -55,7 +56,7 @@ steps:
         format: choice
         tags: [sy:cefr.oral-comprehension]
         question_en: "When did Marco arrive in Bologna?"
-        options: ["Yesterday", "Today", "A year ago"]
+        options: ["Very recently", "A year ago", "He was born there"]
         answer: 0
       - id: u01.l2.q3
         format: choice
@@ -216,8 +217,8 @@ steps:
         targets: [{item: c:sono-arrivato, skill: recall}]
         tags: [cd:say-where-from]
         prompt_en: "I arrived in Bologna. (Marco)"
-        answer: "{sono arrivato a Bologna|io sono arrivato a Bologna}"
-        near: [{answer: "(io )sono arrivata a Bologna", outcome: almost, hint: "Marco is a man: check the ending."}]
+        answer: "{sono arrivato a Bologna|io sono arrivato a Bologna|sono appena arrivato a Bologna|io sono appena arrivato a Bologna}"
+        near: [{answer: "(io )sono (appena )arrivata a Bologna", outcome: almost, hint: "Marco is a man: check the ending."}]
         audio_after: true
       - id: u01.l2.ex15
         format: dictation

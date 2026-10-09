@@ -1,10 +1,11 @@
 # Unit 1, Lesson 1. DRAFT (C3): the Italian must be reviewed by the content lead before it is approved.
-# Marco meets an older woman on the stairs of his building: she is Signora Rossi, his landlady. She says tu, he
-# answers with Lei (story-bible registers). Two short notes: essere with tu/Lei, then di, a, in and e.
+# The morning after Marco lands (CL16), he meets an older woman on the stairs of his building: she is Signora Rossi,
+# his landlady; the listening is that evening. She says tu, he answers with Lei (story-bible registers). Two short
+# notes: essere with tu/Lei, then di, a, in and e.
 # Uses Unit 0's items and this lesson's (content/items/u01.yaml). Story line references (#n) are 1-based.
 id: u01.l1
 title: {it: "Piacere, signora!", en: "Nice to meet you!"}
-scene: Marco meets an older woman on the stairs of his building in Bologna. She is Signora Rossi, his landlady; she says tu, he answers with Lei.
+scene: The morning after he lands, Marco meets an older woman on the stairs of his building in Bologna. She is Signora Rossi, his landlady; she says tu, he answers with Lei.
 review: {status: draft, by: null, date: null, hash: null}
 
 steps:
