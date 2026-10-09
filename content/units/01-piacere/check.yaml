@@ -167,7 +167,7 @@ sections:
         kind: form
         score: 2
         tags: [cd:give-personal-details, sy:fn.forms, sy:ex.celi-form-postcard]
-        prompt_en: "At the coworking space where Sara works, visitors fill in a card. Fill in yours."
+        prompt_en: "On your first day at Scuola Arcobaleno, the teacher hands round a card for the class list. Fill in yours."
         fields:
           - {label_it: Nome, label_en: First name, type: text}
           - {label_it: Cognome, label_en: Last name, type: text}
@@ -237,7 +237,7 @@ sections:
         format: talk
         score: 2
         tags: [cd:introduce-others, sy:ex.cils-monologue]
-        prompt_en: "Introduce your friend Marco to a new colleague: who he is, his nationality and where he's from."
+        prompt_en: "Introduce your friend Marco to a new neighbor: who he is, his nationality and where he's from."
         points:
           - {id: intro, en: "Introduce Marco", accept: ["{ti presento|Le presento|questo è} Marco"]}
           - {id: nationality, en: "His nationality", accept: ["{è|lui è} canadese"]}

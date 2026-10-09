@@ -491,7 +491,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[0][0]",
+   "path": "steps[2].body[3].table.rows[0][0]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*ti presento Sara*",
@@ -503,7 +503,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[0][1]",
+   "path": "steps[2].body[3].table.rows[0][1]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*Le presento Sara*",
@@ -515,7 +515,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[1][0]",
+   "path": "steps[2].body[3].table.rows[1][0]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*come ti chiami?*",
@@ -528,7 +528,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[1][1]",
+   "path": "steps[2].body[3].table.rows[1][1]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*come si chiama?*",
@@ -541,7 +541,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[2][0]",
+   "path": "steps[2].body[3].table.rows[2][0]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*come stai?*",
@@ -553,7 +553,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[2][1]",
+   "path": "steps[2].body[3].table.rows[2][1]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*come sta?*",
@@ -565,7 +565,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[3][0]",
+   "path": "steps[2].body[3].table.rows[3][0]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*di dove sei?*",
@@ -578,7 +578,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[3][1]",
+   "path": "steps[2].body[3].table.rows[3][1]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*di dov'è?*",
@@ -591,7 +591,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[4][0]",
+   "path": "steps[2].body[3].table.rows[4][0]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*puoi ripetere?*",
@@ -603,7 +603,7 @@
   },
   {
    "lead": "*",
-   "path": "steps[2].body[2].table.rows[4][1]",
+   "path": "steps[2].body[3].table.rows[4][1]",
    "ref": "u01.l3.note",
    "role": "cell",
    "text": "*può ripetere?*",
@@ -618,7 +618,7 @@
     {"point": "g:conjunctions", "tokens": [0, 0]}
    ],
    "fragment": [23, 25],
-   "path": "steps[2].body[3].p",
+   "path": "steps[2].body[4].p",
    "ref": "u01.l3.note",
    "role": "note",
    "text": "ma",
@@ -631,7 +631,7 @@
     {"point": "g:conjunctions", "tokens": [0, 0]}
    ],
    "fragment": [44, 45],
-   "path": "steps[2].body[3].p",
+   "path": "steps[2].body[4].p",
    "ref": "u01.l3.note",
    "role": "note",
    "text": "o",
@@ -644,7 +644,7 @@
     {"point": "g:conjunctions", "tokens": [0, 0]}
    ],
    "fragment": [65, 66],
-   "path": "steps[2].body[3].p",
+   "path": "steps[2].body[4].p",
    "ref": "u01.l3.note",
    "role": "note",
    "text": "e",
@@ -657,7 +657,7 @@
     {"point": "g:subject-pronouns", "tokens": [0, 0]}
    ],
    "fragment": [20, 22],
-   "path": "steps[2].body[5].tip",
+   "path": "steps[2].body[6].tip",
    "ref": "u01.l3.note",
    "role": "note",
    "text": "tu",
@@ -670,7 +670,7 @@
     {"point": "g:subject-pronouns", "tokens": [0, 0]}
    ],
    "fragment": [56, 59],
-   "path": "steps[2].body[5].tip",
+   "path": "steps[2].body[6].tip",
    "ref": "u01.l3.note",
    "role": "note",
    "text": "Lei",

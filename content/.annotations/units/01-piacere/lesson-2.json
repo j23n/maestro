@@ -2427,17 +2427,21 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [4, 4]}
+   ],
    "model": true,
    "path": "steps[3].block[17].answer[0]",
    "ref": "u01.l2.ex18",
    "role": "answer",
-   "text": "Toronto è una città canadese",
+   "text": "Bologna è una città in Italia",
    "tokens": [
-    {"kind": "name", "span": [0, 7], "surface": "Toronto", "trailing": " "},
+    {"kind": "name", "span": [0, 7], "surface": "Bologna", "trailing": " "},
     {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [8, 9], "surface": "è", "trailing": " "},
     {"analyses": ["una ART-F:s"], "flags": ["lexical_article"], "head": 3, "item": "w:citta", "kind": "word", "lemma": "una", "span": [10, 13], "surface": "una", "trailing": " "},
     {"analyses": ["città NOUN-F:p", "città NOUN-F:s"], "item": "w:citta", "kind": "word", "lemma": "città", "span": [14, 19], "surface": "città", "trailing": " "},
-    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [20, 28], "surface": "canadese"}
+    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [20, 22], "surface": "in", "trailing": " "},
+    {"kind": "name", "span": [23, 29], "surface": "Italia"}
    ]
   },
   {
@@ -2456,9 +2460,9 @@
    "path": "steps[3].block[17].tiles[0]",
    "ref": "u01.l2.ex18",
    "role": "tile",
-   "text": "Toronto",
+   "text": "Bologna",
    "tokens": [
-    {"kind": "name", "span": [0, 7], "surface": "Toronto"}
+    {"kind": "name", "span": [0, 7], "surface": "Bologna"}
    ]
   },
   {
@@ -2481,12 +2485,24 @@
    ]
   },
   {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [0, 0]}
+   ],
    "path": "steps[3].block[17].tiles[3]",
    "ref": "u01.l2.ex18",
    "role": "tile",
-   "text": "canadese",
+   "text": "in",
    "tokens": [
-    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [0, 8], "surface": "canadese"}
+    {"analyses": ["in PRE"], "detections": ["g:simple-prepositions"], "item": "w:in", "kind": "word", "lemma": "in", "span": [0, 2], "surface": "in"}
+   ]
+  },
+  {
+   "path": "steps[3].block[17].tiles[4]",
+   "ref": "u01.l2.ex18",
+   "role": "tile",
+   "text": "Italia",
+   "tokens": [
+    {"kind": "name", "span": [0, 6], "surface": "Italia"}
    ]
   },
   {

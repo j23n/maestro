@@ -84,7 +84,7 @@ conversations:
             next: end
         near:
           - {answer: "ciao( signora)( {ci vediamo|a presto})", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}
-          - {answer: "(sì )({ci vediamo|a presto})( signora)", outcome: almost, hint: "Good. Add a polite goodbye too: arrivederci, or buona giornata."}
+          - {answer: "(sì )({ci vediamo|a presto})( signora)", outcome: almost, hint: "Good. Round it off with arrivederci or buona giornata, as Marco does."}
         help: ["Arrivederci, signora!"]
         hint_en: "Say goodbye politely."
       end:

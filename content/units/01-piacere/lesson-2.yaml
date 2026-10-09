@@ -76,7 +76,7 @@ steps:
     id: u01.l2.step-note
     note_id: u01.l2.note
     grammar: [g:adjectives-o-a-e, g:negation-non]
-    title_en: "italiano, italiana: and non"
+    title_en: "italiano, italiana, and non"
     intro: {mascot: think, text_en: "Did you spot it? Sara is *italiana*, and Marco says *non sono americano*: he's *canadese*."}
     body:
       - p: "Nationalities are adjectives. Many end in *-o* for a man and *-a* for a woman; others end in *-e* and are the same for both."
@@ -241,10 +241,10 @@ steps:
         format: sentence-building
         targets: [{item: w:citta, skill: recall}]
         tags: [cd:say-where-from, sy:tp.identity]
-        prompt_en: "Toronto is a Canadian city."
-        tiles: [Toronto, è, una città, canadese]
+        prompt_en: "Bologna is a city in Italy."
+        tiles: [Bologna, è, una città, in, Italia]
         distractors: [a]
-        answer: ["Toronto è una città canadese"]
+        answer: ["Bologna è una città in Italia"]
     mix:
       - id: u01.l2.ex19
         format: choice

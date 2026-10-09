@@ -218,7 +218,7 @@ steps:
           - {item: w:signora, skill: read}
           - {item: c:e-lei, skill: read}
         tags: [sy:gr.subject-pronouns]
-        pairs: [["io", "I"], ["tu", "you (informal)"], ["Lei", "you (formal)"], ["piacere!", "nice to meet you!"], ["signora", "Mrs.; ma'am"], ["e Lei?", "and you? (formal)"]]
+        pairs: [["io", "I"], ["tu", "you (informal)"], ["Lei", "you (formal)"], ["piacere!", "nice to meet you!"], ["signora", "lady; Mrs.; ma'am"], ["e Lei?", "and you? (formal)"]]
       - id: u01.l1.ex15
         format: recall
         targets: [{item: c:e-lei, skill: recall}]

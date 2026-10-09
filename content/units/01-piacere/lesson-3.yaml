@@ -77,11 +77,12 @@ steps:
     id: u01.l3.step-note
     note_id: u01.l3.note
     grammar: [g:tu-lei, g:conjunctions]
-    title_en: "ti presento, Le presento: and ma, o"
+    title_en: "ti presento, Le presento, and ma, o"
     intro: {mascot: hello, text_en: "Marco says *Signora, Le presento Sara*, and Signora Rossi says *Sara, ti presento Mimì!*"}
     body:
       - p: "To introduce someone, say *ti presento…* to a person you call *tu* and *Le presento…* to a person you call *Lei*. Like *Lei*, the formal one starts with a capital L."
       - p: "*Questo è…* (for a man) and *questa è…* (for a woman) work with everyone: *Mimì, questa è Sara.*"
+      - p: "A recap of the tu/Lei pairs you know:"
       - table:
           columns: [With tu, With Lei]
           rows:
@@ -189,7 +190,7 @@ steps:
         prompt_en: "Sara is Italian, but Marco is Canadian."
         rule: "e = and, ma = but, o = or."
         near:
-          - {answer: e, hint: "E means 'and'. Here the two halves are different: you need 'but'."}
+          - {answer: e, hint: "E means 'and'. The English says 'but'."}
           - {answer: o, hint: "O means 'or'. Here you need 'but'."}
       - id: u01.l3.ex11
         format: cloze
@@ -388,7 +389,7 @@ steps:
         targets: [{item: w:acca, skill: read}, {item: w:gi, skill: read}]
         tags: [cd:spell-name, sy:ss.alphabet]
         lemmas: {ci: w:ci~letter, o: w:o~letter}
-        question_en: "How do you spell the name Hugo in Italian?"
+        question_en: "Spell Hugo with Italian letter names."
         options: ["acca, u, gi, o", "cappa, u, gi, o", "acca, u, ci, o"]
         answer: 0
       - id: u01.l3.ex44
@@ -724,7 +725,7 @@ steps:
               next: end
           near:
             - {answer: "ciao( signora)( a presto)( signora)", hint: "Ciao is for people you call tu. Which goodbye goes with Lei?"}
-            - {answer: "a presto( signora)", outcome: almost, hint: "Good. Add a polite goodbye too: arrivederci, or buona giornata."}
+            - {answer: "a presto( signora)", outcome: almost, hint: "Good. Round it off with arrivederci or buona giornata, as Marco does."}
           help: ["A presto, signora! Buona giornata!"]
           hint_en: "Say goodbye politely."
         end:
