@@ -16,7 +16,7 @@ items:
   - {id: 'w:ma', it: ma, pos: conj, gloss: but, status: P, lesson: u01.l3}
   - {id: 'w:o', it: o, pos: conj, gloss: or, status: P, lesson: u01.l3}
   - {id: 'w:non', it: non, pos: adv, gloss: not, status: P, lesson: u01.l2}
-  - {id: 'w:italiano', it: italiano, pos: adj, gloss: Italian, gender: mf, topics: ['topic:identity', 'topic:languages'], note: 'Also the Italian language: parlo italiano.', status: P, lesson: u01.l2}
+  - {id: 'w:italiano', it: italiano, pos: adj, gloss: Italian, gender: mf, topics: ['topic:identity', 'topic:languages'], note: 'Also the Italian language: in italiano (in Italian).', status: P, lesson: u01.l2}
   - {id: 'w:americano', it: americano, pos: adj, gloss: American, gender: mf, topics: ['topic:identity'], status: P, lesson: u01.l2}
   - {id: 'w:canadese', it: canadese, pos: adj, gloss: Canadian, gender: mf, topics: ['topic:identity'], note: Same form for men and women., status: P, lesson: u01.l2}
   - {id: 'w:inglese', it: inglese, pos: adj, gloss: English, gender: mf, topics: ['topic:identity', 'topic:languages'], status: P, lesson: u01.l2}
@@ -37,7 +37,7 @@ items:
   - {id: 'c:le-presento', kind: chunk, it: Le presento…, gloss: let me introduce… (formal), match: [Le presento], case_sensitive: true, status: P, lesson: u01.l3}
   - {id: 'c:puoi-ripetere', kind: chunk, it: 'puoi ripetere?', gloss: 'can you say that again? (informal)', match: [puoi ripetere], status: P, lesson: u01.l3}
   - {id: 's:intonation', kind: sound, it: intonazione, gloss: 'rising intonation for yes/no questions (È americano? vs È americano.)', status: {listen: P}, lesson: u01.l1}
-  - {id: 's:accents-e-si', kind: sound, it: 'e / è, si / sì', gloss: e (and) vs è (is); si vs sì (yes), status: {listen: P, read: P}, lesson: u01.l1}
+  - {id: 's:accents-e-si', kind: sound, it: 'e / è, si / sì', gloss: e (and) vs è (is); si vs sì (yes), note: 'A spelling point: the accent shows which word it is. è (is), e (and); sì (yes), si (as in come si chiama).', status: {read: P}, lesson: u01.l1}
   # Added in C3 (Unit 1 drafts): words the lessons, task and check need, plus countries, nationalities and form labels
   # (spec note: countries, nationalities, languages). Other countries reach the learner through the onboarding slots.
   - {id: 'w:signora', it: signora, pos: noun, gender: f, plural: signore, gloss: lady; Mrs; madam, note: 'la signora Rossi: Mrs. Rossi. Buongiorno, signora! is a polite greeting to a woman you call Lei.', topics: ['topic:identity'], status: P, lesson: u01.l1}
@@ -51,7 +51,7 @@ items:
   - {id: 'w:francese', it: francese, pos: adj, gender: mf, gloss: French, topics: ['topic:identity', 'topic:languages'], note: 'Also the French language. Same form for men and women.', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
   - {id: 'w:spagnolo', it: spagnolo, pos: adj, gender: mf, gloss: Spanish, topics: ['topic:identity', 'topic:languages'], note: 'spagnolo (m), spagnola (f). Also the Spanish language.', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
   - {id: 'w:bolognese', it: bolognese, pos: adj, gender: mf, gloss: from Bologna; Bolognese, note: 'Same form for men and women. Lowercase, like every nationality.', topics: ['topic:identity'], status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l2}
-  - {id: 'w:anche', it: anche, pos: adv, gloss: also; too, note: 'Before the word it adds: anche io (me too), anche Sara (Sara too).', status: P, lesson: u01.l3}
+  - {id: 'w:anche', it: anche, pos: adv, gloss: also; too, note: 'Before the word it adds: anche io (me too; also written anch''io), anche Sara (Sara too).', status: P, lesson: u01.l3}
   - {id: 'w:allora', it: allora, pos: adv, gloss: so; well then, note: 'A filler to start or close a turn: Allora, a presto!', status: {read: P, listen: P, recall: R, speak: R}, lesson: u01.l3}
   - {id: 'w:pronto', it: pronto, pos: interj, gloss: hello? (on the phone), note: 'Also an adjective: ready.', status: P, lesson: u01.l3}
   - {id: 'c:a-presto', kind: chunk, it: a presto!, gloss: see you soon!, match: [a presto], status: P, lesson: u01.l3}

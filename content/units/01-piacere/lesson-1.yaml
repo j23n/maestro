@@ -332,9 +332,9 @@ steps:
         answer: ["tu sei di Toronto vero"]
       - id: u01.l1.ex24
         format: dictation
-        targets: [{item: s:accents-e-si, skill: listen}]
+        targets: [{item: s:accents-e-si, skill: read}]
         tags: [sy:cefr.orthographic-control, sy:ss.accented-pairs]
-        say: "Sono Marco e sono di Toronto."
+        say: "Lei è di Bologna e Marco è di Toronto."
         slow: true
       - id: u01.l1.ex25
         format: repeat
@@ -379,6 +379,24 @@ steps:
         prompt_en: "Nice to meet you, Marco! Welcome to Bologna!"
         hint: "Bologna is a city."
         near: [{answer: in, hint: "In goes with a country. Bologna is a city."}]
+      - id: u01.l1.ex37
+        format: choice
+        targets: [{item: s:accents-e-si, skill: read}]
+        tags: [sy:ss.accented-pairs, sy:cefr.orthographic-control]
+        question_en: "Which sentence is written correctly?"
+        options: ["Marco è di Toronto e la signora Rossi è di Bologna.", "Marco e di Toronto è la signora Rossi è di Bologna.", "Marco è di Toronto è la signora Rossi e di Bologna."]
+        answer: 0
+        hint: "One of these words means 'is' and one means 'and'. Which one has the accent?"
+      - id: u01.l1.ex38
+        format: cloze
+        targets: [{item: s:accents-e-si, skill: read}]
+        tags: [sy:ss.accented-pairs, cd:say-where-from]
+        source: u01.l1.story#15
+        text: "[[Sì]], sono di Bologna."
+        prompt_en: "Yes, I'm from Bologna."
+        hint: "This word means 'yes'. Check how it's written."
+        rule: "sì (yes) has an accent; si without one is a different word, as in come si chiama."
+        near: [{answer: si, hint: "Without an accent, si is a different word. 'Yes' is written with an accent."}]
 
   # 7 · Listening: that evening on the stairs (Unit 0 greetings; Marco asks for a word and meets Mimì)
   - kind: listening
@@ -415,8 +433,8 @@ steps:
         answer: 0
 
   # 8 · Sounds: questions rise, statements fall (s:intonation). The answers mix question and statement, so always
-  #     picking one doesn't pass. e/è (s:accents-e-si) is met in the preview and tested in context by dictation
-  #     (ex24), not as an isolated pair: alone, only open vs closed e tells them apart (heard, never graded).
+  #     picking one doesn't pass. e/è and si/sì (s:accents-e-si, read only: CL29) are met in the preview and told
+  #     apart in writing (dictation ex24, the written forms in ex37 and ex38), never as an isolated listening pair.
   - kind: sounds
     id: u01.l1.step-sounds
     exercises:

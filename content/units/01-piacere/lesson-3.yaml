@@ -388,8 +388,8 @@ steps:
         options: ["Abito in Inghilterra.", "Abito a Inghilterra.", "Sono di Inghilterra."]
         answer: 0
 
-  # 8 · Sounds: intonation of yes/no questions (s:intonation). No isolated e/è pair: alone, only open vs closed e
-  #     tells them apart (heard, never graded); e/è is practised in context (dictation, cloze).
+  # 8 · Sounds: intonation of yes/no questions (s:intonation). No isolated e/è pair (CL29): e/è is a spelling point,
+  #     practised in writing (dictation, cloze).
   - kind: sounds
     id: u01.l3.step-sounds
     exercises:

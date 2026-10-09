@@ -205,22 +205,21 @@
   },
   {
    "detections": [
-    {"point": "g:conjunctions", "tokens": [3, 3]},
-    {"point": "g:simple-prepositions", "tokens": [5, 5]}
+    {"point": "g:conjunctions", "tokens": [3, 3]}
    ],
    "path": "sections[0].exercises[3].say",
    "ref": "u01.check.04",
    "role": "say",
-   "text": "Mi chiamo Sara e sono di Bologna.",
+   "text": "Sara è italiana e Marco è canadese.",
    "tokens": [
-    {"analyses": ["mi PRO-PERS-CLI-1-F-S", "mi PRO-PERS-CLI-1-M-S"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "mi", "span": [0, 2], "surface": "Mi", "trailing": " "},
-    {"analyses": ["chiamare VER:ind+pres+1+s"], "chunk": "c:mi-chiamo", "kind": "word", "lemma": "chiamare", "span": [3, 9], "surface": "chiamo", "trailing": " "},
-    {"kind": "name", "span": [10, 14], "surface": "Sara", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [15, 16], "surface": "e", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [17, 21], "surface": "sono", "trailing": " "},
-    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [22, 24], "surface": "di", "trailing": " "},
-    {"kind": "name", "span": [25, 32], "surface": "Bologna"},
-    {"kind": "punct", "span": [32, 33], "surface": "."}
+    {"kind": "name", "span": [0, 4], "surface": "Sara", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [5, 6], "surface": "è", "trailing": " "},
+    {"analyses": ["italiano ADJ:pos+f+s"], "item": "w:italiano", "kind": "word", "lemma": "italiano", "span": [7, 15], "surface": "italiana", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [16, 17], "surface": "e", "trailing": " "},
+    {"kind": "name", "span": [18, 23], "surface": "Marco", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [24, 25], "surface": "è", "trailing": " "},
+    {"analyses": ["canadese ADJ:pos+f+s", "canadese ADJ:pos+m+s"], "item": "w:canadese", "kind": "word", "lemma": "canadese", "span": [26, 34], "surface": "canadese"},
+    {"kind": "punct", "span": [34, 35], "surface": "."}
    ]
   },
   {

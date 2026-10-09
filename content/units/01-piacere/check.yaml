@@ -58,9 +58,9 @@ sections:
         answer: 0
       - id: u01.check.04
         format: dictation
-        targets: [{item: c:mi-chiamo, skill: listen}, {item: s:accents-e-si, skill: listen}]
-        tags: [cd:introduce-yourself, sy:cefr.orthographic-control]
-        say: "Mi chiamo Sara e sono di Bologna."
+        targets: [{item: s:accents-e-si, skill: read}, {item: w:canadese, skill: listen}]
+        tags: [cd:say-where-from, sy:cefr.orthographic-control, sy:ss.accented-pairs]
+        say: "Sara è italiana e Marco è canadese."
         plays: 2
       - id: u01.check.05
         format: sound-pair

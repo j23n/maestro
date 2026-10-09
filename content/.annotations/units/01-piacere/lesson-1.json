@@ -3372,21 +3372,26 @@
   },
   {
    "detections": [
-    {"point": "g:conjunctions", "tokens": [2, 2]},
-    {"point": "g:simple-prepositions", "tokens": [4, 4]}
+    {"point": "g:subject-pronouns", "tokens": [0, 0]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:simple-prepositions", "tokens": [7, 7]}
    ],
    "path": "steps[5].block[6].say",
    "ref": "u01.l1.ex24",
    "role": "say",
-   "text": "Sono Marco e sono di Toronto.",
+   "text": "Lei è di Bologna e Marco è di Toronto.",
    "tokens": [
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [0, 4], "surface": "Sono", "trailing": " "},
-    {"kind": "name", "span": [5, 10], "surface": "Marco", "trailing": " "},
-    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [11, 12], "surface": "e", "trailing": " "},
-    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [13, 17], "surface": "sono", "trailing": " "},
-    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [18, 20], "surface": "di", "trailing": " "},
-    {"kind": "name", "span": [21, 28], "surface": "Toronto"},
-    {"kind": "punct", "span": [28, 29], "surface": "."}
+    {"analyses": ["lei PRO-PERS-3-F-S"], "detections": ["g:subject-pronouns"], "item": "w:lei", "kind": "word", "lemma": "lei", "span": [0, 3], "surface": "Lei", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 5], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [6, 8], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [9, 16], "surface": "Bologna", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [17, 18], "surface": "e", "trailing": " "},
+    {"kind": "name", "span": [19, 24], "surface": "Marco", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [25, 26], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [27, 29], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [30, 37], "surface": "Toronto"},
+    {"kind": "punct", "span": [37, 38], "surface": "."}
    ]
   },
   {
@@ -3815,6 +3820,118 @@
     {"analyses": ["a PRE"], "detections": ["g:simple-prepositions"], "item": "w:a", "kind": "word", "lemma": "a", "span": [26, 27], "surface": "a", "trailing": " "},
     {"kind": "name", "span": [28, 35], "surface": "Bologna"},
     {"kind": "punct", "span": [35, 36], "surface": "!"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [4, 4]},
+    {"point": "g:simple-prepositions", "tokens": [9, 9]}
+   ],
+   "path": "steps[5].mix[4].options[0]",
+   "ref": "u01.l1.ex37",
+   "role": "option",
+   "text": "Marco è di Toronto e la signora Rossi è di Bologna.",
+   "tokens": [
+    {"kind": "name", "span": [0, 5], "surface": "Marco", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [6, 7], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [11, 18], "surface": "Toronto", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [19, 20], "surface": "e", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 6, "item": "w:signora", "kind": "word", "lemma": "la", "span": [21, 23], "surface": "la", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [24, 31], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [32, 37], "surface": "Rossi", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [38, 39], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [40, 42], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [43, 50], "surface": "Bologna"},
+    {"kind": "punct", "span": [50, 51], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:conjunctions", "tokens": [1, 1]},
+    {"point": "g:simple-prepositions", "tokens": [2, 2]},
+    {"point": "g:simple-prepositions", "tokens": [9, 9]}
+   ],
+   "path": "steps[5].mix[4].options[1]",
+   "ref": "u01.l1.ex37",
+   "role": "option",
+   "text": "Marco e di Toronto è la signora Rossi è di Bologna.",
+   "tokens": [
+    {"kind": "name", "span": [0, 5], "surface": "Marco", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [6, 7], "surface": "e", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [11, 18], "surface": "Toronto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [19, 20], "surface": "è", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 6, "item": "w:signora", "kind": "word", "lemma": "la", "span": [21, 23], "surface": "la", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [24, 31], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [32, 37], "surface": "Rossi", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [38, 39], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [40, 42], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [43, 50], "surface": "Bologna"},
+    {"kind": "punct", "span": [50, 51], "surface": "."}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [2, 2]},
+    {"point": "g:conjunctions", "tokens": [8, 8]},
+    {"point": "g:simple-prepositions", "tokens": [9, 9]}
+   ],
+   "path": "steps[5].mix[4].options[2]",
+   "ref": "u01.l1.ex37",
+   "role": "option",
+   "text": "Marco è di Toronto è la signora Rossi e di Bologna.",
+   "tokens": [
+    {"kind": "name", "span": [0, 5], "surface": "Marco", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [6, 7], "surface": "è", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [8, 10], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [11, 18], "surface": "Toronto", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+3+s", "essere VER:ind+pres+3+s"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [19, 20], "surface": "è", "trailing": " "},
+    {"analyses": ["la ART-F:s"], "flags": ["lexical_article"], "head": 6, "item": "w:signora", "kind": "word", "lemma": "la", "span": [21, 23], "surface": "la", "trailing": " "},
+    {"analyses": ["signora NOUN-F:s"], "item": "w:signora", "kind": "word", "lemma": "signora", "span": [24, 31], "surface": "signora", "trailing": " "},
+    {"kind": "name", "span": [32, 37], "surface": "Rossi", "trailing": " "},
+    {"analyses": ["e CON"], "detections": ["g:conjunctions"], "item": "w:e", "kind": "word", "lemma": "e", "span": [38, 39], "surface": "e", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [40, 42], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [43, 50], "surface": "Bologna"},
+    {"kind": "punct", "span": [50, 51], "surface": "."}
+   ]
+  },
+  {
+   "expansion": 0,
+   "model": false,
+   "norm": "si",
+   "of": 1,
+   "path": "steps[5].mix[5].near[0].answer",
+   "pattern": "si",
+   "ref": "u01.l1.ex38",
+   "role": "near",
+   "text": "si",
+   "tokens": [
+    {"analyses": ["si PRO-PERS-CLI-3-F-S", "si PRO-PERS-CLI-3-M-S", "si SI"], "flags": ["unresolved"], "kind": "word", "lemma": "si", "span": [0, 2], "surface": "si"}
+   ]
+  },
+  {
+   "detections": [
+    {"point": "g:simple-prepositions", "tokens": [3, 3]}
+   ],
+   "expansion": 0,
+   "gap": [0, 0],
+   "model": true,
+   "norm": "sì",
+   "of": 1,
+   "path": "steps[5].mix[5].text",
+   "pattern": "Sì",
+   "ref": "u01.l1.ex38",
+   "role": "cloze",
+   "text": "Sì, sono di Bologna.",
+   "tokens": [
+    {"analyses": ["sì ADV"], "item": "w:si", "kind": "word", "lemma": "sì", "span": [0, 2], "surface": "Sì"},
+    {"kind": "punct", "span": [2, 3], "surface": ",", "trailing": " "},
+    {"analyses": ["essere AUX:ind+pres+1+s", "essere AUX:ind+pres+3+p", "essere VER:ind+pres+1+s", "essere VER:ind+pres+3+p"], "item": "w:essere", "kind": "word", "lemma": "essere", "span": [4, 8], "surface": "sono", "trailing": " "},
+    {"analyses": ["di PRE"], "detections": ["g:simple-prepositions"], "item": "w:di", "kind": "word", "lemma": "di", "span": [9, 11], "surface": "di", "trailing": " "},
+    {"kind": "name", "span": [12, 19], "surface": "Bologna"},
+    {"kind": "punct", "span": [19, 20], "surface": "."}
    ]
   },
   {
