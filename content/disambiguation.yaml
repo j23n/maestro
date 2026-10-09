@@ -28,7 +28,7 @@ context_rules:
   - forms: [la, le, lo, gli, "l'"]
     choose: {pos: [ART]}                            # the definite article
     when_any:
-      - {next: {pos: [NOUN, ADJ, DET-NUM-CARD, DET-POSS]}}
+      - {next: {pos: [NOUN, ADJ, DET-NUM-CARD, DET-POSS, NPR]}}  # NPR: l'Italia, la Sara (CL7)
     otherwise: {pos: [PRO-PERS]}                    # the clitic pronoun (Units 7–8, R)
 
 defaults:
