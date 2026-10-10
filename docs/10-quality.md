@@ -64,16 +64,14 @@ make ci              # ci-linux, then on a Mac build and test-app
 
 ## CI (`.github/workflows/ci.yml`)
 
-The jobs are j23n/apple-ci's shared workflows, which every j23n app's CI calls; each runs one `make` command. They run on pushes to `main` and on pull requests, and by hand on any branch (`workflow_dispatch`): macOS minutes cost ten times as much in a private repository.
+The jobs are j23n/apple-ci's shared workflows, which every j23n app's CI calls; each runs one `make` command. maestro is private and the owner's plan is GitHub Free: its included minutes count a macOS minute ten times and round every job up to a whole minute. So the Linux job runs on every push to any branch, the Mac jobs only on pushes to `main`, on pull requests and by hand (`workflow_dispatch`), and a Mac job that doesn't apply is skipped by its `if:`, which starts no runner (docs/13 § Implementation decisions, "CI on a free plan").
 
-- **`linux` job (ubuntu), `make ci-linux`:**
+- **`linux` job (ubuntu), `make ci-linux`, on every push:**
   - The Swift toolchain **pinned to the same version as Xcode 27's** (Swift 6.4.0, the official `swift:6.4.0-noble` image from Amazon ECR Public's mirror, since Docker Hub's pull limit failed the job), so "no new warnings" means the same thing on both.
   - `make lint-guards`, `make data`, then the fast suite, `make test` (LearningCore, Storage, the pipeline's tests, `make check-content` and the App logic), and the pipeline's ruff check and format check (`make lint-pipeline`).
-- **`macos` job, `make ci-macos`, with Xcode 27 (ADR-01):**
-  - `make test-storage`, then the dev pack built twice: the pack isn't committed (`docs/04` § Pack build), and two builds must give the same `content pack-hash` (`make pack-determinism`).
-  - `make build test-app`: the app for the iOS Simulator and the Mac (unsigned), and its unit and snapshot tests.
-  - The hosted runners don't have Xcode 27 yet (the macOS 26 image of 7 Sep 2026 has Xcode 26.0.1–26.6), so the job asks for it with `xcode-missing: skip`: it passes with a note in its summary instead of running, and runs by itself once the runners have Xcode 27.
-- **`macos-xcode-26` job (interim), `make pack-determinism build` with the newest Xcode 26:** until the `macos` job runs, the only compiler check of the Apple-only code. The app builds with Xcode 26.6; its tests don't, since they rely on Swift 6.4 (`ReviewModeTests` names a local `review` after the `review()` it calls inside `#require`). Remove the job once the `macos` job runs, or sooner if the app starts using an SDK that only Xcode 27 has (docs/13 § Proposed changes).
+  - A pull request from a branch of this repository skips it: the push already ran it.
+- **`macos-xcode-26` job, `make pack-determinism build` with the newest Xcode 26, until the hosted runners have Xcode 27:** the dev pack built twice (the pack isn't committed, `docs/04` § Pack build, and two builds must give the same `content pack-hash`), and the app for the iOS Simulator and the Mac (unsigned), the only compiler check of the Apple-only code. The app's tests don't build with Xcode 26, since they rely on Swift 6.4 (`ReviewModeTests` names a local `review` after the `review()` it calls inside `#require`).
+- **`macos` job, `make ci-macos` with Xcode 27 (ADR-01), once the repository variable `HOSTED_XCODE_27` is `true`:** `make test-storage`, the dev pack built twice, `make build` and `make test-app` (the app's unit and snapshot tests). When apple-ci's *Runner inventory* workflow shows Xcode 27 on the hosted macOS runners, the owner sets the variable (Settings › Secrets and variables › Actions › Variables), which also turns `macos-xcode-26` off. `xcode-missing: skip` still lets the job pass with a note if a runner lacks Xcode 27.
 - **`claude-review` workflow:** `anthropics/claude-code-action@v1` on pull requests. It reviews the diff against the task's spec and acceptance criteria and posts findings as PR comments; it never pushes. It needs the Claude GitHub App installed on the repo and the `ANTHROPIC_API_KEY` secret (or `claude_code_oauth_token`), and its `claude_args` grant only the comment and diff tools.
 
 ## Agent harness (already in this repo)

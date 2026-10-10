@@ -1,17 +1,17 @@
 # CI (docs/10 § CI): j23n/apple-ci's shared Linux and macOS jobs, which run `make ci-linux` and `make ci-macos`.
-# Linux: Swift 6.4.0 (the Swift of Xcode 27, ADR-01), uv + Python: the guards, the fast suite (`make test`:
-# LearningCore, Storage, the pipeline, the content checks and the App logic) and the pipeline's ruff checks.
-# macOS, with Xcode 27 (ADR-01): Storage, the dev pack built twice (it must be deterministic), the app built for the
-# iOS Simulator and the Mac, and its unit and snapshot tests. The hosted runners don't have Xcode 27 yet, so that job
-# passes with a note in its summary instead of running until they do; meanwhile `macos-xcode-26` builds the pack and
-# the app with the newest Xcode 26 (docs/13 § Proposed changes).
-# It runs on pushes to main and on pull requests (macOS minutes cost ten times as much in a private repository), and
-# by hand on any branch (Actions › CI › Run workflow).
+# Linux, on every push to any branch: Swift 6.4.0 (the Swift of Xcode 27, ADR-01), uv + Python: the guards, the fast
+# suite (`make test`: LearningCore, Storage, the pipeline, the content checks and the App logic) and the pipeline's
+# ruff checks. The Mac, on pushes to main, on pull requests and by hand: the dev pack built twice (it must be
+# deterministic) and the app built for the iOS Simulator and the Mac with the newest Xcode 26 until the hosted runners
+# have Xcode 27; then, once the owner sets the repository variable HOSTED_XCODE_27 to true, `make ci-macos` with
+# Xcode 27 (ADR-01): also Storage and the app's unit and snapshot tests, which need Swift 6.4.
+#
+# maestro is private: a macOS minute counts ten times against the plan's included minutes and every job is rounded up
+# to a whole minute, so the Mac jobs that don't apply are skipped by `if:` and never start a runner (docs/13).
 name: CI
 on:
   pull_request:
   push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -22,7 +22,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # A pull request from a branch here already ran it on the push.
   linux:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     uses: j23n/apple-ci/.github/workflows/linux.yml@main
     with:
       name: LearningCore + pipeline + content (Linux)
@@ -33,24 +35,26 @@ jobs:
       cache-key: pipeline-data
       cache-hash-files: pipeline/data/SOURCES.md
 
+  # Until the hosted runners have Xcode 27: the only compiler check of the Apple-only code (views, adapters). The app
+  # builds with Xcode 26; its tests don't (they need Swift 6.4).
+  macos-xcode-26:
+    if: vars.HOSTED_XCODE_27 != 'true' && (github.event_name != 'push' || github.ref == 'refs/heads/main')
+    uses: j23n/apple-ci/.github/workflows/macos.yml@main
+    with:
+      name: Pack + app builds (macOS, Xcode 26)
+      xcode: "26"
+      run: make pack-determinism build
+      brew: xcodegen ffmpeg
+      uv: true
+      lfs: true
+
   macos:
+    if: vars.HOSTED_XCODE_27 == 'true' && (github.event_name != 'push' || github.ref == 'refs/heads/main')
     uses: j23n/apple-ci/.github/workflows/macos.yml@main
     with:
       name: Storage + app builds and tests (macOS, Xcode 27)
       xcode: "27"
       xcode-missing: skip
-      brew: xcodegen ffmpeg
-      uv: true
-      lfs: true
-
-  # Interim, until the runners have Xcode 27: the only compiler check of the Apple-only code (views, adapters) until
-  # then. The app builds with Xcode 26; its tests don't (they need Swift 6.4). Remove this job once `macos` runs.
-  macos-xcode-26:
-    uses: j23n/apple-ci/.github/workflows/macos.yml@main
-    with:
-      name: Pack + app builds (macOS, Xcode 26, interim)
-      xcode: "26"
-      run: make pack-determinism build
       brew: xcodegen ffmpeg
       uv: true
       lfs: true
