@@ -22,5 +22,7 @@ if ! count=$(git -C "$SRCROOT" rev-list --count HEAD 2>/dev/null); then
   echo "warning: no git history in $SRCROOT, so the build number stays as the project sets it"
   exit 0
 fi
-/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $count" "$plist"
+# Set it, or add it when the target doesn't set CURRENT_PROJECT_VERSION and the Info.plist has none.
+/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $count" "$plist" 2>/dev/null ||
+  /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string $count" "$plist"
 echo "Build number: $count"
