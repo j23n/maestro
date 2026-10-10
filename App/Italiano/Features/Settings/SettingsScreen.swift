@@ -16,6 +16,7 @@ struct SettingsScreen: View {
     #if FEEDBACK
         /// In-app feedback, in Debug builds only (ADR-23); previews have none.
         @Environment(FeedbackCenter.self) private var feedback: FeedbackCenter?
+        @State private var showsFeedbackSettings = false
     #endif
 
     var body: some View {
@@ -131,7 +132,14 @@ struct SettingsScreen: View {
                 }
                 #if FEEDBACK
                     if let feedback {
-                        FeedbackSettingsSection(center: feedback)
+                        SettingsGroup("Feedback") {
+                            Button("Feedback settings") { showsFeedbackSettings = true }
+                                .buttonStyle(.dsTextLink)
+                                .accessibilityIdentifier("settings.feedback.open")
+                        }
+                        .sheet(isPresented: $showsFeedbackSettings) {
+                            FeedbackSettingsSheet(center: feedback)
+                        }
                     }
                 #endif
             }

@@ -49,7 +49,7 @@ final class AppDependencies {
             speech: speech)
         self.review = review
         #if FEEDBACK
-            feedback = .italiano(config: config)
+            feedback = .italiano(app: app)
         #endif
     }
 

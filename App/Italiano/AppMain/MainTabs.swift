@@ -74,6 +74,7 @@ struct MainTabs: View {
         #if FEEDBACK
             // Where the app is, for a feedback report (ADR-23): the tab, and the step or session being played.
             .onChange(of: feedbackScreen, initial: true) { _, screen in deps.feedback.currentScreen = { screen } }
+            .onDisappear { deps.feedback.currentScreen = { nil } }
         #endif
     }
 

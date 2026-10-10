@@ -114,18 +114,18 @@ ensure-pack:
 # `build-mac` (`make build` for both) and `test-app` regenerate it whenever project.yml or an xcconfig file is newer.
 # Sources are synchronized folders, so adding a Swift file needs no regeneration.
 
+# The UI tests and screenshots build in the same DerivedData and on the same simulator runtime as test-app
+# (apple.mk's $(XCODE) and destinations).
 test-ui: ensure-pack project
-	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -only-testing:ItalianoUITests \
-	  -destination 'platform=iOS Simulator,name=$(IOS_SIMULATOR)' test $(UNSIGNED) && \
-	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -only-testing:ItalianoUITests \
-	  -destination 'platform=macOS' test $(ADHOC)
+	$(XCODE) -only-testing:ItalianoUITests -destination '$(IOS_TEST_DESTINATION)' test $(UNSIGNED) && \
+	$(XCODE) -only-testing:ItalianoUITests -destination '$(MAC_DESTINATION)' test $(ADHOC)
 
 screenshots: ensure-pack project
 	mkdir -p artifacts/screens && \
-	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -only-testing:ItalianoUITests/Screenshots \
-	  -destination 'platform=iOS Simulator,name=$(IOS_SIMULATOR)' -resultBundlePath artifacts/screens/ios.xcresult test $(UNSIGNED) && \
-	$(XCODEBUILD) -project $(XCODEPROJ) -scheme $(SCHEME) -only-testing:ItalianoUITests/MacScreens \
-	  -destination 'platform=macOS' -resultBundlePath artifacts/screens/mac.xcresult test $(ADHOC)
+	$(XCODE) -only-testing:ItalianoUITests/Screenshots -destination '$(IOS_TEST_DESTINATION)' \
+	  -resultBundlePath artifacts/screens/ios.xcresult test $(UNSIGNED) && \
+	$(XCODE) -only-testing:ItalianoUITests/MacScreens -destination '$(MAC_DESTINATION)' \
+	  -resultBundlePath artifacts/screens/mac.xcresult test $(ADHOC)
 
 # ---------------------------------------------------------------- guards and CI
 

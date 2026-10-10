@@ -47,7 +47,7 @@ CODE_SIGN_ENTITLEMENTS = Config/Italiano-NoCloud.entitlements
 ENABLE_HARDENED_RUNTIME[sdk=macosx*] = YES
 ENABLE_APP_SANDBOX[sdk=macosx*] = YES
 ENABLE_RESOURCE_ACCESS_AUDIO_INPUT[sdk=macosx*] = YES        // microphone: without it speech silently fails
-ENABLE_OUTGOING_NETWORK_CONNECTIONS[sdk=macosx*] = YES       // CloudKit and the study endpoint
+ENABLE_OUTGOING_NETWORK_CONNECTIONS[sdk=macosx*] = YES       // CloudKit, the study endpoint, feedback (Debug)
 ENABLE_USER_SELECTED_FILES[sdk=macosx*] = readwrite           // learner DB export, examiner zip
 
 // App configuration (docs/02 § App configuration). Each configuration file overrides what differs.

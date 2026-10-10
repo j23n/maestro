@@ -41,7 +41,8 @@ packages:
     url: https://github.com/pointfreeco/swift-snapshot-testing
     exactVersion: 1.19.6
   # In-app feedback (ADR-23), j23n's own package, used only with the FEEDBACK condition (Config/Debug.xcconfig).
-  # Pinned to a commit of j23n/feedbackkit.
+  # Pinned to a commit of j23n/feedbackkit. Xcode has no per-configuration package dependency, so Release, Study
+  # and Review link it too, where it lies dormant.
   FeedbackKit:
     url: https://github.com/j23n/feedbackkit
     revision: dd4df0adebaa834e04679388e88ca791d17b1515

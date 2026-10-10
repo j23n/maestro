@@ -20,6 +20,10 @@
 #
 # It provides: project, build, build-ios, build-mac, test-app, swift-test, tools and
 # update-apple-ci. The app's Makefile defines test, ci-linux and ci-macos (and its own targets).
+# None of these becomes the default goal: `make` alone runs the app's own first rule.
+
+# Restored at the end of this file, so the rules below don't take the default goal.
+APPLE_CI_DEFAULT_GOAL := $(.DEFAULT_GOAL)
 
 XCODEGEN ?= xcodegen
 XCODEBUILD ?= xcodebuild
@@ -44,7 +48,7 @@ UNSIGNED ?= CODE_SIGNING_ALLOWED=NO
 SIGNED_LOCALLY ?= CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= PROVISIONING_PROFILE_SPECIFIER=
 
 XCODE = $(XCODEBUILD) $(XCODEBUILD_FLAGS) -project $(XCODEPROJ) -scheme $(SCHEME) -configuration $(CONFIG) \
-	-derivedDataPath $(DERIVED_DATA)
+	-derivedDataPath '$(DERIVED_DATA)'
 
 APPLE_CI_RAW ?= https://raw.githubusercontent.com/j23n/apple-ci/main
 
@@ -93,3 +97,6 @@ tools:
 update-apple-ci:
 	curl -fsSL $(APPLE_CI_RAW)/make/apple.mk -o .apple-ci/apple.mk
 	@git diff --stat -- .apple-ci/apple.mk
+
+# Empty when the app defined no rule before the include, so its next rule becomes the default.
+.DEFAULT_GOAL := $(APPLE_CI_DEFAULT_GOAL)
