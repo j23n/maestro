@@ -24,6 +24,7 @@ struct ItalianoApp: App {
                 .environment(deps.services.textSize)
                 #if FEEDBACK
                     .environment(deps.feedback)
+                    .modifier(FeedbackPrivacy(app: deps.app, center: deps.feedback))
                 #endif
                 #if os(macOS)
                     // The minimum window (docs/07 § Navigation), which the lesson player fills on Mac.
@@ -48,6 +49,7 @@ struct ItalianoApp: App {
                 .learnerTextScale(deps.app)
                 #if FEEDBACK
                     .environment(deps.feedback)
+                    .modifier(FeedbackPrivacy(app: deps.app, center: deps.feedback))
                 #endif
             }
         #endif

@@ -45,7 +45,7 @@ packages:
   # and Review link it too, where it lies dormant.
   FeedbackKit:
     url: https://github.com/j23n/feedbackkit
-    revision: dd4df0adebaa834e04679388e88ca791d17b1515
+    revision: 1fb400a5bd8064749135a762a1c91c69578e0a48
 
 targets:
   Italiano:

@@ -495,6 +495,7 @@ struct DictationDiff: View {
                         Text(word.typed ?? "—").dsFont(Tokens.TypeScale.uiCaption)
                             .foregroundStyle(Color.ds.warningText)
                             .strikethrough(word.typed != nil)
+                            .hidesPersonalWords(in: word.typed ?? "")
                     }
                 }
                 .accessibilityElement(children: .ignore)

@@ -43,6 +43,8 @@ struct StudyDataRows: View {
                 Text("Your study ID").dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.ink)
                 Text(installID).font(.footnote.monospaced()).foregroundStyle(Color.ds.secondary)
                     .textSelection(.enabled)
+                    // A feedback screenshot never shows it (ADR-23).
+                    .privacySensitive()
             }
             .accessibilityElement(children: .combine)
             .accessibilityIdentifier("settings.installId")

@@ -92,6 +92,7 @@ struct ConversationView: View {
             Image(systemName: "waveform").foregroundStyle(Color.ds.accent)
             Text(speech.liveTranscript.isEmpty ? "Listening…" : speech.liveTranscript)
                 .dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.secondary)
+                .hidesPersonalWords(in: speech.liveTranscript)
         }
         .padding(.horizontal, Tokens.Space.l)
         .padding(.vertical, Tokens.Space.m)
@@ -295,6 +296,7 @@ struct TalkView: View {
         if speech.isListening {
             Text(speech.liveTranscript.isEmpty ? "Listening…" : speech.liveTranscript)
                 .dsFont(Tokens.TypeScale.italianBody).foregroundStyle(Color.ds.secondary)
+                .hidesPersonalWords(in: speech.liveTranscript)
         }
         if let failure = speech.failureMessage {
             Text(failure).dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.warningText)

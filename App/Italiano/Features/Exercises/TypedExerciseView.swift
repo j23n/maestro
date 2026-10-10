@@ -131,5 +131,6 @@ struct ClozeSentence: View {
             .accessibilityElement()
             .accessibilityLabel(Text("\(before.text) blank \(after.text)"))
             .accessibilityIdentifier("cloze.gap")
+            .hidesPersonalWords(in: gap)
     }
 }

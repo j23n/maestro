@@ -22,6 +22,7 @@ struct ItalianText: View {
             .italic(italic)
             .foregroundStyle(Color.ds.ink)
             .fixedSize(horizontal: false, vertical: true)
+            .hidesPersonalWords(in: text)
     }
 
     /// `**x**` → semibold accent; the whole string is tagged it-IT for speech.
@@ -58,6 +59,7 @@ struct MixedText: View {
             .dsFont(style)
             .foregroundStyle(Color.ds.ink)
             .fixedSize(horizontal: false, vertical: true)
+            .hidesPersonalWords(in: text)
     }
 
     /// Splits on `**` (highlight) before `*` (Italian), so `*un **caffè***` works too.
