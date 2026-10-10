@@ -19,7 +19,7 @@
 #   IOS_SIMULATOR           the simulator `make test-app` uses (default iPhone 17)
 #
 # It provides: project, build, build-ios, build-mac, test-app, swift-test, tools and
-# update-apple-ci. The app's Makefile defines test, ci-linux and ci-macos (and its own targets).
+# update-apple-ci (which also refreshes the shared Claude instructions in .apple-ci/claude). The app's Makefile defines test, ci-linux and ci-macos (and its own targets).
 # None of these becomes the default goal: `make` alone runs the app's own first rule.
 
 # Restored at the end of this file, so the rules below don't take the default goal.
@@ -104,9 +104,11 @@ tools:
 	@command -v $(XCODEGEN) >/dev/null 2>&1 || brew install xcodegen
 
 # Replaces this copy with apple-ci's current one.
+# apple.mk itself, and the shared Claude instructions CLAUDE.md imports (claude/update.sh).
 update-apple-ci:
 	curl -fsSL $(APPLE_CI_RAW)/make/apple.mk -o .apple-ci/apple.mk
-	@git diff --stat -- .apple-ci/apple.mk
+	curl -fsSL $(APPLE_CI_RAW)/claude/update.sh | APPLE_CI_RAW=$(APPLE_CI_RAW) sh -s -- apps
+	@git status --short -- .apple-ci .github/pull_request_template.md
 
 # Empty when the app defined no rule before the include, so its next rule becomes the default.
 .DEFAULT_GOAL := $(APPLE_CI_DEFAULT_GOAL)

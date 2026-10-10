@@ -19,7 +19,7 @@ schemas/content-pack.sql     the normative SQLite schema shared by the Python pi
 fixtures/                    FSRS-6 reference vectors (from py-fsrs 6.3.2) and grading cases
 design/                      tokens, fonts (OFL), Moka SVGs, reference screens, canvas sources
 scripts/                     guards: LearningCore imports, colour contrast
-.github/workflows/           CI and Claude review drafts (adapted in task M0.5)
+.github/workflows/           CI, Claude's pull request review and its @claude replies (docs/10 § CI)
 .swift-format, .worktreeinclude, .gitattributes (Git LFS), .gitignore
 tools/fixtures/              the FSRS fixture generator
 PROGRESS.md                  the running log agents append to
