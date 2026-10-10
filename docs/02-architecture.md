@@ -135,6 +135,7 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
 | `ITA_ICLOUD_ENTITLEMENT` | NO (YES in the owner's Signing.xcconfig, with `CODE_SIGN_ENTITLEMENTS = Config/Italiano.entitlements`) | as Debug | as Debug | as Debug |
 | `ITA_REVIEW_MODE` | YES | NO | NO | YES (review mode, `docs/06`) |
 | `ITA_REVIEW_URL` | local mock URL | empty | empty | review endpoint (`docs/12`) |
+| `FEEDBACK` (a Swift compilation condition, not a key) | set: in-app feedback to the owner's private GitHub inbox (ADR-23) | not set | not set | not set |
 
 Release and Study archives bundle the release pack (approved content only, `make archive`); Review archives bundle the dev pack, drafts included, and go only to the internal TestFlight group of the content lead.
 

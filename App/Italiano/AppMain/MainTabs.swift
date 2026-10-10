@@ -1,3 +1,6 @@
+#if FEEDBACK
+    import FeedbackKit
+#endif
 import LearningCore
 import SwiftUI
 
@@ -68,7 +71,21 @@ struct MainTabs: View {
         // After the presentations, so a player taking the Mac window doesn't run these again when the tabs return.
         .onAppear { deps.audioPlayer.onStop = { [app = deps.app] report in app.audioPlayed(report) } }
         .task { await deps.review?.attach(to: deps.app) }
+        #if FEEDBACK
+            // Where the app is, for a feedback report (ADR-23): the tab, and the step or session being played.
+            .onChange(of: feedbackScreen, initial: true) { _, screen in deps.feedback.currentScreen = { screen } }
+        #endif
     }
+
+    #if FEEDBACK
+        private var feedbackScreen: String {
+            var parts = ["tab \(tab)"]
+            if let playing { parts.append("playing step \(playing.step)") }
+            if reviewing != nil { parts.append("review session") }
+            if takingFinal != nil { parts.append("final check") }
+            return parts.joined(separator: ", ")
+        }
+    #endif
 
     @ViewBuilder private var today: some View {
         if let content = deps.app.today {

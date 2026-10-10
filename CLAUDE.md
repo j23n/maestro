@@ -27,6 +27,7 @@ make check-content    # uv run content lint && uv run content annotate --check &
 make pack             # build App/Italiano/Resources/Content/content.sqlite + Audio/ (dev pack; gitignored)
 make mini-pack        # fixtures/packs/mini.sqlite + mini-payloads.json from the golden sample
 make lint-guards      # LearningCore import guard + colour contrast
+make ci-linux         # what CI runs on Linux; make ci-macos on the Mac (j23n/apple-ci's shared workflows)
 make data build-ios build-mac test-app test-ui screenshots
 ```
 
@@ -40,7 +41,7 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
 4. **Never show learners untaught material.** Every text, exercise and review card goes through eligibility (`docs/05`).
 5. **The event log is append-only.** Never update or delete events. All learner state must be rebuildable by replay.
 6. **Learning content comes only from the content pack.** Never hard-code Italian in Swift, apart from the few UI greetings in the String Catalog.
-7. **No third-party SDKs or analytics, and no cloud or third-party LLM calls.** The network is used only for CloudKit and the study endpoint (after consent). On-device Foundation Models hints are allowed behind `ITA_LLM_HINTS` (ADR-10).
+7. **No third-party SDKs or analytics, and no cloud or third-party LLM calls.** The network is used only for CloudKit and the study endpoint (after consent), and in Debug builds for in-app feedback to the owner's private GitHub inbox (`FEEDBACK`, ADR-23). On-device Foundation Models hints are allowed behind `ITA_LLM_HINTS` (ADR-10).
 8. **Specs, code and fixtures change together.** Changing FSRS, grading, the pack schema or a content format means updating the spec and fixtures in the same change. `fixtures/fsrs/` is generated: never edit it.
 9. **Every interactive element gets an accessibility identifier** (`screen.element[.n]`) and a label.
 10. **Secrets and signing stay with the owner.** Never commit the Azure key, the study token or signing files, and don't read `.env` files. Never sign with a team or enable automatic signing (ad-hoc "Sign to Run Locally" for macOS tests is fine), never change the bundle ID, and never edit the generated `App/Italiano.xcodeproj`: targets, packages and schemes live in `App/project.yml`, build settings in `App/Config/*.xcconfig` (ADR-19).

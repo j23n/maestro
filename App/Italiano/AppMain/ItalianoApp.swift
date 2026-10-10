@@ -1,3 +1,6 @@
+#if FEEDBACK
+    import FeedbackKit
+#endif
 import SwiftUI
 
 /// The app's entry point: one window with the tab shell on every platform, the Settings scene on macOS
@@ -19,6 +22,9 @@ struct ItalianoApp: App {
                 // Pages deep in the player (the story's `Aa` menu) read and write settings through these.
                 .environment(deps.app)
                 .environment(deps.services.textSize)
+                #if FEEDBACK
+                    .environment(deps.feedback)
+                #endif
                 #if os(macOS)
                     // The minimum window (docs/07 § Navigation), which the lesson player fills on Mac.
                     .frame(minWidth: Tokens.Size.macMinWindowWidth, minHeight: Tokens.Size.macMinWindowHeight)
@@ -28,6 +34,10 @@ struct ItalianoApp: App {
             .defaultSize(width: Tokens.Size.macMinWindowWidth + 200, height: Tokens.Size.macMinWindowHeight + 180)
             .commands { ItalianoCommands(textSize: deps.services.textSize) }
         #endif
+        #if FEEDBACK
+            // Help › Send Feedback… on the Mac and on iPad with a keyboard (ADR-23).
+            .commands { FeedbackCommands(center: deps.feedback) }
+        #endif
         #if os(macOS)
             Settings {
                 SettingsScreen(
@@ -36,6 +46,9 @@ struct ItalianoApp: App {
                 )
                 .frame(minWidth: 520, minHeight: 480)
                 .learnerTextScale(deps.app)
+                #if FEEDBACK
+                    .environment(deps.feedback)
+                #endif
             }
         #endif
     }

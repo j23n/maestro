@@ -1,3 +1,6 @@
+#if FEEDBACK
+    import FeedbackKit
+#endif
 import LearningCore
 import SwiftUI
 
@@ -10,6 +13,10 @@ struct SettingsScreen: View {
     var studyBuild = false
     /// Reminders, study data and the Debug menu (`AppServices`); previews leave it out.
     var services: AppServices?
+    #if FEEDBACK
+        /// In-app feedback, in Debug builds only (ADR-23); previews have none.
+        @Environment(FeedbackCenter.self) private var feedback: FeedbackCenter?
+    #endif
 
     var body: some View {
         let s = app.settings
@@ -122,6 +129,11 @@ struct SettingsScreen: View {
                 if let debug = services?.debug {
                     DebugSettingsSection(model: debug, storageError: app.lastStorageError)
                 }
+                #if FEEDBACK
+                    if let feedback {
+                        FeedbackSettingsSection(center: feedback)
+                    }
+                #endif
             }
             .toggleStyle(DSToggleStyle())
             .readableColumn()

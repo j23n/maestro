@@ -8,7 +8,8 @@ ITA_REVIEW_MODE = YES
 ITA_REVIEW_URL = http:/$()/localhost:8787
 // ITA_SYNC_ENABLED stays NO: only the owner's signed config (Signing.xcconfig) turns it on.
 
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG $(inherited)
+// FEEDBACK: in-app feedback to the owner's private GitHub inbox (ADR-23), never in Release, Study or Review.
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG FEEDBACK $(inherited)
 SWIFT_OPTIMIZATION_LEVEL = -Onone
 ONLY_ACTIVE_ARCH = YES
 ENABLE_TESTABILITY = YES

@@ -1,3 +1,6 @@
+#if FEEDBACK
+    import FeedbackKit
+#endif
 import LearningCore
 import Storage
 import SwiftUI
@@ -25,6 +28,10 @@ final class AppDependencies {
     let review: ReviewMode?
     /// Settings → Sync and the account-switch alert; set once sync starts.
     private(set) var syncSettings: SyncSettingsModel?
+    #if FEEDBACK
+        /// In-app feedback, in Debug builds only (ADR-23, `Feedback.swift`).
+        let feedback: FeedbackCenter
+    #endif
 
     init(
         config: AppConfig, app: AppModel, audioPlayer: any AudioPlaying, speech: any SpeechRecognizing,
@@ -41,6 +48,9 @@ final class AppDependencies {
             config: config, app: app, notifications: notifications, telemetry: telemetry, debug: debug,
             speech: speech)
         self.review = review
+        #if FEEDBACK
+            feedback = .italiano(config: config)
+        #endif
     }
 
     /// The real app: the bundled pack (`Resources/Content/content.sqlite`), the learner database in Application

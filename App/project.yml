@@ -40,6 +40,11 @@ packages:
   SnapshotTesting:
     url: https://github.com/pointfreeco/swift-snapshot-testing
     exactVersion: 1.19.6
+  # In-app feedback (ADR-23), j23n's own package, used only with the FEEDBACK condition (Config/Debug.xcconfig).
+  # Pinned to a commit of j23n/feedbackkit.
+  FeedbackKit:
+    url: https://github.com/j23n/feedbackkit
+    revision: dd4df0adebaa834e04679388e88ca791d17b1515
 
 targets:
   Italiano:
@@ -63,6 +68,8 @@ targets:
         product: LearningCore
       - package: Storage
         product: Storage
+      - package: FeedbackKit
+        product: FeedbackKit
 
   ItalianoTests:
     type: bundle.unit-test
