@@ -59,7 +59,7 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
   - append an entry to `PROGRESS.md` (date, task ID, what changed, evidence, follow-ups).
 - **Work from a GitHub issue** (Claude on GitHub, or an issue from in-app feedback), not a `docs/11` task:
   - the issue is the task, and its acceptance criteria take the place of a `docs/11` row;
-  - there's no task ID: commit subjects and the pull request title follow the shared rules (imperative, no ID), commits carry `Part of #N`, and the PROGRESS entry's heading has `#N` where the task ID goes;
+  - there's no task ID: commit subjects and the pull request title follow the shared rules (imperative, no ID), commits carry `Part of #N`, the pull request's "What and why" ends with `Closes #N` (`Part of #N` if it doesn't finish the issue), and the PROGRESS entry's heading has `#N` where the task ID goes;
   - ask the owner in the issue; a spec question also goes under "Proposed changes" in `docs/13`, in the pull request;
   - for anything touching more than 3 files, post the plan as a comment on the issue and wait for the owner's `@claude` to go ahead;
   - GitHub's runner has no Swift, uv or `pipeline/data`: run what you can, say what you couldn't, and leave the rest to CI's Linux job on the pull request. The spec-reviewer runs there too.

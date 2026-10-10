@@ -34,8 +34,9 @@ jobs:
             (gh pr diff ${{ github.event.pull_request.number }}).
             Find the task. A task ID in the PR title (e.g. M2.3) has its row in docs/11-milestones.md and the specs it cites.
             A pull request without one works on a GitHub issue (CLAUDE.md, "Work from a GitHub issue"): the issue it closes
-            (gh pr view ${{ github.event.pull_request.number }} --json closingIssuesReferences), or else the N in its branch
-            name claude/issue-N-…; read it with gh issue view N, and its acceptance criteria are the task's.
+            (gh pr view ${{ github.event.pull_request.number }} --json closingIssuesReferences), or else the Closes #N or Part of #N
+            that ends the description's "What and why" (gh pr view ${{ github.event.pull_request.number }} --json body), or else
+            the N in its branch name claude/issue-N-…; read it with gh issue view N, and its acceptance criteria are the task's.
             Check: acceptance criteria met with evidence; tests would fail if the behavior broke; CLAUDE.md hard rules;
             exact fidelity to docs/03–09 (names, IDs, formats); no scope beyond the task; docs and fixtures updated with behavior.
             Post inline comments for specific lines, then one summary comment with gh pr comment: a verdict (pass/fail)

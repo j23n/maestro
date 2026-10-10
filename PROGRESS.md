@@ -417,4 +417,6 @@ Template:
 
 ## 2026-10-11 · CI · issue links in the pull request description (owner's request)
 - The owner chose description links over GitHub's metadata: the shared rules (`.apple-ci/claude/j23n.md`, apple-ci's current copy) now end a pull request's "What and why" with `Closes #N` for the issue it finishes, or `Part of #N` for one it works toward. `link-pr.sh` is gone from apple-ci and from `.apple-ci/claude/`, and `claude.yml` no longer allows it; `gh pr create` stays. The pull request template says the same. `claude-review` still finds the issue through `closingIssuesReferences`, which GitHub fills from `Closes #N` in the description.
-- Evidence: actionlint clean on `claude.yml`; `make lint-guards` green; the shared copies match apple-ci's (`update.sh --check`).
+- Evidence: actionlint 1.7.7 clean on `claude.yml` and `claude-review.yml` (run in the session's scratch directory); `make lint-guards` green; the shared copies match apple-ci's `main` (55a7d3c, `update.sh --check`).
+- Spec review: pass, no blocking findings. Taken from its minor ones: `claude-review` also finds the issue in the description's closing line (`gh pr view --json body`), since a pull request that only says `Part of #N`, or a stack's finishing layer into a branch other than `main`, has no `closingIssuesReferences`; CLAUDE.md's "Work from a GitHub issue" names that line.
+- Follow-up (owner): `Bash(gh pr create *)` is still under `ask` in `.claude/settings.json`, so Claude on GitHub here posts a "Create a PR" link instead of opening the pull request (the 2026-10-10 owner step).
