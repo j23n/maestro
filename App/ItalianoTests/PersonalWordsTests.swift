@@ -23,6 +23,24 @@ struct PersonalWordsTests {
         #expect(!words.occur(in: "Sono italiano."))
     }
 
+    @Test func eachPartOfTheName() {
+        let words = PersonalWords(LearnerProfile(name: "Mary Ann O'Neil"))
+        #expect(words.words == ["Mary Ann O'Neil", "Mary", "Ann", "O'Neil"])
+        #expect(words.occur(in: "Mi chiamo Mary."))
+        #expect(words.occur(in: "O'Neil"))
+    }
+
+    @Test func otherHomePhrasesAndBothNationalities() {
+        let america = LearnerProfile.Country(
+            id: "us", nameIt: "Stati Uniti", homePhrase: "negli Stati Uniti", altHomePhrases: ["in America"],
+            nationalityM: "americano", nationalityF: "americana")
+        let words = PersonalWords(LearnerProfile(country: america))
+        #expect(words.occur(in: "Abito in America."))
+        #expect(words.occur(in: "Sono americana."))
+        #expect(words.occur(in: "Sono americano."))
+        #expect(!words.occur(in: "Sono canadese."))
+    }
+
     @Test func accentsAndCaseAreIgnored() {
         let words = PersonalWords(LearnerProfile(name: "José"))
         #expect(words.occur(in: "Mi chiamo JOSE."))

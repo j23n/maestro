@@ -11,6 +11,8 @@ struct FeedbackPanel<Buttons: View>: View {
     let tone: Tone
     let headline: String
     var detail: String?
+    /// The detail is what the learner said ("I heard: …"), which a feedback screenshot hides (ADR-23).
+    var hidesDetail = false
     var showsMascot = true
     @ViewBuilder var buttons: Buttons
     /// Review mode only: "This should be accepted" after a rejected answer (nil for learners).
@@ -28,6 +30,7 @@ struct FeedbackPanel<Buttons: View>: View {
                         .foregroundStyle(tone == .success ? Color.ds.success : Color.ds.warningText)
                     if let detail {
                         MixedText(text: detail, style: Tokens.TypeScale.uiBody)
+                            .hiddenFromFeedback(hidesDetail)
                     }
                 }
                 Spacer(minLength: 0)

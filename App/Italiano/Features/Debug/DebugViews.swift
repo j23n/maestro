@@ -301,6 +301,7 @@ private struct SimulatedSpeechPanel: View {
                 .foregroundStyle(Color.ds.secondary)
             if let expected = prompt.expected.first {
                 Text("Expected: \(expected)").dsFont(Tokens.TypeScale.uiCaption).foregroundStyle(Color.ds.secondary)
+                    .hidesPersonalWords(in: expected)
             }
             HStack(spacing: Tokens.Space.m) {
                 TextField("What you said", text: $text)

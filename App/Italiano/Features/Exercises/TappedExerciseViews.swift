@@ -495,7 +495,7 @@ struct DictationDiff: View {
                         Text(word.typed ?? "—").dsFont(Tokens.TypeScale.uiCaption)
                             .foregroundStyle(Color.ds.warningText)
                             .strikethrough(word.typed != nil)
-                            .hidesPersonalWords(in: word.typed ?? "")
+                            .hiddenFromFeedback()
                     }
                 }
                 .accessibilityElement(children: .ignore)
@@ -571,12 +571,14 @@ struct RepeatView: View {
             Text(speech.liveTranscript.isEmpty ? "Listening…" : speech.liveTranscript)
                 .dsFont(Tokens.TypeScale.italianBody).foregroundStyle(Color.ds.secondary)
                 .accessibilityIdentifier("repeat.transcript")
+                .hiddenFromFeedback()
         } else if let heard = model.heard {
             VStack(spacing: Tokens.Space.s) {
                 Text(model.passed == true ? "That's it." : "Not quite.")
                     .dsFont(Tokens.TypeScale.uiTitle)
                     .foregroundStyle(model.passed == true ? Color.ds.success : Color.ds.warningText)
                 MixedText(text: "I heard: *\(heard)*", style: Tokens.TypeScale.uiBody)
+                    .hiddenFromFeedback()
             }
             .accessibilityElement(children: .combine)
             .accessibilityIdentifier("repeat.transcript")

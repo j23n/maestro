@@ -44,7 +44,7 @@ struct StudyDataRows: View {
                 Text(installID).font(.footnote.monospaced()).foregroundStyle(Color.ds.secondary)
                     .textSelection(.enabled)
                     // A feedback screenshot never shows it (ADR-23).
-                    .privacySensitive()
+                    .hiddenFromFeedback()
             }
             .accessibilityElement(children: .combine)
             .accessibilityIdentifier("settings.installId")

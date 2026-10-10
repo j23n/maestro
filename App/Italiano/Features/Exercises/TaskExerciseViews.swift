@@ -79,6 +79,8 @@ struct ConversationView: View {
                 .dsFont(Tokens.TypeScale.uiCaption)
                 .foregroundStyle(line.speaker == .character ? Color.ds.secondary : Color.ds.accent)
             ItalianText(line.text, style: Tokens.TypeScale.storyRegular)
+                // What the learner said or typed (ADR-23).
+                .hiddenFromFeedback(line.speaker == .learner)
             if showEnglish, let en = line.english {
                 Text(en).dsFont(Tokens.TypeScale.translation).foregroundStyle(Color.ds.secondary)
             }
@@ -92,7 +94,7 @@ struct ConversationView: View {
             Image(systemName: "waveform").foregroundStyle(Color.ds.accent)
             Text(speech.liveTranscript.isEmpty ? "Listening…" : speech.liveTranscript)
                 .dsFont(Tokens.TypeScale.uiBody).foregroundStyle(Color.ds.secondary)
-                .hidesPersonalWords(in: speech.liveTranscript)
+                .hiddenFromFeedback()
         }
         .padding(.horizontal, Tokens.Space.l)
         .padding(.vertical, Tokens.Space.m)
@@ -296,7 +298,7 @@ struct TalkView: View {
         if speech.isListening {
             Text(speech.liveTranscript.isEmpty ? "Listening…" : speech.liveTranscript)
                 .dsFont(Tokens.TypeScale.italianBody).foregroundStyle(Color.ds.secondary)
-                .hidesPersonalWords(in: speech.liveTranscript)
+                .hiddenFromFeedback()
         }
         if let failure = speech.failureMessage {
             Text(failure).dsFont(Tokens.TypeScale.uiCallout).foregroundStyle(Color.ds.warningText)
@@ -360,7 +362,8 @@ struct TalkView: View {
             FeedbackPanel(
                 tone: passed ? .success : .hint,
                 headline: passed ? "Nicely done." : "Try to cover a few more points.",
-                detail: "I heard: *\(model.response)*"
+                detail: "I heard: *\(model.response)*",
+                hidesDetail: true
             ) { EmptyView() }
             Card {
                 VStack(alignment: .leading, spacing: Tokens.Space.s) {
@@ -460,6 +463,7 @@ struct WritingView: View {
                 .environment(\.locale, Locale(identifier: "it_IT"))
                 .accessibilityLabel(Text("Your text"))
                 .accessibilityIdentifier("writing.text")
+                .hiddenFromFeedback()
             HStack {
                 if !model.submitted { AccentKeys { model.text += $0 } }
                 Spacer()
@@ -492,6 +496,7 @@ struct WritingView: View {
                 }
                 ForEach(model.suggestions, id: \.tokenIndex) { s in
                     MixedText(text: "*\(s.token)*: did you mean *\(s.suggestion)*?", style: Tokens.TypeScale.uiCallout)
+                        .hiddenFromFeedback()
                 }
                 if let m = model.writing.model {
                     Card {

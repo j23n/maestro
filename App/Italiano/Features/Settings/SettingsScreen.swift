@@ -62,6 +62,7 @@ struct SettingsScreen: View {
                         Text("Show me both").tag("both")
                     }
                     .accessibilityIdentifier("settings.forms")
+                    .hiddenFromFeedback()
                     // Used in role-plays (`{ME.home}`, `{ME.nationality}`): a learner who skipped it or moved sets it
                     // here.
                     Picker("Where you live", selection: text(.profileCountry, s.profileCountry ?? "")) {
@@ -72,11 +73,13 @@ struct SettingsScreen: View {
                         }
                     }
                     .accessibilityIdentifier("settings.country")
+                    .hiddenFromFeedback()
                     Picker("Why you're learning", selection: text(.profileReason, s.profileReason ?? "")) {
                         if (s.profileReason ?? "").isEmpty { Text("Not set").tag("") }
                         ForEach(OnboardingModel.reasons) { r in Text(r.title).tag(r.id) }
                     }
                     .accessibilityIdentifier("settings.reason")
+                    .hiddenFromFeedback()
                     Toggle("Only accept the forms that fit me", isOn: toggle(.answersStrictForms, s.strictForms))
                         .accessibilityIdentifier("settings.strictForms")
                 }

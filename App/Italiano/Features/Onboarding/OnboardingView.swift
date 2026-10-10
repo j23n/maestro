@@ -152,6 +152,8 @@ struct OnboardingView: View {
                         .accessibilityIdentifier("onboarding.reason.\(reason.id)")
                 }
             }
+            // The learner's answers here, the reason, forms and country, are hidden in a feedback screenshot (ADR-23).
+            .hiddenFromFeedback()
         case .name:
             TextField("Your first name", text: $model.name)
                 .dsFont(Tokens.TypeScale.uiTitle)
@@ -178,6 +180,7 @@ struct OnboardingView: View {
                 ChoiceRow(title: "Show me both", isSelected: model.forms == .both) { model.forms = .both }
                     .accessibilityIdentifier("onboarding.forms.both")
             }
+            .hiddenFromFeedback()
         case .country:
             VStack(spacing: Tokens.Space.m) {
                 TextField("Search", text: $model.countryQuery)
@@ -201,6 +204,7 @@ struct OnboardingView: View {
                         .accessibilityIdentifier("onboarding.country.\(c.id)")
                     }
                 }
+                .hiddenFromFeedback()
             }
         case .goal:
             VStack(spacing: Tokens.Space.m) {
