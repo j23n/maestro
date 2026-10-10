@@ -31,6 +31,9 @@ SWIFT ?= swift
 CONFIG ?= Debug
 IOS_SIMULATOR ?= iPhone 17
 DERIVED_DATA ?= $(CURDIR)/.build/DerivedData
+# test-app's result bundles: when the tests fail, their failures are printed from them, since -quiet
+# names the failing tests and nothing else.
+TEST_RESULTS ?= $(CURDIR)/.build/TestResults
 XCODEBUILD_FLAGS ?= -quiet
 SWIFT_PACKAGES ?=
 PROJECT_INPUTS ?=
@@ -74,10 +77,17 @@ build-mac: project $(APP_PREREQUISITES)
 test-app: $(addprefix test-app-,$(TEST_APP_PLATFORMS))
 
 test-app-ios: project $(APP_PREREQUISITES)
-	$(XCODE) -destination '$(IOS_TEST_DESTINATION)' $(TEST_APP_FLAGS) test $(UNSIGNED)
+	@rm -rf '$(TEST_RESULTS)/ios.xcresult'
+	$(XCODE) -destination '$(IOS_TEST_DESTINATION)' -resultBundlePath '$(TEST_RESULTS)/ios.xcresult' \
+	  $(TEST_APP_FLAGS) test $(UNSIGNED) || { $(call show-test-failures,$(TEST_RESULTS)/ios.xcresult); exit 1; }
 
 test-app-mac: project $(APP_PREREQUISITES)
-	$(XCODE) -destination '$(MAC_DESTINATION)' $(TEST_APP_FLAGS) test $(SIGNED_LOCALLY)
+	@rm -rf '$(TEST_RESULTS)/mac.xcresult'
+	$(XCODE) -destination '$(MAC_DESTINATION)' -resultBundlePath '$(TEST_RESULTS)/mac.xcresult' \
+	  $(TEST_APP_FLAGS) test $(SIGNED_LOCALLY) || { $(call show-test-failures,$(TEST_RESULTS)/mac.xcresult); exit 1; }
+
+# The failures in a result bundle, with their messages and places.
+show-test-failures = echo "Test failures ($(1)):"; xcrun xcresulttool get test-results summary --path '$(1)' || true
 
 test-app-none:
 	@echo "This app has no app tests."
