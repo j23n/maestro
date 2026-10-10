@@ -5,10 +5,14 @@
 # iOS Simulator and the Mac, and its unit and snapshot tests. The hosted runners don't have Xcode 27 yet, so that job
 # passes with a note in its summary instead of running until they do; meanwhile `macos-xcode-26` builds the pack and
 # the app with the newest Xcode 26 (docs/13 § Proposed changes).
+# It runs on pushes to main and on pull requests (macOS minutes cost ten times as much in a private repository), and
+# by hand on any branch (Actions › CI › Run workflow).
 name: CI
 on:
   pull_request:
   push:
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read

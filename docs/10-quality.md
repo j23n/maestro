@@ -64,7 +64,7 @@ make ci              # ci-linux, then on a Mac build and test-app
 
 ## CI (`.github/workflows/ci.yml`)
 
-The jobs are j23n/apple-ci's shared workflows, which every j23n app's CI calls; each runs one `make` command. They run on every push and pull request.
+The jobs are j23n/apple-ci's shared workflows, which every j23n app's CI calls; each runs one `make` command. They run on pushes to `main` and on pull requests, and by hand on any branch (`workflow_dispatch`): macOS minutes cost ten times as much in a private repository.
 
 - **`linux` job (ubuntu), `make ci-linux`:**
   - The Swift toolchain **pinned to the same version as Xcode 27's** (Swift 6.4.0, the official `swift:6.4.0-noble` image from Amazon ECR Public's mirror, since Docker Hub's pull limit failed the job), so "no new warnings" means the same thing on both.
