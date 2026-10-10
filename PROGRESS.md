@@ -420,3 +420,11 @@ Template:
 - Evidence: actionlint 1.7.7 clean on `claude.yml` and `claude-review.yml` (run in the session's scratch directory); `make lint-guards` green; the shared copies match apple-ci's `main` (55a7d3c, `update.sh --check`).
 - Spec review: pass, no blocking findings. Taken from its minor ones: `claude-review` also finds the issue in the description's closing line (`gh pr view --json body`), since a pull request that only says `Part of #N`, or a stack's finishing layer into a branch other than `main`, has no `closingIssuesReferences`; CLAUDE.md's "Work from a GitHub issue" names that line.
 - Follow-up (owner): `Bash(gh pr create *)` is still under `ask` in `.claude/settings.json`, so Claude on GitHub here posts a "Create a PR" link instead of opening the pull request (the 2026-10-10 owner step).
+
+## 2026-10-11 · CI · the Mac's CI on a pull request when the review asks for it (owner's request)
+- The owner found CI too eager for pull requests that agents open and push to often: every push ran the Mac. apple-ci's `macos.yml` now runs on a pull request only when the `ci:mac` label is added, once, on its head at that moment; pushes to `main` and manual runs still run it, and Linux still runs on every push. `ci.yml` lists `labeled` among its `pull_request` types and puts the label in its concurrency group, so another label doesn't cancel the Mac's run.
+- `claude-review` decides: when its verdict is pass and the diff touches what only the Mac builds, it relabels the pull request `ci:mac` (`gh pr edit`, now among its allowed tools), and says so in its summary. A step creates the label with the workflow's token when the repository doesn't have it (`issues: write`). docs/10 § CI and docs/13 "CI on a free plan" (amended) say so.
+- Evidence: actionlint 1.7.7 with shellcheck clean on `ci.yml` and `claude-review.yml`; `make lint-guards` green. The label's run hasn't happened yet: the first reviewed pull request is its test.
+- Spec review: not run. The spec-reviewer subagent went with `.claude/` (the owner removed it, 880877a), so CLAUDE.md's "run the spec-reviewer" step and docs/10's harness table point at files that no longer exist; that's the owner's to settle.
+- Follow-up: with `.claude/settings.json` gone, its `ask` rule for `gh pr create` no longer stops Claude on GitHub from opening pull requests.
+

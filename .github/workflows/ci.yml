@@ -1,7 +1,8 @@
 # CI (docs/10 § CI): j23n/apple-ci's shared Linux and macOS jobs, which run `make ci-linux` and `make ci-macos`.
 # Linux, on every push to any branch: Swift 6.4.0 (the Swift of Xcode 27, ADR-01), uv + Python: the guards, the fast
 # suite (`make test`: LearningCore, Storage, the pipeline, the content checks and the App logic) and the pipeline's
-# ruff checks. The Mac, on pushes to main, on pull requests and by hand: the dev pack built twice (it must be
+# ruff checks. The Mac, on pushes to main, by hand, and on a pull request once it's labeled ci:mac (claude-review adds
+# the label when the change needs the Mac's build; apple-ci's README, "When CI runs"): the dev pack built twice (it must be
 # deterministic) and the app built for the iOS Simulator and the Mac with the newest Xcode 26 until the hosted runners
 # have Xcode 27; then, once the owner sets the repository variable HOSTED_XCODE_27 to true, `make ci-macos` with
 # Xcode 27 (ADR-01): also Storage and the app's unit and snapshot tests, which need Swift 6.4.
@@ -11,6 +12,8 @@
 name: CI
 on:
   pull_request:
+    # labeled: the ci:mac label runs the Mac's jobs on a pull request (apple-ci's README, "When CI runs").
+    types: [opened, synchronize, reopened, labeled]
   push:
     branches: ["**"]
   workflow_dispatch:
@@ -19,7 +22,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.ref }}
+  # A label's run has a group of its own, so labeling a pull request for another reason doesn't cancel
+  # the Mac's run.
+  group: ci-${{ github.ref }}-${{ github.event.label.name }}
   cancel-in-progress: true
 
 jobs:

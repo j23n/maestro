@@ -7,6 +7,7 @@ These rules hold in j23n's Apple apps: caniretireyet, maestro, makeitrain and om
 - **`make` is the interface.** Contributors, agents and CI run the same targets: `make bootstrap`, `make project`, `make test`, `make build`, `make test-app`, `make ci-linux` and `make ci-macos` (apple-ci's README, "The build contract"). An app adds its own targets next to these.
 - **`.apple-ci/` is a copy of j23n/apple-ci.** It holds `apple.mk`, the Makefiles' shared rules, and these instructions. Never edit it. Change apple-ci, then run `make update-apple-ci`.
 - **CI calls apple-ci's shared workflows,** and each runs one `make` command. To change what CI does, change the app's `make ci-linux` or `make ci-macos` target, not the workflow. A change to apple-ci's workflows reaches every app on its next run.
+- **When CI runs:** Linux on every push. The Mac on pushes to `main`, on manual runs, and on a pull request once it's labeled `ci:mac`, which `claude-review.yml` adds when the change needs the Mac's build (apple-ci's README, "When CI runs").
 - **The Xcode project is generated.** XcodeGen writes it from `project.yml` at the root (`xcodegen` or `make project` there), and git ignores it. Never edit or commit it. Targets, packages and schemes go in `project.yml`; build settings go there or in the `.xcconfig` files it names. Source folders are synchronized, so a new file needs no project change.
 - **Apple-only code needs a Mac.** SwiftUI, UIKit, AppKit and the other Apple frameworks don't build on Linux; only CI's macOS job checks them. Packages without Apple frameworks build and test on Linux with `make test`. A cloud session may have Swift in `/opt/swift/usr/bin` rather than on the `PATH`, or no Swift at all. When you couldn't build or test something, say so, and say what CI will check.
 
@@ -43,6 +44,6 @@ When something can't build without signing, stop and ask.
 
 ## Claude on GitHub
 
-- `.github/workflows/claude.yml` answers `@claude` in issues, pull requests and reviews from people with write access. `claude-review.yml` reviews every pull request that isn't a draft. Both set the model and `--effort` in their `claude_args`.
+- `.github/workflows/claude.yml` answers `@claude` in issues, pull requests and reviews from people with write access. `claude-review.yml` reviews every pull request that isn't a draft, and starts the Mac's CI with the `ci:mac` label when its verdict is pass and the change needs it. Both set the model and `--effort` in their `claude_args`.
 - Claude on GitHub works on the branch the action creates for it (`claude/issue-N-…`), the one exception to j23n.md's branch names.
 - Claude on GitHub runs on Linux without Xcode. It can read CI's results on its pull request. Its allowed commands include `gh pr create`, so it opens its own pull requests (j23n.md, "Pull requests").
