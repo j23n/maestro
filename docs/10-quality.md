@@ -40,6 +40,7 @@ make pack            # check-content + content build (dev mode; gitignored, buil
 make mini-pack       # uv run content build --mini → fixtures/packs/mini.sqlite + mini-payloads.json (from fixtures/seed-course)
 make pack-release    # content build --release --allow-partial → build/release/ (never committed)
 make project         # xcodegen generate --spec App/project.yml → App/Italiano.xcodeproj (gitignored; the app targets run it)
+make build           # build-ios and build-mac
 make build-ios       # xcodebuild -scheme Italiano -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO
 make build-mac       # xcodebuild -scheme Italiano -destination 'platform=macOS' build CODE_SIGNING_ALLOWED=NO
 make test-app        # xcodebuild test (iPhone simulator, unsigned) + test (macOS, ad-hoc signed), unit and snapshot only
@@ -54,21 +55,25 @@ make lint-guards     # scripts/check-core-imports.sh + python3 scripts/check-con
                      #     LearningCore and Storage type-check against the packages, on Linux too)
 make archive CONFIG=Study   # [owner] pack-release, swap the release pack into the bundle, xcodebuild archive with
                      #   the owner's signing, restore the dev pack on exit (trap); never run by agents
-make ci              # what CI runs, in the same order
+make ci-linux        # what CI's Linux job runs: lint-guards, the packages, the pipeline (tests and ruff), the content checks
+make ci-macos        # what CI's macOS job runs: Storage, the dev pack built twice (pack-determinism), build, test-app
+make ci              # ci-linux, then on a Mac build and test-app
 ```
 
-`IOS_SIM ?= iPhone 17` and `IPAD_SIM ?= iPad Air 11-inch (M3)` are overridable. At M0, check the names your Xcode actually offers (`xcrun simctl list devicetypes`) and update the defaults. **Signing:** iOS builds and simulator tests run with `CODE_SIGNING_ALLOWED=NO`; macOS test runs that need a signed runner use ad-hoc "Sign to Run Locally" (`CODE_SIGN_IDENTITY=-`, no team) with `Italiano-NoCloud.entitlements` (`docs/02`). Signing with a team is the owner's alone; when something can't build without it, the agent stops and asks.
+`project`, `build`, `build-ios`, `build-mac` and `test-app` come from `.apple-ci/apple.mk`, a copy of the rules every j23n app shares (j23n/apple-ci's build contract; `make update-apple-ci` refreshes it, never edit it by hand); the Makefile sets what differs (the pack built first, both platforms' tests, the UI tests skipped, ad-hoc signing with `Italiano-NoCloud.entitlements`). `IOS_SIMULATOR ?= iPhone 17` and `IPAD_SIM ?= iPad Air 11-inch (M3)` are overridable. At M0, check the names your Xcode actually offers (`xcrun simctl list devicetypes`) and update the defaults. **Signing:** iOS builds and simulator tests run with `CODE_SIGNING_ALLOWED=NO`; macOS test runs that need a signed runner use ad-hoc "Sign to Run Locally" (`CODE_SIGN_IDENTITY=-`, no team) with `Italiano-NoCloud.entitlements` (`docs/02`). Signing with a team is the owner's alone; when something can't build without it, the agent stops and asks.
 
 ## CI (`.github/workflows/ci.yml`)
 
-- **`linux` job (ubuntu):**
-  - The Swift toolchain **pinned to the same version as Xcode 27's** (Swift 6.4, via the official Docker image or swiftly; confirm the tag at M0 and record it in PROGRESS.md), so "no new warnings" means the same thing on both: `make test-core`.
-  - uv + Python 3.12: `make test-pipeline`, and `make check-content` once `pipeline/` has the `content` CLI (each step is guarded so M0 can be green before it exists).
+Both jobs are j23n/apple-ci's shared workflows, which every j23n app's CI calls; each runs one `make` target. They run on every push and pull request.
+
+- **`linux` job (ubuntu), `make ci-linux`:**
+  - The Swift toolchain **pinned to the same version as Xcode 27's** (Swift 6.4.0, the official `swift:6.4.0-noble` image from Amazon ECR Public's mirror, since Docker Hub's pull limit failed the job), so "no new warnings" means the same thing on both: `make test-core`.
+  - uv + Python 3.12: `make test-pipeline`, the pipeline's ruff check and format check (`make lint-pipeline`), and `make check-content`.
   - `make lint-guards`.
-- **`macos` job:**
-  - A macOS 26 runner with Xcode 27. Confirm the image name in GitHub's runner-images list at M0; Xcode 27 needs macOS 26.6+.
-  - `make test-storage build-ios build-mac test-app` (unsigned), each guarded until the Xcode project and packages exist.
-  - Build the dev pack (`make data` and `content build`) before the app builds and tests; the pack isn't committed (`docs/04` § Pack build). Two builds must give the same `content pack-hash`.
+- **`macos` job, `make ci-macos`:**
+  - A macOS 26 runner with the Xcode the job asks for (see docs/13 § Proposed changes on Xcode 27, which the hosted runners don't have yet).
+  - `make test-storage`, then the dev pack built twice: the pack isn't committed (`docs/04` § Pack build), and two builds must give the same `content pack-hash` (`make pack-determinism`).
+  - `make build test-app`: the app for the iOS Simulator and the Mac (unsigned), and its unit and snapshot tests.
 - **`claude-review` workflow:** `anthropics/claude-code-action@v1` on pull requests. It reviews the diff against the task's spec and acceptance criteria and posts findings as PR comments; it never pushes. It needs the Claude GitHub App installed on the repo and the `ANTHROPIC_API_KEY` secret (or `claude_code_oauth_token`), and its `claude_args` grant only the comment and diff tools.
 
 ## Agent harness (already in this repo)

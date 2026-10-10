@@ -1,13 +1,11 @@
-# CI (docs/10 § CI; adapted in M0.5). Every step is guarded until the thing it checks exists.
-# Linux: Swift 6.4.0 (the official image, the same Swift as Xcode 27, verified 2026-10-07 by pulling
-# swift:6.4.0-noble), uv + Python, LearningCore, Storage (GRDB 7.11.1 builds on Linux too), pipeline, content.
-# macOS: the image name and the Xcode path are unverified from the Linux session that wrote this; the owner
-# confirms them on the first PR run (docs/11 M0.5 [owner]).
+# CI (docs/10 § CI): j23n/apple-ci's shared Linux and macOS jobs, which run `make ci-linux` and `make ci-macos`.
+# Linux: Swift 6.4.0 (the Swift of Xcode 27, ADR-01), uv + Python: the guards, LearningCore, Storage, the pipeline
+# and the content checks. macOS: Storage, the dev pack built twice (it must be deterministic), the app built for the
+# iOS Simulator and the Mac, and its unit and snapshot tests.
 name: CI
 on:
   pull_request:
   push:
-    branches: [main]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -15,73 +13,20 @@ concurrency:
 
 jobs:
   linux:
-    name: LearningCore + pipeline + content (Linux)
-    runs-on: ubuntu-latest
-    container: swift:6.4.0-noble               # pinned: the same Swift as Xcode 27 (Swift 6.4)
-    steps:
-      - uses: actions/checkout@v4
-        with: { lfs: false }
-      - name: Tools for the pipeline
-        run: apt-get update && apt-get install -y --no-install-recommends python3 curl git make ca-certificates libsqlite3-dev ffmpeg
-      - name: uv
-        uses: astral-sh/setup-uv@v6             # confirm the current major version at M0.5
-      - name: Cache reference data
-        uses: actions/cache@v4
-        with:
-          path: pipeline/data
-          key: pipeline-data-${{ hashFiles('pipeline/data/SOURCES.md') }}
-      - name: Guards
-        run: make lint-guards
-      - name: LearningCore tests
-        if: hashFiles('Packages/LearningCore/Package.swift') != ''
-        run: make test-core
-      - name: Storage tests (Linux bonus; the macOS job is the reference)
-        if: hashFiles('Packages/Storage/Package.swift') != ''
-        run: make test-storage
-      - name: Reference data
-        if: hashFiles('pipeline/pyproject.toml') != ''
-        run: make data
-      - name: Pipeline tests
-        if: hashFiles('pipeline/pyproject.toml') != ''
-        run: make test-pipeline
-      - name: Pipeline lint (ruff)
-        if: hashFiles('pipeline/pyproject.toml') != ''
-        run: uv run --project pipeline ruff check pipeline && uv run --project pipeline ruff format --check pipeline
-      - name: Content checks (once the CLI has `check`)
-        if: hashFiles('pipeline/pyproject.toml') != ''
-        run: |
-          if uv run --project pipeline content check --help >/dev/null 2>&1; then make check-content
-          else echo "content check is not implemented yet (M1.8)"; fi
+    uses: j23n/apple-ci/.github/workflows/linux.yml@main
+    with:
+      name: LearningCore + pipeline + content (Linux)
+      swift: "6.4.0"
+      apt-packages: python3 libsqlite3-dev ffmpeg
+      uv: true
+      cache-path: pipeline/data
+      cache-key: pipeline-data
+      cache-hash-files: pipeline/data/SOURCES.md
 
   macos:
-    name: Storage + app builds and tests (macOS)
-    runs-on: macos-26                           # confirm the image name; Xcode 27 needs macOS 26.6+
-    steps:
-      - uses: actions/checkout@v4
-        with: { lfs: true }
-      - name: Select Xcode 27
-        run: sudo xcode-select -s /Applications/Xcode_27.0.app   # adjust to the installed path
-      - uses: astral-sh/setup-uv@v6
-      - name: Storage tests
-        if: hashFiles('Packages/Storage/Package.swift') != ''
-        run: make test-storage
-      - name: ffmpeg (decodes the LFS renders and encodes the bundle's audio; docs/04 § Audio)
-        run: command -v ffmpeg || brew install ffmpeg
-      - name: Dev pack (built, never committed; docs/04 § Pack build)
-        if: hashFiles('pipeline/pyproject.toml') != ''
-        run: |
-          make data
-          if uv run --project pipeline content build --help >/dev/null 2>&1; then
-            uv run --project pipeline content build
-            a="$(uv run --project pipeline content pack-hash)"
-            uv run --project pipeline content build
-            test "$a" = "$(uv run --project pipeline content pack-hash)" || { echo "pack build is not deterministic"; exit 1; }
-          else echo "content build is not implemented yet (M1.9)"; fi
-      - name: XcodeGen (the project is generated from App/project.yml, ADR-19)
-        run: command -v xcodegen || brew install xcodegen
-      - name: Generate the Xcode project
-        run: make project
-      - name: App builds (unsigned)
-        run: make build-ios build-mac
-      - name: App unit and snapshot tests (iOS unsigned, macOS ad-hoc; pinned simulator runtime, perceptualPrecision 0.98)
-        run: make test-app
+    uses: j23n/apple-ci/.github/workflows/macos.yml@main
+    with:
+      name: Storage + app builds and tests (macOS)
+      brew: xcodegen ffmpeg
+      uv: true
+      lfs: true
