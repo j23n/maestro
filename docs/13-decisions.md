@@ -69,7 +69,7 @@ Each has a default so work never blocks. The owner replaces the default when the
 | Q10 | Apple team ID (bundle ID and container are decided, ADR-18) | none in the repo; agents never sign (ADR-19) | before the owner signs a build (M6.8) |
 | Q11 | Unit check pass rule | ≥ 70% overall and ≥ 50% in each section (docs/05) | week 6 |
 | Q12 | Name of the village in Unit 11 | Content lead decides; use a fictional name to avoid fact-checking | week 3 |
-| Q13 | Learner-facing English: American or British? | American English in the app and in glosses (largest market); these specs keep British spelling | week 3 |
+| Q13 | ~~Learner-facing English: American or British?~~ **Answered:** American English in the app and in glosses (CL15). **The owner, 10 Oct 2026:** US English for all new writing, specs and docs included (j23n's shared rules, which CLAUDE.md imports). Existing identifiers, keys, file names and IDs keep their spelling (`docs/03` § IDs), and the specs aren't respelled wholesale; text is respelled where a change touches it anyway. | — | — |
 
 ## Content questions for the content lead (C1)
 
@@ -286,6 +286,7 @@ The owner asked agents to treat the handoff as a starting point: where it was wr
 **CI on a free plan (owner, 10 Oct 2026)**
 - The owner's GitHub plan is Free, and maestro is private: Actions has 2,000 included minutes a month, a macOS minute counts ten times and every job is rounded up to a whole minute, so a Mac job that only finds Xcode 27 missing costs ten minutes. The Linux job (about 11 minutes) runs on every push to any branch; the Mac jobs run on pushes to `main`, on pull requests and by hand, and are skipped by `if:` everywhere else, which starts no runner (docs/10 § CI).
 - Until the hosted runners have Xcode 27, `macos-xcode-26` builds the dev pack twice and the app with the newest Xcode 26 (about 30 counted minutes): the app built with Xcode 26.6 on 10 Oct, its unit tests don't (they rely on Swift 6.4). The owner sets the repository variable `HOSTED_XCODE_27` to `true` once the runners have Xcode 27, which swaps it for `macos`, `make ci-macos` with Xcode 27 as ADR-01 says. This answers the proposal of the same day on an interim Xcode 26 job: the owner chose it (option a), limited to `main` and pull requests ("Xcode 26 on main + PRs", 10 Oct 2026).
+- Approved feedback opens pull requests by itself (`claude.yml`, ADR-23), and each costs minutes: the `claude` run and `claude-review` (Linux, at most 60 minutes each), the Linux job on each push to its branch, and `macos-xcode-26` (about 30 counted minutes) when it's opened and on each push. Approving many reports at once spends them accordingly.
 
 ## Proposed changes
 

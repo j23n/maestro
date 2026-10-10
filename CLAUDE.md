@@ -57,6 +57,12 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
   - run the **spec-reviewer** subagent on your change and fix or answer every blocking finding;
   - `make test` and `make lint-guards` must be green;
   - append an entry to `PROGRESS.md` (date, task ID, what changed, evidence, follow-ups).
+- **Work from a GitHub issue** (Claude on GitHub, or an issue from in-app feedback), not a `docs/11` task:
+  - the issue is the task, and its acceptance criteria take the place of a `docs/11` row;
+  - there's no task ID: commit subjects and the pull request title follow the shared rules (imperative, no ID), commits carry `Part of #N`, and the PROGRESS entry's heading has `#N` where the task ID goes;
+  - ask the owner in the issue; a spec question also goes under "Proposed changes" in `docs/13`, in the pull request;
+  - for anything touching more than 3 files, post the plan as a comment on the issue and wait for the owner's `@claude` to go ahead;
+  - GitHub's runner has no Swift, uv or `pipeline/data`: run what you can, say what you couldn't, and leave the rest to CI's Linux job on the pull request. The spec-reviewer runs there too.
 - **Owner steps:** tasks marked `[owner]` in `docs/11` need a person (signing, devices, App Store). Do the agent part, list what's left, and stop.
 - **Ambiguity:** if a spec is ambiguous or two specs disagree, don't invent behavior. Add the question under "Proposed changes" in `docs/13` and ask.
 - **When stuck:** after two failed attempts at the same problem, stop and summarize what you tried. Never weaken a test to make it pass.
@@ -77,5 +83,5 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
   - Write voiced numbers in words.
   - Capitalize formal `Lei/La/Le/Suo`.
   - Every exercise is tagged with a can-do or syllabus ID.
-- **Commits:** small and focused; message `M2.3: grade typed answers with focus tokens`.
-- **Pull requests:** the title starts with the task ID too (`claude-review` looks it up in `docs/11`).
+- **Commits:** small and focused; message `M2.3: grade typed answers with focus tokens` (work from an issue has no task ID, above).
+- **Pull requests:** the title starts with the task ID too, when there is one (`claude-review` looks it up in `docs/11`, or reads the issue).

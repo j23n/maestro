@@ -2,6 +2,8 @@
 # Needs the Claude GitHub App installed on the repo and the CLAUDE_CODE_OAUTH_TOKEN secret (from `claude setup-token`),
 # the same one the claude workflow uses.
 # It reads the diff and posts comments; its allowed tools can't edit files or push.
+# --strict-mcp-config keeps .mcp.json's MobileBuildMCP, which needs Xcode, out of the run; the action's own
+# servers (inline comments) come in by --mcp-config and stay.
 name: Claude review
 on:
   pull_request:
@@ -16,6 +18,7 @@ jobs:
   review:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -29,9 +32,12 @@ jobs:
 
             Review this pull request for the Italiano repo. Read CLAUDE.md and docs/README.md first, then the diff
             (gh pr diff ${{ github.event.pull_request.number }}).
-            Find the task ID in the PR title (e.g. M2.3), read its row in docs/11-milestones.md and the specs it cites.
-            Check: acceptance criteria met with evidence; tests would fail if the behaviour broke; CLAUDE.md hard rules;
-            exact fidelity to docs/03–09 (names, IDs, formats); no scope beyond the task; docs and fixtures updated with behaviour.
+            Find the task. A task ID in the PR title (e.g. M2.3) has its row in docs/11-milestones.md and the specs it cites.
+            A pull request without one works on a GitHub issue (CLAUDE.md, "Work from a GitHub issue"): the issue it closes
+            (gh pr view ${{ github.event.pull_request.number }} --json closingIssuesReferences), or else the N in its branch
+            name claude/issue-N-…; read it with gh issue view N, and its acceptance criteria are the task's.
+            Check: acceptance criteria met with evidence; tests would fail if the behavior broke; CLAUDE.md hard rules;
+            exact fidelity to docs/03–09 (names, IDs, formats); no scope beyond the task; docs and fixtures updated with behavior.
             Post inline comments for specific lines, then one summary comment with gh pr comment: a verdict (pass/fail)
             and numbered findings marked [blocking] or [minor], each with file:line, the problem and a concrete fix.
             Do not modify files.
@@ -39,4 +45,5 @@ jobs:
             --model claude-opus-5-5
             --effort high
             --max-turns 60
-            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Read,Grep,Glob"
+            --strict-mcp-config
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh issue view:*),Read,Grep,Glob"
