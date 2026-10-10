@@ -2,7 +2,7 @@
     import FeedbackKit
     import SwiftUI
 
-    /// In-app feedback, in Debug builds only (ADR-23; the `FEEDBACK` condition, `Config/Debug.xcconfig`): a
+    /// In-app feedback, in Debug builds only (ADR-23; the `FEEDBACK` condition, `App/Config/Debug.xcconfig`): a
     /// shake, Help › Send Feedback… or Settings › Feedback opens FeedbackKit's form, and a screenshot shows a banner
     /// that offers it. The report goes to the owner's private inbox, j23n/feedback, where it's triaged before an
     /// issue is filed here. The screenshot shows the course, which content reports need, and nothing of the

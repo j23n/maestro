@@ -5,6 +5,10 @@
 set -euo pipefail
 config="${1:-Release}"
 [ -n "${CLAUDECODE:-}" ] && { echo "archive is the owner's step (ADR-19)." >&2; exit 1; }
+# The build number is the number of commits (docs/02 § Project): a shallow clone would count too few, and a branch's
+# count can match one main gets later.
+[ "$(git rev-parse --is-shallow-repository)" = false ] || { echo "a shallow clone: git fetch --unshallow first" >&2; exit 1; }
+[ "$(git branch --show-current)" = main ] || echo "warning: archiving from $(git branch --show-current), not main" >&2
 pack="App/Italiano/Resources/Content/content.sqlite"
 release="build/release/content.sqlite"
 [ "$config" = "Review" ] || [ -f "$release" ] || { echo "no $release: run make pack-release first" >&2; exit 1; }

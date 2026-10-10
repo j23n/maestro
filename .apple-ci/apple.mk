@@ -61,7 +61,8 @@ APPLE_CI_RAW ?= https://raw.githubusercontent.com/j23n/apple-ci/main
 # Signing (README.md, "Signing"): the owner's team lives in Signing.xcconfig at the repository's root,
 # which git ignores and every configuration of the app includes, so pulling and regenerating the
 # project keep it. `make signing TEAM=ABCDE12345` writes it; `make project` does when it's missing
-# and J23N_TEAM is set in the environment.
+# and J23N_TEAM is set in the environment. Neither runs in an agent's session (CLAUDECODE is set):
+# the file is the owner's.
 SIGNING_XCCONFIG ?= Signing.xcconfig
 SIGNING_OLD ?=
 TEAM ?= $(J23N_TEAM)
@@ -74,7 +75,7 @@ project: $(XCODEPROJ)/project.pbxproj
 
 $(XCODEPROJ)/project.pbxproj: $(PROJECT_SPEC) $(PROJECT_INPUTS) | $(PROJECT_PREREQUISITES)
 	@command -v $(XCODEGEN) >/dev/null 2>&1 || { echo "XcodeGen is missing: make tools (brew install xcodegen)"; exit 1; }
-	@[ -f $(SIGNING_XCCONFIG) ] || [ -z "$(J23N_TEAM)" ] || $(MAKE) --no-print-directory signing TEAM='$(J23N_TEAM)'
+	@[ -f $(SIGNING_XCCONFIG) ] || [ -z "$(J23N_TEAM)" ] || [ -n "$$CLAUDECODE" ] || $(MAKE) --no-print-directory signing TEAM='$(J23N_TEAM)'
 	@for old in $(SIGNING_OLD); do [ ! -f "$$old" ] || echo "warning: $$old is no longer read: move its settings to $(SIGNING_XCCONFIG)"; done
 	USER="$${USER:-$$(id -un)}" $(XCODEGEN) generate --spec $(PROJECT_SPEC) --quiet
 	@touch $@
@@ -118,6 +119,7 @@ tools:
 
 # Writes the owner's team into Signing.xcconfig (gitignored), keeping the file's other settings.
 signing:
+	@[ -z "$$CLAUDECODE" ] || { echo "make signing is the owner's: agents don't write $(SIGNING_XCCONFIG)"; exit 1; }
 	@[ -n "$(TEAM)" ] || { echo "Usage: make signing TEAM=<your Apple Developer team ID> (or set J23N_TEAM)"; exit 2; }
 	@[ -s $(SIGNING_XCCONFIG) ] || printf '%s\n' \
 		'// Your signing settings on this Mac. Git ignores this file, and every configuration of the app' \

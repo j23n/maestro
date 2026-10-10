@@ -19,6 +19,10 @@ LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/
 LD_RUNPATH_SEARCH_PATHS[sdk=macosx*] = $(inherited) @executable_path/../Frameworks @loader_path/../Frameworks
 
 // Unsigned by default, like the app (ADR-19): the Makefile builds with CODE_SIGNING_ALLOWED=NO, and macOS test runs
-// sign ad hoc.
+// sign ad hoc. The owner's team comes from Signing.xcconfig at the root (gitignored), for tests on a device; the
+// app's signed entitlements it may set never reach a test bundle.
 DEVELOPMENT_TEAM =
 CODE_SIGN_STYLE = Automatic
+
+#include? "../../Signing.xcconfig"
+CODE_SIGN_ENTITLEMENTS =

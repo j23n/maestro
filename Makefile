@@ -32,7 +32,9 @@ APP_PREREQUISITES := ensure-pack
 # make test-ui's.
 TEST_APP_PLATFORMS := ios mac
 TEST_APP_FLAGS := -skip-testing:ItalianoUITests
-SIGNED_LOCALLY := CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= CODE_SIGN_ENTITLEMENTS=App/Config/Italiano-NoCloud.entitlements
+# Without iCloud, so the owner's Signing.xcconfig can't turn sync on in a test run without the entitlement (docs/02).
+SIGNED_LOCALLY := CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= CODE_SIGN_ENTITLEMENTS=App/Config/Italiano-NoCloud.entitlements \
+	ITA_ICLOUD_ENTITLEMENT=NO ITA_SYNC_ENABLED=NO
 ADHOC := $(SIGNED_LOCALLY)
 
 include .apple-ci/apple.mk
