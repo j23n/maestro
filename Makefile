@@ -144,7 +144,7 @@ archive:
 	bash scripts/archive.sh "$(CONFIG)"
 
 # What CI runs (j23n/apple-ci's shared workflows, .github/workflows/ci.yml): Linux, then the Mac.
-ci-linux: lint-guards test-core test-storage data test-pipeline lint-pipeline check-content
+ci-linux: lint-guards data test lint-pipeline
 
 ci-macos: test-storage pack-determinism build test-app
 

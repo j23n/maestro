@@ -55,7 +55,7 @@ make lint-guards     # scripts/check-core-imports.sh + python3 scripts/check-con
                      #     LearningCore and Storage type-check against the packages, on Linux too)
 make archive CONFIG=Study   # [owner] pack-release, swap the release pack into the bundle, xcodebuild archive with
                      #   the owner's signing, restore the dev pack on exit (trap); never run by agents
-make ci-linux        # what CI's Linux job runs: lint-guards, the packages, the pipeline (tests and ruff), the content checks
+make ci-linux        # what CI's Linux job runs: lint-guards, data, the fast suite (make test) and the pipeline's ruff checks
 make ci-macos        # what CI's macOS job runs: Storage, the dev pack built twice (pack-determinism), build, test-app
 make ci              # ci-linux, then on a Mac build and test-app
 ```
@@ -64,16 +64,16 @@ make ci              # ci-linux, then on a Mac build and test-app
 
 ## CI (`.github/workflows/ci.yml`)
 
-Both jobs are j23n/apple-ci's shared workflows, which every j23n app's CI calls; each runs one `make` target. They run on every push and pull request.
+The jobs are j23n/apple-ci's shared workflows, which every j23n app's CI calls; each runs one `make` command. They run on every push and pull request.
 
 - **`linux` job (ubuntu), `make ci-linux`:**
-  - The Swift toolchain **pinned to the same version as Xcode 27's** (Swift 6.4.0, the official `swift:6.4.0-noble` image from Amazon ECR Public's mirror, since Docker Hub's pull limit failed the job), so "no new warnings" means the same thing on both: `make test-core`.
-  - uv + Python 3.12: `make test-pipeline`, the pipeline's ruff check and format check (`make lint-pipeline`), and `make check-content`.
-  - `make lint-guards`.
-- **`macos` job, `make ci-macos`:**
-  - A macOS 26 runner with the Xcode the job asks for (see docs/13 § Proposed changes on Xcode 27, which the hosted runners don't have yet).
+  - The Swift toolchain **pinned to the same version as Xcode 27's** (Swift 6.4.0, the official `swift:6.4.0-noble` image from Amazon ECR Public's mirror, since Docker Hub's pull limit failed the job), so "no new warnings" means the same thing on both.
+  - `make lint-guards`, `make data`, then the fast suite, `make test` (LearningCore, Storage, the pipeline's tests, `make check-content` and the App logic), and the pipeline's ruff check and format check (`make lint-pipeline`).
+- **`macos` job, `make ci-macos`, with Xcode 27 (ADR-01):**
   - `make test-storage`, then the dev pack built twice: the pack isn't committed (`docs/04` § Pack build), and two builds must give the same `content pack-hash` (`make pack-determinism`).
   - `make build test-app`: the app for the iOS Simulator and the Mac (unsigned), and its unit and snapshot tests.
+  - The hosted runners don't have Xcode 27 yet (the macOS 26 image of 7 Sep 2026 has Xcode 26.0.1–26.6), so the job asks for it with `xcode-missing: skip`: it passes with a note in its summary instead of running, and runs by itself once the runners have Xcode 27.
+- **`macos-xcode-26` job (interim), `make pack-determinism build` with the newest Xcode 26:** until the `macos` job runs, the only compiler check of the Apple-only code. The app builds with Xcode 26.6; its tests don't, since they rely on Swift 6.4 (`ReviewModeTests` names a local `review` after the `review()` it calls inside `#require`). Remove the job once the `macos` job runs, or sooner if the app starts using an SDK that only Xcode 27 has (docs/13 § Proposed changes).
 - **`claude-review` workflow:** `anthropics/claude-code-action@v1` on pull requests. It reviews the diff against the task's spec and acceptance criteria and posts findings as PR comments; it never pushes. It needs the Claude GitHub App installed on the repo and the `ANTHROPIC_API_KEY` secret (or `claude_code_oauth_token`), and its `claude_args` grant only the comment and diff tools.
 
 ## Agent harness (already in this repo)

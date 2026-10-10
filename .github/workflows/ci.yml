@@ -1,7 +1,10 @@
 # CI (docs/10 § CI): j23n/apple-ci's shared Linux and macOS jobs, which run `make ci-linux` and `make ci-macos`.
-# Linux: Swift 6.4.0 (the Swift of Xcode 27, ADR-01), uv + Python: the guards, LearningCore, Storage, the pipeline
-# and the content checks. macOS: Storage, the dev pack built twice (it must be deterministic), the app built for the
-# iOS Simulator and the Mac, and its unit and snapshot tests.
+# Linux: Swift 6.4.0 (the Swift of Xcode 27, ADR-01), uv + Python: the guards, the fast suite (`make test`:
+# LearningCore, Storage, the pipeline, the content checks and the App logic) and the pipeline's ruff checks.
+# macOS, with Xcode 27 (ADR-01): Storage, the dev pack built twice (it must be deterministic), the app built for the
+# iOS Simulator and the Mac, and its unit and snapshot tests. The hosted runners don't have Xcode 27 yet, so that job
+# passes with a note in its summary instead of running until they do; meanwhile `macos-xcode-26` builds the pack and
+# the app with the newest Xcode 26 (docs/13 § Proposed changes).
 name: CI
 on:
   pull_request:
@@ -26,7 +29,21 @@ jobs:
   macos:
     uses: j23n/apple-ci/.github/workflows/macos.yml@main
     with:
-      name: Storage + app builds and tests (macOS)
+      name: Storage + app builds and tests (macOS, Xcode 27)
+      xcode: "27"
+      xcode-missing: skip
+      brew: xcodegen ffmpeg
+      uv: true
+      lfs: true
+
+  # Interim, until the runners have Xcode 27: the only compiler check of the Apple-only code (views, adapters) until
+  # then. The app builds with Xcode 26; its tests don't (they need Swift 6.4). Remove this job once `macos` runs.
+  macos-xcode-26:
+    uses: j23n/apple-ci/.github/workflows/macos.yml@main
+    with:
+      name: Pack + app builds (macOS, Xcode 26, interim)
+      xcode: "26"
+      run: make pack-determinism build
       brew: xcodegen ffmpeg
       uv: true
       lfs: true
