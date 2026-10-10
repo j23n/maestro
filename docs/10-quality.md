@@ -39,7 +39,9 @@ make check-content   # uv run content lint && uv run content annotate --check &&
 make pack            # check-content + content build (dev mode; gitignored, built locally and in CI)
 make mini-pack       # uv run content build --mini → fixtures/packs/mini.sqlite + mini-payloads.json (from fixtures/seed-course)
 make pack-release    # content build --release --allow-partial → build/release/ (never committed)
-make project         # xcodegen generate --spec App/project.yml → App/Italiano.xcodeproj (gitignored; the app targets run it)
+make project         # xcodegen generate --spec project.yml → Italiano.xcodeproj (gitignored; the app targets run it)
+make signing TEAM=…  # [owner] the team, in the gitignored Signing.xcconfig
+make build-number    # the build number the next build gets: the number of commits
 make build           # build-ios and build-mac
 make build-ios       # xcodebuild -scheme Italiano -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO
 make build-mac       # xcodebuild -scheme Italiano -destination 'platform=macOS' build CODE_SIGNING_ALLOWED=NO

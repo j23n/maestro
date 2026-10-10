@@ -3,8 +3,8 @@ DerivedData/
 build/
 *.xcuserstate
 xcuserdata/
-# The Xcode project is generated from App/project.yml (`make project`, ADR-19)
-App/Italiano.xcodeproj/
+# The Xcode project is generated from project.yml (`make project` or `xcodegen`, ADR-19)
+Italiano.xcodeproj/
 *.xcscmblueprint
 # Swift packages
 .build/
@@ -33,6 +33,8 @@ App/Config/Secrets.xcconfig
 App/Config/Secrets-*.xcconfig
 
 # Owner-only local signing overrides (team ID, signed entitlements, ITA_SYNC_ENABLED; ADR-19)
+Signing.xcconfig
+# where it was before (make project warns while it exists)
 App/Config/Signing.xcconfig
 # Pipeline outputs
 content-build/tts-cache/tmp/

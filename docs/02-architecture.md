@@ -5,7 +5,9 @@
 ```
 italiano/
 ├─ CLAUDE.md, README.md, PROGRESS.md, Makefile
-├─ App/                         project.yml → Italiano.xcodeproj (XcodeGen, `make project`; the project is gitignored)
+├─ project.yml                  → Italiano.xcodeproj (XcodeGen, `make project` or `xcodegen`; the project is gitignored)
+├─ Signing.xcconfig             the owner's team and signed settings (gitignored; `make signing TEAM=…`)
+├─ App/
 │  ├─ Config/                   xcconfig files (Base, Debug, Release, Study, Review; Secrets-Study and Secrets-Review are gitignored)
 │  │                            and entitlements (Italiano.entitlements, Italiano-NoCloud.entitlements)
 │  ├─ Italiano/                 app target sources (SwiftUI), one multiplatform target
@@ -132,7 +134,7 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
 | `ITA_DEBUG_MENU` | YES | NO | NO | NO |
 | `ITA_LLM_HINTS` | YES | NO | NO | NO |
 | `ITA_SYNC_ENABLED` | NO (YES in the owner's signed config) | NO until M7.5, then YES | NO until M7.5, then YES | NO |
-| `ITA_ICLOUD_ENTITLEMENT` | NO (YES in the owner's Signing.xcconfig, with `CODE_SIGN_ENTITLEMENTS = Config/Italiano.entitlements`) | as Debug | as Debug | as Debug |
+| `ITA_ICLOUD_ENTITLEMENT` | NO (YES in the owner's Signing.xcconfig, with `CODE_SIGN_ENTITLEMENTS = App/Config/Italiano.entitlements`) | as Debug | as Debug | as Debug |
 | `ITA_REVIEW_MODE` | YES | NO | NO | YES (review mode, `docs/06`) |
 | `ITA_REVIEW_URL` | local mock URL | empty | empty | review endpoint (`docs/12`) |
 | `FEEDBACK` (a Swift compilation condition, not a key) | set: in-app feedback to the owner's private GitHub inbox (ADR-23) | not set (FeedbackKit is linked but dormant) | not set (the same) | not set (the same) |
@@ -162,7 +164,9 @@ Debug builds have review mode on (`ITA_REVIEW_MODE`, `docs/06`); the launch argu
 
 ### Project, signing and entitlements (ADR-19)
 
-- **The project is generated** (ADR-19 as amended): `make project` runs XcodeGen 2.46.0+ on `App/project.yml` and writes `App/Italiano.xcodeproj` (gitignored; the Makefile's app targets regenerate it when `project.yml` or an xcconfig is newer). The spec has the multiplatform app target `Italiano` (iOS, iPadOS, macOS 26), `ItalianoTests` (hosted in the app; the packages' modules without a second copy) and `ItalianoUITests`, the local packages `Packages/LearningCore` and `Packages/Storage`, swift-snapshot-testing 1.19.6, FeedbackKit (ADR-23; pinned to a commit, linked into every configuration, used only with `FEEDBACK`), the configurations Debug, Release, Study and Review, and the shared scheme `Italiano`. Sources are synchronized folders (`Resources/Content` stays a folder in the bundle), so a new file needs no regeneration. The app target has no build settings of its own: XcodeGen's target presets are off and every setting comes from `App/Config/*.xcconfig` (the test targets use `Tests.xcconfig`). Change targets, packages or schemes in `project.yml`; nobody edits the generated project.
+- **The project is generated** (ADR-19 as amended): `make project` (or `xcodegen` at the root) runs XcodeGen 2.46.0+ on `project.yml` and writes `Italiano.xcodeproj` next to it (gitignored; the Makefile's app targets regenerate it when `project.yml` or an xcconfig is newer). The spec has the multiplatform app target `Italiano` (iOS, iPadOS, macOS 26), `ItalianoTests` (hosted in the app; the packages' modules without a second copy) and `ItalianoUITests`, the local packages `Packages/LearningCore` and `Packages/Storage`, swift-snapshot-testing 1.19.6, FeedbackKit (ADR-23; pinned to a commit, linked into every configuration, used only with `FEEDBACK`), the configurations Debug, Release, Study and Review, and the shared scheme `Italiano`. Sources are synchronized folders (`Resources/Content` stays a folder in the bundle), so a new file needs no regeneration. The app target has no build settings of its own: XcodeGen's target presets are off and every setting comes from `App/Config/*.xcconfig` (the test targets use `Tests.xcconfig`). Change targets, packages or schemes in `project.yml`; nobody edits the generated project.
+- **Build numbers:** the app's `CFBundleVersion` is the number of commits on `HEAD`, set as it's built by j23n/apple-ci's `build-number.sh` (`.apple-ci/`), the target's last build phase; `CURRENT_PROJECT_VERSION` is only what a build without git history keeps, and `MARKETING_VERSION` stays the version people see. The script reads `.git`, so the app target runs scripts without the sandbox. Archive from `main`: a branch's count can match one `main` gets later.
+- **The owner's team** is in `Signing.xcconfig` at the root (gitignored), which `Base.xcconfig` includes last: `make signing TEAM=…` writes it, and pulls and regenerations keep it. It also holds the owner's signed settings (`CODE_SIGN_ENTITLEMENTS = App/Config/Italiano.entitlements`, `ITA_ICLOUD_ENTITLEMENT`, `ITA_SYNC_ENABLED`). It used to be `App/Config/Signing.xcconfig`; `make project` warns while that file exists.
 - **Agents and CI build without a team:** `xcodebuild … CODE_SIGNING_ALLOWED=NO` for builds and simulator tests. macOS test runs that must launch a signed runner use ad-hoc "Sign to Run Locally" (`CODE_SIGN_IDENTITY = -`, no `DEVELOPMENT_TEAM`) with `App/Config/Italiano-NoCloud.entitlements`, which holds no restricted entitlements. The macOS sandbox capabilities (sandbox, microphone, network client, user-selected files) are macOS-only build settings in `Base.xcconfig` (`ENABLE_APP_SANDBOX`, `ENABLE_RESOURCE_ACCESS_AUDIO_INPUT`, `ENABLE_OUTGOING_NETWORK_CONNECTIONS`, `ENABLE_USER_SELECTED_FILES`), so no macOS-only key reaches an iOS signature. Never sign with a team: CloudKit containers can't be deleted, so `iCloud.com.j23n.italian` must be created only by the owner's first signed CloudKit build (ADR-18, Q10).
 - **The owner's signed builds** use `Italiano.entitlements`: iCloud (CloudKit, container `iCloud.com.j23n.italian`), Push Notifications for CloudKit (`aps-environment`), Background Modes → Remote notifications (iOS). On macOS the app is sandboxed, and also needs the microphone (`com.apple.security.device.audio-input`; without it speech silently fails), network client (CloudKit, the study endpoint, and in Debug builds the feedback inbox, ADR-23) and user-selected read-write files (export of the learner database and the examiner zip); these come from the build settings above, not from the entitlements file.
 - `CKContainer(identifier:)` crashes when the entitlement is missing, so `CloudSync` is created only when `ITA_SYNC_ENABLED` is YES **and** the entitlement is present; otherwise `DisabledSync` runs and Settings shows "Sync off in this build". iOS has no public API for an app to read its own entitlements, so the build says so: the owner's Signing.xcconfig sets `ITA_ICLOUD_ENTITLEMENT = YES` in the same place it points `CODE_SIGN_ENTITLEMENTS` at `Italiano.entitlements` (`AppConfig.syncAllowed`).
@@ -193,7 +197,7 @@ Debug builds have review mode on (`ITA_REVIEW_MODE`, `docs/06`); the launch argu
 |---|---|---|---|
 | GRDB.swift | 7.11.1 | Storage | MIT |
 | swift-snapshot-testing | 1.19.6 | App tests only | MIT |
-| FeedbackKit (j23n/feedbackkit) | a pinned commit (`App/project.yml`) | App, code used only in Debug builds (`FEEDBACK`, ADR-23); linked into every configuration | MIT |
+| FeedbackKit (j23n/feedbackkit) | a pinned commit (`project.yml`) | App, code used only in Debug builds (`FEEDBACK`, ADR-23); linked into every configuration | MIT |
 | MobileBuildMCP (formerly XcodeBuildMCP) | 2.7.1 | agent tooling (`.mcp.json`) | MIT |
 | Python | 3.12+ (managed with `uv`) | pipeline | PSF |
 | ruamel.yaml (YAML 1.2), jsonschema, pydantic 2, typer, requests, pytest, ruff; playwright (dev only, review-page test) | latest at M0 | pipeline | permissive |

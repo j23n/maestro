@@ -1,4 +1,4 @@
-// Unit and UI test bundles of the generated project (App/project.yml): the platforms, language mode and signing
+// Unit and UI test bundles of the generated project (project.yml): the platforms, language mode and signing
 // the app gets from Base.xcconfig, without the app's identity (each test target sets its own bundle ID).
 
 SDKROOT = auto

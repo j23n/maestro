@@ -17,9 +17,12 @@
 #   TEST_APP_PLATFORMS      where `make test-app` runs the app's tests: ios, mac, both, or none
 #   TEST_APP_FLAGS          more xcodebuild flags for them (-skip-testing:…, -only-testing:…)
 #   IOS_SIMULATOR           the simulator `make test-app` uses (default iPhone 17)
+#   SIGNING_OLD             files that held the owner's signing settings before Signing.xcconfig,
+#                           which `make project` warns about while they exist
 #
-# It provides: project, build, build-ios, build-mac, test-app, swift-test, tools and
-# update-apple-ci (which also refreshes the shared Claude instructions in .apple-ci/claude). The app's Makefile defines test, ci-linux and ci-macos (and its own targets).
+# It provides: project, build, build-ios, build-mac, test-app, swift-test, tools, signing,
+# build-number and update-apple-ci (which also refreshes .apple-ci/build-number.sh and the shared
+# Claude instructions in .apple-ci/claude). The app's Makefile defines test, ci-linux and ci-macos (and its own targets).
 # None of these becomes the default goal: `make` alone runs the app's own first rule.
 
 # Restored at the end of this file, so the rules below don't take the default goal.
@@ -55,14 +58,24 @@ XCODE = $(XCODEBUILD) $(XCODEBUILD_FLAGS) -project $(XCODEPROJ) -scheme $(SCHEME
 
 APPLE_CI_RAW ?= https://raw.githubusercontent.com/j23n/apple-ci/main
 
+# Signing (README.md, "Signing"): the owner's team lives in Signing.xcconfig at the repository's root,
+# which git ignores and every configuration of the app includes, so pulling and regenerating the
+# project keep it. `make signing TEAM=ABCDE12345` writes it; `make project` does when it's missing
+# and J23N_TEAM is set in the environment.
+SIGNING_XCCONFIG ?= Signing.xcconfig
+SIGNING_OLD ?=
+TEAM ?= $(J23N_TEAM)
+
 .PHONY: project build build-ios build-mac test-app test-app-ios test-app-mac test-app-none swift-test tools \
-	update-apple-ci
+	signing build-number update-apple-ci
 
 # The Xcode project, generated from the spec when the spec (or an input) is newer.
 project: $(XCODEPROJ)/project.pbxproj
 
 $(XCODEPROJ)/project.pbxproj: $(PROJECT_SPEC) $(PROJECT_INPUTS) | $(PROJECT_PREREQUISITES)
 	@command -v $(XCODEGEN) >/dev/null 2>&1 || { echo "XcodeGen is missing: make tools (brew install xcodegen)"; exit 1; }
+	@[ -f $(SIGNING_XCCONFIG) ] || [ -z "$(J23N_TEAM)" ] || $(MAKE) --no-print-directory signing TEAM='$(J23N_TEAM)'
+	@for old in $(SIGNING_OLD); do [ ! -f "$$old" ] || echo "warning: $$old is no longer read: move its settings to $(SIGNING_XCCONFIG)"; done
 	USER="$${USER:-$$(id -un)}" $(XCODEGEN) generate --spec $(PROJECT_SPEC) --quiet
 	@touch $@
 
@@ -103,10 +116,27 @@ swift-test:
 tools:
 	@command -v $(XCODEGEN) >/dev/null 2>&1 || brew install xcodegen
 
+# Writes the owner's team into Signing.xcconfig (gitignored), keeping the file's other settings.
+signing:
+	@[ -n "$(TEAM)" ] || { echo "Usage: make signing TEAM=<your Apple Developer team ID> (or set J23N_TEAM)"; exit 2; }
+	@[ -s $(SIGNING_XCCONFIG) ] || printf '%s\n' \
+		'// Your signing settings on this Mac. Git ignores this file, and every configuration of the app' \
+		'// includes it (j23n/apple-ci README.md, "Signing"). make signing TEAM=… sets the team.' > $(SIGNING_XCCONFIG)
+	@grep -v '^DEVELOPMENT_TEAM[[:space:]]*=' $(SIGNING_XCCONFIG) > $(SIGNING_XCCONFIG).tmp; \
+		echo 'DEVELOPMENT_TEAM = $(TEAM)' >> $(SIGNING_XCCONFIG).tmp; mv $(SIGNING_XCCONFIG).tmp $(SIGNING_XCCONFIG)
+	@echo "$(SIGNING_XCCONFIG): DEVELOPMENT_TEAM = $(TEAM)"
+
+# The build number the next build gets: the number of commits on HEAD (build-number.sh).
+build-number:
+	@git rev-list --count HEAD
+
 # Replaces this copy with apple-ci's current one.
-# apple.mk itself, and the shared Claude instructions CLAUDE.md imports (claude/update.sh).
+# apple.mk itself, the build number script, and the shared Claude instructions CLAUDE.md imports
+# (claude/update.sh).
 update-apple-ci:
 	curl -fsSL $(APPLE_CI_RAW)/make/apple.mk -o .apple-ci/apple.mk
+	curl -fsSL $(APPLE_CI_RAW)/make/build-number.sh -o .apple-ci/build-number.sh
+	chmod +x .apple-ci/build-number.sh
 	curl -fsSL $(APPLE_CI_RAW)/claude/update.sh | APPLE_CI_RAW=$(APPLE_CI_RAW) sh -s -- apps
 	@git status --short -- .apple-ci .github/pull_request_template.md
 

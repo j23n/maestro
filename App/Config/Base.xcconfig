@@ -5,7 +5,10 @@
 PRODUCT_NAME = Italiano
 PRODUCT_BUNDLE_IDENTIFIER = com.j23n.italian                 // ADR-18: never change
 MARKETING_VERSION = 0.1.0
+// The build number of a built app is the number of commits, set by the post-build script (project.yml); this is
+// what a build without git history keeps. The script reads .git, so the target runs scripts without the sandbox.
 CURRENT_PROJECT_VERSION = 1
+ENABLE_USER_SCRIPT_SANDBOXING = NO
 
 // Platforms: iPhone, iPad and native Mac (not Catalyst), all 26.0 (ADR-01)
 SDKROOT = auto
@@ -21,12 +24,12 @@ SWIFT_STRICT_CONCURRENCY = complete
 SWIFT_TREAT_WARNINGS_AS_ERRORS = NO
 SWIFT_EMIT_LOC_STRINGS = YES
 
-// Info.plist: generated keys plus our own ITA_* keys (Config/Italiano-Info.plist reads the values below)
+// Info.plist: generated keys plus our own ITA_* keys (App/Config/Italiano-Info.plist reads the values below)
 GENERATE_INFOPLIST_FILE = YES
-INFOPLIST_FILE = Config/Italiano-Info.plist
+INFOPLIST_FILE = App/Config/Italiano-Info.plist
 INFOPLIST_KEY_CFBundleDisplayName = Italiano
 INFOPLIST_KEY_LSApplicationCategoryType = public.app-category.education
-// The launch screen is the UILaunchScreen dictionary in Config/Italiano-Info.plist (its colour, M6.2), so the build
+// The launch screen is the UILaunchScreen dictionary in App/Config/Italiano-Info.plist (its colour, M6.2), so the build
 // doesn't generate an empty one next to it.
 INFOPLIST_KEY_UILaunchScreen_Generation = NO
 INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait
@@ -37,11 +40,12 @@ ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon
 ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor
 
 // Signing (ADR-19): no team in the repo. Agents and CI pass CODE_SIGNING_ALLOWED=NO (iOS) or ad-hoc
-// "Sign to Run Locally" (macOS tests). Only the owner's local Signing.xcconfig (gitignored) sets a team.
+// "Sign to Run Locally" (macOS tests). Only the owner's Signing.xcconfig at the repository's root (gitignored, included
+// below; `make signing TEAM=…` writes the team) sets a team.
 DEVELOPMENT_TEAM =
 CODE_SIGN_STYLE = Automatic
 CODE_SIGN_IDENTITY[sdk=macosx*] = -
-CODE_SIGN_ENTITLEMENTS = Config/Italiano-NoCloud.entitlements
+CODE_SIGN_ENTITLEMENTS = App/Config/Italiano-NoCloud.entitlements
 // macOS sandbox and hardened-runtime capabilities come from build settings (Xcode 15+), which Xcode applies to
 // the macOS slice only. Keeping these keys out of the .entitlements files avoids macOS-only keys in iOS signing.
 ENABLE_HARDENED_RUNTIME[sdk=macosx*] = YES
@@ -56,7 +60,7 @@ ITA_TELEMETRY_URL =
 ITA_DEBUG_MENU = NO
 ITA_LLM_HINTS = NO
 ITA_SYNC_ENABLED = NO
-// YES only where CODE_SIGN_ENTITLEMENTS is Config/Italiano.entitlements (the owner's Signing.xcconfig sets both):
+// YES only where CODE_SIGN_ENTITLEMENTS is App/Config/Italiano.entitlements (the owner's Signing.xcconfig sets both):
 // CloudSync starts only with ITA_SYNC_ENABLED and this, since CKContainer crashes without the entitlement (docs/02).
 ITA_ICLOUD_ENTITLEMENT = NO
 ITA_REVIEW_MODE = NO
@@ -65,4 +69,4 @@ ITA_STUDY_TOKEN =
 ITA_REVIEW_TOKEN =
 ITA_PACK = dev
 
-#include? "Signing.xcconfig"
+#include? "../../Signing.xcconfig"

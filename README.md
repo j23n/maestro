@@ -31,7 +31,7 @@ PROGRESS.md                  the running log agents append to
 |---|---|---|
 | Apple-silicon Mac on macOS 26.6+, **Xcode 27** | builds for iPhone, iPad and Mac (Xcode 27 runs only on Apple silicon) | day 1 |
 | Claude Code; Node 18+ (for MobileBuildMCP via `npx`); `uv`; `git-lfs`; `ffmpeg` | agent, simulator automation, pipeline, audio | day 1 |
-| **XcodeGen** (`brew install xcodegen`, 2.46.0+); `make project` generates `App/Italiano.xcodeproj` from `App/project.yml` | the project is generated, never committed or hand-edited (ADR-19) | day 1 |
+| **XcodeGen** (`brew install xcodegen`, 2.46.0+); `make project` (or `xcodegen` at the root) generates `Italiano.xcodeproj` from `project.yml`; `make signing TEAM=<your team ID>` once puts your team in the gitignored `Signing.xcconfig`, which every regeneration and pull keeps | the project is generated, never committed or hand-edited (ADR-19) | day 1 |
 | GitHub repo with Actions; the Claude GitHub App installed and `CLAUDE_CODE_OAUTH_TOKEN` (from `claude setup-token`) as a secret | CI, Claude's pull request review and its `@claude` replies (docs/10 § CI) | week 1 |
 | Apple Developer Program and your team ID (bundle ID `com.j23n.italian` and container `iCloud.com.j23n.italian` are set, ADR-18) | signing, CloudKit, TestFlight. Agents never sign with a team; you do | before you sign anything (Q10) |
 | Azure AI Speech resource (key and endpoint in your shell, never committed) | course audio (a few dollars in total) | week 4 (M5.1) |

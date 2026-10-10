@@ -13,8 +13,10 @@ PYPROJECT := --project pipeline
 CONTENT := $(UV) run $(PYPROJECT) content
 UNAME := $(shell uname)
 
-PROJECT_SPEC := App/project.yml
-XCODEPROJ := App/Italiano.xcodeproj
+PROJECT_SPEC := project.yml
+XCODEPROJ := Italiano.xcodeproj
+# Where the owner's signing settings were before Signing.xcconfig at the root: make project warns while it exists.
+SIGNING_OLD := App/Config/Signing.xcconfig
 SCHEME := Italiano
 PLATFORMS := ios mac
 IOS_SIMULATOR ?= iPhone 17
@@ -109,8 +111,8 @@ ensure-pack:
 
 # ---------------------------------------------------------------- app (macOS, Xcode 27)
 
-# The Xcode project is generated from App/project.yml by XcodeGen (ADR-19 as amended) and gitignored. apple.mk's
-# `make project` writes App/Italiano.xcodeproj, building the dev pack first when it's missing, and `build-ios`,
+# The Xcode project is generated from project.yml at the root by XcodeGen (ADR-19 as amended) and gitignored. apple.mk's
+# `make project` writes Italiano.xcodeproj, building the dev pack first when it's missing, and `build-ios`,
 # `build-mac` (`make build` for both) and `test-app` regenerate it whenever project.yml or an xcconfig file is newer.
 # Sources are synchronized folders, so adding a Swift file needs no regeneration.
 

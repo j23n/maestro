@@ -7,8 +7,10 @@ These rules hold in j23n's Apple apps: caniretireyet, maestro, makeitrain and om
 - **`make` is the interface.** Contributors, agents and CI run the same targets: `make bootstrap`, `make project`, `make test`, `make build`, `make test-app`, `make ci-linux` and `make ci-macos` (apple-ci's README, "The build contract"). An app adds its own targets next to these.
 - **`.apple-ci/` is a copy of j23n/apple-ci.** It holds `apple.mk`, the Makefiles' shared rules, and these instructions. Never edit it. Change apple-ci, then run `make update-apple-ci`.
 - **CI calls apple-ci's shared workflows,** and each runs one `make` command. To change what CI does, change the app's `make ci-linux` or `make ci-macos` target, not the workflow. A change to apple-ci's workflows reaches every app on its next run.
-- **The Xcode project is generated.** XcodeGen writes it from `project.yml`, and git ignores it. Never edit or commit it. Targets, packages and schemes go in `project.yml`; build settings go there or in the `.xcconfig` files it names. Source folders are synchronized, so a new file needs no project change.
+- **The Xcode project is generated.** XcodeGen writes it from `project.yml` at the root (`xcodegen` or `make project` there), and git ignores it. Never edit or commit it. Targets, packages and schemes go in `project.yml`; build settings go there or in the `.xcconfig` files it names. Source folders are synchronized, so a new file needs no project change.
 - **Apple-only code needs a Mac.** SwiftUI, UIKit, AppKit and the other Apple frameworks don't build on Linux; only CI's macOS job checks them. Packages without Apple frameworks build and test on Linux with `make test`. A cloud session may have Swift in `/opt/swift/usr/bin` rather than on the `PATH`, or no Swift at all. When you couldn't build or test something, say so, and say what CI will check.
+
+- **Build numbers** are the number of commits on `HEAD`, set at build time by `.apple-ci/build-number.sh` (apple-ci's README, "Build numbers"). Don't set `CFBundleVersion` or `CURRENT_PROJECT_VERSION` by hand; a new target that ships a bundle (an extension) runs the script too.
 
 ## Swift
 
@@ -21,6 +23,7 @@ These rules hold in j23n's Apple apps: caniretireyet, maestro, makeitrain and om
 
 Builds are unsigned (`CODE_SIGNING_ALLOWED=NO`). Mac tests are signed to run locally, without a team. The team, the bundle IDs, iCloud containers and entitlements' identifiers belong to the owner:
 
+- The owner's team is in `Signing.xcconfig` at the root, which git ignores (apple-ci's README, "Signing"). Never create, read or change it, and never put a team ID in `project.yml` or a tracked `.xcconfig`.
 - Never sign with a team or turn on automatic signing.
 - Never change a bundle ID or a container.
 
