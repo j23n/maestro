@@ -1,6 +1,6 @@
 ## What and why
 
-<!-- One paragraph: the motivation and what the change does about it. -->
+<!-- One paragraph: the motivation and what the change does about it. End with Closes #N for the issue this finishes, or Part of #N. -->
 
 ## Changes
 

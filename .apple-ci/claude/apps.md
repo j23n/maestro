@@ -45,4 +45,4 @@ When something can't build without signing, stop and ask.
 
 - `.github/workflows/claude.yml` answers `@claude` in issues, pull requests and reviews from people with write access. `claude-review.yml` reviews every pull request that isn't a draft. Both set the model and `--effort` in their `claude_args`.
 - Claude on GitHub works on the branch the action creates for it (`claude/issue-N-…`), the one exception to j23n.md's branch names.
-- Claude on GitHub runs on Linux without Xcode. It can read CI's results on its pull request. Its allowed commands include `gh pr create` and `.apple-ci/claude/link-pr.sh`, so it opens and links its own pull requests (j23n.md, "Pull requests").
+- Claude on GitHub runs on Linux without Xcode. It can read CI's results on its pull request. Its allowed commands include `gh pr create`, so it opens its own pull requests (j23n.md, "Pull requests").
