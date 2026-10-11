@@ -347,7 +347,7 @@ Also:
 - **Apostrophes:**
   - *po'* (not *pò*); *qual è* (no apostrophe); *un'amica* but *un amico*; *l'amico, dell'acqua, c'è, dov'è, quant'è*.
   - Source files use the straight apostrophe `'`; the normalizer accepts typographic ones.
-- **Quotes:** straight double quotes in source; the app renders « » for Italian.
+- **Quotes:** straight double quotes in source.
 - **Voiced text:**
   - Numbers in words: *sei euro e venti*, *alle otto*, *il tre ottobre*, *nel millenovecentonovanta*.
   - 24-hour times only from Unit 11 (*alle quindici e trenta*).
