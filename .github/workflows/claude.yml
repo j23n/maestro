@@ -1,9 +1,10 @@
 # Claude answers @claude in issues, pull requests and reviews: it reads the
 # request, replies in a comment, and can push commits and open a pull request
-# for what it was asked (docs/10 § CI). Only people with write access to the
-# repository can trigger it. Feedback approved in j23n/feedback arrives as an
-# issue with the owner's @claude comment, so Claude starts on it straight away.
-# It runs on Linux minutes, and only for comments that mention @claude.
+# for what it was asked (docs/10 § CI). It starts on an issue once the issue is
+# labeled `ready`, with the issue's text as the request, and takes
+# `needs refinement` off it. Only people with write access to the repository can
+# trigger it. It runs on Linux minutes, and only for comments that mention
+# @claude and for the ready label.
 # Needs the Claude GitHub App on the repository and the CLAUDE_CODE_OAUTH_TOKEN
 # secret (from `claude setup-token`). Comment-triggered runs use the copy of
 # this file on the default branch.
@@ -15,18 +16,19 @@ on:
   pull_request_review_comment:
     types: [created]
   issues:
-    types: [opened, assigned]
+    types: [opened, labeled]
   pull_request_review:
     types: [submitted]
 
 jobs:
   claude:
-    # Comments without @claude start no runner.
+    # Comments without @claude, and labels other than ready, start no runner.
     if: |
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
-      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+      (github.event_name == 'issues' && github.event.action == 'labeled' && github.event.label.name == 'ready') ||
+      (github.event_name == 'issues' && github.event.action == 'opened' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
     runs-on: ubuntu-latest
     # A stuck run stops here rather than at GitHub's six hours.
     timeout-minutes: 60
@@ -37,6 +39,13 @@ jobs:
       id-token: write
       actions: read # lets Claude read CI results on pull requests
     steps:
+      # A ready issue no longer needs refinement.
+      - name: Take needs refinement off the issue
+        if: github.event.action == 'labeled' && contains(github.event.issue.labels.*.name, 'needs refinement')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: gh issue edit "$ISSUE" --repo "$GITHUB_REPOSITORY" --remove-label "needs refinement"
       - uses: actions/checkout@v6
         with:
           # The whole history, so git log, blame and a merge base with main work.
@@ -44,6 +53,8 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # The label that starts Claude on an issue (.apple-ci/claude/apps.md, "Claude on GitHub").
+          label_trigger: ready
           # The model, and how hard it thinks (--effort: low, medium, high, xhigh or max; the
           # owner's choice is high, above the model's default of medium). `gh pr create` lets
           # Claude open its pull request (.apple-ci/claude/j23n.md, "Pull requests"); the action's

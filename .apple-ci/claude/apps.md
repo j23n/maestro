@@ -38,12 +38,13 @@ When something can't build without signing, stop and ask.
 
 ## Issues from feedback
 
-- **Where they come from:** an issue labeled `feedback` comes from the owner's private inbox, j23n/feedback. There Claude triaged the report and the owner approved the text. Publishing then commented `@claude` on the issue, which starts this repository's Claude workflow.
+- **Where they come from:** an issue labeled `feedback` comes from the owner's private inbox, j23n/feedback. There Claude triaged the report and the owner approved the text, which publishing filed here labeled `needs refinement`. It waits until the owner has refined it and labeled it `ready` ("Claude on GitHub").
 - **What to work from:** the issue's text is the specification, and its acceptance criteria say what done means.
 - **What stays private:** the report and its screenshot stay in the inbox. Never ask for them, guess their values, or copy anything personal into this repository.
 
 ## Claude on GitHub
 
-- `.github/workflows/claude.yml` answers `@claude` in issues, pull requests and reviews from people with write access. `claude-review.yml` reviews every pull request that isn't a draft, and starts the Mac's CI with the `ci:mac` label when its verdict is pass and the change needs it. Only its `[blocking]` findings fail a review; `[question]`s are the owner's to decide and `[minor]`s are optional. A newer push cancels a review in progress, and a re-review checks the earlier blocking findings and what changed since. Both set the model and `--effort` in their `claude_args`.
+- `.github/workflows/claude.yml` answers `@claude` in issues, pull requests and reviews from people with write access, and starts on an issue when it's labeled `ready`. `claude-review.yml` reviews every pull request that isn't a draft, and starts the Mac's CI with the `ci:mac` label when its verdict is pass and the change needs it. Only its `[blocking]` findings fail a review; `[question]`s are the owner's to decide and `[minor]`s are optional. A newer push cancels a review in progress, and a re-review checks the earlier blocking findings and what changed since. Both set the model and `--effort` in their `claude_args`.
+- **Work on an issue starts only when the owner asks:** with the `ready` label, which also takes `needs refinement` off the issue, or an `@claude` mention. Started by the label, Claude takes the issue's text as the request: it makes the change with tests and opens a pull request that closes the issue. A `question` gets an answer in a comment and no code. A `size:l` issue gets a plan in a comment first, and Claude waits for the owner's `@claude` go-ahead. What the issue leaves to the owner is asked in a comment (j23n.md, "Issues").
 - Claude on GitHub works on the branch the action creates for it (`claude/issue-N-…`), the one exception to j23n.md's branch names.
 - Claude on GitHub runs on Linux without Xcode. It can read CI's results on its pull request. Its allowed commands include `gh pr create`, so it opens its own pull requests (j23n.md, "Pull requests").
