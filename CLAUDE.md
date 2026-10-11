@@ -55,7 +55,7 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
 - **One task per session and branch.** For anything touching more than 3 files, plan first (`--permission-mode plan`) and get the plan approved.
 - **Order:** write the tests from the acceptance criteria → implement → run the task's Verify commands. For UI, add screenshots compared with `design/screens/` (`docs/07` § Visual verification says how).
 - **Before you say done:**
-  - run the **spec-reviewer** subagent on your change and fix or answer every blocking finding;
+  - run the **spec-reviewer** subagent on your change, fix or answer every blocking finding, and put its questions to the owner under "Proposed changes" in `docs/13`;
   - `make test` and `make lint-guards` must be green;
   - append an entry to `PROGRESS.md` (date, task ID, what changed, evidence, follow-ups).
 - **Work from a GitHub issue** (Claude on GitHub, or an issue from in-app feedback), not a `docs/11` task:
@@ -67,7 +67,7 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
 - **Owner steps:** tasks marked `[owner]` in `docs/11` need a person (signing, devices, App Store). Do the agent part, list what's left, and stop.
 - **Ambiguity:** if a spec is ambiguous or two specs disagree, don't invent behavior. Add the question under "Proposed changes" in `docs/13` and ask.
 - **When stuck:** after two failed attempts at the same problem, stop and summarize what you tried. Never weaken a test to make it pass.
-- **Content work:** follow `docs/04` § How content gets made, with the formats in `docs/03` and `docs/06` and the golden sample as the model. To apply the content lead's review, follow `docs/04` § Content review loop. A new exercise format or step kind touches every layer: `docs/06`, its schema, the pipeline, LearningCore's grading, the app and the fixtures (hard rule 8). The numbered content and cohesion rules that the docs and the content cite ("rule 11", "cohesion rule 3") and the style guide are for now only in git history: `git show 880877a^:.claude/skills/italian-content/rules.md` and `style-guide.md` (`docs/13` § Proposed changes).
+- **Content work:** follow `docs/04` § How content gets made, with the formats in `docs/03` and `docs/06` and the golden sample as the model. To apply the content lead's review, follow `docs/04` § Content review loop. A new exercise format or step kind touches every layer: `docs/06`, its schema, the pipeline, LearningCore's grading, the app and the fixtures (hard rule 8). Every draft follows `docs/03` § Writing rules: the content rules and cohesion rules the docs cite by number ("rule 11", "cohesion rule 3"), and the style guide.
 
 ## Conventions
 

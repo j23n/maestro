@@ -130,7 +130,7 @@ The rules about one exercise or note (tags, match targets, note examples) apply 
 
 | # | Check | Tooling |
 |---|---|---|
-| 6 | Italian correctness (content lead reads every text and exercise for correctness and style) | review pages and review mode → `content review-import` → fixes → sign-off → `content approve --signoff` (§ Content review loop) |
+| 6 | Italian correctness (content lead reads every text and exercise against the style guide, `docs/03` § Writing rules) | review pages and review mode → `content review-import` → fixes → sign-off → `content approve --signoff` (§ Content review loop) |
 | 7 | Answer keys (accepted alternatives; beta-rejected answers adjudicated weekly) | "This should be accepted" in review mode; `content beta-import` → "Answers to adjudicate" in the next review page (M8.3) |
 | 8 | Grammar explanations (content lead reviews every note) | the review page lists notes separately |
 | 9 | Audio (native listener checks all audio; IPA fixes) | the review page embeds audio players and takes `audio` comments; `pronunciation.yaml` and line `say:` overrides |
@@ -213,8 +213,8 @@ The build derives what each text and exercise requires, per skill, from the anno
 ## How content gets made (agents draft, people decide)
 
 1. **Sign-off (weeks 1–3):** the content lead approves `syllabus/a1-syllabus.yaml`, all `unit.yaml` specs, `grammar/points.yaml` and `story-bible.yaml`. (`grammar/detection.yaml` stays with engineering.)
-2. **Item graph:** agents draft `items/uNN.yaml` from the unit specs: words by need, then frequency (`content suggest`), about 55–70 new per unit, nouns with gender and plural, false friends flagged. The content lead reviews it with the specs.
-3. **Drafting:** one non-interactive drafting run per lesson file. It gets the unit spec, the story bible, the allowed items and the golden sample. Parallel runs each use **their own worktree** and `content check --unit uNN`, because they would otherwise race on `content/.annotations/` and `build/reports/`.
+2. **Item graph:** agents draft `items/uNN.yaml` from the unit specs: words by need, then frequency (`content suggest`, rule 10), about 55–70 new per unit, nouns with gender and plural, false friends flagged. The content lead reviews it with the specs.
+3. **Drafting:** one non-interactive drafting run per lesson file, following `docs/03` § Writing rules. It gets the unit spec, the story bible, the allowed items and the golden sample. Parallel runs each use **their own worktree** and `content check --unit uNN`, because they would otherwise race on `content/.annotations/` and `build/reports/`.
 4. **Automatic checks:** `make annotate`, then `make check-content`; failures go back to the drafter with the report.
 5. **Human review:** the content lead reviews and signs off through the review loop below; the owner runs `content approve --signoff`. Then `content tts`, and the audio reviewer listens (audio comments use the same loop).
 6. **Beta:** units go to the beta cohort; `content beta-import` feeds weekly fixes, and rejected answers come back to the content lead for adjudication in the review page. Reopening an approved file needs the owner.

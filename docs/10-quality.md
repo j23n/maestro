@@ -94,7 +94,7 @@ The jobs are j23n/apple-ci's shared workflows, which every j23n app's CI calls; 
 - **One task per session and per branch** (`docs/11` task IDs). Start with `claude --permission-mode plan` for anything touching more than 3 files, and get the plan approved.
 - **Parallel work:** use `claude --worktree <task-id>` for independent areas (LearningCore, pipeline, App UI, content). Never run two sessions on the same module. `.claude/worktrees/` is gitignored.
 - **Order:** tests from the acceptance criteria first, then code, then the task's **Verify** commands, then screenshots for UI.
-- **Before finishing:** run the spec-reviewer subagent on the diff; fix or explain each finding; update `PROGRESS.md`.
+- **Before finishing:** run the spec-reviewer subagent on the diff; fix or answer each blocking finding, put its questions under Proposed changes in `docs/13` (minors are optional), and run it again with the blocking findings if you changed code for them; update `PROGRESS.md`.
 - **When stuck:** after two failed attempts at the same problem, stop and write down what you tried. Don't loosen a test to make it pass; if a test seems wrong, say why and ask.
 - **Headless batch runs** (content drafting, migrations): `claude -p "<task>" --output-format json --max-turns 40 --permission-mode acceptEdits --allowedTools "Bash(make annotate),Bash(make check-content),Bash(uv run content annotate:*),Bash(uv run content check:*)"`, one run per file, each in its own worktree. No settings file allows commands, so the run names the ones it may use; add others a task needs.
 

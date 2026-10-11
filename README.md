@@ -49,7 +49,7 @@ If `npx -y mobilebuildmcp@2.7.1 mcp` fails to start, the tool may still be publi
 
 **Each later task:**
 
-> Do task M2.2 from docs/11-milestones.md. Read the specs it cites first. Write the tests from the acceptance criteria, implement, run the Verify commands, then run the spec-reviewer subagent and fix what it finds. Finish by appending to PROGRESS.md.
+> Do task M2.2 from docs/11-milestones.md. Read the specs it cites first. Write the tests from the acceptance criteria, implement, run the Verify commands, then run the spec-reviewer subagent, fix its blocking findings and put its questions to me in docs/13. Finish by appending to PROGRESS.md.
 
 **Parallel work:** run independent tasks in separate worktrees (`claude --worktree M2-fsrs`), never two on the same module. `.worktreeinclude` copies the pipeline's reference data into each worktree. LearningCore and pipeline tasks also run in cloud sessions, since both are Linux-tested.
 

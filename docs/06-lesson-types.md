@@ -167,7 +167,7 @@ These three are used inside many lesson types (story questions, listening, readi
 - **Compact width (iPhone):** one column. Tapping a word opens a bottom sheet with the same content.
 - **Audio bar:** play/pause, scrubber, time, speed (0.8× / 1×), and **Continue** (to questions).
 - **Read-along:** while playing, the current token gets the accent-tint background. Tapping a line plays from that line.
-- **New words** have a dotted accent underline. **Grammar targets are not highlighted** on the first read; the note does that (cohesion rule 3).
+- **New words** have a dotted accent underline. **Grammar targets are not highlighted** on the first read; the note does that (cohesion rule 3, `docs/03` § Writing rules).
 - Speaker labels (small caps, secondary) appear before dialogue lines when the speaker changes. `Aa` opens text size (`display.textScale`), speaker labels (on by default in Units 0–4) and English under each line (the "English under stories" setting, off by default).
 - **Events:** `glossTapped`, `audioPlayed`; then 2–4 comprehension questions (`choice`, no FSRS) and `stepCompleted`.
 - **Accept when:**

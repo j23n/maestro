@@ -1,5 +1,5 @@
 """`content freq <word…>` and `content suggest --unit uNN [--topic …]` (docs/04 § Commands): frequency ranks for the
-item graph ("words by need, then frequency", docs/04 § How content gets made).
+item graph ("words by need, then frequency", docs/03 § Writing rules, rule 10).
 
 The frequency list is the pinned FrequencyWords `it_50k.txt` (`pipeline/data/frequency/`, `make data`; OpenSubtitles
 2018, CC BY-SA 4.0, build time only: ranks are never shipped). Each line is `form count`, most frequent first; a form's

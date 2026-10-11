@@ -6,7 +6,7 @@ Read what your task needs. Each task in `11-milestones.md` names its specs.
 |---|---|
 | [01-product.md](01-product.md) | start any task (scope, non-goals, principles, glossary) |
 | [02-architecture.md](02-architecture.md) | touch module boundaries, dependencies, app structure, budgets |
-| [03-content-model.md](03-content-model.md) | read or write `content/`, the pack, IDs, answer patterns, the learner DB |
+| [03-content-model.md](03-content-model.md) | read or write `content/` (with its writing rules and style guide), the pack, IDs, answer patterns, the learner DB |
 | [04-pipeline.md](04-pipeline.md) | work in `pipeline/`, the ten checks, TTS, the content workflow |
 | [05-learning-engine.md](05-learning-engine.md) | work on events, FSRS, grading, feedback, eligibility, planner, scoring, placement |
 | [06-lesson-types.md](06-lesson-types.md) | build or change any lesson type or exercise format |
