@@ -479,3 +479,6 @@ Template:
   - `.apple-ci/claude/apps.md` (apple-ci 82e00cf) says how a labeled issue is worked: a change with tests and a pull request, an answer for a `question`, a plan first for `size:l`. The hand-off comment used to say this.
   - docs/10 § CI and ADR-23 say so. Both labels exist in all four apps' repositories, which have the same workflow change.
 - Evidence: actionlint 1.7.7 with shellcheck clean on `claude.yml`; claude-code-action v1's `checkContainsTrigger` starts tag mode on an `issues` `labeled` event whose label matches `label_trigger`, and its prompt takes the issue's body as the request for labeled events. The next issue labeled `ready` is the test.
+
+## 2026-10-11 · Harness · the spec-reviewer reviews what the specs define (owner's request)
+- CLAUDE.md's "Before you say done", docs/10's working practices and definition of done, and the reviewer's own description now ask for the spec-reviewer only on a change to what the specs define: the app, the packages, the pipeline, content, fixtures or the specs. A change only to CI, workflows or other tooling skips it; `make test`, `make lint-guards` and the PROGRESS entry still apply.

@@ -55,7 +55,7 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
 - **One task per session and branch.** For anything touching more than 3 files, plan first (`--permission-mode plan`) and get the plan approved.
 - **Order:** write the tests from the acceptance criteria → implement → run the task's Verify commands. For UI, add screenshots compared with `design/screens/` (`docs/07` § Visual verification says how).
 - **Before you say done:**
-  - run the **spec-reviewer** subagent on your change, fix or answer every blocking finding, and put its questions to the owner under "Proposed changes" in `docs/13`;
+  - for a change to what the specs define (the app, the packages, the pipeline, content, fixtures or the specs themselves), run the **spec-reviewer** subagent on it, fix or answer every blocking finding, and put its questions to the owner under "Proposed changes" in `docs/13`. CI, workflows and other tooling don't need it;
   - `make test` and `make lint-guards` must be green;
   - append an entry to `PROGRESS.md` (date, task ID, what changed, evidence, follow-ups).
 - **Work from a GitHub issue** (Claude on GitHub, or an issue from in-app feedback), not a `docs/11` task:

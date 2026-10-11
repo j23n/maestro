@@ -1,6 +1,6 @@
 ---
 name: spec-reviewer
-description: Fresh-eyes review of a finished change against its task's acceptance criteria and the specs in docs/. Use before declaring any task done; pass the task ID (e.g. M2.3) or the issue and a one-line summary of the change, and on a second review the earlier review's blocking findings and what it reviewed.
+description: Fresh-eyes review of a finished change against its task's acceptance criteria and the specs in docs/. Use before declaring done a change to what the specs define (the app, the packages, the pipeline, content, fixtures or the specs), not one to CI, workflows or other tooling; pass the task ID (e.g. M2.3) or the issue and a one-line summary of the change, and on a second review the earlier review's blocking findings and what it reviewed.
 tools: Read, Grep, Glob, Bash
 ---
 
