@@ -428,3 +428,7 @@ Template:
 - Spec review: not run. The spec-reviewer subagent went with `.claude/` (the owner removed it, 880877a), so CLAUDE.md's "run the spec-reviewer" step and docs/10's harness table point at files that no longer exist; that's the owner's to settle.
 - Follow-up: with `.claude/settings.json` gone, its `ask` rule for `gh pr create` no longer stops Claude on GitHub from opening pull requests.
 
+## 2026-10-11 · Harness · the spec-reviewer is back (owner's request)
+- `.claude/agents/spec-reviewer.md` is restored as it was before 880877a, so CLAUDE.md's "run the spec-reviewer" step works again. The rest of `.claude/` stays removed: the content-critic and ui-reviewer subagents, the hooks, the rules, the skills and `settings.json`.
+- Evidence: `git diff 880877a^ HEAD -- .claude/agents/spec-reviewer.md` is empty; `git ls-files .claude` lists only that file.
+- Follow-up (owner): CLAUDE.md, docs/10 and the README still name what stays removed: the `italian-content`, `content-review`, `add-exercise-format` and `ios-ui` skills; the hooks that block edits to approved content and `reviews/inbox/` (hard rule 1), the PostToolUse formatting hook (docs/10's Formatting row) and the hooks that find a worktree's root (docs/10's working practices); the content-critic and ui-reviewer subagents (docs/10's harness table, README's repo map and its example prompt); and docs/10 § CI's `claude` bullet, which says `gh pr create` must be allowed in `.claude/settings.json`.
