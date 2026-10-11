@@ -17,7 +17,7 @@
   chunk) in a `tu` line. In a conversation, the character's lines (`say`) are checked with the character's register
   at their node, the learner's (`help` and the model answer) with the learner's.
 
-Everything else about the story (ages, places, prices, the timeline) is the content-critic's job.
+Everything else about the story (ages, places, prices, the timeline) is left to the content lead's review.
 """
 
 from __future__ import annotations

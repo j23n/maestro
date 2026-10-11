@@ -8,7 +8,7 @@
 3. `content review-import` turns every unresolved decision in the ledger, and every "This should be accepted"
    comment from the app (an answer-key change with a `response`), into a **proposal**: the pattern change an agent
    applies (accept: add the answer as an alternative; near: add a `near` entry). Approved files need `content reopen`
-   by the owner first; `apply_proposal` refuses them, like the hooks do.
+   by the owner first; `apply_proposal` refuses them.
 
 Answers are escaped before they go into a pattern (`{ } [ ] ( ) | \\` become literals), and an accepted answer
 never changes the model answer: a top-level `{…|…}` group gets one more alternative at the end, anything else is

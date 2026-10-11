@@ -1,17 +1,13 @@
 # Italiano: handoff pack for building the MVP with coding agents
 
-This folder is the starting state of the repository. Unzip it into an empty Git repo and point Claude Code at it. It holds everything an agent needs to build the full-A1 MVP from the plan: specs, ordered tasks with acceptance criteria, the agent harness (memory, skills, reviewers, hooks, MCP), seed content with a golden lesson, test fixtures and design assets. There is no app code yet; the agent writes it, starting with task M0.1.
+This folder is the starting state of the repository. Unzip it into an empty Git repo and point Claude Code at it. It holds everything an agent needs to build the full-A1 MVP from the plan: specs, ordered tasks with acceptance criteria, the agent harness (memory, a reviewer, MCP), seed content with a golden lesson, test fixtures and design assets. There is no app code yet; the agent writes it, starting with task M0.1.
 
 ## What's inside
 
 ```
 CLAUDE.md                    agent memory: commands, hard rules, workflow (short on purpose)
 docs/                        the specs (start at docs/README.md); 11-milestones.md is the task list
-.claude/settings.json        permissions + hooks (protect approved content and fixtures, block agent approvals,
-                             run checks before stopping)
-.claude/agents/              spec-reviewer, content-critic, ui-reviewer (read-only reviewers)
-.claude/skills/              italian-content, content-review, ios-ui, add-exercise-format
-.claude/rules/               extra rules that load only in content/, Swift or pipeline/ folders
+.claude/agents/              spec-reviewer (a read-only reviewer)
 .mcp.json                    MobileBuildMCP (build, run, tap and screenshot the app in the Simulator)
 content/                     syllabus inventory (116 entries), 76 grammar points (+ detection rules), 14 unit specs,
                              story bible, seed items (Units 0–2), the golden sample (Unit 2, Lesson 1) and its task and check
@@ -55,11 +51,11 @@ If `npx -y mobilebuildmcp@2.7.1 mcp` fails to start, the tool may still be publi
 
 > Do task M2.2 from docs/11-milestones.md. Read the specs it cites first. Write the tests from the acceptance criteria, implement, run the Verify commands, then run the spec-reviewer subagent and fix what it finds. Finish by appending to PROGRESS.md.
 
-**Parallel work:** run independent tasks in separate worktrees (`claude --worktree M2-fsrs`), never two on the same module. The hooks work inside worktrees, and `.worktreeinclude` copies the pipeline's reference data. LearningCore and pipeline tasks also run in cloud sessions, since both are Linux-tested.
+**Parallel work:** run independent tasks in separate worktrees (`claude --worktree M2-fsrs`), never two on the same module. `.worktreeinclude` copies the pipeline's reference data into each worktree. LearningCore and pipeline tasks also run in cloud sessions, since both are Linux-tested.
 
 **Content drafting** (from week 3, after sign-off):
 
-> Using the italian-content skill, draft content/units/01-piacere/lesson-1.yaml from its unit spec, the story bible and the golden sample. Run make annotate and make check-content until it passes, then the content-critic subagent, and report open questions for the content lead.
+> Following docs/04 § How content gets made, draft content/units/01-piacere/lesson-1.yaml from its unit spec, the story bible and the golden sample. Run make annotate and make check-content until it passes, and report open questions for the content lead.
 
 ## How the teacher reviews
 
@@ -68,7 +64,7 @@ Your teacher never touches YAML or Git. The full loop is in `docs/04` § Content
 1. **You send a review page.** An agent runs `uv run content review-export --specs` (sign-off, weeks 1–3) or `--unit u02` (each unit) and gives you one HTML file. You send it by email or a shared folder; it opens offline in any browser.
 2. **The teacher comments on the page.** Each story line, note, exercise and word has OK / Change / Question buttons, a comment box and a "Suggested Italian" field. Every accepted answer is listed, so missing alternatives are easy to spot. Comments save as they type; **Download my review** gives them a file to send back to you.
 3. **You import it.** Run `uv run content review-import review-u02-….json`, or ask an agent to. It files the teacher's comments unchanged and adds them to a per-unit ledger in `reviews/`.
-4. **An agent applies the fixes** with the `content-review` skill. It records what it did about each comment (fixed, answered, declined with a reason, or a question for you) and makes the next page, which shows those answers and marks what changed.
+4. **An agent applies the fixes** (`docs/04` § Content review loop). It records what it did about each comment (fixed, answered, declined with a reason, or a question for you) and makes the next page, which shows those answers and marks what changed.
 5. **Repeat until the teacher signs off** on the page. Then you run the `content approve … --signoff` command the agent gives you. It refuses if anything changed since the teacher signed.
 
 From about week 9 the teacher can also review **inside the app**: a Review build via TestFlight with every lesson unlocked, an answer key and a Comment button everywhere. When the app rejects an answer they think is right, "This should be accepted" files the comment in one tap. Add the teacher to an internal TestFlight group for that (task M6.10).

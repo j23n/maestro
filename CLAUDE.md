@@ -10,6 +10,7 @@ An offline-first SwiftUI app that teaches complete A1 Italian to English speaker
 - Scope, non-goals and glossary: `docs/01-product.md`
 - Your task and its acceptance criteria: `docs/11-milestones.md` (task IDs like `M2.3`)
 - Settled decisions (don't reopen them inside a task): `docs/13-decisions.md`
+- Recent work: the last entries of `PROGRESS.md`
 - Every other spec loads on demand: `docs/README.md` says which to read for what.
 
 ## Repo map
@@ -38,7 +39,7 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
 
 ## Hard rules
 
-1. **Never edit approved content or the teacher's words.** A file whose `review.status` is `approved` belongs to the content lead, and so does every review file in `reviews/inbox/`; hooks block edits to both. Only the owner runs `uv run content approve` or `reopen`; the command refuses to run from your shell.
+1. **Never edit approved content or the teacher's words.** A file whose `review.status` is `approved` belongs to the content lead, and so does every review file in `reviews/inbox/`. A new file starts with a draft `review:` block (`docs/03` § Review status and approval); never change a `review:` block after that, since only `content approve` and `reopen` set its `status`, `by`, `date` and `hash`. `content lint` fails on an approved file whose `review.hash` no longer matches. Only the owner runs `uv run content approve` or `reopen`; the command refuses to run from your shell.
 2. **No non-commercial or unlicensed data, models or text**: Kelly lists, spaCy `it_core_news_*`, UD Italian ISDT/VIT/ParTUT/PoSTWITA/KIParla, UDPipe or Stanza Italian models, the De Mauro list, and exam papers or syllabus wording. License table: `docs/13`.
 3. **`LearningCore` imports Foundation only.** No GRDB, SwiftUI, UIKit, AppKit, AVFoundation, Speech, CloudKit, FoundationModels or os. Time comes from `Clock`, randomness from a seeded RNG, IDs from `UUIDSource` (`scripts/check-core-imports.sh`).
 4. **Never show learners untaught material.** Every text, exercise and review card goes through eligibility (`docs/05`).
@@ -52,7 +53,7 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
 ## How to work
 
 - **One task per session and branch.** For anything touching more than 3 files, plan first (`--permission-mode plan`) and get the plan approved.
-- **Order:** write the tests from the acceptance criteria → implement → run the task's Verify commands. For UI, add screenshots compared with `design/screens/` (the `ios-ui` skill says how).
+- **Order:** write the tests from the acceptance criteria → implement → run the task's Verify commands. For UI, add screenshots compared with `design/screens/` (`docs/07` § Visual verification says how).
 - **Before you say done:**
   - run the **spec-reviewer** subagent on your change and fix or answer every blocking finding;
   - `make test` and `make lint-guards` must be green;
@@ -66,7 +67,7 @@ The Makefile skeleton comes from task M0.1; a target prints "not yet (task Mx.y)
 - **Owner steps:** tasks marked `[owner]` in `docs/11` need a person (signing, devices, App Store). Do the agent part, list what's left, and stop.
 - **Ambiguity:** if a spec is ambiguous or two specs disagree, don't invent behavior. Add the question under "Proposed changes" in `docs/13` and ask.
 - **When stuck:** after two failed attempts at the same problem, stop and summarize what you tried. Never weaken a test to make it pass.
-- **Content work:** load the `italian-content` skill. To apply the content lead's review, load the `content-review` skill. For a new exercise format or step kind, follow the `add-exercise-format` skill.
+- **Content work:** follow `docs/04` § How content gets made, with the formats in `docs/03` and `docs/06` and the golden sample as the model. To apply the content lead's review, follow `docs/04` § Content review loop. A new exercise format or step kind touches every layer: `docs/06`, its schema, the pipeline, LearningCore's grading, the app and the fixtures (hard rule 8). The numbered content and cohesion rules that the docs and the content cite ("rule 11", "cohesion rule 3") and the style guide are for now only in git history: `git show 880877a^:.claude/skills/italian-content/rules.md` and `style-guide.md` (`docs/13` § Proposed changes).
 
 ## Conventions
 

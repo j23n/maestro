@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://italiano.invalid/schemas/story-bible.schema.json",
   "title": "Story bible (content/story-bible.yaml)",
-  "description": "docs/03 § Story bible, docs/04 § Check 5. The checker reads characters and registers; the content-critic reads all of it.",
+  "description": "docs/03 § Story bible, docs/04 § Check 5. The checker reads characters and registers; the content lead reviews the rest.",
   "type": "object",
   "required": ["review", "characters", "registers"],
   "properties": {

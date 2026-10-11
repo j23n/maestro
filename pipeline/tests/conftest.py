@@ -1,4 +1,4 @@
-"""Shared pytest fixtures. Tests never use the network (docs/04, .claude/rules/pipeline.md).
+"""Shared pytest fixtures. Tests never use the network (docs/04).
 
 Two courses (docs/10 § Test layers):
 

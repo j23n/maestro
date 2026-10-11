@@ -1,5 +1,5 @@
 """`content freq <word…>` and `content suggest --unit uNN [--topic …]` (docs/04 § Commands): frequency ranks for the
-item graph ("words by need, then frequency", `.claude/skills/italian-content/rules.md` rule 10).
+item graph ("words by need, then frequency", docs/04 § How content gets made).
 
 The frequency list is the pinned FrequencyWords `it_50k.txt` (`pipeline/data/frequency/`, `make data`; OpenSubtitles
 2018, CC BY-SA 4.0, build time only: ranks are never shipped). Each line is `form count`, most frequent first; a form's
@@ -10,10 +10,10 @@ count is the sum of its forms' counts and its rank is the order of those sums, s
 `suggest` lists the most frequent lemmas that no item covers yet (an item covers its `it`, `plural` and `forms`, and a
 lemma whose most frequent form is one of those: *latte* is `w:latte`, not *latta*), leaving out forms that are also
 articles or articulated prepositions (grammar points), names, punctuation and allowlisted words. Options:
-`--pos` keeps one part of speech; `--word` (repeatable) ranks only the words you list, the way rule 10 works within a
-topic (choose by need, order by frequency). The list carries no meaning, so `--topic` can't filter candidates: it
-shows the items the topic already has, course-wide, to plan against. Candidates that written drafts already use
-(glossed as new, `recognise`, or in accepted alternatives without an item) are marked.
+`--pos` keeps one part of speech; `--word` (repeatable) ranks only the words you list, the way "words by need, then
+frequency" works within a topic (choose by need, order by frequency). The list carries no meaning, so `--topic` can't
+filter candidates: it shows the items the topic already has, course-wide, to plan against. Candidates that written
+drafts already use (glossed as new, `recognise`, or in accepted alternatives without an item) are marked.
 """
 
 from __future__ import annotations

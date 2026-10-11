@@ -5,7 +5,7 @@ import XCTest
 /// `Pairs`, `Dialogue`, `Complete`, `Words`, `Settings`), saved to
 /// `artifacts/screens/<task>/<name>-<device>-<mode>.png` and attached to the result bundle (docs/07 § Visual
 /// verification). Run it on the iPhone and the iPad simulator, in light and dark mode
-/// (`xcrun simctl ui booted appearance dark`), and compare with the ui-reviewer.
+/// (`xcrun simctl ui booted appearance dark`), and compare with design/screens/.
 final class Screenshots: XCTestCase {
     /// The folder under `artifacts/screens/` (`ITA_SCREENS_TASK` overrides it).
     static let task = "reference"

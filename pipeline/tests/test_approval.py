@@ -187,7 +187,7 @@ def test_approve_refuses_files_without_review_and_approved_files(course_copy):
     assert rc == 1
 
 
-# ---------------------------------------------------------------- the CLI (never run in a shell: a hook blocks it)
+# ---------------------------------------------------------------- the CLI (it refuses an agent's shell)
 
 
 def test_cli_approve_refuses_with_claudecode(course_copy):

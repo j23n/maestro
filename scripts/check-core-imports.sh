@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # CLAUDE.md hard rule 3: LearningCore imports Foundation only, and takes time, IDs and randomness
-# from Clock, UUIDSource and a seeded RNG. Run by CI and the Stop hook. Usage: check-core-imports.sh [dir]
+# from Clock, UUIDSource and a seeded RNG. Run by CI (make lint-guards). Usage: check-core-imports.sh [dir]
 set -euo pipefail
 dir="${1:-Packages/LearningCore/Sources}"
 [ -d "$dir" ] || { echo "no $dir yet"; exit 0; }

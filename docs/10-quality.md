@@ -17,7 +17,7 @@ The rule that makes agent work reliable: **every task ends with checks you can r
 
 **Fixture policy:**
 
-- `fixtures/fsrs/` is generated from py-fsrs and never edited by hand; a hook blocks it.
+- `fixtures/fsrs/` is generated from py-fsrs and never edited by hand.
 - `fixtures/grading/` grows with every grader bug.
 - Each fixture file names the spec section it encodes. Where a fixture is more specific than the prose, the fixture wins and the prose is updated in the same change.
 - SwiftPM can't bundle files outside a package, so tests load repo-root fixtures through a path built from `#filePath`.
@@ -75,31 +75,28 @@ The jobs are j23n/apple-ci's shared workflows, which every j23n app's CI calls; 
 - **`macos-xcode-26` job, `make pack-determinism build` with the newest Xcode 26, until the hosted runners have Xcode 27:** the dev pack built twice (the pack isn't committed, `docs/04` § Pack build, and two builds must give the same `content pack-hash`), and the app for the iOS Simulator and the Mac (unsigned), the only compiler check of the Apple-only code. The app's tests don't build with Xcode 26, since they rely on Swift 6.4 (`ReviewModeTests` names a local `review` after the `review()` it calls inside `#require`).
 - **`macos` job, `make ci-macos` with Xcode 27 (ADR-01), once the repository variable `HOSTED_XCODE_27` is `true`:** `make test-storage`, the dev pack built twice, `make build` and `make test-app` (the app's unit and snapshot tests). When apple-ci's *Runner inventory* workflow shows Xcode 27 on the hosted macOS runners, the owner sets the variable (Settings › Secrets and variables › Actions › Variables), which also turns `macos-xcode-26` off. `xcode-missing: skip` still lets the job pass with a note if a runner lacks Xcode 27.
 - **`claude-review` workflow:** `anthropics/claude-code-action@v1` on pull requests. It reviews the diff against the task's spec and acceptance criteria and posts findings as PR comments; it never pushes. When its verdict is pass and the change needs the Mac's build, it adds the `ci:mac` label, which starts the Mac jobs (it may run `gh pr edit` for that). It needs the Claude GitHub App installed on the repo and the `CLAUDE_CODE_OAUTH_TOKEN` secret (from `claude setup-token`), and its `claude_args` grant only the comment and diff tools (and set the model and `--effort high`, as in `claude`).
-- **`claude` workflow:** `anthropics/claude-code-action@v1` on issues, comments and reviews that mention `@claude` from someone with write access (other comments start no runner, so it costs Linux minutes only when asked). Claude works on a `claude/…` branch, follows `CLAUDE.md` (a change to more than 3 files gets a plan in the issue first) and opens the pull request itself (`gh pr create` in its `claude_args`, which also set the model and `--effort`); CI and `claude-review` then run on that pull request. Both Claude workflows stop after 60 minutes and leave `.mcp.json`'s MobileBuildMCP out (`--strict-mcp-config`; it needs Xcode). Work from an issue has no task ID (CLAUDE.md, "Work from a GitHub issue"), and `claude-review` then reviews against the issue. Opening the pull request needs `gh pr create` allowed in `.claude/settings.json`, which the owner keeps: an `ask` rule is a denial in a run nobody watches. Feedback the owner approves in j23n/feedback is filed here as an issue with the owner's `@claude` comment, so Claude starts on it straight away (ADR-23). It needs the Claude GitHub App and the `CLAUDE_CODE_OAUTH_TOKEN` secret (from `claude setup-token`).
+- **`claude` workflow:** `anthropics/claude-code-action@v1` on issues, comments and reviews that mention `@claude` from someone with write access (other comments start no runner, so it costs Linux minutes only when asked). Claude works on a `claude/…` branch, follows `CLAUDE.md` (a change to more than 3 files gets a plan in the issue first) and opens the pull request itself (`gh pr create` in its `claude_args`, which also set the model and `--effort`); CI and `claude-review` then run on that pull request. Both Claude workflows stop after 60 minutes and leave `.mcp.json`'s MobileBuildMCP out (`--strict-mcp-config`; it needs Xcode). Work from an issue has no task ID (CLAUDE.md, "Work from a GitHub issue"), and `claude-review` then reviews against the issue. Feedback the owner approves in j23n/feedback is filed here as an issue with the owner's `@claude` comment, so Claude starts on it straight away (ADR-23). It needs the Claude GitHub App and the `CLAUDE_CODE_OAUTH_TOKEN` secret (from `claude setup-token`).
 
 ## Agent harness (already in this repo)
 
 | Piece | File | Purpose |
 |---|---|---|
 | Memory | `CLAUDE.md` | commands, hard rules, workflow (short on purpose), after j23n's shared rules, which it imports from `.apple-ci/claude/` (`j23n.md` for every j23n repository, `apps.md` for the apps; copies from j23n/apple-ci, refreshed by `make update-apple-ci`) |
-| Path rules | `.claude/rules/*.md` | extra rules loaded only when working in `content/`, Swift or `pipeline/` |
-| Skills | `.claude/skills/italian-content`, `content-review`, `ios-ui`, `add-exercise-format` | domain know-how loaded on demand |
-| Subagents | `.claude/agents/spec-reviewer.md`, `content-critic.md`, `ui-reviewer.md` | fresh-context reviewers (read-only) |
-| Hooks | `.claude/settings.json` + `.claude/hooks/*.sh` | block edits to approved content, the teacher's review files (`reviews/inbox/`), licences, fixtures and harness config (also in worktrees); block agents from running `content approve/reopen`; run fast checks on the branch's changes before a turn ends; print recent progress at session start |
+| Subagent | `.claude/agents/spec-reviewer.md` | a fresh-context reviewer (read-only) |
 | MCP | `.mcp.json` | MobileBuildMCP 2.7.1 (`npx -y mobilebuildmcp@2.7.1 mcp`), workflows `simulator,ui-automation,macos,swift-package,session-management,project-discovery` |
 | Worktrees | `.worktreeinclude` | copies `pipeline/data/**` into new worktrees, so content checks work there |
-| Formatting | `.swift-format` | 4-space indent, line length 120 (the PostToolUse hook runs `swift format` with it) |
+| Formatting | `.swift-format` | 4-space indent, line length 120 (`swift format` reads it) |
 
 **Optional Xcode tools:** Xcode 26.3+ can expose its own MCP tools to external agents. Turn on Xcode → Settings → Intelligence → "Allow external agents to use Xcode tools", then run `claude mcp add --transport stdio xcode -- xcrun mcpbridge` (local scope, not committed; the project must be open in Xcode). Use it for previews and documentation search; builds and tests still go through `make`.
 
 ## Working practices for agent sessions
 
 - **One task per session and per branch** (`docs/11` task IDs). Start with `claude --permission-mode plan` for anything touching more than 3 files, and get the plan approved.
-- **Parallel work:** use `claude --worktree <task-id>` for independent areas (LearningCore, pipeline, App UI, content). Never run two sessions on the same module. The hooks find the worktree's own root, and `.claude/worktrees/` is gitignored.
+- **Parallel work:** use `claude --worktree <task-id>` for independent areas (LearningCore, pipeline, App UI, content). Never run two sessions on the same module. `.claude/worktrees/` is gitignored.
 - **Order:** tests from the acceptance criteria first, then code, then the task's **Verify** commands, then screenshots for UI.
 - **Before finishing:** run the spec-reviewer subagent on the diff; fix or explain each finding; update `PROGRESS.md`.
 - **When stuck:** after two failed attempts at the same problem, stop and write down what you tried. Don't loosen a test to make it pass; if a test seems wrong, say why and ask.
-- **Headless batch runs** (content drafting, migrations): `claude -p "<task>" --output-format json --max-turns 40 --permission-mode acceptEdits`, one run per file, each in its own worktree.
+- **Headless batch runs** (content drafting, migrations): `claude -p "<task>" --output-format json --max-turns 40 --permission-mode acceptEdits --allowedTools "Bash(make annotate),Bash(make check-content),Bash(uv run content annotate:*),Bash(uv run content check:*)"`, one run per file, each in its own worktree. No settings file allows commands, so the run names the ones it may use; add others a task needs.
 
 ## Definition of done (every task)
 

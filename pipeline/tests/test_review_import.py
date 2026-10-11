@@ -60,7 +60,7 @@ def ledger(root: Path) -> list[dict[str, Any]]:
 
 
 def resolve(root: Path, comment_id: str, status: str, note: str | None = None, commit: str | None = None) -> None:
-    """What an agent does in the ledger (content-review skill, step 4)."""
+    """What an agent does in the ledger (docs/04 § Back into the project, step 2)."""
     y = _yaml()
     doc = y.load((root / LEDGER).read_text(encoding="utf-8"))
     entry = next(c for c in doc["comments"] if c["id"] == comment_id)
@@ -412,7 +412,7 @@ def test_signoff_refusals(course_copy, tmp_path, setup, message):
     assert approval.read_review(course_copy / LESSON)["status"] == "draft"
 
 
-# ---------------------------------------------------------------- the content-review skill, end to end
+# ---------------------------------------------------------------- the review loop, end to end
 
 
 def test_content_review_procedure_end_to_end(course_copy, fixtures_dir, tmp_path):

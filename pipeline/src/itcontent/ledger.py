@@ -2,7 +2,7 @@
 `schemas/review-ledger.schema.json`): every comment of every imported review file, as filed, plus where it came from
 (`review`), whether it was made on an older version (`stale`) and what was done about it (`resolution`).
 
-`content review-import` appends to a ledger; agents fill in resolutions (the `content-review` skill); comments are
+`content review-import` appends to a ledger; agents fill in resolutions (docs/04 § Back into the project); comments are
 never deleted or merged. This module also answers the two questions the rest of the loop asks of the ledgers: which
 comments are still unresolved (sign-off, `content approve --signoff`, `content report`), and whether a teacher's
 sign-off allows a file to be approved.

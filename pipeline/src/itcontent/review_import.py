@@ -167,7 +167,7 @@ def _clip(text: Any, n: int = 90) -> str:
 
 
 def worklist(result: ImportResult, root: Path) -> list[str]:
-    """What the agent (content-review skill) works through next."""
+    """What the agent works through next (docs/04 § Back into the project)."""
     todo = [e for e in result.added if e["resolution"]["status"] == "open"]
     noted = len(result.added) - len(todo)
     lines = [

@@ -1,5 +1,5 @@
 # Story bible: the single source of facts for every episode (docs/03, check 5).
-# The checker reads `characters` and `registers`; the content-critic subagent reads all of it.
+# The checker reads `characters` and `registers`; the content lead reviews the rest.
 # DRAFT for content-lead sign-off (C1). Items marked TBD are open; don't invent them in drafts.
 review: {status: draft, by: null, date: null, hash: null}
 

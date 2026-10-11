@@ -164,7 +164,7 @@ Optional fields:
 
 ## Story bible: `story-bible.yaml`
 
-Characters (age, role, origin, relationships, facts), places (real or fictional), the timeline (arrival in September, Luca's birthday in November, departure in December), `facts_to_check` (real-world facts the content lead verifies) and the **register matrix**: who says tu or Lei to whom. Rows have `from`, `to` (a character or `'*'`), `register`, `units`, and optionally a switch point (`then` + `switch_at` step). The precedence and switch rules are in the file's header and `docs/04` § Check 5. The critic agent uses everything else.
+Characters (age, role, origin, relationships, facts), places (real or fictional), the timeline (arrival in September, Luca's birthday in November, departure in December), `facts_to_check` (real-world facts the content lead verifies) and the **register matrix**: who says tu or Lei to whom. Rows have `from`, `to` (a character or `'*'`), `register`, `units`, and optionally a switch point (`then` + `switch_at` step). The precedence and switch rules are in the file's header and `docs/04` § Check 5. The content lead reviews everything else.
 
 ## Unit spec: `units/NN-slug/unit.yaml`
 
@@ -283,7 +283,7 @@ review:
   hash: null                   # docs/04 § Approval hash
 ```
 
-Only humans change `review` by running `uv run content approve <file> --by "<name>"` or `content reopen <file>`; the command refuses to run from an agent's shell (`docs/04` § Commands). It rewrites only the `review:` entry, in the style it was written (flow or block), with `by`, `date` and `hash` as quoted strings. An approved file has all three; any other status has them `null` (the schema checks both). The PreToolUse hook blocks agent edits to approved files, and `content lint` fails if an approved file's hash no longer matches. The pack build includes only approved content in release mode (`content build --release`); dev builds include drafts and mark them in the app's Debug overlay.
+Only humans change `review` by running `uv run content approve <file> --by "<name>"` or `content reopen <file>`; the command refuses to run from an agent's shell (`docs/04` § Commands). It rewrites only the `review:` entry, in the style it was written (flow or block), with `by`, `date` and `hash` as quoted strings. An approved file has all three; any other status has them `null` (the schema checks both). `content lint` fails if an approved file's hash no longer matches. The pack build includes only approved content in release mode (`content build --release`); dev builds include drafts and mark them in the app's Debug overlay.
 
 Every file type has a JSON Schema in `schemas/` (`lesson.schema.json`, `unit.schema.json`, …, plus `review-file` and `review-ledger`), and each exercise format has its own in `schemas/exercises/`; `content lint` picks the schema from the file's path.
 

@@ -1,6 +1,6 @@
 # Fixtures
 
-Ground truth for tests. Each file names the spec section it encodes. Never edit `fsrs/` by hand (a hook blocks it); the other fixture files grow whenever a bug is fixed.
+Ground truth for tests. Each file names the spec section it encodes. Never edit `fsrs/` by hand; the other fixture files grow whenever a bug is fixed.
 
 | File | Encodes | Used by |
 |---|---|---|
