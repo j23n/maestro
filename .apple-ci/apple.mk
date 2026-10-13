@@ -21,8 +21,8 @@
 #                           which `make project` warns about while they exist
 #
 # It provides: project, build, build-ios, build-mac, test-app, swift-test, tools, signing,
-# build-number and update-apple-ci (which also refreshes .apple-ci/build-number.sh and the shared
-# Claude instructions in .apple-ci/claude). The app's Makefile defines test, ci-linux and ci-macos (and its own targets).
+# archive, testflight, build-number and update-apple-ci (which also refreshes
+# .apple-ci/build-number.sh and the shared Claude instructions in .apple-ci/claude). The app's Makefile defines test, ci-linux and ci-macos (and its own targets).
 # None of these becomes the default goal: `make` alone runs the app's own first rule.
 
 # Restored at the end of this file, so the rules below don't take the default goal.
@@ -127,6 +127,68 @@ signing:
 	@grep -v '^DEVELOPMENT_TEAM[[:space:]]*=' $(SIGNING_XCCONFIG) > $(SIGNING_XCCONFIG).tmp; \
 		echo 'DEVELOPMENT_TEAM = $(TEAM)' >> $(SIGNING_XCCONFIG).tmp; mv $(SIGNING_XCCONFIG).tmp $(SIGNING_XCCONFIG)
 	@echo "$(SIGNING_XCCONFIG): DEVELOPMENT_TEAM = $(TEAM)"
+
+# TestFlight (README.md, "TestFlight"): `make archive` archives the app for each platform in
+# PLATFORMS, signed with the owner's team, and `make testflight` exports each archive and uploads it
+# to App Store Connect. Both need the team and an App Store Connect API key from the environment:
+# TEAM (or J23N_TEAM), ASC_KEY_ID, ASC_ISSUER_ID and ASC_KEY_PATH, the key's .p8 file. The TestFlight
+# workflow sets them from Actions secrets. Neither runs in an agent's session (CLAUDECODE is set).
+# APP_VERSION, when set, is the builds' MARKETING_VERSION; EXPORT_DESTINATION=export writes the
+# signed builds to EXPORTS instead of uploading them.
+APP_VERSION ?=
+ARCHIVES ?= $(CURDIR)/.build/Archives
+EXPORTS ?= $(CURDIR)/.build/Exports
+EXPORT_DESTINATION ?= upload
+ASC_KEY_ID ?=
+ASC_ISSUER_ID ?=
+ASC_KEY_PATH ?=
+ARCHIVE_DESTINATION_ios ?= generic/platform=iOS
+ARCHIVE_DESTINATION_mac ?= generic/platform=macOS
+# The key lets xcodebuild create the certificates and profiles signing needs: Xcode's automatic
+# signing for the archive, Apple's cloud-managed distribution certificate for the export.
+ASC_AUTH = -allowProvisioningUpdates -authenticationKeyPath '$(ASC_KEY_PATH)' \
+	-authenticationKeyID '$(ASC_KEY_ID)' -authenticationKeyIssuerID '$(ASC_ISSUER_ID)'
+
+.PHONY: archive testflight release-check
+
+archive: $(addprefix archive-,$(PLATFORMS))
+
+testflight: $(addprefix testflight-,$(PLATFORMS))
+
+release-check:
+	@[ -z "$$CLAUDECODE" ] || { echo "Releases are the owner's: agents don't sign or upload builds"; exit 1; }
+	@[ -n "$(TEAM)" ] && [ -n "$(ASC_KEY_ID)" ] && [ -n "$(ASC_ISSUER_ID)" ] && [ -f "$(ASC_KEY_PATH)" ] || \
+		{ echo "Needs TEAM (or J23N_TEAM), ASC_KEY_ID, ASC_ISSUER_ID and ASC_KEY_PATH (apple-ci README.md, \"TestFlight\")"; exit 2; }
+
+# archive-ios, archive-mac: the Release archive, then its version, build number and entitlements,
+# which come from the signature and which App Store Connect checks.
+archive-%: release-check project $(APP_PREREQUISITES)
+	@rm -rf '$(ARCHIVES)/$*.xcarchive'
+	$(XCODEBUILD) $(XCODEBUILD_FLAGS) -project $(XCODEPROJ) -scheme $(SCHEME) -configuration Release \
+	  -destination '$(ARCHIVE_DESTINATION_$*)' -derivedDataPath '$(DERIVED_DATA)' \
+	  -archivePath '$(ARCHIVES)/$*.xcarchive' $(ASC_AUTH) archive \
+	  DEVELOPMENT_TEAM='$(TEAM)' CODE_SIGN_STYLE=Automatic $(if $(APP_VERSION),MARKETING_VERSION='$(APP_VERSION)')
+	@plist='$(ARCHIVES)/$*.xcarchive/Info.plist'; \
+	  echo "$*: version $$(/usr/libexec/PlistBuddy -c 'Print :ApplicationProperties:CFBundleShortVersionString' "$$plist")," \
+	    "build $$(/usr/libexec/PlistBuddy -c 'Print :ApplicationProperties:CFBundleVersion' "$$plist")"; \
+	  for app in '$(ARCHIVES)/$*.xcarchive'/Products/Applications/*.app; do codesign -d --entitlements - "$$app"; done
+
+# testflight-ios, testflight-mac: the archive exported for App Store Connect, signed for distribution,
+# and uploaded. The build number stays the archive's (manageAppVersionAndBuildNumber).
+testflight-%: archive-%
+	@rm -rf '$(EXPORTS)/$*' && mkdir -p '$(EXPORTS)/$*'
+	@printf '%s\n' '<?xml version="1.0" encoding="UTF-8"?>' \
+	  '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">' \
+	  '<plist version="1.0"><dict>' \
+	  '<key>method</key><string>app-store-connect</string>' \
+	  '<key>destination</key><string>$(EXPORT_DESTINATION)</string>' \
+	  '<key>teamID</key><string>$(TEAM)</string>' \
+	  '<key>signingStyle</key><string>automatic</string>' \
+	  '<key>manageAppVersionAndBuildNumber</key><false/>' \
+	  '<key>uploadSymbols</key><true/>' \
+	  '</dict></plist>' > '$(EXPORTS)/$*.plist'
+	$(XCODEBUILD) $(XCODEBUILD_FLAGS) -exportArchive -archivePath '$(ARCHIVES)/$*.xcarchive' \
+	  -exportPath '$(EXPORTS)/$*' -exportOptionsPlist '$(EXPORTS)/$*.plist' $(ASC_AUTH)
 
 # The build number the next build gets: the number of commits on HEAD (build-number.sh).
 build-number:
