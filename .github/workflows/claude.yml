@@ -74,10 +74,11 @@ jobs:
           # open its pull request (.apple-ci/claude/j23n.md, "Pull requests"); the read-only
           # `gh issue` and `gh pr` commands let it see the other issues and pull requests in flight
           # (.apple-ci/claude/apps.md, "Claude on GitHub"). `git switch` and `gh stack` build stacks
-          # (apps.md, "Stacks"); `rebase` only with `--upstack`; `gh stack merge`, `unstack` and
-          # `sync` stay out. The action's own tools (reading, editing, committing, pushing) stay as
-          # they are. --strict-mcp-config keeps .mcp.json's MobileBuildMCP, which needs Xcode, out
-          # of the run; the action's own servers stay.
+          # (apps.md, "Stacks"); `rebase` only with `--upstack`, and `--continue` or `--abort` to
+          # finish or undo one; `gh stack merge`, `unstack` and `sync` stay out. The action's own
+          # tools (reading, editing, committing, pushing) stay as they are. --strict-mcp-config
+          # keeps .mcp.json's MobileBuildMCP, which needs Xcode, out of the run; the action's own
+          # servers stay.
           claude_args: >-
             --model claude-opus-5-5
             --effort high
