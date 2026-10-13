@@ -488,3 +488,9 @@ Template:
 - `.apple-ci/claude/apps.md` is refreshed from apple-ci ("Other work in flight", "Stacks"). `.apple-ci/apple.mk` stays at its previous copy: apple-ci's new `archive` rule would merge into this Makefile's own `archive` rule.
 - docs/10 § CI says so.
 - Evidence: the workflow parses as YAML; gh-stack v0.2.1's source confirms the commands and their non-interactive use. The next issue labeled `ready` is the test.
+
+## 2026-10-13 · CI · `make archive` is now `make app-archive` (owner's request)
+- The Makefile's own archive rule is `app-archive` (`make app-archive CONFIG=Study`), and `.apple-ci/apple.mk` is refreshed from apple-ci, whose new `archive` and `testflight` rules no longer merge into it (j23n/apple-ci#7).
+- apple.mk's `archive` and `testflight` stop with a message before `xcodebuild` (`shared-archive`): they would bundle the dev pack, drafts included.
+- scripts/archive.sh, docs/02, docs/04, docs/10 and docs/11 M6.8 name the new target.
+- Evidence: on Linux, `make app-archive` refuses in an agent's session; `make -n archive-ios` with stand-in keys runs `shared-archive` before `xcodebuild`; `make help` lists `app-archive`.
