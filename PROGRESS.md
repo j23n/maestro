@@ -482,3 +482,9 @@ Template:
 
 ## 2026-10-11 · Harness · the spec-reviewer reviews what the specs define (owner's request)
 - CLAUDE.md's "Before you say done", docs/10's working practices and definition of done, and the reviewer's own description now ask for the spec-reviewer only on a change to what the specs define: the app, the packages, the pipeline, content, fixtures or the specs. A change only to CI, workflows or other tooling skips it; `make test`, `make lint-guards` and the PROGRESS entry still apply.
+
+## 2026-10-13 · CI · Claude on GitHub reads the work in flight and builds stacks (owner's request)
+- `.github/workflows/claude.yml` installs `gh stack` (github/gh-stack v0.2.1, pinned) and allows the read-only `gh issue` and `gh pr` commands, `git switch`, and the `gh stack` commands that build a stack (`rebase` only with `--upstack`; no `merge`, `unstack` or `sync`). Checkout no longer persists `GITHUB_TOKEN`, so Claude's pushes start CI.
+- `.apple-ci/claude/apps.md` is refreshed from apple-ci ("Other work in flight", "Stacks"). `.apple-ci/apple.mk` stays at its previous copy: apple-ci's new `archive` rule would merge into this Makefile's own `archive` rule.
+- docs/10 § CI says so.
+- Evidence: the workflow parses as YAML; gh-stack v0.2.1's source confirms the commands and their non-interactive use. The next issue labeled `ready` is the test.

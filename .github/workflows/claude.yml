@@ -62,8 +62,9 @@ jobs:
         run: gh extension install github/gh-stack --pin v0.2.1
       - uses: anthropics/claude-code-action@v1
         env:
-          # No release checks or upgrade notices in Claude's output.
+          # No release checks or upgrade notices in Claude's output, from gh-stack or from gh.
           GH_STACK_NO_UPDATE_NOTIFIER: "1"
+          GH_NO_EXTENSION_UPDATE_NOTIFIER: "1"
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # The label that starts Claude on an issue (.apple-ci/claude/apps.md, "Claude on GitHub").
