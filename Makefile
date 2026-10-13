@@ -40,14 +40,14 @@ ADHOC := $(SIGNED_LOCALLY)
 include .apple-ci/apple.mk
 
 .PHONY: ensure-pack help bootstrap data test test-app-logic test-core test-storage test-pipeline lint-pipeline annotate \
-	check-content pack mini-pack pack-release pack-determinism test-ui screenshots lint-guards archive ci ci-linux ci-macos
+	check-content pack mini-pack pack-release pack-determinism test-ui screenshots lint-guards app-archive shared-archive ci ci-linux ci-macos
 
 help:
 	@echo "make bootstrap | data | test | test-core | test-storage | test-pipeline | annotate | check-content"
 	@echo "make pack | mini-pack | pack-release | lint-guards | ci"
 	@echo "make project | build | build-ios | build-mac | test-app | test-ui | screenshots   (macOS with Xcode 27 and XcodeGen)"
 	@echo "make ci-linux | ci-macos   what CI runs (j23n/apple-ci's shared workflows)"
-	@echo "make archive CONFIG=Study   (owner only)"
+	@echo "make app-archive CONFIG=Study   (owner only)"
 
 # ---------------------------------------------------------------- setup
 
@@ -140,12 +140,18 @@ lint-guards:
 	bash scripts/check-app-logic.sh
 
 # [owner] Signs with the owner's team: never run by agents (ADR-19). Builds the release pack, swaps it into the
-# bundle for the archive only and restores the dev pack on exit.
-archive:
-	@if [ -n "$$CLAUDECODE" ]; then echo "make archive is the owner's step (ADR-19)."; exit 1; fi
+# bundle for the archive only and restores the dev pack on exit. Not `archive`: apple.mk has its own.
+app-archive:
+	@if [ -n "$$CLAUDECODE" ]; then echo "make app-archive is the owner's step (ADR-19)."; exit 1; fi
 	$(MAKE) project
 	$(CONTENT) build --release --allow-partial
 	bash scripts/archive.sh "$(CONFIG)"
+
+# apple.mk's archive and testflight would bundle the dev pack, drafts included (APP_PREREQUISITES), which Release and
+# Study builds must not ship (docs/02 § Project). They stop here; app-archive is maestro's archive.
+archive-ios archive-mac: shared-archive
+shared-archive:
+	@echo "make archive and make testflight would bundle the dev pack: use make app-archive CONFIG=Study (docs/10)"; exit 1
 
 # What CI runs (j23n/apple-ci's shared workflows, .github/workflows/ci.yml): Linux, then the Mac.
 ci-linux: lint-guards data test lint-pipeline

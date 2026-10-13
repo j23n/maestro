@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# [owner] `make archive CONFIG=Study|Release|Review` (docs/10, ADR-19). Never run by agents: it signs with the
+# [owner] `make app-archive CONFIG=Study|Release|Review` (docs/10, ADR-19). Never run by agents: it signs with the
 # owner's team (from the gitignored Signing.xcconfig at the root). Swaps the release pack into the bundle for the
 # archive only and restores the dev pack on exit, whatever happens.
 set -euo pipefail
