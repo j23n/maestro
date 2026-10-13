@@ -139,7 +139,7 @@ Everything time-dependent takes a `Clock`; everything random takes a seeded RNG.
 | `ITA_REVIEW_URL` | local mock URL | empty | empty | review endpoint (`docs/12`) |
 | `FEEDBACK` (a Swift compilation condition, not a key) | set: in-app feedback to the owner's private GitHub inbox (ADR-23) | not set (FeedbackKit is linked but dormant) | not set (the same) | not set (the same) |
 
-Release and Study archives bundle the release pack (approved content only, `make archive`); Review archives bundle the dev pack, drafts included, and go only to the internal TestFlight group of the content lead.
+Release and Study archives bundle the release pack (approved content only, `make app-archive`); Review archives bundle the dev pack, drafts included, and go only to the internal TestFlight group of the content lead.
 
 Tokens are not committed, and each build gets only its own: `Study.xcconfig` does `#include? "Secrets-Study.xcconfig"` (`ITA_TELEMETRY_URL`, `ITA_STUDY_TOKEN`) and `Review.xcconfig` does `#include? "Secrets-Review.xcconfig"` (`ITA_REVIEW_URL`, `ITA_REVIEW_TOKEN`), two gitignored files the owner creates. After the include each configuration clears the other build's keys, so a study participant's app never carries the review token and the content lead's never carries the study token (a test resolves both chains with all four keys in the secrets file).
 

@@ -55,14 +55,14 @@ make lint-guards     # scripts/check-core-imports.sh + python3 scripts/check-con
                      #     LaunchBackground colour sets match design/tokens.json)
                      #   + scripts/check-app-logic.sh (App files importing only Foundation, Observation,
                      #     LearningCore and Storage type-check against the packages, on Linux too)
-make archive CONFIG=Study   # [owner] pack-release, swap the release pack into the bundle, xcodebuild archive with
+make app-archive CONFIG=Study   # [owner] pack-release, swap the release pack into the bundle, xcodebuild archive with
                      #   the owner's signing, restore the dev pack on exit (trap); never run by agents
 make ci-linux        # what CI's Linux job runs: lint-guards, data, the fast suite (make test) and the pipeline's ruff checks
 make ci-macos        # what CI's macOS job runs: Storage, the dev pack built twice (pack-determinism), build, test-app
 make ci              # ci-linux, then on a Mac build and test-app
 ```
 
-`project`, `build`, `build-ios`, `build-mac`, `test-app`, `signing` (the owner's), `build-number` and `update-apple-ci` come from `.apple-ci/apple.mk`, a copy of the rules every j23n app shares (j23n/apple-ci's build contract; `make update-apple-ci` refreshes it, never edit it by hand); the Makefile sets what differs (the pack built first, both platforms' tests, the UI tests skipped, ad-hoc signing with `Italiano-NoCloud.entitlements`). `IOS_SIMULATOR ?= iPhone 17` and `IPAD_SIM ?= iPad Air 11-inch (M3)` are overridable. At M0, check the names your Xcode actually offers (`xcrun simctl list devicetypes`) and update the defaults. **Signing:** iOS builds and simulator tests run with `CODE_SIGNING_ALLOWED=NO`; macOS test runs that need a signed runner use ad-hoc "Sign to Run Locally" (`CODE_SIGN_IDENTITY=-`, no team) with `Italiano-NoCloud.entitlements` (`docs/02`). Signing with a team is the owner's alone; when something can't build without it, the agent stops and asks.
+`project`, `build`, `build-ios`, `build-mac`, `test-app`, `signing` (the owner's), `build-number`, `update-apple-ci`, `archive` and `testflight` come from `.apple-ci/apple.mk`, a copy of the rules every j23n app shares (j23n/apple-ci's build contract; `make update-apple-ci` refreshes it, never edit it by hand); the Makefile sets what differs (the pack built first, both platforms' tests, the UI tests skipped, ad-hoc signing with `Italiano-NoCloud.entitlements`). Its `archive` and `testflight` stop with a message, because they would bundle the dev pack; `make app-archive` is this app's archive. `IOS_SIMULATOR ?= iPhone 17` and `IPAD_SIM ?= iPad Air 11-inch (M3)` are overridable. At M0, check the names your Xcode actually offers (`xcrun simctl list devicetypes`) and update the defaults. **Signing:** iOS builds and simulator tests run with `CODE_SIGNING_ALLOWED=NO`; macOS test runs that need a signed runner use ad-hoc "Sign to Run Locally" (`CODE_SIGN_IDENTITY=-`, no team) with `Italiano-NoCloud.entitlements` (`docs/02`). Signing with a team is the owner's alone; when something can't build without it, the agent stops and asks.
 
 ## CI (`.github/workflows/ci.yml`)
 
