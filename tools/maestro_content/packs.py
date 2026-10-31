@@ -126,6 +126,12 @@ class SourceText:
     blocks: list[SourceBlock]
     questions: list[dict]
     introduces: list[str] = field(default_factory=list)
+    meta: dict[str, str] = field(default_factory=dict)
+
+    @property
+    def status(self) -> str:
+        """brief (no text yet), draft (not reviewed by a native speaker) or reviewed."""
+        return self.meta.get("status", "reviewed")
 
 
 def _strip_hints(text: str) -> tuple[str, dict[int, str]]:
@@ -242,6 +248,7 @@ def parse_source(path: str) -> SourceText:
         id=text_id, title=title, level=meta["level"], collection=meta["collection"], order=int(meta["order"]),
         topics=[t.strip() for t in meta.get("topics", "").split(",") if t.strip()], blocks=blocks,
         questions=questions, introduces=[t.strip() for t in meta.get("introduces", "").split(",") if t.strip()],
+        meta=meta,
     )
 
 
@@ -656,6 +663,8 @@ def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_conte
             if not f.endswith(".md"):
                 continue
             src = parse_source(os.path.join(root, f))
+            if src.status == "brief":
+                continue  # a brief has no text yet
             text, w = build_text(lex, src)
             warnings.extend(w)
             errors.extend(validate_text(text, lex))
@@ -683,6 +692,11 @@ def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_conte
                 "grammar": {"introduces": src.introduces, "uses": uses},
                 "lemmas": sorted(counts),
             })
+            entry = manifest["texts"][-1]
+            if src.meta.get("window"):
+                entry["window"] = src.meta["window"]
+            if src.status == "draft":
+                entry["status"] = "draft"
             conn.execute("INSERT OR REPLACE INTO catalog_text (id, pack_id, title, level, collection, words, ord, bundled) "
                          "VALUES (?,?,?,?,?,?,?,?)",
                          (text["id"], collection, text["title"], text["level"], collection, word_count(text),

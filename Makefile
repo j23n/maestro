@@ -26,7 +26,7 @@ TEST_APP_FLAGS := -skip-testing:MaestroUITests/ScreenshotTests
 
 include .apple-ci/apple.mk
 
-.PHONY: help bootstrap test test-tools content screenshots ci-linux ci-macos clean
+.PHONY: help bootstrap test test-tools content coverage check-texts brief draft screenshots ci-linux ci-macos clean
 
 help:
 	@echo "make bootstrap    XcodeGen and the Xcode project"
@@ -35,6 +35,10 @@ help:
 	@echo "make build        the app for the iOS Simulator and the Mac, unsigned"
 	@echo "make test-app     the app's tests in the iOS Simulator"
 	@echo "make content      the dictionary database and starter packs the app bundles (CONTENT=full for the real dictionary)"
+	@echo "make coverage     what the texts cover per level, into .build/coverage.md"
+	@echo "make check-texts [TEXTS=…]   check texts against their level plan and brief"
+	@echo "make brief LEVEL=A2 COLLECTION=… [TITLE=…] [WINDOW=…]   a new brief aimed at the level's gaps"
+	@echo "make draft TEXT=…  draft a brief's text with Claude, then check it"
 	@echo "make screenshots  the main screens on an iPhone and an iPad simulator, into .build/Screenshots"
 	@echo "make ci-linux | ci-macos   what CI runs"
 
@@ -49,6 +53,21 @@ test-tools:
 # The dictionary database and the starter packs, into App/Resources/Content (git ignores them).
 content:
 	$(PYTHON) tools/build_content.py --mode $(CONTENT)
+
+# Texts: level plans in content/curriculum, the checker, the coverage report and briefs
+# (tools/maestro_content/curriculum.py). They read the content database, so build it with
+# CONTENT=full first for real numbers; the sample dictionary links few words.
+CONTENT_TOOL := PYTHONPATH=tools $(PYTHON) -m maestro_content
+
+coverage: content
+	$(CONTENT_TOOL) coverage
+
+check-texts: content
+	$(CONTENT_TOOL) check $(TEXTS)
+
+brief: content
+	@[ -n "$(LEVEL)" ] && [ -n "$(COLLECTION)" ] || { echo "usage: make brief LEVEL=A2 COLLECTION=vita-quotidiana [TITLE=…] [WINDOW=12-01..01-06]"; exit 2; }
+	$(CONTENT_TOOL) brief --level $(LEVEL) --collection $(COLLECTION) $(if $(TITLE),--title "$(TITLE)") $(if $(WINDOW),--window $(WINDOW))
 
 # The main screens on an iPhone and an iPad simulator, as PNGs in .build/Screenshots, for checking
 # the UI against the mocks. The iPad runs in landscape, and the simulator saves its screenshots
