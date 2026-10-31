@@ -1,7 +1,8 @@
 import XCTest
 
-/// The reader opens, and so does its tap-for-help sheet. An `.inspector` in the reader once froze
-/// the app as soon as the reader was pushed, so each test fails when the screen doesn't appear in time.
+/// The reader opens, and so does its tap-for-help: a sheet on the iPhone, an inspector on the iPad.
+/// An inspector holding a NavigationStack once froze the app as soon as the reader was pushed, so each
+/// test fails when the screen doesn't appear in time.
 final class ReaderTests: XCTestCase {
     private let reader = ["-uiTesting", "-onboarded", "YES", "-uiTab", "read", "-uiRoute", "text:racconti-brevi-03"]
 
@@ -20,7 +21,7 @@ final class ReaderTests: XCTestCase {
         app.launchArguments = reader + ["-uiToken", "auto"]
         app.launch()
         XCTAssertTrue(app.scrollViews["help"].waitForExistence(timeout: 30), "Help didn't open")
-        app.buttons["Done"].tap()
+        app.buttons["closeHelp"].tap()
         XCTAssertTrue(app.scrollViews["help"].waitForNonExistence(timeout: 10), "Help didn't close")
         XCTAssertTrue(app.buttons["Read aloud"].isHittable, "The reader didn't come back after help")
     }
