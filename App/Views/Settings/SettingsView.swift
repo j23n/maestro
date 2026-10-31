@@ -44,6 +44,8 @@ struct SettingsView: View {
                 Text("Dictionary entries and inflections from Wiktionary (via kaikki.org), CC BY-SA 4.0.")
                 Text("Inflected forms from Morph-it!, CC BY-SA 2.0.")
                 Text("Example sentences from Tatoeba, CC BY 2.0 FR.")
+                Text("Word frequencies from FrequencyWords (OpenSubtitles 2018), CC BY-SA 4.0.")
+                Text("Reading texts are drafted with the help of AI. Texts marked Draft have not yet been reviewed by a native speaker.")
             }
             .font(.footnote)
             Section {
