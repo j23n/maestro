@@ -254,8 +254,8 @@ Preferences (level, text size, new items per day, reminder) and the FSRS paramet
 | Italian→English entries, IPA, gender, plurals, verb tables | kaikki.org Italian dictionary (Wiktionary via wiktextract; rebuilt regularly) | CC BY-SA | Dictionary, verb tables, reverse index |
 | Inflected form → lemma | Morph-it! (~505k forms, ~35k lemmas; newspaper corpus, gaps in everyday words) | CC BY-SA 2.0 or LGPL | Form analysis, clitics, cross-checks |
 | Example sentences with translations | Tatoeba ita–eng pairs (weekly exports) | CC BY 2.0 FR (some CC0); audio per contributor, often unusable | Examples |
-| Reading texts | Written or commissioned; public-domain classics for upper levels | Yours / public domain | Library |
-| Word frequency ranking | Not chosen | Check | "Known %", ordering |
+| Reading texts | Drafted with Claude from briefs, or written or commissioned; public-domain classics for upper levels. Never adapted from published articles: news-based texts start from our own list of facts | Yours / public domain | Library |
+| Word frequency ranking | FrequencyWords, OpenSubtitles 2018, top 20,000 forms (`content/frequency/`) | CC BY-SA 4.0 | `lemma.freq_rank`, level core vocabulary, "Known %" |
 
 The database built from Wiktionary and Morph-it! must be offered under CC BY-SA; app code is unaffected. Get a legal review. Credit sources in Acknowledgements.
 
@@ -281,13 +281,14 @@ The database built from Wiktionary and Morph-it! must be offered under CC BY-SA;
 - Manifest: `formatVersion` (schema version, separate from the pack's content `version`), `minContentDB` (lowest content DB that resolves the pack's IDs), and per text its lemma set so a pack newer than the app can still be ranked.
 - Each app release bundles a catalog (`catalog_text`, `text_lemma`) of every text, downloaded or not, for library ranking, "Good fit" and Known %.
 - Pack builds fail when an ID doesn't resolve, a range doesn't match, text isn't NFC, or units overlap.
-- Authoring: Markdown with front matter → build tool tokenises, links lemmas, proposes analyses, flags unknowns → native speaker reviews → pack. Sentence IDs (`s<n>`) are assigned once and never renumbered when a text is edited after release.
+- Authoring: brief → draft → check → native-speaker review → pack. A brief is the front matter of a new text file (`make brief`, aimed at the gaps in the coverage report); `make draft` has Claude write the text and sends checker findings back for up to three rounds; `make check-texts` checks known words, new words, grammar above the level and the brief's targets against the level plans in `content/curriculum/`. Texts carry `status: brief | draft | reviewed`: briefs stay out of packs, and drafts are marked in the manifest and labelled Draft in the library until a native speaker has reviewed them. The LLM runs only on the author's machine, never in the app. Sentence IDs (`s<n>`) are assigned once and never renumbered when a text is edited after release.
+- Feature windows: a text's `window:` (`12-01..01-06`, or days from Easter such as `easter-60..easter-47`) puts it on the library's "Right now" shelf in season. Season collections (`inverno`, then `primavera`, `estate`, `autunno`) gain texts each year; a monthly `cronache` drop covers news-inspired stories that stay true for months.
 - Delivery: starter texts bundled; others as Apple-hosted asset packs (up to 200 packs, 200 GB per app; reviewed separately from builds). Packs stay on disk until `remove(assetPackWithID:)`. Use only the current `AssetPackManager` API; several methods were deprecated in 26.4 and 27.0. 26.4–26.6 had download failures, so downloads are offered only on 26.7 and later (`#available`); earlier 26.x devices read the bundled texts. Bundle enough to never block the first session; add retry and "not downloaded" states. Don't use On-Demand Resources (deprecated in iOS 27).
 
 ### 6.4 Curriculum gaps to close
 
-1. **Scope and sequence.** Define per level the grammar points and core vocabulary; tag each text with what it uses and introduces; order texts to add one or two points at a time and recycle earlier ones. Reference: *Profilo della lingua italiana* (Spinelli & Parizzi), CEFR levels A1 to B2.
-2. **Vocabulary targets.** Write each text for ~95 to 98% known words at its level; make new words recur in later texts.
+1. **Scope and sequence.** Define per level the grammar points and core vocabulary; tag each text with what it uses and introduces; order texts to add one or two points at a time and recycle earlier ones. Reference: *Profilo della lingua italiana* (Spinelli & Parizzi), CEFR levels A1 to B2. Started: level plans in `content/curriculum/` (core vocabulary as frequency bands, length, persons, registers, block types); the grammar sequence is each topic's `level` and `order` in `content/grammar/`; `make coverage` reports per level what the texts cover.
+2. **Vocabulary targets.** Write each text for ~95 to 98% known words at its level; make new words recur in later texts. The checker enforces the known-word share; the coverage report tracks how often new words come back. At today's text lengths a level's texts can't carry its whole core list; the dictionary and Remember cover the rest.
 3. **Speaking and writing.** Currently out of scope by default. Options that fit: shadowing (optionally with on-device speech recognition), short writing prompts per text with optional on-device model feedback.
 4. **A1 on-ramp.** Tiny first texts, fuller help, pronunciation basics (double consonants, c/g/sc before e/i, gli/gn, stress), survival phrases, numbers, time.
 5. **Text variety and register.** Dialogues (two voices), messages, emails, signs, menus, articles; *tu* vs *Lei*. Narrative alone over-weights the passato remoto.
@@ -371,8 +372,8 @@ Look: quiet, text first, no colour except where it carries meaning. The mocks us
 - [x] Minimum OS 26 or 27? **26.0** (decided 2026-10-31, replacing an earlier choice of 27; see section 5).
 - [ ] Business model: paid, subscription, or free with paid packs?
 - [ ] Learners' base language: English only for v1?
-- [ ] Who writes and reviews the 100 texts; level split (mocks use 20/28/30/22)?
-- [ ] Which word-frequency list, and its licence?
+- [ ] Who reviews the texts (a teacher of Italian as a second language is the plan; Claude drafts them); level split (mocks use 20/28/30/22)?
+- [x] Which word-frequency list, and its licence? **FrequencyWords (OpenSubtitles 2018), CC BY-SA 4.0** (decided 2026-10-31).
 - [ ] Placement test in v1?
 - [ ] Legal sign-off on CC BY-SA obligations.
 
