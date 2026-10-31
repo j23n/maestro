@@ -25,4 +25,22 @@ final class ReaderTests: XCTestCase {
         XCTAssertTrue(app.scrollViews["help"].waitForNonExistence(timeout: 10), "Help didn't close")
         XCTAssertTrue(app.buttons["Read aloud"].isHittable, "The reader didn't come back after help")
     }
+
+    /// Help's links push onto a stack (the reader's under the inspector, the sheet's on the iPhone), and
+    /// Back returns to the text with help still open.
+    @MainActor
+    func testHelpLinkComesBackToHelp() throws {
+        let app = XCUIApplication()
+        app.launchArguments = reader + ["-uiToken", "auto"]
+        app.launch()
+        XCTAssertTrue(app.scrollViews["help"].waitForExistence(timeout: 30), "Help didn't open")
+        let link = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'In dictionary'")).firstMatch
+        // The sample dictionary that make test-app builds may not have the word.
+        try XCTSkipUnless(link.waitForExistence(timeout: 5), "The word has no dictionary entry in this content")
+        link.tap()
+        XCTAssertTrue(app.scrollViews["help"].waitForNonExistence(timeout: 10), "The dictionary entry didn't open")
+        let back = app.navigationBars.buttons["BackButton"]
+        (back.exists ? back : app.navigationBars.buttons.element(boundBy: 0)).tap()
+        XCTAssertTrue(app.scrollViews["help"].waitForExistence(timeout: 10), "Help didn't come back after Back")
+    }
 }
