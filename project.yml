@@ -98,6 +98,21 @@ targets:
       - package: MaestroKit
         product: ItalianCore
 
+  # Screenshots of the main screens for checking the UI against the mocks (`make screenshots`).
+  # iOS only; `make test-app` skips it.
+  MaestroUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [AppUITests]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_IDENTIFIER).uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: Maestro
+        TARGETED_DEVICE_FAMILY: "1,2"
+    dependencies:
+      - target: Maestro
+
 schemes:
   Maestro:
     build:
@@ -106,3 +121,4 @@ schemes:
     test:
       targets:
         - MaestroTests
+        - MaestroUITests

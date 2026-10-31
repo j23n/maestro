@@ -42,3 +42,13 @@ jobs:
     uses: j23n/apple-ci/.github/workflows/macos.yml@main
     with:
       name: macOS · packages, app and tests (iOS Simulator and Mac)
+
+  # The main screens on an iPhone and an iPad simulator (`make screenshots`), kept as the run's
+  # screenshots artifact for checking the UI against the mocks.
+  screenshots:
+    uses: j23n/apple-ci/.github/workflows/macos.yml@main
+    with:
+      name: macOS · screenshots (iPhone and iPad)
+      run: make screenshots
+      artifact-name: screenshots
+      artifact-path: .build/Screenshots

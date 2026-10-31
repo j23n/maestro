@@ -4,7 +4,9 @@ import SwiftUI
 @main
 struct MaestroApp: App {
     @State private var model = AppModel()
-    private let container = LearnerSchema.makeContainer()
+    /// UI tests (`make screenshots`) pass -uiTesting for an empty, in-memory learner store.
+    private let container = LearnerSchema.makeContainer(
+        inMemory: ProcessInfo.processInfo.arguments.contains("-uiTesting"))
 
     var body: some Scene {
         WindowGroup {
