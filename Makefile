@@ -14,7 +14,7 @@ SWIFT_PACKAGES := $(patsubst %/Package.swift,%,$(wildcard Packages/*/Package.swi
 
 include .apple-ci/apple.mk
 
-.PHONY: help bootstrap test test-tools ci-linux ci-macos clean
+.PHONY: help bootstrap test test-tools build-xcode-26 ci-linux ci-macos clean
 
 help:
 	@echo "make bootstrap    XcodeGen and the Xcode project"
@@ -22,6 +22,7 @@ help:
 	@echo "make test         the packages' tests and the content pipeline's (macOS and Linux)"
 	@echo "make build        the app for the iOS Simulator and the Mac, unsigned"
 	@echo "make test-app     the app's tests in the iOS Simulator"
+	@echo "make build-xcode-26   the app built with Xcode 26 for iOS and macOS 26, a compile check only"
 	@echo "make ci-linux | ci-macos   what CI runs"
 
 bootstrap: tools project
@@ -31,6 +32,14 @@ test: swift-test test-tools
 # The content pipeline's tests (tools/). Pytest exits 5 when it finds no tests, which isn't a failure.
 test-tools:
 	@[ ! -d tools ] || { echo "$(PYTHON) -m pytest tools"; $(PYTHON) -m pytest tools || [ $$? -eq 5 ]; }
+
+# Until the hosted runners have Xcode 27: the app built with Xcode 26 against iOS and macOS 26, a
+# compile check only, since nothing ships from it (ci.yml). It needs the app's code and its packages'
+# platforms to stay within the 26 SDKs.
+XCODE_26_DEPLOYMENT := IPHONEOS_DEPLOYMENT_TARGET=26.0 MACOSX_DEPLOYMENT_TARGET=26.0
+
+build-xcode-26:
+	$(MAKE) --no-print-directory build XCODEBUILD_FLAGS='$(XCODEBUILD_FLAGS) $(XCODE_26_DEPLOYMENT)'
 
 ci-linux: test
 
