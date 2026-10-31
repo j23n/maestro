@@ -15,8 +15,9 @@ let package = Package(
         .library(name: "SyncLogic", targets: ["SyncLogic"]),
     ],
     targets: [
-        .systemLibrary(name: "CSQLite", path: "Sources/CSQLite", pkgConfig: "sqlite3",
-                       providers: [.apt(["libsqlite3-dev"]), .brew(["sqlite"])]),
+        // The SDK's SQLite on Apple platforms, libsqlite3-dev on Linux. No pkg-config: on a Mac it
+        // finds Homebrew's macOS-only library and breaks the iOS build.
+        .systemLibrary(name: "CSQLite", path: "Sources/CSQLite"),
         .target(name: "ItalianCore"),
         .target(name: "LexiconKit", dependencies: ["ItalianCore", "CSQLite"]),
         .target(name: "GrammarKit", dependencies: ["ItalianCore", "LexiconKit"]),
