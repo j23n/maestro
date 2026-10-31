@@ -3,67 +3,361 @@
   "title": "Il treno per Bologna",
   "level": "B1",
   "collection": "racconti-brevi",
-  "$note": "Excerpt: only sentences s1 and s2 are shown; the questions refer to later sentences as well.",
-  "paragraphs": [
+  "$note": "Excerpt: only sentences s1 and s2 are shown; the questions refer to later sentences as well. Sense codes are illustrative (hash-derived as in HANDOFF.md 6.5) until the ID registry exists.",
+  "blocks": [
     {
+      "type": "prose",
+      "text": "Quando eravamo ragazzi, andavamo ogni estate dai nonni. L'anno in cui compii sedici anni, però, mio padre decise che saremmo andati a Bologna in treno.",
       "sentences": [
         {
           "id": "s1",
+          "r": [
+            0,
+            55
+          ],
           "text": "Quando eravamo ragazzi, andavamo ogni estate dai nonni.",
           "translation": "When we were kids, we used to go to our grandparents' every summer.",
           "tokens": [
-            {"t": "Quando", "lemmaID": "it:quando:conj", "pos": "CONJ"},
-            {"t": "eravamo", "lemmaID": "it:essere:v", "senseID": "it:essere:v:1", "pos": "VERB", "morph": {"mood": "indicativo", "tense": "imperfetto", "person": 1, "number": "pl"}},
-            {"t": "ragazzi", "lemmaID": "it:ragazzo:n", "senseID": "it:ragazzo:n:1", "pos": "NOUN", "morph": {"gender": "m", "number": "pl"}},
-            {"t": ",", "pos": "PUNCT"},
-            {"t": "andavamo", "lemmaID": "it:andare:v", "senseID": "it:andare:v:1", "pos": "VERB", "morph": {"mood": "indicativo", "tense": "imperfetto", "person": 1, "number": "pl"}},
-            {"t": "ogni", "lemmaID": "it:ogni:det", "pos": "DET"},
-            {"t": "estate", "lemmaID": "it:estate:n", "senseID": "it:estate:n:1", "pos": "NOUN", "morph": {"gender": "f", "number": "sg"}},
-            {"t": "dai", "pos": "ADP+DET", "parts": [
-              {"t": "da", "lemmaID": "it:da:prep"},
-              {"t": "i", "lemmaID": "it:il:art", "morph": {"gender": "m", "number": "pl"}}
-            ], "grammar": ["preposition-contractions"]},
-            {"t": "nonni", "lemmaID": "it:nonno:n", "senseID": "it:nonno:n:1", "pos": "NOUN", "morph": {"gender": "m", "number": "pl"}, "note": "plural: grandparents"},
-            {"t": ".", "pos": "PUNCT"}
+            {
+              "t": "Quando",
+              "r": [
+                0,
+                6
+              ],
+              "pos": "SCONJ",
+              "lemmaID": "it:quando:conj"
+            },
+            {
+              "t": "eravamo",
+              "r": [
+                7,
+                7
+              ],
+              "pos": "AUX",
+              "lemmaID": "it:essere:v",
+              "senseID": "it:essere:v#7ria",
+              "form": "ind.impf.1p"
+            },
+            {
+              "t": "ragazzi",
+              "r": [
+                15,
+                7
+              ],
+              "pos": "NOUN",
+              "lemmaID": "it:ragazzo:n",
+              "senseID": "it:ragazzo:n#xenm",
+              "gn": "mp"
+            },
+            {
+              "t": ",",
+              "r": [
+                22,
+                1
+              ],
+              "pos": "PUNCT"
+            },
+            {
+              "t": "andavamo",
+              "r": [
+                24,
+                8
+              ],
+              "pos": "VERB",
+              "lemmaID": "it:andare:v",
+              "senseID": "it:andare:v#ik2f",
+              "form": "ind.impf.1p"
+            },
+            {
+              "t": "ogni",
+              "r": [
+                33,
+                4
+              ],
+              "pos": "DET",
+              "lemmaID": "it:ogni:det"
+            },
+            {
+              "t": "estate",
+              "r": [
+                38,
+                6
+              ],
+              "pos": "NOUN",
+              "lemmaID": "it:estate:n",
+              "senseID": "it:estate:n#npq3",
+              "gn": "fs"
+            },
+            {
+              "t": "dai",
+              "r": [
+                45,
+                3
+              ],
+              "parts": [
+                {
+                  "t": "da",
+                  "pos": "ADP",
+                  "lemmaID": "it:da:prep"
+                },
+                {
+                  "t": "i",
+                  "pos": "DET",
+                  "lemmaID": "it:il:art",
+                  "gn": "mp"
+                }
+              ],
+              "grammar": [
+                "preposition-contractions"
+              ]
+            },
+            {
+              "t": "nonni",
+              "r": [
+                49,
+                5
+              ],
+              "pos": "NOUN",
+              "lemmaID": "it:nonno:n",
+              "senseID": "it:nonno:n#3kri",
+              "gn": "mp",
+              "note": "Plural: grandparents."
+            },
+            {
+              "t": ".",
+              "r": [
+                54,
+                1
+              ],
+              "pos": "PUNCT"
+            }
           ]
         },
         {
           "id": "s2",
+          "r": [
+            56,
+            95
+          ],
           "text": "L'anno in cui compii sedici anni, però, mio padre decise che saremmo andati a Bologna in treno.",
           "translation": "The year I turned sixteen, though, my father decided that we would go to Bologna by train.",
           "tokens": [
-            {"t": "L'", "lemmaID": "it:il:art", "pos": "DET", "morph": {"gender": "m", "number": "sg"}},
-            {"t": "anno", "lemmaID": "it:anno:n", "senseID": "it:anno:n:1", "pos": "NOUN"},
-            {"t": "in", "lemmaID": "it:in:prep", "pos": "ADP"},
-            {"t": "cui", "lemmaID": "it:cui:pron", "pos": "PRON"},
-            {"t": "compii", "lemmaID": "it:compiere:v", "senseID": "it:compiere:v:2", "pos": "VERB", "morph": {"mood": "indicativo", "tense": "passato-remoto", "person": 1, "number": "sg"}, "contextGloss": "turned (an age)"},
-            {"t": "sedici", "lemmaID": "it:sedici:num", "pos": "NUM"},
-            {"t": "anni", "lemmaID": "it:anno:n", "senseID": "it:anno:n:1", "pos": "NOUN", "morph": {"gender": "m", "number": "pl"}},
-            {"t": ",", "pos": "PUNCT"},
-            {"t": "però", "lemmaID": "it:però:adv", "pos": "ADV"},
-            {"t": ",", "pos": "PUNCT"},
-            {"t": "mio", "lemmaID": "it:mio:det", "pos": "DET"},
-            {"t": "padre", "lemmaID": "it:padre:n", "senseID": "it:padre:n:1", "pos": "NOUN"},
-            {"t": "decise", "lemmaID": "it:decidere:v", "senseID": "it:decidere:v:1", "pos": "VERB", "morph": {"mood": "indicativo", "tense": "passato-remoto", "person": 3, "number": "sg"}},
-            {"t": "che", "lemmaID": "it:che:conj", "pos": "SCONJ"},
-            {"t": "saremmo", "pos": "AUX"},
-            {"t": "andati", "pos": "VERB"},
-            {"t": "a", "lemmaID": "it:a:prep", "pos": "ADP"},
-            {"t": "Bologna", "pos": "PROPN"},
-            {"t": "in", "lemmaID": "it:in:prep", "pos": "ADP"},
-            {"t": "treno", "lemmaID": "it:treno:n", "senseID": "it:treno:n:1", "pos": "NOUN"},
-            {"t": ".", "pos": "PUNCT"}
+            {
+              "t": "L'",
+              "r": [
+                0,
+                2
+              ],
+              "pos": "DET",
+              "lemmaID": "it:il:art",
+              "gn": "ms"
+            },
+            {
+              "t": "anno",
+              "r": [
+                2,
+                4
+              ],
+              "pos": "NOUN",
+              "lemmaID": "it:anno:n",
+              "senseID": "it:anno:n#up57",
+              "gn": "ms"
+            },
+            {
+              "t": "in",
+              "r": [
+                7,
+                2
+              ],
+              "pos": "ADP",
+              "lemmaID": "it:in:prep"
+            },
+            {
+              "t": "cui",
+              "r": [
+                10,
+                3
+              ],
+              "pos": "PRON",
+              "lemmaID": "it:cui:pron"
+            },
+            {
+              "t": "compii",
+              "r": [
+                14,
+                6
+              ],
+              "pos": "VERB",
+              "lemmaID": "it:compiere:v",
+              "senseID": "it:compiere:v#befw",
+              "form": "ind.prem.1s",
+              "gloss": "turned (an age)"
+            },
+            {
+              "t": "sedici",
+              "r": [
+                21,
+                6
+              ],
+              "pos": "NUM",
+              "lemmaID": "it:sedici:num"
+            },
+            {
+              "t": "anni",
+              "r": [
+                28,
+                4
+              ],
+              "pos": "NOUN",
+              "lemmaID": "it:anno:n",
+              "senseID": "it:anno:n#up57",
+              "gn": "mp"
+            },
+            {
+              "t": ",",
+              "r": [
+                32,
+                1
+              ],
+              "pos": "PUNCT"
+            },
+            {
+              "t": "però",
+              "r": [
+                34,
+                4
+              ],
+              "pos": "ADV",
+              "lemmaID": "it:però:adv"
+            },
+            {
+              "t": ",",
+              "r": [
+                38,
+                1
+              ],
+              "pos": "PUNCT"
+            },
+            {
+              "t": "mio",
+              "r": [
+                40,
+                3
+              ],
+              "pos": "DET",
+              "lemmaID": "it:mio:det",
+              "gn": "ms"
+            },
+            {
+              "t": "padre",
+              "r": [
+                44,
+                5
+              ],
+              "pos": "NOUN",
+              "lemmaID": "it:padre:n",
+              "senseID": "it:padre:n#q7q4",
+              "gn": "ms"
+            },
+            {
+              "t": "decise",
+              "r": [
+                50,
+                6
+              ],
+              "pos": "VERB",
+              "lemmaID": "it:decidere:v",
+              "senseID": "it:decidere:v#nzv5",
+              "form": "ind.prem.3s"
+            },
+            {
+              "t": "che",
+              "r": [
+                57,
+                3
+              ],
+              "pos": "SCONJ",
+              "lemmaID": "it:che:conj"
+            },
+            {
+              "t": "saremmo",
+              "r": [
+                61,
+                7
+              ],
+              "pos": "AUX"
+            },
+            {
+              "t": "andati",
+              "r": [
+                69,
+                6
+              ],
+              "pos": "VERB"
+            },
+            {
+              "t": "a",
+              "r": [
+                76,
+                1
+              ],
+              "pos": "ADP",
+              "lemmaID": "it:a:prep"
+            },
+            {
+              "t": "Bologna",
+              "r": [
+                78,
+                7
+              ],
+              "pos": "PROPN",
+              "lemmaID": "it:Bologna:propn"
+            },
+            {
+              "t": "in",
+              "r": [
+                86,
+                2
+              ],
+              "pos": "ADP",
+              "lemmaID": "it:in:prep"
+            },
+            {
+              "t": "treno",
+              "r": [
+                89,
+                5
+              ],
+              "pos": "NOUN",
+              "lemmaID": "it:treno:n",
+              "senseID": "it:treno:n#khof",
+              "gn": "ms"
+            },
+            {
+              "t": ".",
+              "r": [
+                94,
+                1
+              ],
+              "pos": "PUNCT"
+            }
           ],
           "units": [
             {
-              "tokens": [14, 15],
+              "tokens": [
+                14,
+                15
+              ],
               "surface": "saremmo andati",
               "lemmaID": "it:andare:v",
-              "senseID": "it:andare:v:1",
-              "morph": {"mood": "condizionale", "tense": "passato", "person": 1, "number": "pl", "auxiliary": "essere", "participleAgreement": "m.pl"},
-              "contextGloss": "we would go",
-              "grammar": ["future-in-the-past"],
-              "explanation": "Future in the past: after a past verb (decise che), Italian uses the condizionale passato where English says \"would\"."
+              "senseID": "it:andare:v#ik2f",
+              "form": "cond.pass.1p",
+              "agree": "mp",
+              "gloss": "we would go",
+              "grammar": [
+                "future-in-the-past"
+              ],
+              "note": "Future in the past: after a past verb (decise che), Italian uses the condizionale passato where English says \"would\"."
             }
           ]
         }
@@ -76,18 +370,40 @@
       "type": "choice",
       "prompt": "Dove andavano ogni estate da ragazzi?",
       "promptEN": "Where did they go every summer as kids?",
-      "options": ["Al mare", "Dai nonni", "A Bologna"],
+      "options": [
+        "Al mare",
+        "Dai nonni",
+        "A Bologna"
+      ],
+      "optionsEN": [
+        "To the seaside",
+        "To their grandparents'",
+        "To Bologna"
+      ],
       "answer": 1,
-      "answerSentence": "s1"
+      "answerSentences": [
+        "s1"
+      ]
     },
     {
       "id": "q2",
       "type": "choice",
       "prompt": "Secondo il padre, com'è Bologna?",
       "promptEN": "According to the father, what is Bologna like?",
-      "options": ["La città più bella d'Italia", "Una città troppo lontana", "Una città noiosa"],
+      "options": [
+        "La città più bella d'Italia",
+        "Una città troppo lontana",
+        "Una città noiosa"
+      ],
+      "optionsEN": [
+        "The most beautiful city in Italy",
+        "A city that is too far away",
+        "A boring city"
+      ],
       "answer": 0,
-      "answerSentence": "s3"
+      "answerSentences": [
+        "s3"
+      ]
     },
     {
       "id": "q3",
@@ -95,7 +411,9 @@
       "prompt": "La madre era d'accordo?",
       "promptEN": "Did the mother agree?",
       "answer": "no",
-      "answerSentence": "s4"
+      "answerSentences": [
+        "s4"
+      ]
     }
   ]
 }

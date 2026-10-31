@@ -2,8 +2,9 @@
   "id": "racconti-brevi",
   "title": "Racconti brevi",
   "level": "B1",
+  "formatVersion": 1,
   "version": 1,
-  "contentDBVersion": "2026.10",
+  "minContentDB": "2026.10",
   "language": "it",
   "translationLanguage": "en",
   "texts": [
@@ -13,11 +14,48 @@
       "title": "Il treno per Bologna",
       "file": "texts/racconti-brevi-03.json",
       "words": 640,
-      "topics": ["family", "travel"],
+      "topics": [
+        "family",
+        "travel"
+      ],
       "grammar": {
-        "introduces": ["future-in-the-past"],
-        "uses": ["passato-remoto", "imperfetto", "congiuntivo-presente", "si-impersonale", "combined-pronouns", "preposition-contractions"]
-      }
+        "introduces": [
+          "future-in-the-past"
+        ],
+        "uses": [
+          "passato-remoto",
+          "imperfetto",
+          "congiuntivo-presente",
+          "si-impersonale",
+          "combined-pronouns",
+          "preposition-contractions"
+        ]
+      },
+      "lemmas": [
+        "it:Bologna:propn",
+        "it:a:prep",
+        "it:andare:v",
+        "it:anno:n",
+        "it:che:conj",
+        "it:compiere:v",
+        "it:cui:pron",
+        "it:da:prep",
+        "it:decidere:v",
+        "it:essere:v",
+        "it:estate:n",
+        "it:il:art",
+        "it:in:prep",
+        "it:mio:det",
+        "it:nonno:n",
+        "it:ogni:det",
+        "it:padre:n",
+        "it:però:adv",
+        "it:quando:conj",
+        "it:ragazzo:n",
+        "it:sedici:num",
+        "it:treno:n"
+      ],
+      "$note": "lemmas lists only the excerpt's lemmas here; a real manifest lists the whole text's."
     }
   ]
 }

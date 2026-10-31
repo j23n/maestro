@@ -11,10 +11,10 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 
 ## Stack
 
-- Swift 6, strict concurrency. SwiftUI multiplatform with a native macOS target (not Catalyst). Minimum OS 26 unless decided otherwise.
+- Swift 6, strict concurrency. SwiftUI multiplatform with a native macOS target (not Catalyst). Minimum OS: iOS, iPadOS and macOS 27.
 - Content: bundled read-only SQLite via GRDB, FTS5. Built offline by a script in `tools/`; never modified on device.
 - Learner data: SwiftData + CloudKit private database. Preferences in `NSUbiquitousKeyValueStore`.
-- Scheduling: FSRS behind a `Scheduler` protocol.
+- Scheduling: FSRS-6 behind a `Scheduler` protocol. The schedule is computed from review logs into a local-only store (`ScheduleState`, `cloudKitDatabase: .none`) and never syncs.
 - Speech: `AVSpeechSynthesizer` (it-IT). Translation: Apple Translation framework (test on device; it does not run in the Simulator).
 
 ## SwiftData + CloudKit rules (break these and sync breaks)
@@ -22,8 +22,15 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 - No `@Attribute(.unique)`. Deduplicate in the merge pass.
 - Every property optional or with a default; every relationship optional.
 - Never rename, delete or change the type of a property once the schema is deployed to Production. Add new properties instead.
-- `ReviewLog` is append-only and authoritative; card scheduling fields are a cache rebuilt from logs.
+- `ReviewLog` is append-only and authoritative; the FSRS schedule is a local cache rebuilt from logs, never a synced field.
 - Cards reference content by stable string IDs (`lemmaID`, `senseID`, `grammarID`), never by copying entries.
+- Merge pass: dedupe cards on `itemKey` after resolving IDs through `id_redirect`; keep the oldest, never edit logs, never merge or delete a card whose IDs the local content DB doesn't know.
+
+## Content IDs and form tags (HANDOFF.md 6.5)
+
+- Lemma, sense and grammar IDs come only from the ID registry in `content/ids/`, written by the pipeline. Never edit or invent them by hand.
+- Verb forms use only the form tags in HANDOFF.md 6.5 (`cond.pass.1p`); labels are rendered from tags, never stored.
+- Pack text is NFC; token and sentence ranges are UTF-16 `[start, length]`. Pack files must validate against `content/schema/`.
 
 ## Code layout (suggested)
 
@@ -35,7 +42,7 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 - `Packages/SyncStore`: SwiftData models, merge pass
 - `App/`: SwiftUI screens per platform
 - `tools/`: content database and pack build scripts
-- `content/`: pack sources (Markdown + front matter)
+- `content/`: pack sources (Markdown + front matter), `ids/` registry, `schema/`, `fixtures/`
 
 ## Conventions
 
