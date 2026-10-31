@@ -4,7 +4,7 @@ import PackKit
 
 /// Known % per text (HANDOFF.md 3.5, 5.1): from the catalog's lemma counts, the learner's active
 /// Word and Verb form cards, and the texts they finished.
-struct KnownWordsModel {
+@MainActor struct KnownWordsModel {
     let fractions: [String: Double]
 
     init(model: AppModel, cards: [Card], progress: [TextProgress]) {

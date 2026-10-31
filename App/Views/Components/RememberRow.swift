@@ -53,7 +53,7 @@ struct RememberRow: View {
 
 extension RememberItem {
     /// Title and detail for a Remember row.
-    func rowText(model: AppModel) -> (title: String, detail: String?) {
+    @MainActor func rowText(model: AppModel) -> (title: String, detail: String?) {
         switch kind {
         case .word:
             let gloss = model.content?.sense(senseID)?.gloss ?? model.content?.lemma(lemmaID)?.firstGloss

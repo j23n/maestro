@@ -127,7 +127,7 @@ struct CardRow: View {
 }
 
 /// How a card's item reads, from the content DB when it knows the IDs, else from the snapshot.
-enum CardText {
+@MainActor enum CardText {
     static func title(_ card: Card, model: AppModel) -> String {
         switch ItemKind(rawValue: card.kind) ?? .word {
         case .word: model.content?.lemma(card.lemmaID)?.headword ?? LemmaID.headword(of: card.lemmaID)
