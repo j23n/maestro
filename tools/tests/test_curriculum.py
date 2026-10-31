@@ -257,3 +257,17 @@ def test_draft_refuses_a_text_without_status(tmp_path, capsys):
                     encoding="utf-8")
     assert draft.run(Namespace(text=str(path))) == 1
     assert "is reviewed" in capsys.readouterr().err
+
+
+def test_a_draft_that_does_not_build_is_set_aside(tmp_path):
+    from maestro_content import draft
+
+    path = tmp_path / "test-01.md"
+    brief, failed = "# Senza titolo\nlevel: A1\nstatus: brief\n", "# Uno\nlevel: A1\nstatus: draft\n\nbroken\n"
+    path.write_text(failed, encoding="utf-8")
+    assert draft.set_aside(str(path), brief, failed, ["lexis: too many new words"]) is None
+    assert path.read_text(encoding="utf-8") == failed
+    aside = draft.set_aside(str(path), brief, failed, ["Build: s1 has no translation"])
+    assert aside == str(path) + ".failed"
+    assert path.read_text(encoding="utf-8") == brief
+    assert (tmp_path / "test-01.md.failed").read_text(encoding="utf-8") == failed

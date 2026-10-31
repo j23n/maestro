@@ -263,5 +263,23 @@ def _rounds(api, args, conn: sqlite3.Connection, path: str, brief_source: str, m
         messages.append({"role": "assistant", "content": message.content})
         messages.append({"role": "user", "content": "The checker found these problems. Fix them and return the "
                                                     "whole file again:\n" + "\n".join(f"- {p}" for p in problems)})
-    print(f"wrote {path} with problems left; fix them by hand or run make draft again", file=sys.stderr)
+    aside = set_aside(path, brief_source, source, problems)
+    if aside:
+        print(f"the draft doesn't build, so {path} is the brief again and the draft is in {aside}; fix it "
+              "there and copy it back, or run make draft again", file=sys.stderr)
+    else:
+        print(f"wrote {path} with problems left; fix them by hand or run make draft again", file=sys.stderr)
     return 1
+
+
+def set_aside(path: str, brief_source: str, source: str, problems: list[str]) -> str | None:
+    """A draft that doesn't build would stop make content, and so the next make draft. Puts the brief
+    back and the draft next to it, outside the pack build, and returns that path. None if it builds."""
+    if not any(p.startswith(("Build:", "The file doesn't parse")) for p in problems):
+        return None
+    aside = path + ".failed"
+    with open(aside, "w", encoding="utf-8") as fh:
+        fh.write(source)
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(brief_source)
+    return aside
