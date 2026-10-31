@@ -82,7 +82,7 @@ def merge(brief_source: str, drafted: str) -> str:
         if keep.get(key) and not meta.get(key):
             meta[key] = keep[key]
     meta["status"] = "draft"
-    keys = [k for k, _ in brief] + [k for k in ("topics", "type") if k in meta and k not in dict(brief)]
+    keys = [k for k, _ in brief] + [k for k in ("status", "topics", "type") if k in meta and k not in dict(brief)]
     lines = [f"# {title}"] + [f"{k}: {meta[k]}" for k in keys] + ["", body]
     return "\n".join(lines).rstrip() + "\n"
 
@@ -200,7 +200,7 @@ def run(args) -> int:
     path = os.path.abspath(args.text)
     brief_source = open(path, encoding="utf-8").read()
     _, meta, _ = front_matter(brief_source)
-    if dict(meta).get("status") == "reviewed":
+    if dict(meta).get("status", "reviewed") == "reviewed":  # the default, as in curriculum.TextFacts
         print(f"{path} is reviewed; drafting would overwrite it", file=sys.stderr)
         return 1
     conn = sqlite3.connect(args.db)

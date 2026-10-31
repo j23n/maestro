@@ -46,11 +46,15 @@ public struct FeatureWindow: Sendable, Hashable, CustomStringConvertible {
         }
     }
 
-    /// Whether the window holds the given date's day in the calendar's time zone.
-    public func contains(_ date: Date, calendar: Calendar = Calendar(identifier: .gregorian)) -> Bool {
-        let year = calendar.component(.year, from: date)
-        guard let today = Self.ordinal(calendar.startOfDay(for: date), calendar),
-              let first = resolve(start, year: year, calendar), let last = resolve(end, year: year, calendar)
+    /// Whether the window holds the given date's day in the calendar's time zone. Windows are
+    /// Gregorian dates, so only the calendar's time zone counts, not its identifier: a device set to
+    /// the Buddhist or Islamic calendar still sees the winter texts in December.
+    public func contains(_ date: Date, calendar: Calendar = .current) -> Bool {
+        var gregorian = Calendar(identifier: .gregorian)
+        gregorian.timeZone = calendar.timeZone
+        let year = gregorian.component(.year, from: date)
+        guard let today = Self.ordinal(gregorian.startOfDay(for: date), gregorian),
+              let first = resolve(start, year: year, gregorian), let last = resolve(end, year: year, gregorian)
         else { return false }
         if first <= last { return first <= today && today <= last }
         return today >= first || today <= last  // runs over the new year

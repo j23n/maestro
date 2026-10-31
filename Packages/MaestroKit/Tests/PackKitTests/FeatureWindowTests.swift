@@ -50,6 +50,22 @@ import Testing
         for day in outside { #expect(!carnevale.contains(day, calendar: calendar)) }
     }
 
+    @Test func windowIsGregorianWhateverTheDeviceCalendar() throws {
+        // A Buddhist-calendar device calls 2026 the year 2569; an Islamic one has another month 12.
+        let winter = try #require(FeatureWindow("12-01..01-06"))
+        let carnevale = try #require(FeatureWindow("easter-60..easter-47"))
+        let december = try date(2026, 12, 20), june = try date(2026, 6, 20)
+        let shroveTuesday = try date(2027, 2, 9), ashWednesday = try date(2027, 2, 10)
+        for identifier in [Calendar.Identifier.buddhist, .islamicUmmAlQura, .hebrew] {
+            var device = Calendar(identifier: identifier)
+            device.timeZone = calendar.timeZone
+            #expect(winter.contains(december, calendar: device))
+            #expect(!winter.contains(june, calendar: device))
+            #expect(carnevale.contains(shroveTuesday, calendar: device))
+            #expect(!carnevale.contains(ashWednesday, calendar: device))
+        }
+    }
+
     @Test func manifestCarriesWindowAndStatus() throws {
         let json = """
         {"id": "inverno", "title": "Inverno", "level": "A1-B2", "formatVersion": 1, "version": 1,

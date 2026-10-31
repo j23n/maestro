@@ -68,7 +68,7 @@ import PackKit
 
     /// IDs of the texts for this time of year, such as the winter texts in December.
     func featuredIDs(on date: Date = .now) -> Set<String> {
-        Set(library.featured(on: date, calendar: .current).map(\.text.id))
+        Set(library.featured(on: date).map(\.text.id))
     }
 
     func grammarTopic(_ id: String) -> GrammarTopicRow? {

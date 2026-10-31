@@ -60,7 +60,7 @@ public struct PackLibrary: Sendable {
     }
 
     /// Texts whose feature window holds the date, such as the winter texts in December.
-    public func featured(on date: Date, calendar: Calendar = Calendar(identifier: .gregorian))
+    public func featured(on date: Date, calendar: Calendar = .current)
         -> [(pack: LoadedPack, text: PackManifest.TextEntry)] {
         entries.filter { $0.text.featureWindow?.contains(date, calendar: calendar) ?? false }
     }

@@ -223,3 +223,23 @@ def test_draft_keeps_the_brief_and_marks_the_text_a_draft(conn, dirs):
     text = draft.describe_brief(library(conn, dirs), path)
     assert "Level A1" in text and "presente-indicativo" in text and "nonno:n" in text
     assert "passato-remoto" not in text  # later grammar isn't offered
+
+
+def test_draft_marks_a_brief_without_status_a_draft():
+    from maestro_content import draft
+
+    brief = "# Senza titolo\nlevel: A1\ncollection: test\norder: 1\n"
+    merged = draft.merge(brief, "# Il nonno\nlevel: A1\n\nIl nonno va. || Grandad goes.\n")
+    assert dict(draft.front_matter(merged)[1])["status"] == "draft"
+
+
+def test_draft_refuses_a_text_without_status(tmp_path, capsys):
+    from argparse import Namespace
+
+    from maestro_content import draft
+
+    path = tmp_path / "test-01.md"
+    path.write_text("# Uno\nlevel: A1\ncollection: test\norder: 1\n\nIl nonno va. || Grandad goes.\n",
+                    encoding="utf-8")
+    assert draft.run(Namespace(text=str(path))) == 1
+    assert "is reviewed" in capsys.readouterr().err
