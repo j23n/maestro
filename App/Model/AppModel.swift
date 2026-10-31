@@ -61,8 +61,14 @@ import PackKit
     var entries: [LibraryEntry] {
         library.entries.map { item in
             LibraryEntry(id: item.text.id, title: item.text.title, level: item.text.level ?? item.pack.manifest.level,
-                         collection: item.pack.manifest.title, words: item.text.words, order: item.text.order)
+                         collection: item.pack.manifest.title, words: item.text.words, order: item.text.order,
+                         isDraft: item.text.isDraft)
         }
+    }
+
+    /// IDs of the texts for this time of year, such as the winter texts in December.
+    func featuredIDs(on date: Date = .now) -> Set<String> {
+        Set(library.featured(on: date).map(\.text.id))
     }
 
     func grammarTopic(_ id: String) -> GrammarTopicRow? {
@@ -90,6 +96,8 @@ struct LibraryEntry: Identifiable, Hashable {
     let collection: String
     let words: Int
     let order: Int
+    /// Not yet reviewed by a native speaker.
+    var isDraft = false
 }
 
 enum AppTab: Hashable {

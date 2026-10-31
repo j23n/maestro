@@ -126,6 +126,12 @@ class SourceText:
     blocks: list[SourceBlock]
     questions: list[dict]
     introduces: list[str] = field(default_factory=list)
+    meta: dict[str, str] = field(default_factory=dict)
+
+    @property
+    def status(self) -> str:
+        """brief (no text yet), draft (not reviewed by a native speaker) or reviewed."""
+        return self.meta.get("status", "reviewed")
 
 
 def _strip_hints(text: str) -> tuple[str, dict[int, str]]:
@@ -242,6 +248,7 @@ def parse_source(path: str) -> SourceText:
         id=text_id, title=title, level=meta["level"], collection=meta["collection"], order=int(meta["order"]),
         topics=[t.strip() for t in meta.get("topics", "").split(",") if t.strip()], blocks=blocks,
         questions=questions, introduces=[t.strip() for t in meta.get("introduces", "").split(",") if t.strip()],
+        meta=meta,
     )
 
 
@@ -644,6 +651,23 @@ def validate_text(text: dict, lex: Lexicon | None = None) -> list[str]:
     return errors
 
 
+STATUSES = ("brief", "draft", "reviewed")
+_DAY = r"(?:(\d\d)-(\d\d)|easter[+-]\d{1,3})"
+WINDOW_RE = re.compile(rf"{_DAY}\.\.{_DAY}")
+_MONTH_DAYS = (31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)  # 02-29 is allowed
+
+
+def window_valid(window: str) -> bool:
+    """Whether a feature window reads like 12-01..01-06 or easter-60..easter-47, with real days."""
+    m = WINDOW_RE.fullmatch(window)
+    if not m:
+        return False
+    for month, day in (m.group(1, 2), m.group(3, 4)):
+        if month is not None and not (1 <= int(month) <= 12 and 1 <= int(day) <= _MONTH_DAYS[int(month) - 1]):
+            return False
+    return True
+
+
 def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_content_db: str,
               bundled: bool = True) -> tuple[list[str], list[str]]:
     """Build every pack under source_dir into out_dir/<collection>/. Returns (warnings, errors)."""
@@ -656,6 +680,13 @@ def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_conte
             if not f.endswith(".md"):
                 continue
             src = parse_source(os.path.join(root, f))
+            if src.status not in STATUSES:
+                errors.append(f"{src.id}: status {src.status!r} must be one of {', '.join(STATUSES)}")
+            if src.meta.get("window") and not window_valid(src.meta["window"]):
+                errors.append(f"{src.id}: window {src.meta['window']!r} must look like 12-01..01-06 "
+                              "or easter-60..easter-47, with real days")
+            if src.status == "brief":
+                continue  # a brief has no text yet
             text, w = build_text(lex, src)
             warnings.extend(w)
             errors.extend(validate_text(text, lex))
@@ -683,6 +714,11 @@ def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_conte
                 "grammar": {"introduces": src.introduces, "uses": uses},
                 "lemmas": sorted(counts),
             })
+            entry = manifest["texts"][-1]
+            if src.meta.get("window"):
+                entry["window"] = src.meta["window"]
+            if src.status == "draft":
+                entry["status"] = "draft"
             conn.execute("INSERT OR REPLACE INTO catalog_text (id, pack_id, title, level, collection, words, ord, bundled) "
                          "VALUES (?,?,?,?,?,?,?,?)",
                          (text["id"], collection, text["title"], text["level"], collection, word_count(text),
