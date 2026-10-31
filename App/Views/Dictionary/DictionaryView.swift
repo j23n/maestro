@@ -21,12 +21,15 @@ struct DictionaryView: View {
                 EmptyState(title: "No dictionary in this build",
                            message: "Run make content to build the dictionary database.",
                            systemImage: "character.book.closed")
-            } else if query.trimmingCharacters(in: .whitespaces).isEmpty {
-                recent
-            } else if englishToItalian {
-                englishResults
             } else {
-                results
+                directionRow
+                if query.trimmingCharacters(in: .whitespaces).isEmpty {
+                    recent
+                } else if englishToItalian {
+                    englishResults
+                } else {
+                    results
+                }
             }
         }
         .plainPage()
@@ -39,17 +42,31 @@ struct DictionaryView: View {
         #if os(iOS)
         .textInputAutocapitalization(.never)
         #endif
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Picker("Direction", selection: $englishToItalian) {
-                    Text("IT → EN").tag(false)
-                    Text("EN → IT").tag(true)
-                }
-                .pickerStyle(.segmented)
-                .accessibilityLabel("Search direction")
-            }
-        }
         .translationPresentation(isPresented: $showTranslation, text: query)
+    }
+
+    /// The search direction, as a small toggle under the search field (the mock's "Italian → English").
+    private var directionRow: some View {
+        HStack {
+            Spacer()
+            Button {
+                englishToItalian.toggle()
+            } label: {
+                HStack(spacing: 4) {
+                    Text(englishToItalian ? "English → Italian" : "Italian → English")
+                    Image(systemName: "arrow.left.arrow.right").font(.caption2.weight(.semibold))
+                }
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .frame(minHeight: 44)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(englishToItalian ? "Searching English to Italian. Switch to Italian to English"
+                                                 : "Searching Italian to English. Switch to English to Italian")
+        }
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
     }
 
     @ViewBuilder private var recent: some View {
