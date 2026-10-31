@@ -222,34 +222,53 @@ struct ReaderView: View {
     }
 }
 
-/// Where tapped-word help appears: a sheet on iPhone and iPad, an inspector on the Mac.
+/// Where tapped-word help appears: a sheet on the iPhone (and the iPad in compact width), an
+/// inspector beside the text on the iPad and the Mac, so the learner can keep tapping words.
 ///
-/// The reader is a NavigationStack destination. An `.inspector` there, holding a NavigationStack of
-/// its own, froze iOS as soon as the reader was pushed, and the stack then fell back to its root.
-/// A sheet is a separate presentation, so its own NavigationStack is fine. On the Mac the inspector
-/// has no stack of its own: help's links push onto the reader's stack.
+/// The reader is a NavigationStack destination. An inspector there that held a NavigationStack of its
+/// own froze iOS as soon as the reader was pushed, and the stack then fell back to its root. So the
+/// inspector has no stack: help's links push onto the reader's stack. The sheet is a separate
+/// presentation, so it has a stack of its own.
 private struct HelpPresentation: ViewModifier {
     @Binding var isPresented: Bool
     let help: HelpContent?
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var sizeClass
+    #endif
 
     func body(content: Content) -> some View {
         #if os(macOS)
-        content.inspector(isPresented: $isPresented) {
+        content.inspector(isPresented: $isPresented) { panel }
+        #else
+        // Both stay attached, so a size class change doesn't rebuild the reader; each shows only in
+        // its own size class. Each closes help only from its own size class, so the one hiding on a
+        // size class change doesn't close help that is moving to the other.
+        let regular = sizeClass == .regular
+        let shown = $isPresented
+        let inspector = Binding(get: { shown.wrappedValue && regular },
+                                set: { if $0 || regular { shown.wrappedValue = $0 } })
+        let sheet = Binding(get: { shown.wrappedValue && !regular },
+                            set: { if $0 || !regular { shown.wrappedValue = $0 } })
+        content
+            .inspector(isPresented: inspector) { panel }
+            .sheet(isPresented: sheet) {
+                NavigationStack {
+                    if let help {
+                        HelpView(help: help, inSheet: true) { isPresented = false }.withRoutes()
+                    }
+                }
+                .presentationDetents([.medium, .large])
+            }
+        #endif
+    }
+
+    private var panel: some View {
+        Group {
             if let help {
-                HelpView(help: help)
+                HelpView(help: help) { isPresented = false }
             }
         }
         .inspectorColumnWidth(min: 300, ideal: 360, max: 440)
-        #else
-        content.sheet(isPresented: $isPresented) {
-            NavigationStack {
-                if let help {
-                    HelpView(help: help).withRoutes()
-                }
-            }
-            .presentationDetents([.medium, .large])
-        }
-        #endif
     }
 }
 

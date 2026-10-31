@@ -22,14 +22,14 @@ A native app for iPhone, iPad and Mac that teaches Italian through reading and l
 | Platforms | iPhone, iPad, Mac. One SwiftUI codebase with a native macOS target (not Mac Catalyst). |
 | Offline | Every feature works in airplane mode. The network is used only for iCloud sync and optional text-pack downloads. |
 | Backend | None. The learner's Apple ID is the identity; CloudKit private database is the only cloud. |
-| Reading | Text first. The reader shows clean text with no highlighting, colour coding or grammar layers. Help appears only on tap (iPhone), in a popover (iPad) or in an inspector panel (Mac). |
+| Reading | Text first. The reader shows clean text with no highlighting, colour coding or grammar layers. Help appears only on tap: in a sheet (iPhone) or in an inspector panel beside the text (iPad and Mac). |
 | Grammar | Reference only: explicit lookup, verb tables, grammar pages. No drills, no quizzes. |
 | Remember | Replaces the "vocab trainer". Three kinds of item: Word, Verb form, Grammar point. Reviewed as flashcards (FSRS scheduling), front shows the original sentence with the item highlighted. |
 | Library | 100 texts across A1 to B2, grouped by level and collection, ranked by "good fit" (share of words the learner already knows). |
 | Navigation (iPhone) | Tabs: Read, Dictionary, Verbs, Remember, Listen. Settings is reached from Read. "Today" was dropped. |
 | Listening | On-device TTS (`AVSpeechSynthesizer`). Player with "Show text" and "Listen first" modes, sentence-by-sentence navigation, repeat, speed. |
 | Questions | Each text has comprehension questions; a wrong answer shows the sentence that answers it. |
-| iPhone help sheet | The sentence translation was removed (user feedback). iPad popover and Mac inspector still show it: open question. |
+| iPhone help sheet | The sentence translation was removed (user feedback). The iPad and Mac inspector still show it: open question. |
 
 ## 3. Functional spec
 
@@ -367,7 +367,7 @@ Look: quiet, text first, no colour except where it carries meaning. The mocks us
 
 - [ ] Speaking and writing: in scope?
 - [ ] Phrase as a fourth Remember kind?
-- [ ] Sentence translation in iPad popover and Mac inspector: keep or remove (removed on iPhone)?
+- [ ] Sentence translation in the iPad and Mac inspector: keep or remove (removed on iPhone)?
 - [x] Minimum OS 26 or 27? **26.0** (decided 2026-10-31, replacing an earlier choice of 27; see section 5).
 - [ ] Business model: paid, subscription, or free with paid packs?
 - [ ] Learners' base language: English only for v1?

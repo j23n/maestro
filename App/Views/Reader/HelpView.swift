@@ -2,21 +2,18 @@ import SwiftUI
 import ItalianCore
 import PackKit
 
-/// Tap-for-help: a sheet on iPhone and iPad, the inspector on the Mac (HANDOFF.md 3.1).
+/// Tap-for-help (HANDOFF.md 3.1): in a sheet on the iPhone, in the reader's inspector on the iPad
+/// and the Mac.
 struct HelpView: View {
     let help: HelpContent
+    /// In a sheet with its own NavigationStack, rather than in the reader's inspector.
+    var inSheet = false
+    let close: () -> Void
     @Environment(AppModel.self) private var model
     @Environment(Preferences.self) private var prefs
-    @Environment(\.horizontalSizeClass) private var sizeClass
-    @Environment(\.dismiss) private var dismiss
 
-    private var showsTranslation: Bool {
-        #if os(macOS)
-        return prefs.translationInHelp
-        #else
-        return sizeClass == .regular && prefs.translationInHelp
-        #endif
-    }
+    /// The sentence's translation shows beside the text (iPad and Mac), not in the iPhone's sheet.
+    private var showsTranslation: Bool { !inSheet && prefs.translationInHelp }
 
     var body: some View {
         ScrollView {
@@ -61,16 +58,7 @@ struct HelpView: View {
             .padding(20)
         }
         .accessibilityIdentifier("help")
-        #if os(iOS)
-        // On the Mac, help sits in the reader's inspector, whose title stays the text's.
-        .navigationTitle(help.surface)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Done") { dismiss() }
-            }
-        }
-        #endif
+        .modifier(SheetChrome(active: inSheet, title: help.surface, close: close))
     }
 
     private var noteText: String? {
@@ -93,6 +81,15 @@ struct HelpView: View {
                 .buttonStyle(.borderless)
                 .accessibilityLabel("Play \(help.surface)")
                 Spacer()
+                if !inSheet {
+                    Button(action: close) {
+                        Image(systemName: "xmark")
+                            .frame(width: 44, height: 44)
+                    }
+                    .buttonStyle(.borderless)
+                    .accessibilityLabel("Close help")
+                    .accessibilityIdentifier("closeHelp")
+                }
             }
             if let gloss = help.gloss {
                 Text(gloss).font(.title3)
@@ -135,6 +132,32 @@ struct HelpView: View {
         }
         .frame(minHeight: 44)
         .contentShape(Rectangle())
+    }
+}
+
+/// The sheet's title and Done button. In the inspector, the reader's title and toolbar stay.
+private struct SheetChrome: ViewModifier {
+    let active: Bool
+    let title: String
+    let close: () -> Void
+
+    func body(content: Content) -> some View {
+        #if os(iOS)
+        if active {
+            content
+                .navigationTitle(title)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Done", action: close).accessibilityIdentifier("closeHelp")
+                    }
+                }
+        } else {
+            content
+        }
+        #else
+        content
+        #endif
     }
 }
 
