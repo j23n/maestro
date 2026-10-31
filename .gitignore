@@ -17,3 +17,6 @@ __pycache__/
 
 # The content database (tools/), built by the pipeline, not committed
 content/build/
+# What `make content` writes into the app bundle
+App/Resources/Content/*
+!App/Resources/Content/README.md

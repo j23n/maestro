@@ -1,0 +1,7 @@
+// Settings every configuration of every target uses. The owner's team comes from Signing.xcconfig
+// at the repository's root, which git ignores (apple-ci README, "Signing"); CI and agents have
+// none and build unsigned.
+DEVELOPMENT_TEAM =
+APP_BUNDLE_IDENTIFIER = com.j23n.maestro
+
+#include? "../Signing.xcconfig"

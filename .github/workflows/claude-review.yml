@@ -10,7 +10,7 @@ on:
 
 permissions:
   contents: read
-  issues: write # creates the ci:mac label
+  issues: write # creates the ci:mac and ci:screenshots labels
   pull-requests: write
   id-token: write
 
@@ -33,6 +33,14 @@ jobs:
         run: >-
           gh label create "ci:mac" --repo "$GITHUB_REPOSITORY" --color 1d76db
           --description "Runs the Mac's CI on this pull request" 2>/dev/null || true
+      # The label that takes the screenshots on this pull request (ci.yml's screenshots job). People
+      # add it by hand; the review doesn't.
+      - name: The ci:screenshots label
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh label create "ci:screenshots" --repo "$GITHUB_REPOSITORY" --color 5319e7
+          --description "Takes the app's screenshots on this pull request" 2>/dev/null || true
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
