@@ -105,3 +105,11 @@ def test_utf16_ranges_count_surrogates():
 def test_unit_surface_with_elision_matches_tokens():
     tokens = [{"t": t} for t, _, _, _ in packs.tokenize("Non l'avevo mai vista prima.")]
     assert packs._find_tokens(tokens, "l'avevo mai vista") == [1, 2, 3, 4]
+
+
+def test_label_glosses_sort_after_meanings():
+    senses = [kaikki.Sense(gloss="copula"), kaikki.Sense(gloss="to be"), kaikki.Sense(gloss="to exist")]
+    order = [(o, s.gloss) for o, s in build_db.display_order(senses)]
+    assert order == [(0, "to be"), (1, "to exist"), (2, "copula")]
+    assert build_db.is_label_gloss("Auxiliary verb.")
+    assert not build_db.is_label_gloss("to be")

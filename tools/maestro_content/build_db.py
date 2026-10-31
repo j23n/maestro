@@ -26,6 +26,23 @@ class BuildStats:
     morphit_forms: int = 0
 
 
+# Glosses that name a grammatical role rather than a meaning. Wiktionary lists some first (essere:
+# "copula"), and the app shows a lemma's first sense as its gloss, so these go last.
+LABEL_GLOSSES = {
+    "copula", "copulative", "auxiliary", "auxiliary verb", "linking verb", "modal verb",
+}
+
+
+def is_label_gloss(gloss: str) -> bool:
+    return fold(gloss).strip(" .;:()") in LABEL_GLOSSES
+
+
+def display_order(senses: list[kaikki.Sense]) -> list[tuple[int, kaikki.Sense]]:
+    """(ord, sense) in display order: Wiktionary's order, with label-only glosses moved last."""
+    ranked = sorted(range(len(senses)), key=lambda i: (is_label_gloss(senses[i].gloss), i))
+    return [(ord_, senses[i]) for ord_, i in enumerate(ranked)]
+
+
 def create(path: str, schema_path: str) -> sqlite3.Connection:
     if os.path.exists(path):
         os.remove(path)
@@ -71,7 +88,7 @@ def build(
         )
         stats.lemmas += 1
         glosses = []
-        for ord_, s in enumerate(e.senses):
+        for ord_, s in display_order(e.senses):
             sid = registry.sense_id(lemma_id, sense_fingerprint(s.senseid, s.wikidata, lemma_id, s.gloss), s.gloss)
             cur.execute("INSERT OR IGNORE INTO sense (id, lemma_id, ord, gloss, tags) VALUES (?,?,?,?,?)",
                         (sid, lemma_id, ord_, s.gloss, " ".join(s.tags)))

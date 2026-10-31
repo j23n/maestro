@@ -21,12 +21,15 @@ struct DictionaryView: View {
                 EmptyState(title: "No dictionary in this build",
                            message: "Run make content to build the dictionary database.",
                            systemImage: "character.book.closed")
-            } else if query.trimmingCharacters(in: .whitespaces).isEmpty {
-                recent
-            } else if englishToItalian {
-                englishResults
             } else {
-                results
+                directionRow
+                if query.trimmingCharacters(in: .whitespaces).isEmpty {
+                    recent
+                } else if englishToItalian {
+                    englishResults
+                } else {
+                    results
+                }
             }
         }
         .plainPage()
@@ -39,17 +42,31 @@ struct DictionaryView: View {
         #if os(iOS)
         .textInputAutocapitalization(.never)
         #endif
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Picker("Direction", selection: $englishToItalian) {
-                    Text("IT → EN").tag(false)
-                    Text("EN → IT").tag(true)
-                }
-                .pickerStyle(.segmented)
-                .accessibilityLabel("Search direction")
-            }
-        }
         .translationPresentation(isPresented: $showTranslation, text: query)
+    }
+
+    /// The search direction, as a small toggle in the list's first row (the mock's "Italian → English").
+    private var directionRow: some View {
+        HStack {
+            Spacer()
+            Button {
+                englishToItalian.toggle()
+            } label: {
+                HStack(spacing: 4) {
+                    Text(englishToItalian ? "English → Italian" : "Italian → English")
+                    Image(systemName: "arrow.left.arrow.right").font(.caption2.weight(.semibold))
+                }
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .frame(minHeight: 44)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Search direction")
+            .accessibilityValue(englishToItalian ? "English to Italian" : "Italian to English")
+        }
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
     }
 
     @ViewBuilder private var recent: some View {
@@ -144,22 +161,25 @@ struct LemmaRow: View {
     }
 }
 
-/// One reading of a looked-up form: lemma, parse, open buttons and Remember (HANDOFF.md 3.2).
+/// One reading of a looked-up form (HANDOFF.md 3.2, the Lookup mock): headword and part of
+/// speech, the form's analysis when it adds something, the gloss, and one Remember button for
+/// the reading's keepable item.
 struct ReadingRow: View {
     let reading: Reading
     let onOpen: () -> Void
     @Environment(AppModel.self) private var model
 
-    /// Rows of their own in the list: the reading, then one per keepable item.
     var body: some View {
-        Group {
+        HStack(alignment: .top, spacing: 8) {
             NavigationLink(value: destination) {
                 VStack(alignment: .leading, spacing: 3) {
-                    HStack(spacing: 6) {
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
                         Text(italian: reading.lemma.headword).font(.system(.title3, design: .serif).weight(.semibold))
-                        Text(reading.lemma.posLabel).font(.caption).foregroundStyle(.secondary)
+                        Tag(text: reading.lemma.posLabel, colors: Theme.kind(.word))
                     }
-                    Text(reading.analysis).font(.subheadline)
+                    if let form = formLine {
+                        Text(form).font(.subheadline)
+                    }
                     if case .clitics(let base, let clitics) = reading.via {
                         Text(italian: "\(reading.surface) = \(([base] + clitics).joined(separator: " + "))")
                             .font(.subheadline).foregroundStyle(.secondary)
@@ -170,30 +190,35 @@ struct ReadingRow: View {
                 }
             }
             .simultaneousGesture(TapGesture().onEnded { onOpen() })
-            ForEach(items) { item in
-                let text = item.rowText(model: model)
-                RememberRow(item: item, title: text.title, detail: text.detail)
+            if let item {
+                RememberButton(item: item, title: item.rowText(model: model).title)
             }
         }
+    }
+
+    /// What this form is, without repeating the headword and part of speech shown above it:
+    /// "indicativo presente · tu" or "feminine plural". Nil when the form has no analysis, and for
+    /// the headword's own gender and number ("nostro" isn't shown as "masculine singular").
+    private var formLine: String? {
+        if let tag = reading.formTag { return tag.label }
+        let isHeadword = reading.surface.compare(reading.lemma.headword, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
+        if let gn = reading.genderNumber, !isHeadword { return gn.label }
+        return nil
     }
 
     private var destination: Route {
         reading.lemma.pos == "v" ? .verb(lemmaID: reading.lemma.id, formTag: reading.formTag?.description) : .entry(reading.lemma.id)
     }
 
-    private var items: [RememberItem] {
-        var out: [RememberItem] = []
-        if let sense = model.content?.entry(reading.lemma.id)?.senses.first(where: { !$0.retired }) {
-            var word = RememberItem.word(lemmaID: reading.lemma.id, senseID: sense.id, surface: reading.lemma.headword)
-            if let example = sense.examples.first {
-                word = word.inSentence(textID: "", sentenceID: "", text: example.italian,
-                                       translation: example.english ?? "", ranges: [])
-            }
-            out.append(word)
-        }
+    /// The verb form for a conjugated verb, otherwise the word in its first sense.
+    private var item: RememberItem? {
         if let tag = reading.formTag, reading.lemma.pos == "v", !(tag.mood == .inf && tag.tense == .pres) {
-            out.append(.verbForm(lemmaID: reading.lemma.id, formTag: tag.description, surface: reading.surface))
+            return .verbForm(lemmaID: reading.lemma.id, formTag: tag.description, surface: reading.surface)
         }
-        return out
+        guard let sense = model.content?.entry(reading.lemma.id)?.senses.first(where: { !$0.retired }) else { return nil }
+        let word = RememberItem.word(lemmaID: reading.lemma.id, senseID: sense.id, surface: reading.lemma.headword)
+        guard let example = sense.examples.first else { return word }
+        return word.inSentence(textID: "", sentenceID: "", text: example.italian,
+                               translation: example.english ?? "", ranges: [])
     }
 }

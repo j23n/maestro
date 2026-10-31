@@ -24,19 +24,24 @@ struct RootView: View {
         TabView(selection: $model.selectedTab) {
             Tab("Read", systemImage: "doc.text", value: AppTab.read) {
                 NavigationStack(path: path(.read)) { LibraryView().withRoutes() }
+                    .environment(\.openRoute, OpenRouteAction { paths[.read, default: []].append($0) })
             }
             Tab("Dictionary", systemImage: "book", value: AppTab.dictionary) {
                 NavigationStack(path: path(.dictionary)) { DictionaryView().withRoutes() }
+                    .environment(\.openRoute, OpenRouteAction { paths[.dictionary, default: []].append($0) })
             }
             Tab("Verbs", systemImage: "tablecells", value: AppTab.verbs) {
                 NavigationStack(path: path(.verbs)) { VerbsHomeView().withRoutes() }
+                    .environment(\.openRoute, OpenRouteAction { paths[.verbs, default: []].append($0) })
             }
             Tab("Remember", systemImage: "rectangle.on.rectangle", value: AppTab.remember) {
                 NavigationStack(path: path(.remember)) { RememberView().withRoutes() }
+                    .environment(\.openRoute, OpenRouteAction { paths[.remember, default: []].append($0) })
             }
             .badge(dueCount)
             Tab("Listen", systemImage: "headphones", value: AppTab.listen) {
                 NavigationStack(path: path(.listen)) { ListenView().withRoutes() }
+                    .environment(\.openRoute, OpenRouteAction { paths[.listen, default: []].append($0) })
             }
         }
         .tabViewStyle(.sidebarAdaptable)
@@ -85,6 +90,18 @@ struct RootView: View {
         store.mergePass()
         store.rebuildAll()
     }
+}
+
+/// Pushes a route onto the current tab's stack. For lists whose rows hold several links: a List
+/// row with more than one NavigationLink pushes all of them on a tap, so such rows use buttons
+/// that call this instead.
+struct OpenRouteAction {
+    let action: @MainActor (Route) -> Void
+    @MainActor func callAsFunction(_ route: Route) { action(route) }
+}
+
+extension EnvironmentValues {
+    @Entry var openRoute = OpenRouteAction { _ in }
 }
 
 extension View {

@@ -9,6 +9,7 @@ struct VerbsHomeView: View {
     @Environment(AppModel.self) private var model
     @Query(sort: \LookupEntry.lookedUpAt, order: .reverse) private var history: [LookupEntry]
     @State private var query = ""
+    @Environment(\.openRoute) private var openRoute
 
     static let commonIrregular = ["essere", "avere", "andare", "fare", "dire", "venire", "stare", "dare", "potere",
                                   "volere", "dovere", "sapere", "uscire", "bere", "vedere", "prendere", "mettere",
@@ -68,8 +69,12 @@ struct VerbsHomeView: View {
         #endif
     }
 
+    /// A button, not a NavigationLink: the grid is one List row, and a row with several links
+    /// pushes every one of them on a tap.
     private func verbCard(_ lemma: LemmaSummary) -> some View {
-        NavigationLink(value: Route.verb(lemmaID: lemma.id, formTag: nil)) {
+        Button {
+            openRoute(.verb(lemmaID: lemma.id, formTag: nil))
+        } label: {
             HStack(alignment: .firstTextBaseline, spacing: 6) {
                 Text(italian: lemma.headword)
                     .font(.system(.body, design: .serif).weight(.semibold))
@@ -82,7 +87,7 @@ struct VerbsHomeView: View {
             .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.hairline))
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.borderless)
     }
 
     @ViewBuilder private var searchResults: some View {
