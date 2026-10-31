@@ -213,9 +213,9 @@ def run(args) -> int:
         prompt += ["", f"Example {n} of a finished text:", "```markdown", ex.strip(), "```"]
     messages = [{"role": "user", "content": "\n".join(prompt)}]
 
+    api = client()  # first, so a missing SDK gets its message rather than a traceback
     import anthropic
 
-    api = client()
     try:
         return _rounds(api, args, conn, path, brief_source, messages)
     except TypeError as exc:  # the SDK found no credentials at all

@@ -200,6 +200,20 @@ def test_window_format():
     assert curriculum.WINDOW_RE.fullmatch("easter-60..easter-47")
     assert curriculum.WINDOW_RE.fullmatch("easter+1..easter+1")
     assert not curriculum.WINDOW_RE.fullmatch("December")
+    assert not curriculum.WINDOW_RE.fullmatch("12-01...01-06")
+    assert packs.window_valid("02-29..03-01")
+    assert not packs.window_valid("02-30..03-05")
+    assert not packs.window_valid("13-01..01-06")
+
+
+def test_pack_build_rejects_a_bad_status_or_window(conn, dirs, tmp_path):
+    write(dirs, "test-01", "# Uno\nlevel: A1\ncollection: test\norder: 1\nstatus: Draft\n\n"
+                           "Il nonno va in treno. || Grandad goes by train.\n")
+    write(dirs, "test-02", "# Due\nlevel: A1\ncollection: test\norder: 2\nwindow: 02-30..03-05\n\n"
+                           "Il nonno va in treno. || Grandad goes by train.\n")
+    _, errors = packs.build_all(conn, str(dirs["texts"]), str(tmp_path / "packs"), "1")
+    assert any("test-01: status 'Draft'" in e for e in errors)
+    assert any("test-02: window '02-30..03-05'" in e for e in errors)
 
 
 def test_draft_keeps_the_brief_and_marks_the_text_a_draft(conn, dirs):

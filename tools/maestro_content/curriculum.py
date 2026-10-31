@@ -433,7 +433,7 @@ def check_text(lib: Library, text: TextFacts) -> list[Finding]:
         if r not in ("tu", "Lei"):
             add("register", f"register must be tu or Lei, not {r!r}")
     window = meta.get("window")
-    if window and not WINDOW_RE.fullmatch(window):
+    if window and not packs.window_valid(window):
         add("window", f"window {window!r} must look like 12-01..01-06 or easter-60..easter-47")
 
     # Near duplicates.
@@ -456,8 +456,7 @@ def check_text(lib: Library, text: TextFacts) -> list[Finding]:
     return out
 
 
-_DAY = r"(?:\d\d-\d\d|easter[+-]\d{1,3})"
-WINDOW_RE = re.compile(rf"{_DAY}\.\.{_DAY}")
+WINDOW_RE = packs.WINDOW_RE
 
 
 def _shingles(text: TextFacts) -> set[tuple[str, ...]]:

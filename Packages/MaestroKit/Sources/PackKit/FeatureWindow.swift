@@ -19,9 +19,8 @@ public struct FeatureWindow: Sendable, Hashable, CustomStringConvertible {
     }
 
     public init?(_ text: String) {
-        let parts = text.split(separator: ".", omittingEmptySubsequences: true)
-        guard text.contains(".."), parts.count == 2,
-              let start = Self.day(String(parts[0])), let end = Self.day(String(parts[1])) else { return nil }
+        let parts = text.components(separatedBy: "..")
+        guard parts.count == 2, let start = Self.day(parts[0]), let end = Self.day(parts[1]) else { return nil }
         self.init(start: start, end: end)
     }
 
@@ -31,11 +30,14 @@ public struct FeatureWindow: Sendable, Hashable, CustomStringConvertible {
             guard let sign = rest.first, sign == "+" || sign == "-", let n = Int(rest.dropFirst()) else { return nil }
             return .easter(offset: sign == "-" ? -n : n)
         }
-        let md = text.split(separator: "-")
-        guard md.count == 2, let month = Int(md[0]), let day = Int(md[1]),
-              (1...12).contains(month), (1...31).contains(day) else { return nil }
+        let md = text.split(separator: "-", omittingEmptySubsequences: false)
+        guard md.count == 2, md.allSatisfy({ $0.count == 2 }), let month = Int(md[0]), let day = Int(md[1]),
+              (1...12).contains(month), (1...monthDays[month - 1]).contains(day) else { return nil }
         return .fixed(month: month, day: day)
     }
+
+    /// Days in each month; 02-29 is allowed and, in other years, falls on 1 March.
+    private static let monthDays = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
     public var description: String { "\(Self.text(start))..\(Self.text(end))" }
 

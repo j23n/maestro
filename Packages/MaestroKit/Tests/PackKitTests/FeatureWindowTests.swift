@@ -24,6 +24,9 @@ import Testing
         #expect(FeatureWindow("December") == nil)
         #expect(FeatureWindow("13-01..01-06") == nil)
         #expect(FeatureWindow("12-01.01-06") == nil)
+        #expect(FeatureWindow("12-01...01-06") == nil)
+        #expect(FeatureWindow("02-30..03-05") == nil)
+        #expect(FeatureWindow("02-29..03-01") != nil)
     }
 
     @Test(arguments: [(2025, 4, 20), (2026, 4, 5), (2027, 3, 28), (2038, 4, 25)])
