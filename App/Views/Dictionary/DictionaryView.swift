@@ -45,7 +45,7 @@ struct DictionaryView: View {
         .translationPresentation(isPresented: $showTranslation, text: query)
     }
 
-    /// The search direction, as a small toggle under the search field (the mock's "Italian → English").
+    /// The search direction, as a small toggle in the list's first row (the mock's "Italian → English").
     private var directionRow: some View {
         HStack {
             Spacer()
@@ -62,8 +62,8 @@ struct DictionaryView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(englishToItalian ? "Searching English to Italian. Switch to Italian to English"
-                                                 : "Searching Italian to English. Switch to English to Italian")
+            .accessibilityLabel("Search direction")
+            .accessibilityValue(englishToItalian ? "English to Italian" : "Italian to English")
         }
         .listRowSeparator(.hidden)
         .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
