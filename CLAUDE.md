@@ -1,3 +1,6 @@
+@.apple-ci/claude/j23n.md
+@.apple-ci/claude/apps.md
+
 # Italian learning app
 
 Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded reading and listening, with an offline dictionary, verb tables, grammar reference and a spaced-repetition "Remember" deck. Full spec: `HANDOFF.md`. Read it before making product or data-model decisions.
@@ -16,6 +19,12 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 - Learner data: SwiftData + CloudKit private database. Preferences in `NSUbiquitousKeyValueStore`.
 - Scheduling: FSRS-6 behind a `Scheduler` protocol. The schedule is computed from review logs into a local-only store (`ScheduleState`, `cloudKitDatabase: .none`) and never syncs.
 - Speech: `AVSpeechSynthesizer` (it-IT). Translation: Apple Translation framework (test on device; it does not run in the Simulator).
+
+## Build, CI and TestFlight
+
+- `make` is the interface, as in every j23n app (`.apple-ci/claude/apps.md`, j23n/apple-ci's README): `make bootstrap`, `make test` (every package in `Packages/` and the pipeline's pytest tests in `tools/`), `make build`, `make test-app`, `make ci-linux`, `make ci-macos`.
+- **CI** (`.github/workflows/ci.yml`): Linux runs `make ci-linux` on every push. The Mac runs `make ci-macos` with Xcode 27 on `main`, by hand, and on pull requests labeled `ci:mac`, but only once the repository variable `HOSTED_XCODE_27` is `true`, since the hosted runners don't have Xcode 27 yet. Until then, app code is checked only on a Mac.
+- **TestFlight** (`.github/workflows/testflight.yml`): the owner pushes a `v*` tag on `main`; the tag's version becomes `MARKETING_VERSION` and the build number is the commit count. Agents never push such a tag or run `make archive` or `make testflight`.
 
 ## SwiftData + CloudKit rules (break these and sync breaks)
 

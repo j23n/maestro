@@ -1,0 +1,19 @@
+.DS_Store
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+
+# The Xcode project is generated from project.yml (make project).
+Maestro.xcodeproj/
+# Your signing team (make signing TEAM=…), on this Mac only
+Signing.xcconfig
+
+# Python
+__pycache__/
+.pytest_cache/
+.venv/
+
+# The content database (tools/), built by the pipeline, not committed
+content/build/
