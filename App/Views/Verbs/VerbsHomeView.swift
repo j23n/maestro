@@ -88,7 +88,6 @@ struct VerbsHomeView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.borderless)
-        .accessibilityLabel("\(lemma.headword), \(lemma.firstGloss)")
     }
 
     @ViewBuilder private var searchResults: some View {
