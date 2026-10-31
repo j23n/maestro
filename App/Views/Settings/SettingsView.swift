@@ -9,16 +9,16 @@ struct SettingsView: View {
 
     var body: some View {
         @Bindable var prefs = prefs
-        Form {
-            Section("Sync") {
+        List {
+            LabeledSection("Sync") {
                 LabeledContent("iCloud", value: iCloudStatus)
             }
-            Section("Offline") {
+            LabeledSection("Offline") {
                 LabeledContent("Dictionary", value: model.hasDictionary ? "Built in (\(model.contentVersion))" : "Missing")
                 LabeledContent("Texts on this device", value: "\(model.entries.count)")
                 LabeledContent("Italian voice", value: SpeechPlayer.hasEnhancedVoice ? "Enhanced" : "Standard only")
             }
-            Section("Reading") {
+            LabeledSection("Reading") {
                 Picker("Level", selection: $prefs.level) {
                     ForEach(["A1", "A2", "B1", "B2"], id: \.self) { Text($0).tag($0) }
                 }
@@ -38,9 +38,9 @@ struct SettingsView: View {
                     DatePicker("Time", selection: reminderTime, displayedComponents: .hourAndMinute)
                 }
             } header: {
-                Text("Remember")
+                SectionLabel("Remember")
             }
-            Section("Acknowledgements") {
+            LabeledSection("Acknowledgements") {
                 Text("Dictionary entries and inflections from Wiktionary (via kaikki.org), CC BY-SA 4.0.")
                 Text("Inflected forms from Morph-it!, CC BY-SA 2.0.")
                 Text("Example sentences from Tatoeba, CC BY 2.0 FR.")
@@ -51,6 +51,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .plainPage()
         .navigationTitle("Settings")
         .task { await checkICloud() }
         .onChange(of: prefs.reminderEnabled) { _, on in Task { await Reminder.update(enabled: on, minutes: prefs.reminderMinutes) } }

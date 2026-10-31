@@ -10,22 +10,31 @@ struct RootView: View {
     @State private var showOnboarding = false
     /// Each tab's navigation stack.
     @State private var paths: [AppTab: [Route]] = [:]
+    /// Watched so the Remember badge follows reviews and new cards.
+    @Query private var cards: [Card]
+    @Query private var states: [ScheduleState]
+
+    private var dueCount: Int {
+        _ = (cards.count, states.count)
+        return RememberStore(context: context, prefs: prefs, content: model.content).queue(now: .now).count
+    }
 
     var body: some View {
         @Bindable var model = model
         TabView(selection: $model.selectedTab) {
-            Tab("Read", systemImage: "book", value: AppTab.read) {
+            Tab("Read", systemImage: "doc.text", value: AppTab.read) {
                 NavigationStack(path: path(.read)) { LibraryView().withRoutes() }
             }
-            Tab("Dictionary", systemImage: "character.book.closed", value: AppTab.dictionary) {
+            Tab("Dictionary", systemImage: "book", value: AppTab.dictionary) {
                 NavigationStack(path: path(.dictionary)) { DictionaryView().withRoutes() }
             }
-            Tab("Verbs", systemImage: "textformat.abc", value: AppTab.verbs) {
+            Tab("Verbs", systemImage: "tablecells", value: AppTab.verbs) {
                 NavigationStack(path: path(.verbs)) { VerbsHomeView().withRoutes() }
             }
-            Tab("Remember", systemImage: "rectangle.stack", value: AppTab.remember) {
+            Tab("Remember", systemImage: "rectangle.on.rectangle", value: AppTab.remember) {
                 NavigationStack(path: path(.remember)) { RememberView().withRoutes() }
             }
+            .badge(dueCount)
             Tab("Listen", systemImage: "headphones", value: AppTab.listen) {
                 NavigationStack(path: path(.listen)) { ListenView().withRoutes() }
             }
@@ -39,7 +48,7 @@ struct RootView: View {
             if !prefs.onboarded { showOnboarding = true }
             maintain()
             #if DEBUG
-            openFromLaunchArguments()
+            await openFromLaunchArguments()
             #endif
         }
         .onChange(of: scenePhase) { _, phase in
@@ -56,12 +65,16 @@ struct RootView: View {
 
     #if DEBUG
     /// The screenshot UI test opens screens directly (UITestLaunch).
-    private func openFromLaunchArguments() {
+    private func openFromLaunchArguments() async {
         if UITestLaunch.seed {
             UITestLaunch.seedRemember(RememberStore(context: context, prefs: prefs, content: model.content), model: model)
         }
         if let tab = UITestLaunch.tab { model.selectedTab = tab }
-        if let route = UITestLaunch.route { paths[model.selectedTab] = [route] }
+        if let route = UITestLaunch.route {
+            // Let the selected tab's NavigationStack appear before pushing onto it.
+            try? await Task.sleep(for: .milliseconds(500))
+            paths[model.selectedTab] = [route]
+        }
     }
     #endif
 

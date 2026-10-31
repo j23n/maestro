@@ -44,7 +44,7 @@ struct LibraryView: View {
                     return p.finishedAt == nil && p.position > 0.02
                 }
                 if !continuing.isEmpty && search.isEmpty {
-                    Section("Continue reading") {
+                    LabeledSection("Continue reading") {
                         ForEach(continuing.prefix(3)) { entry in
                             row(entry, known: known, progress: progressByText[entry.id])
                         }
@@ -58,7 +58,7 @@ struct LibraryView: View {
                             row(entry, known: known, progress: progressByText[entry.id])
                         }
                     } header: {
-                        Text("Good fit for you")
+                        SectionLabel("Good fit for you")
                     } footer: {
                         Text("Texts where you know about 90 to 97% of the words.")
                     }
@@ -74,15 +74,16 @@ struct LibraryView: View {
                         } header: {
                             let done = texts.filter { progressByText[$0.id]?.finishedAt != nil }.count
                             HStack {
-                                Text("\(level) · \(levelName(level))")
+                                SectionLabel("\(level) · \(levelName(level))")
                                 Spacer()
-                                Text("\(done) of \(texts.count) read").monospacedDigit()
+                                Text("\(done) of \(texts.count) read").font(.caption).monospacedDigit().foregroundStyle(.secondary)
                             }
                         }
                     }
                 }
             }
         }
+        .plainPage()
         .navigationTitle("Read")
         .searchable(text: $search, prompt: "Search texts")
         .toolbar {
@@ -114,15 +115,7 @@ struct LibraryView: View {
         return Button {
             levelFilter = level
         } label: {
-            HStack(spacing: 4) {
-                Text(title).fontWeight(.semibold)
-                Text("\(count)").foregroundStyle(selected ? Color.white.opacity(0.8) : Color.secondary).monospacedDigit()
-            }
-            .font(.subheadline)
-            .padding(.horizontal, 14)
-            .frame(minHeight: 34)
-            .foregroundStyle(selected ? Color.white : Color.primary)
-            .background(selected ? Color.accentColor : Theme.chip, in: Capsule())
+            ChipLabel(title: title, count: count, selected: selected)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(selected ? .isSelected : [])

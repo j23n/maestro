@@ -12,14 +12,15 @@ struct EntryView: View {
         if let entry = model.content?.entry(lemmaID) {
             List {
                 Section { header(entry) }
-                Section("Meanings") {
+                    .listRowSeparator(.hidden)
+                LabeledSection("Meanings") {
                     ForEach(Array(entry.senses.filter { !$0.retired }.enumerated()), id: \.element.id) { n, sense in
                         senseRow(n + 1, sense, entry: entry)
                     }
                 }
                 let texts = inYourTexts(entry)
                 if !texts.isEmpty {
-                    Section("In your texts") {
+                    LabeledSection("In your texts") {
                         ForEach(texts) { t in
                             NavigationLink(value: Route.text(t.id)) {
                                 HStack {
@@ -37,6 +38,7 @@ struct EntryView: View {
                         .foregroundStyle(.secondary)
                 }
             }
+            .plainPage()
             .navigationTitle(entry.headword)
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -47,54 +49,66 @@ struct EntryView: View {
     }
 
     private func header(_ entry: Entry) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .firstTextBaseline) {
                 Text(italian: entry.headwordWithArticle)
-                    .font(.system(size: 30, weight: .bold, design: .serif))
+                    .font(.system(size: 32, weight: .semibold, design: .serif))
+                Spacer(minLength: 8)
+                if let first = entry.senses.first(where: { !$0.retired }) {
+                    RememberButton(item: wordItem(first, entry: entry), title: entry.headword)
+                }
+            }
+            HStack(spacing: 8) {
+                if let ipa = entry.ipa?.trimmingCharacters(in: CharacterSet(charactersIn: "/[] ")), !ipa.isEmpty {
+                    Text("/\(ipa)/").foregroundStyle(.secondary)
+                }
+                Tag(text: [PartOfSpeech.label(entry.pos), entry.genderLabel].compactMap { $0 }.joined(separator: " · "),
+                    colors: Theme.kind(.word))
+                if let plural = entry.plural, !plural.isEmpty {
+                    HStack(spacing: 4) {
+                        Text("plural").foregroundStyle(.secondary)
+                        Text(italian: plural)
+                    }
+                }
+                Spacer(minLength: 0)
                 Button {
                     model.speech.say(entry.headword)
                 } label: {
-                    Image(systemName: "speaker.wave.2.fill").frame(width: 44, height: 44)
+                    Image(systemName: "speaker.wave.2").frame(width: 44, height: 44)
                 }
                 .buttonStyle(.borderless)
                 .accessibilityLabel("Play \(entry.headword)")
             }
-            HStack(spacing: 8) {
-                Text(PartOfSpeech.label(entry.pos))
-                if let ipa = entry.ipa, !ipa.isEmpty { Text("/\(ipa)/") }
-                if let gender = entry.genderLabel { Text(gender) }
-                if let plural = entry.plural, !plural.isEmpty { Text("plural \(plural)").italian() }
-            }
             .font(.subheadline)
-            .foregroundStyle(.secondary)
             if entry.pos == "v" {
                 NavigationLink(value: Route.verb(lemmaID: entry.id, formTag: nil)) {
                     Label("Conjugation", systemImage: "tablecells")
                 }
-                .padding(.top, 4)
+                .padding(.top, 2)
             }
         }
         .padding(.vertical, 4)
     }
 
     private func senseRow(_ number: Int, _ sense: Sense, entry: Entry) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("\(number).").monospacedDigit().foregroundStyle(.secondary)
-                Text(sense.gloss)
-            }
-            ForEach(sense.examples.prefix(2), id: \.italian) { ex in
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(italian: ex.italian).font(.system(.subheadline, design: .serif)).italic()
-                    if let en = ex.english { Text(en).font(.footnote).foregroundStyle(.secondary) }
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            Text("\(number)").font(.subheadline.weight(.semibold)).monospacedDigit().foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(sense.gloss).font(.body.weight(.semibold))
+                ForEach(sense.examples.prefix(2), id: \.italian) { ex in
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(italian: ex.italian).font(.system(.body, design: .serif)).italic()
+                        if let en = ex.english { Text(en).font(.subheadline).foregroundStyle(.secondary) }
+                    }
                 }
-                .padding(.leading, 22)
             }
-            let item = wordItem(sense, entry: entry)
-            RememberRow(item: item, title: entry.headword, detail: sense.gloss)
-                .padding(.leading, 22)
+            Spacer(minLength: 8)
+            if number > 1 {
+                RememberButton(item: wordItem(sense, entry: entry), title: "\(entry.headword), \(sense.gloss)")
+            }
         }
         .padding(.vertical, 4)
+        .listRowSeparator(.hidden)
     }
 
     private func wordItem(_ sense: Sense, entry: Entry) -> RememberItem {

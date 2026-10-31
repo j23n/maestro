@@ -21,33 +21,32 @@ struct VerbsHomeView: View {
             } else {
                 let recent = recentVerbs
                 if !recent.isEmpty {
-                    Section("Recent") {
+                    LabeledSection("Recent") {
                         ForEach(recent) { lemma in
                             NavigationLink(value: Route.verb(lemmaID: lemma.id, formTag: nil)) { LemmaRow(lemma: lemma) }
                         }
                     }
                 }
-                Section("Common irregular verbs") {
-                    let verbs = Self.commonIrregular.compactMap { hw in
+                LabeledSection("Most used irregular verbs") {
+                    let verbs = Self.commonIrregular.prefix(8).compactMap { hw in
                         model.content?.lemmas(headword: hw).first { $0.pos == "v" }
                     }
                     if verbs.isEmpty {
                         Text("The dictionary isn't in this build.").foregroundStyle(.secondary)
-                    }
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 110), spacing: 8)], spacing: 8) {
-                        ForEach(verbs) { lemma in
-                            NavigationLink(value: Route.verb(lemmaID: lemma.id, formTag: nil)) {
-                                Text(italian: lemma.headword)
-                                    .font(.system(.body, design: .serif))
-                                    .frame(maxWidth: .infinity, minHeight: 44)
-                                    .background(Theme.chip, in: RoundedRectangle(cornerRadius: 10))
+                    } else {
+                        Grid(horizontalSpacing: 8, verticalSpacing: 8) {
+                            ForEach(Array(stride(from: 0, to: verbs.count, by: 2)), id: \.self) { i in
+                                GridRow {
+                                    verbCard(verbs[i])
+                                    if i + 1 < verbs.count { verbCard(verbs[i + 1]) } else { Color.clear }
+                                }
                             }
-                            .buttonStyle(.plain)
                         }
+                        .padding(.vertical, 4)
+                        .listRowSeparator(.hidden)
                     }
-                    .padding(.vertical, 4)
                 }
-                Section("Grammar") {
+                LabeledSection("Grammar reference") {
                     ForEach(model.grammarTopics.prefix(8)) { topic in
                         NavigationLink(value: Route.grammar(topic.id)) { GrammarRow(topic: topic) }
                     }
@@ -57,6 +56,7 @@ struct VerbsHomeView: View {
                 }
             }
         }
+        .plainPage()
         .navigationTitle("Verbs")
         .searchable(text: $query, prompt: "Any verb form: vada, saremmo")
         #if DEBUG
@@ -66,6 +66,23 @@ struct VerbsHomeView: View {
         #if os(iOS)
         .textInputAutocapitalization(.never)
         #endif
+    }
+
+    private func verbCard(_ lemma: LemmaSummary) -> some View {
+        NavigationLink(value: Route.verb(lemmaID: lemma.id, formTag: nil)) {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Text(italian: lemma.headword)
+                    .font(.system(.body, design: .serif).weight(.semibold))
+                    .foregroundStyle(Theme.ink)
+                Text(lemma.firstGloss).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 12)
+            .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.hairline))
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     @ViewBuilder private var searchResults: some View {
@@ -132,7 +149,7 @@ struct GrammarIndexView: View {
             ForEach(["A1", "A2", "B1", "B2"], id: \.self) { level in
                 let topics = model.grammarTopics.filter { $0.level == level }
                 if !topics.isEmpty {
-                    Section(level) {
+                    LabeledSection(level) {
                         ForEach(topics) { topic in
                             NavigationLink(value: Route.grammar(topic.id)) { GrammarRow(topic: topic) }
                         }
@@ -140,6 +157,7 @@ struct GrammarIndexView: View {
                 }
             }
         }
+        .plainPage()
         .navigationTitle("Grammar")
     }
 }

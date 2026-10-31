@@ -65,7 +65,7 @@ struct ReviewView: View {
             Image(systemName: "checkmark.circle").font(.system(size: 56)).foregroundStyle(Theme.added.foreground)
             Text(reviewed == 0 ? "Nothing to review" : "Done for now").font(.title2.weight(.bold))
             if reviewed > 0 { Text("You reviewed \(reviewed) cards.").foregroundStyle(.secondary) }
-            Button("Close") { dismiss() }.buttonStyle(.borderedProminent)
+            Button("Close") { dismiss() }.buttonStyle(PrimaryButtonStyle(fullWidth: false))
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -76,20 +76,30 @@ struct ReviewView: View {
         return VStack(spacing: 0) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
-                    KindTag(kind: kind)
+                    HStack(spacing: 6) {
+                        KindTag(kind: kind)
+                        if let source = model.entries.first(where: { $0.id == card.sourceTextID })?.title {
+                            Text(source).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                        }
+                    }
                     front(card, kind: kind)
                     if showAnswer {
                         Divider()
                         back(card, kind: kind)
                     }
                 }
-                .padding(24)
-                .frame(maxWidth: 640, alignment: .leading)
+                .padding(20)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(RoundedRectangle(cornerRadius: 18).fill(Theme.background))
+                .overlay(RoundedRectangle(cornerRadius: 18).stroke(Theme.hairline))
+                .padding(16)
+                .frame(maxWidth: 640)
                 .frame(maxWidth: .infinity)
             }
             controls(card)
                 .padding(16)
-                .background(.bar)
+                .frame(maxWidth: 640)
+                .frame(maxWidth: .infinity)
         }
     }
 
@@ -97,13 +107,13 @@ struct ReviewView: View {
     private func front(_ card: Card, kind: ItemKind) -> some View {
         if !card.sentenceText.isEmpty {
             Text(highlighted(card))
-                .font(.system(size: 22, design: .serif))
+                .font(.system(size: 26, design: .serif))
                 .lineSpacing(8)
         } else {
             Text(italian: CardText.title(card, model: model))
                 .font(.system(size: 30, weight: .semibold, design: .serif))
         }
-        Text(kind.prompt).font(.headline).foregroundStyle(.secondary)
+        Text(kind.prompt).font(.subheadline).foregroundStyle(.secondary)
     }
 
     @ViewBuilder
@@ -160,9 +170,9 @@ struct ReviewView: View {
             Button {
                 showAnswer = true
             } label: {
-                Text("Show answer").frame(maxWidth: .infinity, minHeight: 44)
+                Text("Show answer")
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(PrimaryButtonStyle())
         }
     }
 

@@ -16,11 +16,12 @@ struct GrammarTopicView: View {
                 VStack(alignment: .leading, spacing: 14) {
                     HStack {
                         LevelTag(level: topic.level)
+                        SectionLabel("Grammar")
                         Spacer()
+                        RememberButton(item: rememberItem(topic), title: topic.title)
                     }
-                    Text(topic.title).font(.system(size: 30, weight: .bold))
-                    Text(markdown: topic.summary).font(.title3).foregroundStyle(.secondary)
-                    RememberRow(item: rememberItem(topic), title: topic.title, detail: nil)
+                    Text(topic.title).font(.system(size: 30, weight: .semibold, design: .serif))
+                    Text(markdown: topic.summary).font(.body).foregroundStyle(.secondary)
                     ForEach(Array(MarkdownBlock.parse(topic.body).enumerated()), id: \.offset) { _, block in
                         MarkdownBlockView(block: block)
                     }
@@ -45,6 +46,7 @@ struct GrammarTopicView: View {
                 .frame(maxWidth: 760, alignment: .leading)
                 .frame(maxWidth: .infinity)
             }
+            .background(Theme.background)
             .navigationTitle(topic.title)
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -112,7 +114,7 @@ struct MarkdownBlockView: View {
     var body: some View {
         switch block {
         case .heading(let title):
-            Text(title).font(.headline).padding(.top, 8)
+            SectionLabel(title).padding(.top, 12)
         case .paragraph(let text):
             Text(markdown: text).fixedSize(horizontal: false, vertical: true)
         case .list(let items):
@@ -125,26 +127,33 @@ struct MarkdownBlockView: View {
                 }
             }
         case .table(let header, let rows):
-            ScrollView(.horizontal, showsIndicators: false) {
-                Grid(alignment: .leading, horizontalSpacing: 14, verticalSpacing: 6) {
-                    GridRow {
-                        ForEach(Array(header.enumerated()), id: \.offset) { _, cell in
-                            Text(markdown: cell).font(.footnote.weight(.semibold)).foregroundStyle(.secondary)
-                        }
-                    }
-                    Divider()
-                    ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
-                        GridRow {
-                            ForEach(Array(row.enumerated()), id: \.offset) { i, cell in
-                                Text(markdown: cell)
-                                    .font(i == 0 ? .footnote : .system(.callout, design: .serif))
-                                    .foregroundStyle(i == 0 ? Color.secondary : Color.primary)
-                            }
-                        }
+            // The table at its natural width when it fits, else scrolled sideways.
+            ViewThatFits(in: .horizontal) {
+                table(header, rows)
+                ScrollView(.horizontal, showsIndicators: false) { table(header, rows) }
+            }
+        }
+    }
+
+    private func table(_ header: [String], _ rows: [[String]]) -> some View {
+        Grid(alignment: .leading, horizontalSpacing: 14, verticalSpacing: 0) {
+            GridRow {
+                ForEach(Array(header.enumerated()), id: \.offset) { _, cell in
+                    Text(markdown: cell).font(.footnote.weight(.semibold)).foregroundStyle(.secondary)
+                        .padding(.vertical, 6)
+                }
+            }
+            ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
+                Divider().gridCellUnsizedAxes(.horizontal)
+                GridRow {
+                    ForEach(Array(row.enumerated()), id: \.offset) { i, cell in
+                        Text(markdown: cell)
+                            .font(i == 0 ? .footnote : .system(.body, design: .serif))
+                            .foregroundStyle(i == 0 ? Color.secondary : Color.primary)
+                            .fixedSize()
+                            .padding(.vertical, 8)
                     }
                 }
-                .padding(12)
-                .background(Theme.surface, in: RoundedRectangle(cornerRadius: 12))
             }
         }
     }

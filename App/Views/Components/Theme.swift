@@ -4,9 +4,13 @@ import ItalianCore
 /// Colours and type from design/tokens.json. The mocks are light only; dark values are first guesses.
 enum Theme {
     static let accent = Color.accentColor
-    static let ink = Color.primary
+    static let ink = dynamic(0x17181A, 0xF2F2F4)
     static let secondary = Color.secondary
+    static let background = dynamic(0xFFFFFF, 0x000000)
     static let hairline = dynamic(0xE4E5E8, 0x3A3B3F)
+    static let borderControl = dynamic(0x8E9299, 0x6A6E75)
+    static let borderInput = dynamic(0xC3C6CC, 0x4A4E55)
+    static let addedBorder = dynamic(0x8CC3A0, 0x2F6B45)
     static let surface = dynamic(0xF4F4F5, 0x1F2023)
     static let chip = dynamic(0xF1F2F4, 0x2A2B2F)
     static let selectionFill = dynamic(0xDCE5FF, 0x23376E)
@@ -142,6 +146,88 @@ extension Text {
         var attributed = AttributedString(string)
         attributed.languageIdentifier = "it-IT"
         self.init(attributed)
+    }
+}
+
+/// The mocks' page look: plain white lists with hairline rows, not iOS's grey grouped cards.
+extension View {
+    func plainPage() -> some View {
+        listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .background(Theme.background)
+    }
+}
+
+/// A list section whose header is a small uppercase label, as in the mocks.
+struct LabeledSection<Content: View>: View {
+    let title: String
+    let content: Content
+
+    init(_ title: String, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.content = content()
+    }
+
+    var body: some View {
+        Section {
+            content
+        } header: {
+            SectionLabel(title)
+        }
+    }
+}
+
+/// The primary action: a full-width ink button (Review, Show answer, Start reading).
+struct PrimaryButtonStyle: ButtonStyle {
+    let fullWidth: Bool
+    @Environment(\.isEnabled) private var isEnabled
+
+    init(fullWidth: Bool = true) { self.fullWidth = fullWidth }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.body.weight(.semibold))
+            .padding(.horizontal, fullWidth ? 0 : 20)
+            .frame(maxWidth: fullWidth ? .infinity : nil, minHeight: fullWidth ? 50 : 44)
+            .foregroundStyle(Theme.background)
+            .background(Theme.ink.opacity(isEnabled ? (configuration.isPressed ? 0.8 : 1) : 0.3),
+                        in: RoundedRectangle(cornerRadius: 12))
+    }
+}
+
+/// A secondary action: an outlined button.
+struct SecondaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.body.weight(.semibold))
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .foregroundStyle(Theme.ink)
+            .background(RoundedRectangle(cornerRadius: 12).stroke(Theme.borderControl))
+            .opacity(configuration.isPressed ? 0.7 : 1)
+    }
+}
+
+/// A filter chip: outlined, or filled with ink when selected.
+struct ChipLabel: View {
+    let title: String
+    var count: Int?
+    let selected: Bool
+
+    var body: some View {
+        HStack(spacing: 5) {
+            Text(title).fontWeight(.semibold)
+            if let count {
+                Text("\(count)").monospacedDigit().opacity(0.75)
+            }
+        }
+        .font(.subheadline)
+        .padding(.horizontal, 14)
+        .frame(minHeight: 34)
+        .foregroundStyle(selected ? Theme.background : Theme.ink)
+        .background(Capsule().fill(selected ? Theme.ink : Color.clear))
+        .overlay(Capsule().stroke(selected ? Color.clear : Theme.borderInput))
+        .frame(minHeight: 44)
+        .contentShape(Rectangle())
     }
 }
 

@@ -107,18 +107,16 @@ struct ReaderView: View {
             Divider().padding(.vertical, 8)
             if !text.questions.isEmpty {
                 NavigationLink(value: Route.questions(text.id)) {
-                    Label("Questions (\(text.questions.count))", systemImage: "questionmark.bubble")
-                        .frame(maxWidth: .infinity, minHeight: 44)
+                    Text("Questions (\(text.questions.count))")
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(PrimaryButtonStyle())
             }
             Button {
                 RememberStore(context: context, prefs: prefs, content: model.content).updateProgress(textID: textID, position: 1)
             } label: {
                 Label("Mark as read", systemImage: "checkmark")
-                    .frame(maxWidth: .infinity, minHeight: 44)
             }
-            .buttonStyle(.bordered)
+            .buttonStyle(SecondaryButtonStyle())
         }
     }
 

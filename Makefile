@@ -51,7 +51,8 @@ content:
 	$(PYTHON) tools/build_content.py --mode $(CONTENT)
 
 # The main screens on an iPhone and an iPad simulator, as PNGs in .build/Screenshots, for checking
-# the UI against the mocks. The iPad is the first iPad Pro 13-inch the runner has, else any iPad.
+# the UI against the mocks. The iPad runs in landscape, and the simulator saves its screenshots
+# unrotated, so they're turned upright. The iPad is the first iPad Pro 13-inch the runner has, else any iPad.
 SCREENSHOTS := $(CURDIR)/.build/Screenshots
 IPAD_SIMULATOR ?= $(shell xcrun simctl list devices available 2>/dev/null | sed -nE 's/^ +(iPad.*) \([0-9A-F-]{36}\) .*/\1/p' | awk '/iPad Pro 13/ {print; found=1; exit} NR==1 {first=$$0} END {if (!found && first) print first}')
 
@@ -68,6 +69,7 @@ screenshots: project $(APP_PREREQUISITES)
 	    test $(UNSIGNED) || status=1; \
 	  $(PYTHON) tools/export_screenshots.py '$(TEST_RESULTS)'/screenshots-$$key.xcresult '$(SCREENSHOTS)' || status=1; \
 	done; \
+	for f in '$(SCREENSHOTS)'/iPad-*.png; do [ ! -f "$$f" ] || sips -r 270 "$$f" >/dev/null; done; \
 	ls '$(SCREENSHOTS)'; exit $$status
 
 ci-linux: test

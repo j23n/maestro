@@ -29,6 +29,7 @@ struct DictionaryView: View {
                 results
             }
         }
+        .plainPage()
         .navigationTitle("Dictionary")
         .searchable(text: $query, prompt: englishToItalian ? "English word" : "Italian word or form")
         #if DEBUG
@@ -57,7 +58,7 @@ struct DictionaryView: View {
             Text("Type a word in any form: *andavamo*, *dammelo*, *perche*.")
                 .foregroundStyle(.secondary)
         } else {
-            Section("Recent") {
+            LabeledSection("Recent") {
                 ForEach(unique, id: \.lemmaID) { entry in
                     if let lemma = model.content?.lemma(entry.lemmaID) {
                         NavigationLink(value: Route.entry(lemma.id)) {
@@ -77,13 +78,13 @@ struct DictionaryView: View {
     @ViewBuilder private var results: some View {
         switch model.lookup?.lookup(query) ?? .empty {
         case .readings(let readings):
-            Section(readings.count > 1 ? "\(readings.count) readings" : "Result") {
+            LabeledSection(readings.count > 1 ? "\(readings.count) readings" : "Result") {
                 ForEach(readings) { reading in
                     ReadingRow(reading: reading) { record(reading.lemma.id) }
                 }
             }
         case .suggestions(let lemmas):
-            Section("Did you mean") {
+            LabeledSection("Did you mean") {
                 ForEach(lemmas) { lemma in
                     NavigationLink(value: Route.entry(lemma.id)) { LemmaRow(lemma: lemma) }
                         .simultaneousGesture(TapGesture().onEnded { record(lemma.id) })

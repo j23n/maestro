@@ -29,30 +29,36 @@ struct RememberView: View {
 
         List {
             Section {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(queueCount == 0 ? "Nothing to review" : "\(queueCount) to review")
-                        .font(.title2.weight(.bold))
-                    Text("\(due.count) due, \(min(new.count, prefs.newItemsPerDay)) new today")
-                        .foregroundStyle(.secondary)
-                    Button {
-                        reviewing = true
-                    } label: {
-                        Text("Review").frame(maxWidth: .infinity, minHeight: 44)
+                HStack(alignment: .center, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(queueCount == 0 ? "Nothing due" : "\(queueCount) due")
+                            .font(.system(size: 28, weight: .bold))
+                        Text("\(due.count) to review, \(min(new.count, prefs.newItemsPerDay)) new today")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(queueCount == 0)
+                    Spacer(minLength: 8)
+                    Button("Review") { reviewing = true }
+                        .buttonStyle(PrimaryButtonStyle(fullWidth: false))
+                        .disabled(queueCount == 0)
                 }
-                .padding(.vertical, 6)
+                .padding(16)
+                .background(Theme.surface, in: RoundedRectangle(cornerRadius: 16))
             }
+            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
+            .listRowSeparator(.hidden)
             Section {
-                Picker("Show", selection: $filter) {
-                    Text("All").tag(ItemKind?.none)
-                    Text("Words").tag(ItemKind?.some(.word))
-                    Text("Verb forms").tag(ItemKind?.some(.verbForm))
-                    Text("Grammar").tag(ItemKind?.some(.grammar))
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        filterChip(nil, "All")
+                        filterChip(.word, "Words")
+                        filterChip(.verbForm, "Verb forms")
+                        filterChip(.grammar, "Grammar")
+                    }
                 }
-                .pickerStyle(.segmented)
             }
+            .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+            .listRowSeparator(.hidden)
             if active.isEmpty {
                 EmptyState(title: "Nothing kept yet",
                            message: "Tap a word while reading and choose Remember to add it here.",
@@ -62,6 +68,7 @@ struct RememberView: View {
             group("Due today", due, stateByKey: stateByKey)
             group("Later", later, stateByKey: stateByKey)
         }
+        .plainPage()
         .navigationTitle("Remember")
         #if DEBUG
         .task { if UITestLaunch.review { reviewing = true } }
@@ -77,10 +84,22 @@ struct RememberView: View {
         #endif
     }
 
+    private func filterChip(_ kind: ItemKind?, _ title: String) -> some View {
+        var seen = Set<String>()
+        let count = cards.filter { $0.isActive && (kind == nil || $0.kind == kind?.rawValue) && seen.insert($0.itemKey).inserted }.count
+        return Button {
+            filter = kind
+        } label: {
+            ChipLabel(title: title, count: count, selected: filter == kind)
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(filter == kind ? .isSelected : [])
+    }
+
     @ViewBuilder
     private func group(_ title: String, _ cards: [Card], stateByKey: [String: ScheduleState]) -> some View {
         if !cards.isEmpty {
-            Section("\(title) · \(cards.count)") {
+            LabeledSection(title) {
                 ForEach(cards) { card in
                     CardRow(card: card, due: stateByKey[card.itemKey].flatMap { $0.reps > 0 ? $0.due : nil })
                         .swipeActions {
@@ -110,22 +129,35 @@ struct CardRow: View {
 
     var body: some View {
         let kind = ItemKind(rawValue: card.kind) ?? .word
-        HStack(spacing: 10) {
-            KindTag(kind: kind)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(italian: CardText.title(card, model: model)).font(.body.weight(.semibold))
-                if let detail = CardText.detail(card, model: model) {
-                    Text(detail).font(.footnote).foregroundStyle(.secondary).lineLimit(1)
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                KindTag(kind: kind)
+                if let source = model.entries.first(where: { $0.id == card.sourceTextID })?.title {
+                    Text(source).font(.caption).foregroundStyle(.secondary).lineLimit(1)
                 }
+                Spacer(minLength: 8)
+                Group {
+                    if let due {
+                        Text(due, format: .relative(presentation: .named))
+                    } else {
+                        Text("new")
+                    }
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
-            Spacer()
-            if let due {
-                Text(due, format: .relative(presentation: .numeric))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            line(kind)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 4)
+    }
+
+    private func line(_ kind: ItemKind) -> Text {
+        let title = CardText.title(card, model: model)
+        var head = AttributedString(title)
+        head.languageIdentifier = kind == .grammar ? nil : "it-IT"
+        let t = Text(head).font(kind == .grammar ? .body.weight(.semibold) : .system(.body, design: .serif).weight(.semibold))
+        guard let detail = CardText.detail(card, model: model) else { return t }
+        return Text("\(t) — \(detail)")
     }
 }
 

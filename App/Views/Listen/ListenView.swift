@@ -33,7 +33,7 @@ struct ListenView: View {
             }
             if let current = model.speech.currentSegment, let textID = current.id.split(separator: "#").first.map(String.init),
                let entry = entries.first(where: { $0.id == textID }) {
-                Section("Continue") {
+                LabeledSection("Continue") {
                     NavigationLink {
                         PlayerView(textID: entry.id)
                     } label: {
@@ -50,14 +50,14 @@ struct ListenView: View {
                         }
                     }
                 } header: {
-                    Text("Listen first")
+                    SectionLabel("Listen first")
                 } footer: {
                     Text("Hear a new text before you read it, with the text hidden.")
                 }
             }
             let again = entries.filter { read.contains($0.id) }
             if !again.isEmpty {
-                Section("Listen again") {
+                LabeledSection("Listen again") {
                     ForEach(again) { entry in
                         NavigationLink { PlayerView(textID: entry.id) } label: {
                             ListenRow(entry: entry, systemImage: "arrow.counterclockwise")
@@ -66,6 +66,7 @@ struct ListenView: View {
                 }
             }
         }
+        .plainPage()
         .navigationTitle("Listen")
         .sheet(isPresented: $showVoiceGuide) { VoiceGuideView() }
     }
@@ -110,6 +111,7 @@ struct VoiceGuideView: View {
                     Text("Apps can't download voices themselves, so this takes a trip to Settings.")
                 }
             }
+            .plainPage()
             .navigationTitle("Better Italian voices")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }

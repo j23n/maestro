@@ -32,7 +32,7 @@ struct QuestionsView: View {
                             answerHint(question, text: text)
                         }
                     } header: {
-                        Text("Question \(n + 1) of \(text.questions.count)")
+                        SectionLabel("Question \(n + 1) of \(text.questions.count)")
                     }
                 }
                 if !text.questions.isEmpty {
@@ -43,6 +43,7 @@ struct QuestionsView: View {
                     }
                 }
             }
+            .plainPage()
             .navigationTitle("Questions")
             .onAppear { loadAnswers() }
         } else {
