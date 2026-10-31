@@ -39,8 +39,13 @@ final class ReaderTests: XCTestCase {
         try XCTSkipUnless(link.waitForExistence(timeout: 5), "The word has no dictionary entry in this content")
         link.tap()
         XCTAssertTrue(app.scrollViews["help"].waitForNonExistence(timeout: 10), "The dictionary entry didn't open")
-        let back = app.navigationBars.buttons["BackButton"]
-        (back.exists ? back : app.navigationBars.buttons.element(boundBy: 0)).tap()
+        // On the iPhone the reader's own bar, behind the sheet, has a Back button too: take the lowest bar's.
+        let bars = app.navigationBars.allElementsBoundByIndex.filter { $0.buttons["BackButton"].exists }
+        guard let bar = bars.max(by: { $0.frame.minY < $1.frame.minY }) else {
+            XCTFail("No Back button after opening the dictionary entry")
+            return
+        }
+        bar.buttons["BackButton"].tap()
         XCTAssertTrue(app.scrollViews["help"].waitForExistence(timeout: 10), "Help didn't come back after Back")
     }
 }
