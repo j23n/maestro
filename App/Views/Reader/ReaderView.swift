@@ -241,14 +241,17 @@ private struct HelpPresentation: ViewModifier {
         content.inspector(isPresented: $isPresented) { panel }
         #else
         // Both stay attached, so a size class change doesn't rebuild the reader; each shows only in
-        // its own size class.
+        // its own size class. Each closes help only from its own size class, so the one hiding on a
+        // size class change doesn't close help that is moving to the other.
         let regular = sizeClass == .regular
         let shown = $isPresented
+        let inspector = Binding(get: { shown.wrappedValue && regular },
+                                set: { if $0 || regular { shown.wrappedValue = $0 } })
+        let sheet = Binding(get: { shown.wrappedValue && !regular },
+                            set: { if $0 || !regular { shown.wrappedValue = $0 } })
         content
-            .inspector(isPresented: Binding(get: { shown.wrappedValue && regular }, set: { shown.wrappedValue = $0 })) {
-                panel
-            }
-            .sheet(isPresented: Binding(get: { shown.wrappedValue && !regular }, set: { shown.wrappedValue = $0 })) {
+            .inspector(isPresented: inspector) { panel }
+            .sheet(isPresented: sheet) {
                 NavigationStack {
                     if let help {
                         HelpView(help: help, inSheet: true) { isPresented = false }.withRoutes()

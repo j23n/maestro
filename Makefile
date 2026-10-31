@@ -66,7 +66,7 @@ screenshots: project $(APP_PREREQUISITES)
 	  [ -n "$$sim" ] || { echo "No $$key simulator"; status=1; continue; }; \
 	  echo "Screenshots on $$sim"; \
 	  $(XCODE) -destination "platform=iOS Simulator,name=$$sim,OS=latest" \
-	    -resultBundlePath '$(TEST_RESULTS)'/screenshots-$$key.xcresult -only-testing:MaestroUITests \
+	    -resultBundlePath '$(TEST_RESULTS)'/screenshots-$$key.xcresult -only-testing:MaestroUITests/ScreenshotTests -only-testing:MaestroUITests/ReaderTests \
 	    test $(UNSIGNED) || status=1; \
 	  $(PYTHON) tools/export_screenshots.py '$(TEST_RESULTS)'/screenshots-$$key.xcresult '$(SCREENSHOTS)' || status=1; \
 	done; \
