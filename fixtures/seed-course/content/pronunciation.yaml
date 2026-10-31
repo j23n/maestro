@@ -1,7 +1,0 @@
-# IPA overrides for Azure TTS (docs/04 § Audio). Verify symbols against Azure's it-IT phone set; invalid
-# phones make the request fail with HTTP 400. Prefer a per-line `say:` override when only one context is wrong.
-# Format: word: IPA (stress mark ˈ before the stressed syllable; ː for long vowels where needed)
-lexicon:
-  # examples to verify with the audio reviewer, not known errors:
-  ancora: "anˈkoːra"      # adverb 'still/again' (vs àncora 'anchor' ˈankora)
-  subito: "ˈsuːbito"      # stress on the first syllable

@@ -1,6 +1,0 @@
-# Invalid: detection patterns are regular expressions and must compile.
-rules:
-- id: g:indefinite-article
-  detect:
-  - seq:
-    - {pos: [ART, DET-INDEF], form: "^(un|uno|una|un'$"}

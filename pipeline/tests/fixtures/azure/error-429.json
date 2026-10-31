@@ -1,6 +1,0 @@
-{
-  "error": {
-    "code": "TooManyRequests",
-    "message": "The number of concurrent batch synthesis jobs exceeds the quota of the resource."
-  }
-}

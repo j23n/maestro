@@ -1,6 +1,0 @@
-unit: u02
-review: {status: draft, by: null, date: null, hash: null}
-items:
-  - {id: 'w:cornetto', it: cornetto, pos: noun, gloss: croissant, gender: m, plural: cornetti, topics: ['topic:food-drink'], note: In Bologna many people call it a brioche., status: P, lesson: u02.l1}
-  - {id: 'w:amico', it: amico, pos: noun, gloss: friend, gender: mf, plural: amici, forms: [amica], recall_answer: '{l''amico|l''amica|un amico|un''amica}', status: P, lesson: u02.l1}
-  - {id: 'c:vorrei', kind: chunk, it: vorrei, gloss: I'd like, match: [vorrei], exemplifies: ['g:indefinite-article'], status: P, lesson: u02.l1}

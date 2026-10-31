@@ -1,6 +1,0 @@
-# Invalid: an item's lesson is a lesson of the item's own unit, and the unit spec says Unit 3 has 3 lessons.
-unit: u03
-review: {status: draft, by: null, date: null, hash: null}
-items:
-  - {id: 'w:foto', it: foto, pos: noun, gloss: photo, gender: f, plural: invariable, status: P, lesson: u02.l1}
-  - {id: 'w:nonno', it: nonno, pos: noun, gloss: grandfather, gender: m, plural: nonni, status: P, lesson: u03.l4}

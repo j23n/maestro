@@ -1,4 +1,0 @@
-# Invalid: HD voices can't be used for batch synthesis with phonemes (ADR-07), and speakers are ch: IDs.
-voices:
-  narrator: {voice: "it-IT-Isabella:DragonHDLatestNeural"}
-  marco: {voice: it-IT-DiegoNeural}

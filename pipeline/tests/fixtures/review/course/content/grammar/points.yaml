@@ -1,8 +1,0 @@
-review: {status: draft, by: null, date: null, hash: null}
-points:
-- id: g:indefinite-article
-  title: un, uno, una, un'
-  unit: u02
-  status: P
-  syllabus: ['sy:gr.articles']
-  about: Before Unit 2, un/una + noun is lexical (part of the noun).

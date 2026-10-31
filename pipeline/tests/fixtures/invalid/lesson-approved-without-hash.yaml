@@ -1,8 +1,0 @@
-# Invalid: only `content approve` sets status approved, and it always writes by, date and hash.
-id: u03.l1
-title: {it: "La foto", en: "The photo"}
-review: {status: approved, by: Test Lead, date: null, hash: null}
-steps:
-  - kind: preview
-    id: u03.l1.step-preview
-    batches: [[w:caffe]]

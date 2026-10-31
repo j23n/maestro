@@ -1,2 +1,0 @@
-# Retired IDs (ADR-14). IDs are never reused. Format: - {id: …, retired_in: <pack version>, reason: …, replaced_by: …}
-retired: []

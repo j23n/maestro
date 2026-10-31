@@ -1,5 +1,0 @@
-# Invalid: IDs are unique across the course; w:caffe is already a Unit 2 item.
-unit: u03
-review: {status: draft, by: null, date: null, hash: null}
-items:
-  - {id: 'w:caffe', it: caffè, pos: noun, gloss: coffee, gender: m, plural: invariable, status: P, lesson: u03.l1}

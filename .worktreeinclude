@@ -1,3 +1,0 @@
-# Gitignored files copied into new worktrees (claude --worktree): the pipeline's reference data from `make data`,
-# so content checks work in a worktree without downloading it again.
-pipeline/data/**

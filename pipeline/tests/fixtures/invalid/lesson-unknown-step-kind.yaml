@@ -1,7 +1,0 @@
-# Invalid: a step kind docs/06 doesn't define (unit-level kinds such as `check` are generated, never authored).
-id: u03.l1
-title: {it: "La foto", en: "The photo"}
-review: {status: draft, by: null, date: null, hash: null}
-steps:
-  - kind: quiz
-    id: u03.l1.step-story
