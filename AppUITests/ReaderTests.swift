@@ -21,6 +21,7 @@ final class ReaderTests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.scrollViews["help"].waitForExistence(timeout: 30), "Help didn't open")
         app.buttons["Done"].tap()
-        XCTAssertTrue(app.scrollViews["reader"].waitForExistence(timeout: 10), "The reader didn't come back after help")
+        XCTAssertTrue(app.scrollViews["help"].waitForNonExistence(timeout: 10), "Help didn't close")
+        XCTAssertTrue(app.buttons["Read aloud"].isHittable, "The reader didn't come back after help")
     }
 }

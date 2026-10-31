@@ -67,11 +67,11 @@ struct ReaderView: View {
         .navigationTitle(text.title)
         #if DEBUG
         .task {
+            guard let t = UITestLaunch.token(in: text),
+                  let url = URL(string: "maestro-token://t/\(t.sentence)/\(t.token)") else { return }
             // Present help once the push has finished.
             try? await Task.sleep(for: .milliseconds(600))
-            if let t = UITestLaunch.token(in: text), let url = URL(string: "maestro-token://t/\(t.sentence)/\(t.token)") {
-                open(url, in: text)
-            }
+            open(url, in: text)
         }
         #endif
         #if os(iOS)
