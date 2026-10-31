@@ -59,6 +59,9 @@ struct VerbsHomeView: View {
         }
         .navigationTitle("Verbs")
         .searchable(text: $query, prompt: "Any verb form: vada, saremmo")
+        #if DEBUG
+        .task { if query.isEmpty, let q = UITestLaunch.query { query = q } }
+        #endif
         .autocorrectionDisabled()
         #if os(iOS)
         .textInputAutocapitalization(.never)

@@ -8,24 +8,26 @@ struct RootView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.scenePhase) private var scenePhase
     @State private var showOnboarding = false
+    /// Each tab's navigation stack.
+    @State private var paths: [AppTab: [Route]] = [:]
 
     var body: some View {
         @Bindable var model = model
         TabView(selection: $model.selectedTab) {
             Tab("Read", systemImage: "book", value: AppTab.read) {
-                NavigationStack { LibraryView().withRoutes() }
+                NavigationStack(path: path(.read)) { LibraryView().withRoutes() }
             }
             Tab("Dictionary", systemImage: "character.book.closed", value: AppTab.dictionary) {
-                NavigationStack { DictionaryView().withRoutes() }
+                NavigationStack(path: path(.dictionary)) { DictionaryView().withRoutes() }
             }
             Tab("Verbs", systemImage: "textformat.abc", value: AppTab.verbs) {
-                NavigationStack { VerbsHomeView().withRoutes() }
+                NavigationStack(path: path(.verbs)) { VerbsHomeView().withRoutes() }
             }
             Tab("Remember", systemImage: "rectangle.stack", value: AppTab.remember) {
-                NavigationStack { RememberView().withRoutes() }
+                NavigationStack(path: path(.remember)) { RememberView().withRoutes() }
             }
             Tab("Listen", systemImage: "headphones", value: AppTab.listen) {
-                NavigationStack { ListenView().withRoutes() }
+                NavigationStack(path: path(.listen)) { ListenView().withRoutes() }
             }
         }
         .tabViewStyle(.sidebarAdaptable)
@@ -36,6 +38,9 @@ struct RootView: View {
         .task {
             if !prefs.onboarded { showOnboarding = true }
             maintain()
+            #if DEBUG
+            openFromLaunchArguments()
+            #endif
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { maintain() }
@@ -44,6 +49,21 @@ struct RootView: View {
             prefs.reloadFromCloud()
         }
     }
+
+    private func path(_ tab: AppTab) -> Binding<[Route]> {
+        Binding(get: { paths[tab] ?? [] }, set: { paths[tab] = $0 })
+    }
+
+    #if DEBUG
+    /// The screenshot UI test opens screens directly (UITestLaunch).
+    private func openFromLaunchArguments() {
+        if UITestLaunch.seed {
+            UITestLaunch.seedRemember(RememberStore(context: context, prefs: prefs, content: model.content), model: model)
+        }
+        if let tab = UITestLaunch.tab { model.selectedTab = tab }
+        if let route = UITestLaunch.route { paths[model.selectedTab] = [route] }
+    }
+    #endif
 
     /// After launch and whenever the app comes back: dedupe what sync brought in, then bring the
     /// local schedule up to date with the review logs.

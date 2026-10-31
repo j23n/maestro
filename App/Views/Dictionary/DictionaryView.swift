@@ -31,6 +31,9 @@ struct DictionaryView: View {
         }
         .navigationTitle("Dictionary")
         .searchable(text: $query, prompt: englishToItalian ? "English word" : "Italian word or form")
+        #if DEBUG
+        .task { if query.isEmpty, let q = UITestLaunch.query { query = q } }
+        #endif
         .autocorrectionDisabled()
         #if os(iOS)
         .textInputAutocapitalization(.never)

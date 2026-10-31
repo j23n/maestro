@@ -1,134 +1,48 @@
 import XCTest
 
-/// Walks the main screens and keeps a screenshot of each, so the UI can be checked against the
-/// mocks without a device. `make screenshots` runs it on an iPhone and an iPad simulator and
-/// exports the screenshots to .build/Screenshots. A screen it can't reach is skipped, not failed.
+/// Opens each main screen and keeps a screenshot of it, so the UI can be checked against the mocks
+/// without a device. `make screenshots` runs it on an iPhone and an iPad simulator and exports the
+/// screenshots to .build/Screenshots. Each screen is a fresh launch that opens it directly through
+/// launch arguments (App/Model/UITesting.swift), so one screen that doesn't render can't hide the rest.
 final class ScreenshotTests: XCTestCase {
-    private var app: XCUIApplication!
-    private var device: String { UIDevice.current.userInterfaceIdiom == .pad ? "iPad" : "iPhone" }
-
-    override func setUp() {
-        continueAfterFailure = true
-        app = XCUIApplication()
-        // An in-memory learner store, so each run starts empty.
-        app.launchArguments = ["-uiTesting"]
-    }
+    /// The screens: a name and the launch arguments that open it.
+    private let screens: [(name: String, arguments: [String])] = [
+        ("01-onboarding", ["-onboarded", "NO"]),
+        ("02-library", ["-uiTab", "read"]),
+        ("03-reader", ["-uiTab", "read", "-uiRoute", "text:racconti-brevi-03"]),
+        ("04-reader-help", ["-uiTab", "read", "-uiRoute", "text:racconti-brevi-03", "-uiToken", "auto"]),
+        ("05-questions", ["-uiTab", "read", "-uiRoute", "questions:racconti-brevi-03"]),
+        ("06-dictionary", ["-uiTab", "dictionary"]),
+        ("07-dictionary-lookup", ["-uiTab", "dictionary", "-uiQuery", "andavamo"]),
+        ("08-entry", ["-uiTab", "dictionary", "-uiRoute", "entry:it:andare:v"]),
+        ("09-verbs", ["-uiTab", "verbs"]),
+        ("10-verbs-lookup", ["-uiTab", "verbs", "-uiQuery", "saremmo"]),
+        ("11-verb-table", ["-uiTab", "verbs", "-uiRoute", "verb:it:andare:v"]),
+        ("12-grammar-topic", ["-uiTab", "verbs", "-uiRoute", "grammar:congiuntivo-presente"]),
+        ("13-grammar-index", ["-uiTab", "verbs", "-uiRoute", "grammarIndex"]),
+        ("14-remember", ["-uiTab", "remember", "-uiSeed"]),
+        ("15-review", ["-uiTab", "remember", "-uiSeed", "-uiReview"]),
+        ("16-listen", ["-uiTab", "listen"]),
+        ("17-settings", ["-uiTab", "read", "-uiRoute", "settings"]),
+    ]
 
     @MainActor
-    func testMainScreens() {
-        XCUIDevice.shared.orientation = UIDevice.current.userInterfaceIdiom == .pad ? .landscapeLeft : .portrait
-        app.launch()
-
-        // First launch: onboarding.
-        if app.buttons["Start"].waitForExistence(timeout: 10) {
-            snap("01-onboarding")
-            app.buttons["Start"].tap()
+    func testScreens() {
+        let pad = UIDevice.current.userInterfaceIdiom == .pad
+        XCUIDevice.shared.orientation = pad ? .landscapeLeft : .portrait
+        let app = XCUIApplication()
+        for screen in screens {
+            // -uiTesting: an empty in-memory learner store. Onboarding is done unless the screen says.
+            let onboarded = screen.arguments.contains("-onboarded") ? [] : ["-onboarded", "YES"]
+            app.launchArguments = ["-uiTesting"] + onboarded + screen.arguments
+            app.launch()
+            _ = app.wait(for: .runningForeground, timeout: 10)
+            sleep(3)
+            let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+            attachment.name = "\(pad ? "iPad" : "iPhone")-\(screen.name)"
+            attachment.lifetime = .keepAlways
+            add(attachment)
+            app.terminate()
         }
-
-        snap("02-library")
-
-        // A text in the reader, then help for a word.
-        if tapText("Il treno per Bologna") || tapText("Al bar") {
-            sleep(1)
-            snap("03-reader")
-            let word = app.links.firstMatch
-            if word.waitForExistence(timeout: 3) {
-                word.tap()
-                sleep(1)
-                snap("04-reader-help")
-                // Keep the first item, so Remember has a card.
-                let keep = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Remember' OR label BEGINSWITH 'Keep'")).firstMatch
-                if keep.exists { keep.tap() }
-            }
-            app.swipeDown()
-            if app.buttons["Questions"].exists {
-                app.buttons["Questions"].tap()
-                sleep(1)
-                snap("05-questions")
-            }
-        }
-
-        // Dictionary: a search and an entry.
-        if openTab("Dictionary") {
-            snap("06-dictionary")
-            search("andare")
-            snap("07-dictionary-search")
-            if tapText("andare") {
-                sleep(1)
-                snap("08-entry")
-            }
-        }
-
-        // Verbs: the home, a verb table, a grammar topic.
-        if openTab("Verbs") {
-            snap("09-verbs")
-            search("saremmo")
-            snap("10-verbs-search")
-            if tapText("andare") || tapText("essere") {
-                sleep(1)
-                snap("11-verb-table")
-            }
-            if openTab("Verbs"), tapText("Passato prossimo") {
-                sleep(1)
-                snap("12-grammar-topic")
-            }
-        }
-
-        if openTab("Remember") {
-            snap("13-remember")
-        }
-
-        if openTab("Listen") {
-            snap("14-listen")
-        }
-
-        if openTab("Read") {
-            let settings = app.buttons["Settings"].firstMatch
-            if settings.waitForExistence(timeout: 3) {
-                settings.tap()
-                sleep(1)
-                snap("15-settings")
-            }
-        }
-    }
-
-    // MARK: Helpers
-
-    private func snap(_ name: String) {
-        let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
-        attachment.name = "\(device)-\(name)"
-        attachment.lifetime = .keepAlways
-        add(attachment)
-    }
-
-    /// Selects a tab, from the tab bar on iPhone or the sidebar or top bar on iPad.
-    @discardableResult
-    private func openTab(_ name: String) -> Bool {
-        let candidates = [app.tabBars.buttons[name], app.buttons[name], app.cells[name], app.staticTexts[name]]
-        for element in candidates where element.firstMatch.exists && element.firstMatch.isHittable {
-            element.firstMatch.tap()
-            // Back to the tab's root when it was showing a pushed screen.
-            element.firstMatch.tap()
-            sleep(1)
-            return true
-        }
-        return false
-    }
-
-    private func tapText(_ text: String) -> Bool {
-        let element = app.staticTexts[text].firstMatch
-        guard element.waitForExistence(timeout: 3) else { return false }
-        if !element.isHittable { app.swipeUp() }
-        guard element.isHittable else { return false }
-        element.tap()
-        return true
-    }
-
-    private func search(_ text: String) {
-        let field = app.searchFields.firstMatch
-        guard field.waitForExistence(timeout: 3) else { return }
-        field.tap()
-        field.typeText(text)
-        sleep(1)
     }
 }

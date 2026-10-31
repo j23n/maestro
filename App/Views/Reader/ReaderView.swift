@@ -72,6 +72,13 @@ struct ReaderView: View {
             }
         }
         .navigationTitle(text.title)
+        #if DEBUG
+        .task {
+            if let t = UITestLaunch.token(in: text), let url = URL(string: "maestro-token://t/\(t.sentence)/\(t.token)") {
+                open(url, in: text)
+            }
+        }
+        #endif
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

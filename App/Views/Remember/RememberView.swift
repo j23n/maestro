@@ -63,6 +63,9 @@ struct RememberView: View {
             group("Later", later, stateByKey: stateByKey)
         }
         .navigationTitle("Remember")
+        #if DEBUG
+        .task { if UITestLaunch.review { reviewing = true } }
+        #endif
         #if os(macOS)
         .sheet(isPresented: $reviewing) {
             ReviewView().frame(minWidth: 560, minHeight: 620)

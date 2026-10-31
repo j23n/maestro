@@ -2,6 +2,7 @@
 attachments (`make screenshots`)."""
 
 import json
+import re
 import os
 import shutil
 import subprocess
@@ -23,15 +24,16 @@ def main(result_bundle: str, out_dir: str) -> int:
         count = 0
         for test in manifest:
             for attachment in test.get("attachments", []):
-                exported = attachment.get("exportedFileName")
-                if not exported:
-                    continue
-                # suggestedHumanReadableName is "<name>_<n>_<UUID>.png"; keep the name.
-                name = attachment.get("suggestedHumanReadableName") or exported
+                exported = attachment.get("exportedFileName") or ""
+                # suggestedHumanReadableName is "<name>_<n>_<UUID>.png"; keep the name. Only the
+                # test's own screenshots (iPhone-… and iPad-…), not Xcode's automatic attachments.
+                name = attachment.get("suggestedHumanReadableName") or ""
                 stem, ext = os.path.splitext(name)
                 parts = stem.rsplit("_", 2)
                 stem = parts[0] if len(parts) == 3 else stem
-                shutil.copy(os.path.join(tmp, exported), os.path.join(out_dir, stem + (ext or ".png")))
+                if ext != ".png" or not re.fullmatch(r"(iPhone|iPad)-[\w-]+", stem):
+                    continue
+                shutil.copy(os.path.join(tmp, exported), os.path.join(out_dir, stem + ext))
                 count += 1
     print(f"{count} screenshots from {os.path.basename(result_bundle)}")
     return 0
