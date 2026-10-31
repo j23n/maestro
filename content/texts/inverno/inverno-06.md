@@ -7,7 +7,7 @@ topics: holidays, travel, friends
 introduces: condizionale-presente
 recycle: futuro-semplice, passato-prossimo
 register: tu
-window: easter-60..easter-47
+window: easter-75..easter-47
 
 > Elena: Marco, hai visto? Il Carnevale di Venezia comincia sabato. || Marco, have you seen? The Venice Carnival starts on Saturday.
 > Elena: Ti andrebbe di andarci per un weekend? || Would you fancy going for a weekend?

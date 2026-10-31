@@ -6,7 +6,7 @@ status: draft
 topics: music, television, family
 introduces: futuro-anteriore
 recycle: congiuntivo-presente, condizionale-presente
-window: 01-25..02-20
+window: 01-25..03-05
 
 Ogni anno, a febbraio, per cinque sere l'Italia sembra fermarsi davanti alla televisione: comincia il Festival di Sanremo. || Every year in February, for five evenings, Italy seems to stop in front of the television: the Sanremo Festival begins.
 Il festival della canzone italiana esiste dal 1951 e da allora ha lanciato cantanti che oggi tutti conoscono. || The festival of Italian song has existed since 1951, and since then it has launched singers everyone knows today.
