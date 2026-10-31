@@ -45,6 +45,7 @@ struct ReaderView: View {
             .frame(maxWidth: 720, alignment: .leading)
             .frame(maxWidth: .infinity)
         }
+        .accessibilityIdentifier("reader")
         .onScrollGeometryChange(for: Double.self) { geo in
             let scrollable = geo.contentSize.height - geo.containerSize.height
             guard scrollable > 0 else { return 1 }
@@ -56,15 +57,7 @@ struct ReaderView: View {
             open(url, in: text)
             return .handled
         })
-        .inspector(isPresented: $showHelp) {
-            NavigationStack {
-                if let help {
-                    HelpView(help: help).withRoutes()
-                }
-            }
-            .presentationDetents([.medium, .large])
-            .inspectorColumnWidth(min: 300, ideal: 360, max: 440)
-        }
+        .modifier(HelpPresentation(isPresented: $showHelp, help: help))
         .onChange(of: showHelp) { _, shown in
             if !shown {
                 selection = nil
@@ -74,9 +67,11 @@ struct ReaderView: View {
         .navigationTitle(text.title)
         #if DEBUG
         .task {
-            if let t = UITestLaunch.token(in: text), let url = URL(string: "maestro-token://t/\(t.sentence)/\(t.token)") {
-                open(url, in: text)
-            }
+            guard let t = UITestLaunch.token(in: text),
+                  let url = URL(string: "maestro-token://t/\(t.sentence)/\(t.token)") else { return }
+            // Present help once the push has finished.
+            try? await Task.sleep(for: .milliseconds(600))
+            open(url, in: text)
         }
         #endif
         #if os(iOS)
@@ -224,6 +219,37 @@ struct ReaderView: View {
             n += block.sentences.count
         }
         return starts
+    }
+}
+
+/// Where tapped-word help appears: a sheet on iPhone and iPad, an inspector on the Mac.
+///
+/// The reader is a NavigationStack destination. An `.inspector` there, holding a NavigationStack of
+/// its own, froze iOS as soon as the reader was pushed, and the stack then fell back to its root.
+/// A sheet is a separate presentation, so its own NavigationStack is fine. On the Mac the inspector
+/// has no stack of its own: help's links push onto the reader's stack.
+private struct HelpPresentation: ViewModifier {
+    @Binding var isPresented: Bool
+    let help: HelpContent?
+
+    func body(content: Content) -> some View {
+        #if os(macOS)
+        content.inspector(isPresented: $isPresented) {
+            if let help {
+                HelpView(help: help)
+            }
+        }
+        .inspectorColumnWidth(min: 300, ideal: 360, max: 440)
+        #else
+        content.sheet(isPresented: $isPresented) {
+            NavigationStack {
+                if let help {
+                    HelpView(help: help).withRoutes()
+                }
+            }
+            .presentationDetents([.medium, .large])
+        }
+        #endif
     }
 }
 
