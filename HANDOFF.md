@@ -140,7 +140,7 @@ Not mocked yet: dark mode, iPad library and review, Mac Listen and Settings, wid
 | --- | --- |
 | UI | SwiftUI multiplatform, native macOS target, `NavigationSplitView` (tabs on iPhone, sidebar on iPad/Mac) |
 | Language | Swift 6 with strict concurrency |
-| Minimum OS | iOS / iPadOS / macOS 27 (shipped September 2026). Current Background Assets API without the 27.0 deprecations or the 26.4–26.6 download failures; Apple silicon Macs only (macOS 26 was the last Intel release) |
+| Minimum OS | iOS / iPadOS / macOS 26.0 (decided 2026-10-31; exact value in `project.yml`). Builds with the hosted runners' default Xcode 26.6, so CI and TestFlight need no Xcode 27. Intel Macs on macOS 26 stay supported. Pack downloads are enabled at runtime only on 26.7 and later, which avoids the 26.4–26.6 Background Assets download failures |
 | Content store | Read-only SQLite (via GRDB) bundled with the app, FTS5 index, plus a catalog of every text (downloaded or not) |
 | Learner store | SwiftData + CloudKit private database for cards, review logs, progress and lookups; the FSRS schedule cache in a separate local-only SwiftData store |
 | Scheduler | FSRS-6 package behind a protocol |
@@ -278,7 +278,7 @@ The database built from Wiktionary and Morph-it! must be offered under CC BY-SA;
 - Each app release bundles a catalog (`catalog_text`, `text_lemma`) of every text, downloaded or not, for library ranking, "Good fit" and Known %.
 - Pack builds fail when an ID doesn't resolve, a range doesn't match, text isn't NFC, or units overlap.
 - Authoring: Markdown with front matter → build tool tokenises, links lemmas, proposes analyses, flags unknowns → native speaker reviews → pack. Sentence IDs (`s<n>`) are assigned once and never renumbered when a text is edited after release.
-- Delivery: starter texts bundled; others as Apple-hosted asset packs (up to 200 packs, 200 GB per app; reviewed separately from builds). Packs stay on disk until `remove(assetPackWithID:)`. Use only the current (iOS/macOS 27) `AssetPackManager` API; several methods were deprecated in 26.4 and 27.0, and 26.4–26.6 had download failures, which the 27 minimum avoids. Bundle enough to never block the first session; add retry and "not downloaded" states. Don't use On-Demand Resources (deprecated in iOS 27).
+- Delivery: starter texts bundled; others as Apple-hosted asset packs (up to 200 packs, 200 GB per app; reviewed separately from builds). Packs stay on disk until `remove(assetPackWithID:)`. Use only the current `AssetPackManager` API; several methods were deprecated in 26.4 and 27.0. 26.4–26.6 had download failures, so downloads are offered only on 26.7 and later (`#available`); earlier 26.x devices read the bundled texts. Bundle enough to never block the first session; add retry and "not downloaded" states. Don't use On-Demand Resources (deprecated in iOS 27).
 
 ### 6.4 Curriculum gaps to close
 
@@ -364,7 +364,7 @@ Look: quiet, text first, no colour except where it carries meaning. The mocks us
 - [ ] Speaking and writing: in scope?
 - [ ] Phrase as a fourth Remember kind?
 - [ ] Sentence translation in iPad popover and Mac inspector: keep or remove (removed on iPhone)?
-- [x] Minimum OS 26 or 27? **27** (decided 2026-10-31; see section 5).
+- [x] Minimum OS 26 or 27? **26.0** (decided 2026-10-31, replacing an earlier choice of 27; see section 5).
 - [ ] Business model: paid, subscription, or free with paid packs?
 - [ ] Learners' base language: English only for v1?
 - [ ] Who writes and reviews the 100 texts; level split (mocks use 20/28/30/22)?
