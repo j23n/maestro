@@ -69,6 +69,10 @@ brief: content
 	@[ -n "$(LEVEL)" ] && [ -n "$(COLLECTION)" ] || { echo "usage: make brief LEVEL=A2 COLLECTION=vita-quotidiana [TITLE=…] [WINDOW=12-01..01-06]"; exit 2; }
 	$(CONTENT_TOOL) brief --level $(LEVEL) --collection $(COLLECTION) $(if $(TITLE),--title "$(TITLE)") $(if $(WINDOW),--window $(WINDOW))
 
+draft: content
+	@[ -n "$(TEXT)" ] || { echo "usage: make draft TEXT=content/texts/<collection>/<id>.md"; exit 2; }
+	$(CONTENT_TOOL) draft $(TEXT)
+
 # The main screens on an iPhone and an iPad simulator, as PNGs in .build/Screenshots, for checking
 # the UI against the mocks. The iPad runs in landscape, and the simulator saves its screenshots
 # unrotated, so they're turned upright. The iPad is the first iPad Pro 13-inch the runner has, else any iPad.

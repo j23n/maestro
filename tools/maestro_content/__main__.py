@@ -30,7 +30,8 @@ def main(argv: list[str] | None = None) -> int:
 
     default_db = os.path.join(ROOT, "App", "Resources", "Content", "content.sqlite")
     for name, text in (("coverage", "write the coverage report"), ("check", "check texts against their level and brief"),
-                       ("brief", "propose a brief for the next text")):
+                       ("brief", "propose a brief for the next text"),
+                       ("draft", "draft a brief's text with Claude, then check it")):
         c = sub.add_parser(name, help=text)
         c.add_argument("--db", default=default_db, help="content.sqlite from make content")
         c.add_argument("--texts", default=os.path.join(ROOT, "content", "texts"))
@@ -41,12 +42,20 @@ def main(argv: list[str] | None = None) -> int:
             c.add_argument("--out", default=os.path.join(ROOT, ".build", "coverage.md"))
         elif name == "check":
             c.add_argument("paths", nargs="*", help="text sources; default: every text")
+        elif name == "draft":
+            c.add_argument("text", help="the text source whose front matter is the brief")
         else:
             c.add_argument("--level", required=True, choices=curriculum.LEVELS)
             c.add_argument("--collection", required=True)
             c.add_argument("--title", default="Senza titolo")
             c.add_argument("--window", default="", help="feature window, such as 12-01..01-06")
     args = ap.parse_args(argv)
+    if args.cmd == "draft":
+        from . import draft
+        if not os.path.exists(args.db):
+            print(f"{args.db} is missing; run make content first", file=sys.stderr)
+            return 2
+        return draft.run(args)
     if args.cmd != "build":
         return curriculum_command(args)
 

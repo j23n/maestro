@@ -200,3 +200,26 @@ def test_window_format():
     assert curriculum.WINDOW_RE.fullmatch("easter-60..easter-47")
     assert curriculum.WINDOW_RE.fullmatch("easter+1..easter+1")
     assert not curriculum.WINDOW_RE.fullmatch("December")
+
+
+def test_draft_keeps_the_brief_and_marks_the_text_a_draft(conn, dirs):
+    from maestro_content import draft
+
+    brief = ("# Senza titolo\nlevel: A1\ncollection: test\norder: 1\nstatus: brief\ntopics: \n"
+             "introduces: presente-indicativo\nnewWords: nonno:n\n")
+    reply = ("Here it is.\n```markdown\n# Il nonno\nlevel: B2\ncollection: other\norder: 9\nstatus: reviewed\n"
+             "topics: family\nintroduces: congiuntivo-imperfetto\n\n"
+             "Il nonno va in treno. || Grandad goes by train.\n```\n")
+    merged = draft.merge(brief, draft.markdown_block(reply))
+    title, meta, body = draft.front_matter(merged)
+    meta = dict(meta)
+    assert title == "Il nonno"
+    assert meta["level"] == "A1" and meta["collection"] == "test" and meta["order"] == "1"
+    assert meta["status"] == "draft" and meta["introduces"] == "presente-indicativo"
+    assert meta["topics"] == "family"
+    assert body == "Il nonno va in treno. || Grandad goes by train."
+
+    path = write(dirs, "test-01", brief)
+    text = draft.describe_brief(library(conn, dirs), path)
+    assert "Level A1" in text and "presente-indicativo" in text and "nonno:n" in text
+    assert "passato-remoto" not in text  # later grammar isn't offered
