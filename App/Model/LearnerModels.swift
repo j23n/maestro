@@ -115,24 +115,24 @@ enum LearnerSchema {
     /// Two stores: the synced one in the CloudKit private database (when the app is signed with the
     /// iCloud entitlement; otherwise local), and the schedule cache, never synced.
     @MainActor static func makeContainer(inMemory: Bool = false) -> ModelContainer {
-        let synced = ModelConfiguration("Learner", schema: Schema(synced), isStoredInMemoryOnly: inMemory,
-                                        cloudKitDatabase: inMemory ? .none : .automatic)
-        let local = ModelConfiguration("Schedule", schema: Schema(local), isStoredInMemoryOnly: inMemory,
-                                       cloudKitDatabase: .none)
+        let all = Schema(synced + local)
+        let syncedStore = ModelConfiguration("Learner", schema: Schema(synced), isStoredInMemoryOnly: inMemory,
+                                             cloudKitDatabase: inMemory ? .none : .automatic)
+        let localStore = ModelConfiguration("Schedule", schema: Schema(local), isStoredInMemoryOnly: inMemory,
+                                            cloudKitDatabase: .none)
         do {
-            return try ModelContainer(for: Schema(synced + local), configurations: synced, local)
+            return try ModelContainer(for: all, configurations: syncedStore, localStore)
         } catch {
             // CloudKit can refuse the store (no iCloud account in a test environment, say): fall back to
             // local storage rather than not launching.
             let fallback = ModelConfiguration("Learner", schema: Schema(synced), isStoredInMemoryOnly: inMemory,
                                               cloudKitDatabase: .none)
             do {
-                return try ModelContainer(for: Schema(synced + local), configurations: fallback, local)
+                return try ModelContainer(for: all, configurations: fallback, localStore)
             } catch {
                 // Last resort: an in-memory store, so the app still opens and reads.
                 do {
-                    return try ModelContainer(for: Schema(synced + local),
-                                              configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+                    return try ModelContainer(for: all, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
                 } catch {
                     fatalError("Can't create even an in-memory store: \(error)")
                 }
