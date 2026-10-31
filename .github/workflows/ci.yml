@@ -1,0 +1,44 @@
+# The shared Linux and macOS jobs (j23n/apple-ci), which run `make ci-linux` and `make ci-macos`:
+# the Swift packages' tests and the content pipeline's tests on Linux, then on the Mac the app built
+# for the iOS Simulator and the Mac, and its tests.
+
+name: CI
+
+# apple-ci's workflows decide when each job runs (its README's "When CI runs"): Linux on every push;
+# macOS on pushes to main, runs by hand (Actions › CI › Run workflow), and a pull request once it's
+# labeled ci:mac, which Claude's review adds when the change needs the Mac's build.
+on:
+  push:
+  pull_request:
+    # Only labeled: each commit already has its push's run. The ci:mac label's run adds the Mac's
+    # jobs; another label's run skips them (apple-ci's README, "When CI runs").
+    types: [labeled]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A newer push to the same branch or pull request cancels the run in progress.
+concurrency:
+  # A label's run has a group of its own, so labeling a pull request for another reason doesn't cancel
+  # the Mac's run.
+  group: ci-${{ github.ref }}-${{ github.event.label.name }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    uses: j23n/apple-ci/.github/workflows/linux.yml@main
+    with:
+      name: Linux · packages and content pipeline
+      # SQLite's headers for the packages' system-library module, and pytest for tools/.
+      apt-packages: python3 python3-pytest libsqlite3-dev
+      # The content pipeline's downloads (kaikki.org and the other sources), kept between runs.
+      # tools/content-sources.txt lists the dumps' URLs, so changing one refreshes the cache.
+      cache-path: .build/content-sources
+      cache-key: content-sources-v1
+      cache-hash-files: tools/content-sources.txt
+
+  macos:
+    uses: j23n/apple-ci/.github/workflows/macos.yml@main
+    with:
+      name: macOS · packages, app and tests (iOS Simulator and Mac)

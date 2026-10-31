@@ -1,0 +1,93 @@
+# Claude reviews every pull request that isn't a draft and posts its findings as
+# comments; its allowed tools can't push, and only `git diff --output`, which the
+# prompt never asks for, could write a file. It runs on Linux minutes.
+# Needs the Claude GitHub App on the repository and the CLAUDE_CODE_OAUTH_TOKEN
+# secret (from `claude setup-token`), the same one the claude workflow uses.
+name: Claude review
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+  issues: write # creates the ci:mac label
+  pull-requests: write
+  id-token: write
+
+# A newer push cancels the review in progress, which would review an outdated commit.
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      # The label that starts the Mac's CI on this pull request (j23n/apple-ci's README, "When CI
+      # runs"); the review adds it. Created here when the repository doesn't have it yet.
+      - name: The ci:mac label
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh label create "ci:mac" --repo "$GITHUB_REPOSITORY" --color 1d76db
+          --description "Runs the Mac's CI on this pull request" 2>/dev/null || true
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # The action stops when a bot started the run. Claude on GitHub (claude.yml), which only
+          # people with write access can start, pushes its pull requests' commits as claude[bot],
+          # and GitHub credits some of those pushes to github-actions[bot]. Only the Claude GitHub
+          # App and this repository's own workflows can push as these two. Other bots stay refused.
+          allowed_bots: claude,github-actions
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            PR TITLE: ${{ github.event.pull_request.title }}
+            HEAD: ${{ github.event.pull_request.head.sha }}
+
+            Review this pull request for the maestro repo, an Italian learning app. Read CLAUDE.md and HANDOFF.md first, then
+            the diff (gh pr diff ${{ github.event.pull_request.number }}) and the docs it touches or relies on.
+            Check: correctness bugs, with the inputs that trigger them; CLAUDE.md's non-negotiables (offline first, no network
+            calls at runtime beyond CloudKit sync and Background Assets, no backend, text first, reference not drills); its
+            SwiftData + CloudKit rules (no unique attributes, every property optional or defaulted, no renamed or retyped
+            properties, ReviewLog append-only, the FSRS schedule never synced); content IDs only from content/ids/ and verb
+            forms only with HANDOFF.md 6.5's tags; pack files validate against content/schema/; tests would fail if the
+            behaviour broke, especially for the lookup cascade, conjugation, FSRS replay and the merge pass.
+
+            Post one summary comment with gh pr comment, whose first line is "Reviewed <the first seven characters of HEAD
+            above>" (HEAD is the pull request's head; the checkout itself is GitHub's merge commit), and inline comments for
+            specific lines, each starting with the same short SHA. The summary then gives a verdict (pass/fail) and
+            numbered findings, each with file:line, the problem and a concrete fix, marked:
+            - [blocking]: a bug a realistic input triggers in behavior the docs or the description define, or a broken
+              CLAUDE.md rule. Name the input.
+            - [question]: a case the docs don't decide, even when the pull request picked a behavior for it. Give the
+              options; the owner decides. Don't invent the rule.
+            - [minor]: anything else worth changing.
+            Only [blocking] findings make the verdict fail. Do not modify files.
+
+            Your earlier summaries are the comments whose first line is "Reviewed <sha>" (gh pr view ${{ github.event.pull_request.number }} --comments).
+            If there is one, this is a re-review: check that each blocking finding of the latest is fixed, and review what
+            changed since in this pull request's own files (git diff <that sha> ${{ github.event.pull_request.head.sha }} -- <the files
+            gh pr diff ${{ github.event.pull_request.number }} --name-only lists>), not what came in from the base branch. If no summary names a SHA, or that
+            commit is gone, review the whole diff. Raise a new blocking finding only for a bug those changes introduced, or
+            a clear bug every earlier review missed, not a new edge case of logic you've already passed. When a feature has
+            had blocking findings in three reviews, report its further edge cases as [question]s: it needs the owner's
+            decision, not another patch.
+
+            The Mac's CI (the app built and tested in Xcode) doesn't run on a pull request by itself. When your verdict is
+            pass and the pull request's whole diff (gh pr diff), not only what changed since your last review, touches
+            anything only the Mac builds (the app's or its extensions' Swift, project.yml,
+            .xcconfig files, entitlements, Info.plists, assets, the app's tests, or Apple-only code in a package), start it
+            once: gh pr edit ${{ github.event.pull_request.number }} --remove-label ci:mac, then
+            gh pr edit ${{ github.event.pull_request.number }} --add-label ci:mac. Don't for docs, workflows or Linux-only
+            code, which Linux CI covers. Say in your summary whether you started it, and why.
+          claude_args: >-
+            --model claude-opus-5-5
+            --effort high
+            --max-turns 60
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(git diff:*),Bash(gh pr edit:*),Read,Grep,Glob"

@@ -1,0 +1,44 @@
+# TestFlight (j23n/apple-ci, README.md "TestFlight"): pushing a tag such as v1.2.0 on a commit on
+# main archives the app for the iPhone and iPad and for the Mac, signs it with the owner's team and
+# uploads both to App Store Connect, with 1.2.0 as their version. A run by hand (Actions ›
+# TestFlight › Run workflow) archives and signs without uploading, unless you ask it to upload.
+# Needs the Actions secrets APPLE_TEAM_ID, ASC_KEY_ID, ASC_ISSUER_ID and ASC_KEY_P8.
+name: TestFlight
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      upload:
+        description: Upload to App Store Connect
+        type: boolean
+        default: false
+      version:
+        description: The version, such as 1.2.0 (empty keeps the project's)
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+# Tags upload one at a time: a tag's run waits for the one before it rather than cancelling it.
+# GitHub keeps only the newest waiting run of a group, so runs by hand have a group of their own and
+# can't replace a tag's. They can run alongside one, and App Store Connect rejects the second upload
+# of a commit's build number.
+concurrency:
+  group: testflight-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  testflight:
+    uses: j23n/apple-ci/.github/workflows/testflight.yml@main
+    with:
+      upload: ${{ github.event_name == 'push' || inputs.upload }}
+      version: ${{ inputs.version }}
+    # Only the four it uses, not every secret of the repository.
+    secrets:
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
