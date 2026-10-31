@@ -2,7 +2,7 @@ import SwiftUI
 import ItalianCore
 import PackKit
 
-/// Tap-for-help: a sheet on iPhone, the inspector on iPad and Mac (HANDOFF.md 3.1).
+/// Tap-for-help: a sheet on iPhone and iPad, the inspector on the Mac (HANDOFF.md 3.1).
 struct HelpView: View {
     let help: HelpContent
     @Environment(AppModel.self) private var model
@@ -60,14 +60,14 @@ struct HelpView: View {
             }
             .padding(20)
         }
-        .navigationTitle(help.surface)
+        .accessibilityIdentifier("help")
         #if os(iOS)
+        // On the Mac, help sits in the reader's inspector, whose title stays the text's.
+        .navigationTitle(help.surface)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                if sizeClass == .compact {
-                    Button("Done") { dismiss() }
-                }
+                Button("Done") { dismiss() }
             }
         }
         #endif

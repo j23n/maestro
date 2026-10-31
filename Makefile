@@ -21,8 +21,8 @@ CONTENT ?= full
 endif
 CONTENT ?= auto
 APP_PREREQUISITES := content
-# The screenshot walk-through is slow and only for `make screenshots`.
-TEST_APP_FLAGS := -skip-testing:MaestroUITests
+# The screenshot walk-through is slow and only for `make screenshots`; the reader's UI tests run.
+TEST_APP_FLAGS := -skip-testing:MaestroUITests/ScreenshotTests
 
 include .apple-ci/apple.mk
 
@@ -65,7 +65,7 @@ screenshots: project $(APP_PREREQUISITES)
 	  [ -n "$$sim" ] || { echo "No $$key simulator"; status=1; continue; }; \
 	  echo "Screenshots on $$sim"; \
 	  $(XCODE) -destination "platform=iOS Simulator,name=$$sim,OS=latest" \
-	    -resultBundlePath '$(TEST_RESULTS)'/screenshots-$$key.xcresult -only-testing:MaestroUITests \
+	    -resultBundlePath '$(TEST_RESULTS)'/screenshots-$$key.xcresult -only-testing:MaestroUITests/ScreenshotTests \
 	    test $(UNSIGNED) || status=1; \
 	  $(PYTHON) tools/export_screenshots.py '$(TEST_RESULTS)'/screenshots-$$key.xcresult '$(SCREENSHOTS)' || status=1; \
 	done; \

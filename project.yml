@@ -98,8 +98,8 @@ targets:
       - package: MaestroKit
         product: ItalianCore
 
-  # Screenshots of the main screens for checking the UI against the mocks (`make screenshots`).
-  # iOS only; `make test-app` skips it.
+  # Screenshots of the main screens for checking the UI against the mocks (`make screenshots`),
+  # which `make test-app` skips, and the reader's UI tests, which it runs. iOS only.
   MaestroUITests:
     type: bundle.ui-testing
     platform: iOS
