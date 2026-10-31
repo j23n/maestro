@@ -44,3 +44,28 @@ func fixtureDatabase() throws -> ContentDatabase {
         #expect(Conjugator(content: try fixtureDatabase()).table(for: "it:treno:n") == nil)
     }
 }
+
+@Suite struct MarkdownBlockTests {
+    @Test func parsesTopicBody() {
+        let body = """
+        ## When it's used
+
+        For a *completed* action.
+        Second line.
+
+        - one
+        - two
+
+        | | parlare |
+        | --- | --- |
+        | io | parlo |
+        """
+        let blocks = MarkdownBlock.parse(body)
+        #expect(blocks == [
+            .heading("When it's used"),
+            .paragraph("For a *completed* action. Second line."),
+            .list(["one", "two"]),
+            .table(header: ["", "parlare"], rows: [["io", "parlo"]]),
+        ])
+    }
+}

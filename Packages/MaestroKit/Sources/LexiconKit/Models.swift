@@ -116,6 +116,14 @@ public struct Reading: Sendable, Hashable, Identifiable {
     public let surface: String
     public let via: Via
 
+    public init(lemma: LemmaSummary, formTag: FormTag?, genderNumber: GenderNumber?, surface: String, via: Via) {
+        self.lemma = lemma
+        self.formTag = formTag
+        self.genderNumber = genderNumber
+        self.surface = surface
+        self.via = via
+    }
+
     public var id: String { "\(lemma.id)|\(formTag?.description ?? genderNumber?.rawValue ?? "")|\(surface)" }
 
     /// "andare · indicativo imperfetto · noi" or "canto · noun, masculine plural".

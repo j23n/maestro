@@ -141,7 +141,7 @@ Not mocked yet: dark mode, iPad library and review, Mac Listen and Settings, wid
 | UI | SwiftUI multiplatform, native macOS target, `NavigationSplitView` (tabs on iPhone, sidebar on iPad/Mac) |
 | Language | Swift 6 with strict concurrency |
 | Minimum OS | iOS / iPadOS / macOS 26.0 (decided 2026-10-31; exact value in `project.yml`). Builds with the hosted runners' default Xcode 26.6, so CI and TestFlight need no Xcode 27. Intel Macs on macOS 26 stay supported. Pack downloads are enabled at runtime only on 26.7 and later, which avoids the 26.4–26.6 Background Assets download failures |
-| Content store | Read-only SQLite (via GRDB) bundled with the app, FTS5 index, plus a catalog of every text (downloaded or not) |
+| Content store | Read-only SQLite bundled with the app, read through a thin wrapper over the SQLite C API in LexiconKit (no third-party dependency, builds and tests on Linux), FTS5 index, plus a catalog of every text (downloaded or not) |
 | Learner store | SwiftData + CloudKit private database for cards, review logs, progress and lookups; the FSRS schedule cache in a separate local-only SwiftData store |
 | Scheduler | FSRS-6 package behind a protocol |
 | Speech | `AVSpeechSynthesizer`, it-IT voices |
@@ -197,6 +197,7 @@ Only facts sync: what the learner kept and every review they did. The FSRS sched
     var finishedAt: Date? = nil
     var answersJSON: String = ""        // {"q1": {"choice": 1, "at": "2026-10-31T15:00:00Z"}}
     var updatedAt: Date = Date.now
+    var createdAt: Date = Date.now      // the merge pass keeps the oldest record
 }
 
 @Model final class LookupEntry {
@@ -217,11 +218,14 @@ Only facts sync: what the learner kept and every review they did. The FSRS sched
     var lapses: Int = 0
     var scheduledDays: Int = 0
     var lastReviewedAt: Date? = nil
+    var lastTZOffsetMinutes: Int = 0    // day boundary of the last review
     var due: Date = Date.now
+    var parametersVersion: Int = 0      // FSRS parameters it was replayed with
+    var logCount: Int = 0               // logs replayed; a different count after sync means rebuild
 }
 ```
 
-`ScheduleState` mirrors the chosen FSRS package's card struct; adjust its fields to match once the package is picked.
+`ScheduleState` mirrors SRSKit's `Schedule` (FSRS-6, written in-house rather than taken from a package so replay stays deterministic and Linux-testable).
 
 Preferences (level, text size, new items per day, reminder) and the FSRS parameters go in `NSUbiquitousKeyValueStore`.
 

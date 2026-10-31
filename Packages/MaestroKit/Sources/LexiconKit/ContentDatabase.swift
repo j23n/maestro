@@ -155,6 +155,19 @@ public final class ContentDatabase: Sendable {
         return rows?.first.flatMap(GrammarTopicRow.init)
     }
 
+    /// Every catalogued text, downloaded or not.
+    public func catalogTexts() -> [CatalogText] {
+        let rows = (try? db.query("SELECT id, pack_id, title, level, collection, words, ord FROM catalog_text ORDER BY level, collection, ord")) ?? []
+        return rows.compactMap(CatalogText.init)
+    }
+
+    /// IDs of catalogued texts that use a lemma, most uses first.
+    public func texts(using lemmaID: String) -> [String] {
+        let rows = (try? db.query("SELECT text_id FROM text_lemma WHERE lemma_id = ? ORDER BY count DESC",
+                                  [.text(resolve(lemmaID))])) ?? []
+        return rows.compactMap { $0.string("text_id") }
+    }
+
     /// lemma -> count for every catalogued text, for Known % on texts not yet downloaded.
     public func textLemmas() -> [String: [String: Int]] {
         let rows = (try? db.query("SELECT text_id, lemma_id, count FROM text_lemma")) ?? []
@@ -181,5 +194,26 @@ public struct GrammarTopicRow: Sendable, Hashable, Identifiable {
         level = row.string("level") ?? ""
         summary = row.string("summary") ?? ""
         body = row.string("body") ?? ""
+    }
+}
+
+public struct CatalogText: Sendable, Hashable, Identifiable {
+    public let id: String
+    public let packID: String
+    public let title: String
+    public let level: String
+    public let collection: String
+    public let words: Int
+    public let order: Int
+
+    init?(_ row: Row) {
+        guard let id = row.string("id"), let title = row.string("title") else { return nil }
+        self.id = id
+        self.title = title
+        packID = row.string("pack_id") ?? ""
+        level = row.string("level") ?? ""
+        collection = row.string("collection") ?? ""
+        words = row.int("words") ?? 0
+        order = row.int("ord") ?? 0
     }
 }
