@@ -3,9 +3,6 @@
 # uploads both to App Store Connect, with 1.2.0 as their version. A run by hand (Actions ›
 # TestFlight › Run workflow) archives and signs without uploading, unless you ask it to upload.
 # Needs the Actions secrets APPLE_TEAM_ID, ASC_KEY_ID, ASC_ISSUER_ID and ASC_KEY_P8.
-#
-# The app needs Xcode 27 (iOS and macOS 27). Until the hosted runners have it, the job fails at
-# "Xcode" and lists the Xcodes the runner has; `make testflight` on your Mac uploads meanwhile.
 name: TestFlight
 
 on:
@@ -37,7 +34,6 @@ jobs:
   testflight:
     uses: j23n/apple-ci/.github/workflows/testflight.yml@main
     with:
-      xcode: "27"
       upload: ${{ github.event_name == 'push' || inputs.upload }}
       version: ${{ inputs.version }}
     # Only the four it uses, not every secret of the repository.

@@ -1,12 +1,7 @@
 # The shared Linux and macOS jobs (j23n/apple-ci), which run `make ci-linux` and `make ci-macos`:
 # the Swift packages' tests and the content pipeline's tests on Linux, then on the Mac the app built
 # for the iOS Simulator and the Mac, and its tests.
-#
-# The app's minimum is iOS and macOS 27, so only Xcode 27 builds it for real. The macOS job runs once
-# the repository variable HOSTED_XCODE_27 is `true` (Settings › Secrets and variables › Actions ›
-# Variables), set when apple-ci's Runner inventory lists Xcode 27 on the hosted runners. Until then
-# it's skipped and starts no runner, and macos-xcode-26 compiles the app with the runner's Xcode 26
-# against iOS and macOS 26 instead (make build-xcode-26), a check only.
+
 name: CI
 
 # apple-ci's workflows decide when each job runs (its README's "When CI runs"): Linux on every push;
@@ -44,19 +39,6 @@ jobs:
       cache-hash-files: tools/content-sources.txt
 
   macos:
-    if: vars.HOSTED_XCODE_27 == 'true'
     uses: j23n/apple-ci/.github/workflows/macos.yml@main
     with:
-      name: macOS · app and tests with Xcode 27 (iOS Simulator and Mac)
-      xcode: "27"
-      xcode-missing: skip
-
-  # Until the hosted runners have Xcode 27, and only then: the app compiled with Xcode 26 against
-  # iOS and macOS 26. It runs when the macOS job would (main, by hand, a ci:mac label).
-  macos-xcode-26:
-    if: vars.HOSTED_XCODE_27 != 'true'
-    uses: j23n/apple-ci/.github/workflows/macos.yml@main
-    with:
-      name: macOS · app compiled with Xcode 26 (iOS and macOS 26 SDKs)
-      xcode: "26"
-      run: make build-xcode-26
+      name: macOS · packages, app and tests (iOS Simulator and Mac)
