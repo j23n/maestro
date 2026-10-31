@@ -6,7 +6,7 @@ import argparse
 import os
 import sys
 
-from . import build_db, grammar, kaikki, morphit, packs
+from . import build_db, frequency, grammar, kaikki, morphit, packs
 from .registry import Registry
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -23,6 +23,8 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--save-ids", action="store_true", help="write the updated registry back")
     b.add_argument("--texts", default=os.path.join(ROOT, "content", "texts"))
     b.add_argument("--grammar", default=os.path.join(ROOT, "content", "grammar"))
+    b.add_argument("--frequency", default=os.path.join(ROOT, "content", "frequency", "it-opensubtitles-2018.txt"),
+                   help="word-frequency list (form count per line)")
     b.add_argument("--dump-date", default="", help="date of the kaikki dump, recorded in meta")
     b.add_argument("--strict", action="store_true", help="fail on linker warnings too")
     args = ap.parse_args(argv)
@@ -41,6 +43,9 @@ def main(argv: list[str] | None = None) -> int:
                            meta={"kaikki_dump": args.dump_date, "morphit": "yes" if morph else "no"})
     print(f"lemmas {stats.lemmas}, senses {stats.senses} (+{stats.retired_senses} retired), forms {stats.forms} "
           f"(morphit {stats.morphit_forms}), unlinked form-of {stats.unlinked_form_of}", flush=True)
+
+    ranked = frequency.assign_ranks(conn, frequency.load(args.frequency))
+    print(f"frequency ranks for {ranked} lemmas")
 
     topics = grammar.load_all(args.grammar)
     build_db.add_grammar(conn, topics)
