@@ -236,38 +236,44 @@ def run(args) -> int:
 
 
 def _rounds(api, args, conn: sqlite3.Connection, path: str, brief_source: str, messages: list) -> int:
-    for round_ in range(1, ROUNDS + 2):
-        with api.beta.messages.stream(
-                model=MODEL, max_tokens=64000, system=SYSTEM, messages=messages,
-                output_config={"effort": "high"}, betas=["server-side-fallback-2026-07-01"],
-                fallbacks="default") as stream:
-            message = stream.get_final_message()
-        if message.stop_reason == "refusal":
-            print("The draft was declined; write this brief by hand.", file=sys.stderr)
-            return 1
-        text = "".join(b.text for b in message.content if b.type == "text")
-        source = merge(brief_source, markdown_block(text))
-        with open(path, "w", encoding="utf-8") as fh:
-            fh.write(source)
-        problems = findings_for(conn, args, path)
-        if not problems:
-            problems = check_questions(api, source)
-        print(f"round {round_}: {len(problems)} problems")
-        for p in problems:
-            print(f"  {p}")
-        if not problems:
-            print(f"wrote {path}; it needs a native speaker's review before status: reviewed")
-            return 0
-        if round_ > ROUNDS:
-            break
-        messages.append({"role": "assistant", "content": message.content})
-        messages.append({"role": "user", "content": "The checker found these problems. Fix them and return the "
-                                                    "whole file again:\n" + "\n".join(f"- {p}" for p in problems)})
-    aside = set_aside(path, brief_source, source, problems)
-    if aside:
-        print(f"the draft doesn't build, so {path} is the brief again and the draft is in {aside}; fix it "
-              "there and copy it back, or run make draft again", file=sys.stderr)
-    else:
+    source, problems, done = None, [], False
+    try:
+        for round_ in range(1, ROUNDS + 2):
+            with api.beta.messages.stream(
+                    model=MODEL, max_tokens=64000, system=SYSTEM, messages=messages,
+                    output_config={"effort": "high"}, betas=["server-side-fallback-2026-07-01"],
+                    fallbacks="default") as stream:
+                message = stream.get_final_message()
+            if message.stop_reason == "refusal":
+                print("The draft was declined; write this brief by hand.", file=sys.stderr)
+                return 1
+            text = "".join(b.text for b in message.content if b.type == "text")
+            source = merge(brief_source, markdown_block(text))
+            with open(path, "w", encoding="utf-8") as fh:
+                fh.write(source)
+            problems = ["Build: not checked yet"]  # in case the check itself fails
+            problems = findings_for(conn, args, path)
+            if not problems:
+                problems = check_questions(api, source)
+            print(f"round {round_}: {len(problems)} problems")
+            for p in problems:
+                print(f"  {p}")
+            if not problems:
+                done = True
+                print(f"wrote {path}; it needs a native speaker's review before status: reviewed")
+                return 0
+            if round_ > ROUNDS:
+                break
+            messages.append({"role": "assistant", "content": message.content})
+            messages.append({"role": "user", "content": "The checker found these problems. Fix them and return "
+                                                        "the whole file again:\n" + "\n".join(f"- {p}" for p in problems)})
+    finally:
+        # Also on an API error between rounds: a draft that doesn't build mustn't stay in content/texts.
+        aside = set_aside(path, brief_source, source, problems) if source and not done else None
+        if aside:
+            print(f"the draft doesn't build, so {path} is the brief again and the draft is in {aside}; fix it "
+                  "there and copy it back, or run make draft again", file=sys.stderr)
+    if not aside:
         print(f"wrote {path} with problems left; fix them by hand or run make draft again", file=sys.stderr)
     return 1
 

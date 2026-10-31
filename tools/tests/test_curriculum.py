@@ -271,3 +271,33 @@ def test_a_draft_that_does_not_build_is_set_aside(tmp_path):
     assert aside == str(path) + ".failed"
     assert path.read_text(encoding="utf-8") == brief
     assert (tmp_path / "test-01.md.failed").read_text(encoding="utf-8") == failed
+
+
+def test_an_api_error_after_a_broken_round_sets_the_draft_aside(conn, dirs):
+    from argparse import Namespace
+    from types import SimpleNamespace
+
+    from maestro_content import draft
+
+    brief = "# Senza titolo\nlevel: A1\ncollection: test\norder: 1\nstatus: brief\n"
+    path = write(dirs, "test-01", brief)
+    broken = "```markdown\n# Uno\nlevel: A1\n\nIl nonno va. || Grandad goes.\n@q 1 | Chi va? | answer=@s9\n```"
+    replies = iter([SimpleNamespace(stop_reason="end_turn", content=[SimpleNamespace(type="text", text=broken)])])
+
+    class Stream:
+        def __enter__(self):
+            reply = next(replies, None)
+            if reply is None:
+                raise ConnectionError("the network went away")
+            return SimpleNamespace(get_final_message=lambda: reply)
+
+        def __exit__(self, *exc):
+            return False
+
+    api = SimpleNamespace(beta=SimpleNamespace(messages=SimpleNamespace(stream=lambda **kw: Stream())))
+    args = Namespace(texts=str(dirs["texts"]), curriculum=str(dirs["plans"]), grammar=GRAMMAR,
+                     frequency=str(dirs["freq"]))
+    with pytest.raises(ConnectionError):
+        draft._rounds(api, args, conn, path, brief, [])
+    assert open(path, encoding="utf-8").read() == brief
+    assert os.path.exists(path + ".failed")
