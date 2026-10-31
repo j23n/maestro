@@ -197,10 +197,12 @@ struct ReadingRow: View {
     }
 
     /// What this form is, without repeating the headword and part of speech shown above it:
-    /// "indicativo presente · tu" or "feminine plural". Nil for the headword itself.
+    /// "indicativo presente · tu" or "feminine plural". Nil when the form has no analysis, and for
+    /// the headword's own gender and number ("nostro" isn't shown as "masculine singular").
     private var formLine: String? {
         if let tag = reading.formTag { return tag.label }
-        if let gn = reading.genderNumber { return gn.label }
+        let isHeadword = reading.surface.compare(reading.lemma.headword, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
+        if let gn = reading.genderNumber, !isHeadword { return gn.label }
         return nil
     }
 
