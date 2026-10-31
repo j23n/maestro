@@ -23,6 +23,13 @@ public struct PackManifest: Codable, Sendable, Hashable, Identifiable {
         public let topics: [String]?
         public let grammar: GrammarUse?
         public let lemmas: [String]?
+        /// When the library features the text, such as `12-01..01-06` (see `FeatureWindow`).
+        public let window: String?
+        /// `draft` until a native speaker has reviewed the text; absent once reviewed.
+        public let status: String?
+
+        public var featureWindow: FeatureWindow? { window.flatMap { FeatureWindow($0) } }
+        public var isDraft: Bool { status == "draft" }
     }
 
     public struct GrammarUse: Codable, Sendable, Hashable {
