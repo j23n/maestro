@@ -14,6 +14,11 @@ on:
     # jobs; another label's run skips them (apple-ci's README, "When CI runs").
     types: [labeled]
   workflow_dispatch:
+    inputs:
+      screenshots:
+        description: Also take the screenshots (iPhone and iPad)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -44,11 +49,15 @@ jobs:
       name: macOS · packages, app and tests (iOS Simulator and Mac)
 
   # The main screens on an iPhone and an iPad simulator (`make screenshots`), kept as the run's
-  # screenshots artifact for checking the UI against the mocks.
+  # screenshots artifact for checking the UI against the mocks. Mac minutes are scarce, so it runs
+  # only when asked: by hand with the screenshots input, or on a pull request labeled
+  # ci:screenshots.
   screenshots:
+    if: github.event_name == 'pull_request' || inputs.screenshots
     uses: j23n/apple-ci/.github/workflows/macos.yml@main
     with:
       name: macOS · screenshots (iPhone and iPad)
       run: make screenshots
+      pull-request-label: ci:screenshots
       artifact-name: screenshots
       artifact-path: .build/Screenshots
