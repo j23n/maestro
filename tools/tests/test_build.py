@@ -100,3 +100,8 @@ def test_validation_catches_bad_ranges():
 def test_utf16_ranges_count_surrogates():
     from maestro_content.normalize import utf16_len
     assert utf16_len("però") == 4 and utf16_len("🙂") == 2
+
+
+def test_unit_surface_with_elision_matches_tokens():
+    tokens = [{"t": t} for t, _, _, _ in packs.tokenize("Non l'avevo mai vista prima.")]
+    assert packs._find_tokens(tokens, "l'avevo mai vista") == [1, 2, 3, 4]

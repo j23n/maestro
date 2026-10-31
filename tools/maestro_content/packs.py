@@ -500,7 +500,8 @@ def _compound_units(lex: Lexicon, tokens: list[dict], meta: list[dict]) -> list[
 
 def _find_tokens(tokens: list[dict], surface: str) -> list[int] | None:
     """Indices of the tokens a unit names; '…' allows a gap."""
-    pieces = [p.strip().split() for p in surface.split("…")]
+    # Tokenized like the sentence, so "l'avevo" is the two tokens "l'" and "avevo".
+    pieces = [[t for t, _, _, _ in tokenize(p.strip())] for p in surface.split("…")]
     words = [t["t"] for t in tokens]
     for start in range(len(words)):
         idx: list[int] = []
