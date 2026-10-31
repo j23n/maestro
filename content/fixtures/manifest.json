@@ -1,0 +1,23 @@
+{
+  "id": "racconti-brevi",
+  "title": "Racconti brevi",
+  "level": "B1",
+  "version": 1,
+  "contentDBVersion": "2026.10",
+  "language": "it",
+  "translationLanguage": "en",
+  "texts": [
+    {
+      "id": "racconti-brevi-03",
+      "order": 3,
+      "title": "Il treno per Bologna",
+      "file": "texts/racconti-brevi-03.json",
+      "words": 640,
+      "topics": ["family", "travel"],
+      "grammar": {
+        "introduces": ["future-in-the-past"],
+        "uses": ["passato-remoto", "imperfetto", "congiuntivo-presente", "si-impersonale", "combined-pronouns", "preposition-contractions"]
+      }
+    }
+  ]
+}
