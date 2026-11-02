@@ -245,3 +245,35 @@ def test_coordinated_subjects_and_clauses(lex):
         "a clause joined by und whose verb isn't last is a main clause"
     tokens, _, _ = link(lex, "Ich kaufe Brot und dann essen wir.")
     assert tokens["essen"]["form"] == "ind.pres.1p", "und before an inverted main clause"
+
+
+def test_grammar_points_a_token_shows_by_itself(lex):
+    tokens, _, _ = link(lex, "Morgen werde ich nach Hause fahren.")
+    assert "de:verbstellung" in tokens["werde"]["grammar"], "verb second after something other than the subject"
+    tokens, _, _ = link(lex, "Ich werde morgen fahren.")
+    assert "grammar" not in tokens["werde"]
+    tokens, _, _ = link(lex, "Das Kind isst im neuen Haus.")
+    assert "de:adjektivdeklination" in tokens["neuen"]["grammar"]
+    tokens, _, _ = link(lex, "Am Montag kauft er ein Brot.")
+    assert "de:praepositionen-zeit" in tokens["Am"]["grammar"]
+    tokens, _, _ = link(lex, "Der Mann ist nicht gut.")
+    assert tokens["nicht"]["grammar"] == ["de:negation"]
+    tokens, _, _ = link(lex, "Mein Kind ist besser.")
+    assert tokens["Mein"]["grammar"] == ["de:possessivartikel"]
+    assert tokens["besser"]["grammar"] == ["de:komparation"]
+
+
+def test_the_german_texts_build(lex, tmp_path):
+    """Every German text builds with the sample dictionary: ranges, units and questions are sound."""
+    texts = os.path.join(ROOT, "content", "de", "texts")
+    if not os.path.isdir(texts):
+        pytest.skip("no German texts on this branch")
+    from maestro_content import grammar
+    topics = grammar.load_all(os.path.join(ROOT, "content", "de", "grammar"), "de")
+    _, errors = packs.build_all(lex.conn, texts, str(tmp_path / "packs"), "1", topics=topics, language="de")
+    assert errors == []
+    manifests = sorted(p.name for p in (tmp_path / "packs").iterdir())
+    assert manifests == ["alltag", "erste-schritte"]
+    for name in manifests:
+        manifest = json.loads((tmp_path / "packs" / name / "manifest.json").read_text(encoding="utf-8"))
+        assert all(t["id"].startswith("de:") and t["status"] == "draft" for t in manifest["texts"])
