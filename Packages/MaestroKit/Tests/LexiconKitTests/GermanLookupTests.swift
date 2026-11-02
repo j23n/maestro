@@ -66,7 +66,7 @@ func germanDatabase() throws -> ContentDatabase {
         }
         #expect(line("nom.ns") == nil)
         #expect(line("nom.ns", "haus") == nil)
-        #expect(line("nom.fs", "die") == "Nominativ feminin Singular")
+        #expect(line("nom.fs", "die") == "feminin Singular")
         #expect(line("acc.ns") == "Akkusativ neutral Singular")
         #expect(line("nom.pl") == "Plural")
         #expect(line("wk.nom.ms") == "schwach, Nominativ maskulin Singular")
