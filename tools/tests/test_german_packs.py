@@ -261,6 +261,19 @@ def test_grammar_points_a_token_shows_by_itself(lex):
     tokens, _, _ = link(lex, "Mein Kind ist besser.")
     assert tokens["Mein"]["grammar"] == ["de:possessivartikel"]
     assert tokens["besser"]["grammar"] == ["de:komparation"]
+    for text, verb in (("Er kauft sich ein Brot.", "kauft"), ("Ich rufe sie morgen an.", "rufe"),
+                       ("Sie kaufen es heute.", "kaufen"), ("Der Mann kauft es.", "kauft")):
+        tokens, _, _ = link(lex, text)
+        assert "de:verbstellung" not in tokens[verb].get("grammar", []), f"the subject comes first: {text}"
+
+
+def test_a_positive_spelled_like_a_comparative():
+    kleiner = packs_de.Info(pos="adj", tags=["str.nom.ms", "mix.nom.ms", "comp"])
+    assert not packs_de._is_comparison({"t": "kleiner", "decl": "mix", "case": "nom", "gn": "ms"}, kleiner), \
+        "ein kleiner Hund"
+    assert packs_de._is_comparison({"t": "kleiner"}, kleiner), "der Hund ist kleiner"
+    kleinerer = packs_de.Info(pos="adj", tags=["comp.mix.nom.ms"])
+    assert packs_de._is_comparison({"t": "kleinerer", "decl": "mix", "case": "nom", "gn": "ms"}, kleinerer)
 
 
 def test_the_german_texts_build(lex, tmp_path):

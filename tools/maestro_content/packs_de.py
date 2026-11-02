@@ -136,7 +136,7 @@ TIME_WORDS = {"Uhr", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", 
               "Vormittag", "Mittag", "Nachmittag", "Abend", "Nacht", "Wochenende", "Januar", "Februar", "März",
               "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember", "Frühling",
               "Sommer", "Herbst", "Winter", "Jahr", "Monat", "Woche", "Tag", "Stunde", "Minute", "Mittagessen",
-              "Abendessen", "Frühstück", "Kurs", "Unterricht", "Arbeit", "Urlaub", "Ferien"}
+              "Abendessen", "Frühstück"}
 POSSESSIVE_HEADWORDS = {"mein", "dein", "sein", "ihr", "unser", "euer"}
 VERB_LAST_TOPIC_WORDS = {"dass", "weil", "wenn", "ob"}
 TWO_WAY_TOPIC = "de:wechselpraepositionen"
@@ -680,6 +680,18 @@ def _tag(tok: dict, topic: str) -> None:
         grammar.append(topic)
 
 
+def _is_comparison(tok: dict, info: Info) -> bool:
+    """Whether an adjective is a comparative or superlative. kleiner is also the strong positive
+    (ein kleiner Hund): with its ending resolved, only a comp. or sup. tag for that ending counts."""
+    degrees = [t for t in info.tags if t.split(".")[0] in ("comp", "sup")]
+    if not degrees:
+        return False
+    if tok.get("decl") and tok.get("case") and tok.get("gn"):
+        resolved = f"{tok['decl']}.{tok['case']}.{tok['gn']}"
+        return any(t in (f"comp.{resolved}", f"sup.{resolved}") for t in degrees)
+    return True
+
+
 def _topic_tags(tokens: list[dict], infos: list[Info], clauses: list[Clause]) -> None:
     """Grammar points a token shows by itself: nicht, comparatives, adjective endings, time
     prepositions (um acht Uhr, am Montag), and a main clause's verb second after something
@@ -688,11 +700,11 @@ def _topic_tags(tokens: list[dict], infos: list[Info], clauses: list[Clause]) ->
         low = tok["t"].lower()
         if low == "nicht":
             _tag(tok, NEGATION_TOPIC)
-        elif info.pos == "adj" and any(t.split(".")[0] in ("comp", "sup") for t in info.tags):
+        if info.pos == "adj" and _is_comparison(tok, info):
             _tag(tok, COMPARISON_TOPIC)
-        elif tok.get("decl"):
+        if tok.get("decl"):
             _tag(tok, ADJECTIVE_TOPIC)
-        if (low in TIME_PREPOSITIONS or low in ("am", "im")) and infos[i].pos in ("prep", "contr"):
+        if low in TIME_PREPOSITIONS and infos[i].pos in ("prep", "contr"):
             ahead = [t for t in tokens[i + 1:i + 4] if t.get("pos") != "PUNCT"]
             if any(t["t"] in TIME_WORDS or t.get("pos") == "NUM" for t in ahead[:3]):
                 _tag(tok, TIME_TOPIC)
@@ -704,8 +716,11 @@ def _topic_tags(tokens: list[dict], infos: list[Info], clauses: list[Clause]) ->
             continue
         at = clause.words.index(verb)
         after = clause.words[at + 1] if at + 1 < len(clause.words) else None
+        first = tokens[clause.words[0]]
+        if first["t"].lower() in CCONJ or first["t"].lower() in SUBJECT_PERSONS or first.get("case") == "nom":
+            continue  # Er freut sich, Ich besuche sie: the subject comes first
         if at >= 1 and after is not None and infos[after].pos == "pron" and tokens[after].get("case") in (None, "nom") \
-                and tokens[clause.words[0]]["t"].lower() not in CCONJ:
+                and tokens[after]["t"].lower() in SUBJECT_PERSONS:
             _tag(tokens[verb], WORD_ORDER_TOPIC)
 
 

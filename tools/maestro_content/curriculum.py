@@ -26,6 +26,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 
 from . import frequency, grammar, packs
+from .drills_de import FORM_TOPIC as DE_FORM_TOPIC
 
 LEVELS = ["A1", "A2", "B1", "B2"]
 
@@ -42,10 +43,6 @@ FORM_LEVEL = {"inf.pres": "A1", "ger.pres": "A2", "inf.pass": "B1", "part.pres":
 ARTICLES = {"it:il:art", "it:un:art"}  # every article counts as a use of the articles topic
 
 # German: verb forms by grammar topic; forms without a topic carry a level.
-DE_FORM_TOPIC = {
-    "ind.pres": "de:praesens", "imp.pres": "de:imperativ", "ind.perf": "de:perfekt", "ind.prat": "de:praeteritum",
-    "k2.prat": "de:konjunktiv-2", "k2.wuerde": "de:konjunktiv-2", "k2.pqp": "de:konjunktiv-2",
-}
 DE_FORM_LEVEL = {"inf.pres": "A1", "part.pass": "A1", "inf.zu": "A2", "ind.fut1": "A2", "ind.pqp": "B1",
                  "part.pres": "B1", "inf.perf": "B1", "k1.pres": "B2", "ind.fut2": "B2", "k1.perf": "B2"}
 # German words that count as a use of a grammar point, by headword (the linker tags cases, prepositions,
@@ -54,10 +51,7 @@ DE_VERB_TOPIC = {
     **{w: "de:modalverben" for w in ("können", "müssen", "wollen", "sollen", "dürfen", "mögen", "möchten")},
     "sein": "de:sein-haben", "haben": "de:sein-haben",
 }
-DE_WORD_TOPIC = {
-    "der": "de:artikel", "ein": "de:artikel", "nicht": "de:negation", "kein": "de:negation",
-    **{w: "de:possessivartikel" for w in ("mein", "dein", "sein", "ihr", "unser", "euer")},
-}
+DE_WORD_TOPIC = {"der": "de:artikel", "ein": "de:artikel"}
 
 
 @dataclass(frozen=True)
@@ -269,7 +263,7 @@ def analyse(lex: packs.Lexicon, ranks: Ranks, path: str, language: str | None = 
                     elif lemma_id and lemma_id.startswith("de:"):
                         _, headword, pos = lemma_id.split(":")[:3]
                         topic = DE_VERB_TOPIC.get(headword) if pos == "v" else DE_WORD_TOPIC.get(headword)
-                        if topic and not (topic == "de:possessivartikel" and p.get("pos") != "DET"):
+                        if topic:
                             facts.grammar_tags[topic] += 1
                     key = lemma_id or f"form:{p['t'].lower()}"
                     facts.words.append(Word(key=key, surface=p["t"], rank=ranks.of(lemma_id, p["t"]), proper=proper))
@@ -548,9 +542,6 @@ class LevelCoverage:
     registers: Counter = field(default_factory=Counter)
     topics: Counter = field(default_factory=Counter)
     above: list[Finding] = field(default_factory=list)
-
-
-FINITE_MOODS = ("ind.", "sub.", "cond.", "imp.")
 
 
 def coverage(lib: Library, conn: sqlite3.Connection) -> dict[str, LevelCoverage]:
