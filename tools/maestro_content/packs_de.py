@@ -381,8 +381,9 @@ RELATIVE = {"der", "die", "das", "dem", "den", "denen", "dessen", "deren"}
 
 def _starts_main_clause(raw: list[tuple[str, int, int, str]], infos: list[Info], current: list[int], i: int) -> bool:
     """ich koche und wir essen: und or oder after a verb, before a subject and its finite verb, opens a new
-    clause without a comma. Before the clause has a verb it joins two subjects instead (die Frau und ich
-    essen), and without a finite verb after the subject it joins two objects (Brot und eine Suppe gekauft)."""
+    clause without a comma, and so does one word, a finite verb and a subject pronoun (und dann essen wir).
+    Before the clause has a verb it joins two subjects instead (die Frau und ich essen), and without a
+    finite verb after the subject it joins two objects (Brot und eine Suppe gekauft)."""
     if raw[i][0].lower() not in CCONJ or infos[i].pos != "conj" or i + 1 >= len(raw) or raw[i + 1][3] == "p":
         return False
     if not any(infos[k].pos == "v" for k in current):
@@ -391,9 +392,13 @@ def _starts_main_clause(raw: list[tuple[str, int, int, str]], infos: list[Info],
     def finite(j: int) -> bool:
         return j < len(raw) and infos[j].pos == "v" and any(is_finite(t) for t in infos[j].tags)
 
-    nxt = raw[i + 1][0]
-    if nxt.lower() in SUBJECT_PERSONS or nxt == "Sie":
+    def subject_pronoun(j: int) -> bool:
+        return j < len(raw) and (raw[j][0].lower() in SUBJECT_PERSONS or raw[j][0] == "Sie")
+
+    if subject_pronoun(i + 1):
         return finite(i + 2)
+    if finite(i + 2) and subject_pronoun(i + 3) and infos[i + 1].pos != "v":
+        return True  # und dann essen wir: inversion after one word
     return infos[i + 1].slots is not None and i + 2 < len(raw) and raw[i + 2][0][:1].isupper() and finite(i + 3)
 
 
