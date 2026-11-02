@@ -232,3 +232,8 @@ def test_coordinated_subjects_and_clauses(lex):
     assert tokens["Frau"]["case"] == "nom" and tokens["esse"]["form"] == "ind.pres.1s"
     tokens, _, _ = link(lex, "Ich kaufe Brot und wir essen.")
     assert tokens["essen"]["form"] == "ind.pres.1p", "und before a subject opens a new main clause"
+    tokens, units, _ = link(lex, "Ich habe Brot und ein Haus gekauft.")
+    assert any(u["lemmaID"] == "de:kaufen:v" for u in units), "und between two objects keeps one clause"
+    assert tokens["Haus"]["case"] == "acc"
+    tokens, units, _ = link(lex, "Ich rufe den Mann und die Frau an.")
+    assert any(u["lemmaID"] == "de:anrufen:v" for u in units)
