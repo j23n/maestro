@@ -38,8 +38,16 @@ struct SpeechSegment: Hashable {
 
     // MARK: Voices
 
+    /// Installed it-IT voices that sound natural enough to read a text.
     static var italianVoices: [AVSpeechSynthesisVoice] {
-        AVSpeechSynthesisVoice.speechVoices().filter { $0.language == "it-IT" }
+        AVSpeechSynthesisVoice.speechVoices().filter { $0.language == "it-IT" && isReadingVoice($0) }
+    }
+
+    /// Leaves out the Eloquence voices (Eddy, Flo, Grandma…), which sound robotic, and novelty and
+    /// personal voices.
+    static func isReadingVoice(_ voice: AVSpeechSynthesisVoice) -> Bool {
+        !voice.identifier.hasPrefix("com.apple.eloquence.")
+            && voice.voiceTraits.isDisjoint(with: [.isNoveltyVoice, .isPersonalVoice])
     }
 
     /// The best installed it-IT voice: premium, then enhanced, then the default.
