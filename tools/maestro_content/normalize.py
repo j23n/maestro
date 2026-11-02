@@ -16,9 +16,9 @@ def apostrophes(text: str) -> str:
 
 
 def fold(text: str) -> str:
-    """Lowercase, straight apostrophes, no diacritics: the key for accent-insensitive lookup."""
+    """Lowercase, straight apostrophes, no diacritics, ß as ss: the key for accent-insensitive lookup."""
     decomposed = unicodedata.normalize("NFD", apostrophes(text).lower())
-    return "".join(c for c in decomposed if unicodedata.category(c) != "Mn")
+    return "".join(c for c in decomposed if unicodedata.category(c) != "Mn").replace("ß", "ss")
 
 
 def utf16_len(text: str) -> int:

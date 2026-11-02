@@ -59,6 +59,13 @@ Lookup cascade, stopping at the first hit:
 6. Fuzzy: FTS5 prefix, then accent-insensitive ("did you mean *perché*").
 7. Several words: offer sentence translation.
 
+German follows the same cascade, with these changes:
+- Nouns are capitalized, so steps 2 and 3 also try the capitalized spelling (`haus` finds *Haus*).
+- There is no elision split. A two-word query that isn't a phrase is tried as a separable verb before step 7 (`rufe an` → *anrufen*).
+- Step 4 is replaced by two steps: umlauts typed as two letters (`haeuser` → *Häuser*), then a compound split on the longest known tail (`Haustür` = *Haus* + *Tür*). Both run before the `NLTagger` lemma. A name missing from the dictionary can read as a compound (*Darmstadt* = *Darm* + *Stadt*); that is accepted.
+- A form spelled alike in several cases shows once per gender and number, as the nominative where there is one.
+- Step 6's accent-insensitive match also reads ß as ss (`strasse` suggests *Straße*).
+
 Ambiguous forms list every reading (`canti` → cantare indicativo presente tu; cantare congiuntivo presente io/tu/lui; canto, noun plural). Each reading has a Remember button.
 
 Entry page: headword with article, IPA, gender, plural, numbered senses with examples, common phrases, "In your texts" occurrences, related words, source credit ("Entry from Wiktionary, CC BY-SA").

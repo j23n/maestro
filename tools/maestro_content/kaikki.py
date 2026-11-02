@@ -238,6 +238,17 @@ def _form_tags_de(stags: list[str], pos: str, gender: str | None) -> list[str]:
     return []
 
 
+def _join_particle(form: str, infinitive: str) -> str:
+    """A separable verb's main-clause form, joined as the dictionary keeps it: "rufe an" -> "anrufe".
+
+    The app looks a separated verb up by putting its particle back on the front (Lookup.readings(verb:particle:)),
+    and builds the main-clause order for verb tables itself."""
+    parts = form.strip().split(" ")
+    if len(parts) == 2 and parts[1].isalpha() and infinitive.startswith(parts[1]) and len(infinitive) > len(parts[1]) + 2:
+        return parts[1] + parts[0]
+    return form
+
+
 def parse_de(raw: dict) -> tuple[Entry | None, list[FormOf]]:
     if raw.get("lang_code") != "de":
         return None, []
@@ -284,9 +295,10 @@ def parse_de(raw: dict) -> tuple[Entry | None, list[FormOf]]:
         entry.auxiliary = _auxiliary_de(raw)
     seen: set[tuple[str, str]] = set()
     for f in raw.get("forms", []):
-        form = _clean_form(f.get("form", ""))
+        form = _join_particle(f.get("form", ""), word) if pos == "v" else f.get("form", "")
+        form = _clean_form(form)
         if not form:
-            continue  # separated forms (rufe an) and compound tenses have a space; the app joins them
+            continue  # compound tenses (bin gegangen) have a space
         for tag in _form_tags_de(f.get("tags", []), pos, gender):
             if pos == "n" and tag.startswith("nom.pl") and entry.plural is None:
                 entry.plural = form

@@ -14,14 +14,16 @@ public struct TenseBlock: Sendable, Hashable, Identifiable {
     public let mood: Mood
     public let tense: Tense
     public let forms: [ConjugatedForm]
+    /// The language of the verb, which names the tense ("presente", "Präsens").
+    public var language: Language = .it
     public var id: String { "\(mood.rawValue).\(tense.rawValue)" }
-    public var title: String { tense.italianName(in: mood) }
+    public var title: String { tense.name(in: mood, language: language) }
 }
 
 public struct ConjugationTable: Sendable, Hashable {
     public let lemmaID: String
     public let infinitive: String
-    public let auxiliary: String?          // essere | avere | both
+    public let auxiliary: String?          // essere | avere | both; German haben | sein | both
     public let participle: String?
     public let gerund: String?
     public let blocks: [TenseBlock]
@@ -42,7 +44,8 @@ public struct ConjugationTable: Sendable, Hashable {
 }
 
 /// Builds verb tables: simple tenses from the content DB, compound tenses from auxiliary plus past
-/// participle, with agreement shown for essere verbs (andato/a/i/e) (HANDOFF.md 3.3).
+/// participle, with agreement shown for essere verbs (andato/a/i/e) (HANDOFF.md 3.3). A German
+/// database gets German tables (GermanConjugator.swift).
 public struct Conjugator: Sendable {
     public let content: ContentDatabase
 
@@ -62,6 +65,7 @@ public struct Conjugator: Sendable {
 
     public func table(for lemmaID: String) -> ConjugationTable? {
         guard let entry = content.entry(lemmaID), entry.pos == "v" else { return nil }
+        if content.language == .de { return germanTable(entry) }
         var byTag: [String: String] = [:]
         for f in content.forms(of: entry.id) where !f.tag.isEmpty {
             // keep the first spelling per tag (kaikki lists the standard one first)
@@ -106,7 +110,12 @@ public struct Conjugator: Sendable {
     }
 
     func auxiliaryForms(_ aux: Auxiliary) -> [String: String] {
-        guard let lemma = content.lemmas(headword: aux.infinitive).first(where: { $0.pos == "v" }) else { return [:] }
+        verbForms(aux.infinitive)
+    }
+
+    /// Tag -> first spelling for a verb found by its infinitive (essere, haben, werden).
+    func verbForms(_ infinitive: String) -> [String: String] {
+        guard let lemma = content.lemmas(headword: infinitive).first(where: { $0.pos == "v" }) else { return [:] }
         var result: [String: String] = [:]
         for f in content.forms(of: lemma.id) where !f.tag.isEmpty && result[f.tag] == nil {
             result[f.tag] = f.form

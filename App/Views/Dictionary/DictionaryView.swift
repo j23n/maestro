@@ -180,11 +180,15 @@ struct ReadingRow: View {
                         Text(target: reading.lemma.headword).font(.system(.title3, design: .serif).weight(.semibold))
                         Tag(text: reading.lemma.posLabel, colors: Theme.kind(.word))
                     }
-                    if let form = formLine {
+                    if let form = reading.formLine {
                         Text(form).font(.subheadline)
                     }
                     if case .clitics(let base, let clitics) = reading.via {
                         Text(target: "\(reading.surface) = \(([base] + clitics).joined(separator: " + "))")
+                            .font(.subheadline).foregroundStyle(.secondary)
+                    }
+                    if case .compound(let parts) = reading.via {
+                        Text(target: "\(reading.surface) = \(parts.joined(separator: " + "))")
                             .font(.subheadline).foregroundStyle(.secondary)
                     }
                     if !reading.lemma.firstGloss.isEmpty {
@@ -197,16 +201,6 @@ struct ReadingRow: View {
                 RememberButton(item: item, title: item.rowText(model: model).title)
             }
         }
-    }
-
-    /// What this form is, without repeating the headword and part of speech shown above it:
-    /// "indicativo presente · tu" or "feminine plural". Nil when the form has no analysis, and for
-    /// the headword's own gender and number ("nostro" isn't shown as "masculine singular").
-    private var formLine: String? {
-        if let tag = reading.formTag { return tag.label }
-        let isHeadword = reading.surface.compare(reading.lemma.headword, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
-        if let gn = reading.genderNumber, !isHeadword { return gn.label }
-        return nil
     }
 
     private var destination: Route {

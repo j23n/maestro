@@ -109,3 +109,40 @@ import Testing
         #expect(Language(rawValue: "de") == .de && Language(rawValue: "fr") == nil)
     }
 }
+
+@Suite struct GermanTagTests {
+    @Test func germanFormTagsParse() throws {
+        let tag = try #require(FormTag("k2.wuerde.1s"))
+        #expect(tag.mood == .k2 && tag.tense == .wuerde && tag.person == .s1)
+        #expect(tag.label(in: .de) == "würde-Form · ich")
+        #expect(FormTag("ind.prat.3p")?.label(in: .de) == "Präteritum · sie/Sie")
+        #expect(FormTag("ind.perf.3s+s")?.auxiliary == .sein)
+        #expect(FormTag("inf.zu")?.label(in: .de) == "Infinitiv mit zu")
+        #expect(FormTag("part.pass")?.label(in: .de) == "Partizip II")
+        #expect(FormTag("k1.pres.3s")?.shortTenseLabel(in: .de) == "Konj. I Präsens")
+        #expect(FormTag("k2.prat")?.description == nil, "finite moods need a person")
+    }
+
+    @Test func italianLabelsAreUnchanged() {
+        #expect(FormTag("cond.pass.1p")?.label(in: .it) == "condizionale passato · noi")
+        #expect(FormTag("cond.pass.1p")?.label == "condizionale passato · noi")
+        #expect(Mood.moods(in: .de) == [.ind, .k1, .k2, .imp, .inf, .part])
+    }
+
+    @Test func caseTags() throws {
+        let tag = try #require(CaseTag("comp.str.nom.ms"))
+        #expect(tag.degree == .comp && tag.declension == .str && tag.grammaticalCase == .nom && tag.number == .ms)
+        #expect(tag.description == "comp.str.nom.ms")
+        #expect(tag.label == "Komparativ, stark, Nominativ maskulin Singular")
+        #expect(CaseTag("comp")?.label == "Komparativ")
+        #expect(CaseTag("gen.ns")?.label == "Genitiv neutral Singular")
+        #expect(CaseTag("acc")?.number == nil)
+        #expect(CaseTag("ms") == nil)
+        #expect(CaseTag("ind.pres.1s") == nil)
+    }
+
+    @Test func foldingReadsEszettAsDoubleS() {
+        #expect(Normalizer.fold("Straße") == "strasse")
+        #expect(Normalizer.umlauts("haeuser") == "häuser")
+    }
+}

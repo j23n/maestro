@@ -182,7 +182,7 @@ struct CardRow: View {
             return model.content?.sense(card.senseID)?.gloss ?? model.content?.lemma(card.lemmaID)?.firstGloss
         case .verbForm:
             guard let tag = FormTag(card.formTag) else { return nil }
-            return "\(LemmaID.headword(of: card.lemmaID)) · \(tag.label)"
+            return "\(LemmaID.headword(of: card.lemmaID)) · \(tag.label(in: Language.of(id: card.lemmaID) ?? .it))"
         case .grammar:
             return model.grammarTopic(card.grammarID)?.summary
         }

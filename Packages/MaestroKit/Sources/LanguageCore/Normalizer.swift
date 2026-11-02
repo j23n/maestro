@@ -15,13 +15,22 @@ public enum Normalizer {
         return cleaned.split(whereSeparator: { $0.isWhitespace }).joined(separator: " ")
     }
 
-    /// Lowercase without diacritics: the key for accent-insensitive lookup ("perche" finds "perché").
+    /// Lowercase without diacritics, ß as ss: the key for accent-insensitive lookup ("perche" finds
+    /// "perché", "strasse" finds "Straße").
     public static func fold(_ text: String) -> String {
         var out = String.UnicodeScalarView()
         for scalar in query(text).decomposedScalars where scalar.properties.generalCategory != .nonspacingMark {
             out.append(scalar)
         }
-        return String(out)
+        return String(out).replacingOccurrences(of: "ß", with: "ss")
+    }
+
+    /// German spelled without umlauts on a keyboard that lacks them: "haeuser" -> "häuser", "gruen" -> "grün".
+    /// Lookup tries it only when the word as typed finds nothing, since "ue" is often just u + e (Feuer).
+    public static func umlauts(_ text: String) -> String {
+        text.replacingOccurrences(of: "ae", with: "ä")
+            .replacingOccurrences(of: "oe", with: "ö")
+            .replacingOccurrences(of: "ue", with: "ü")
     }
 
     /// Splits an elided prefix: "dall'italia" -> ["dall'", "italia"], "l'anno" -> ["l'", "anno"].

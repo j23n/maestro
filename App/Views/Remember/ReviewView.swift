@@ -126,7 +126,8 @@ struct ReviewView: View {
             case .verbForm:
                 Text(target: card.surface).font(.system(.title2, design: .serif).weight(.semibold))
                 if let tag = FormTag(card.formTag) {
-                    Text("\(LemmaID.headword(of: card.lemmaID)) · \(tag.label)").font(.title3)
+                    Text("\(LemmaID.headword(of: card.lemmaID)) · \(tag.label(in: Language.of(id: card.lemmaID) ?? .it))")
+                        .font(.title3)
                     if let row = model.conjugator?.table(for: card.lemmaID)?.row(for: tag) {
                         Text(target: row).font(.system(.body, design: .serif)).foregroundStyle(.secondary)
                     }
