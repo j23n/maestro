@@ -52,14 +52,22 @@ test-tools:
 
 # The target language of the content targets below (HANDOFF.md 5.3): it or de, from the command line
 # (make content LANGUAGE=de). The shell's LANGUAGE is gettext's locale list, so it never counts.
-ifneq ($(origin LANGUAGE),command line)
+# Without one, `make content` builds every language the app ships and the other targets use Italian.
+CONTENT_LANGUAGES := it de
+ifeq ($(origin LANGUAGE),command line)
+CONTENT_LANGUAGES := $(LANGUAGE)
+else
 LANGUAGE := it
 endif
 
-# The dictionary database and the starter packs, into App/Resources/Content/<lang> (git ignores them).
-# The app bundles every language folder there, so LANGUAGE=de adds German to the next app build.
+# The dictionary databases and the starter packs, into App/Resources/Content/<lang> (git ignores them).
+# The app bundles every language folder there, so builds and TestFlight archives ship each language in
+# CONTENT_LANGUAGES. LANGUAGE=de builds only German.
 content:
-	$(PYTHON) tools/build_content.py --mode $(CONTENT) --language $(LANGUAGE)
+	@for lang in $(CONTENT_LANGUAGES); do \
+	  echo "$(PYTHON) tools/build_content.py --mode $(CONTENT) --language $$lang"; \
+	  $(PYTHON) tools/build_content.py --mode $(CONTENT) --language $$lang || exit 1; \
+	done
 
 # Texts: level plans in content/<lang>/curriculum, the checker, the coverage report and briefs
 # (tools/maestro_content/curriculum.py). They read the content database, so build it with
