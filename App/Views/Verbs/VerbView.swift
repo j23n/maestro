@@ -79,12 +79,13 @@ struct VerbView: View {
             HStack(spacing: 6) {
                 if table.isIrregular { Tag(text: "irregular", colors: Theme.irregularBadge) }
                 if let aux = table.auxiliary {
-                    Tag(text: aux == "both" ? "essere or avere" : "with \(aux)", colors: Theme.kind(.word))
+                    Tag(text: aux == "both" ? (language == .de ? "haben or sein" : "essere or avere") : "with \(aux)",
+                        colors: Theme.kind(.word))
                 }
                 Tag(text: group(entry.headword), colors: Theme.kind(.word))
             }
             HStack(spacing: 16) {
-                if let p = table.participle { labeled("participio", p) }
+                if let p = table.participle { labeled(language == .de ? "Partizip II" : "participio", p) }
                 if let g = table.gerund { labeled("gerundio", g) }
             }
             .padding(.top, 2)

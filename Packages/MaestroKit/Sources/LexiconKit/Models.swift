@@ -165,6 +165,21 @@ public struct Reading: Sendable, Hashable, Identifiable {
         if let caseTag { return "\(lemma.headword) · \(lemma.posLabel), \(caseTag.label)" }
         return "\(lemma.headword) · \(lemma.posLabel)"
     }
+
+    /// What the form is, without repeating the headword and part of speech: "indicativo presente · tu",
+    /// "feminine plural", "Dativ Plural". Nil when the form has no analysis, and for the headword's own
+    /// gender and number ("nostro" isn't "masculine singular", "Haus" isn't "Nominativ neutral Singular").
+    /// A German plural in the nominative is just "Plural".
+    public var formLine: String? {
+        if let formTag { return formTag.label(in: language) }
+        if let caseTag {
+            guard caseTag.grammaticalCase == .nom, caseTag.degree == nil, caseTag.declension == nil else { return caseTag.label }
+            return caseTag.number == .pl ? CaseTag.Number.pl.germanName : nil
+        }
+        let isHeadword = surface.compare(lemma.headword, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
+        if let genderNumber, !isHeadword { return genderNumber.label }
+        return nil
+    }
 }
 
 public enum LookupOutcome: Sendable, Equatable {

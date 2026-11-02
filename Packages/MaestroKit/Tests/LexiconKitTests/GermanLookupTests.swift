@@ -35,6 +35,29 @@ func germanDatabase() throws -> ContentDatabase {
         #expect(r.analysis == "Haus · noun, Dativ Plural")
     }
 
+    @Test func aNounSpelledAlikeInSeveralCasesShowsOnce() throws {
+        // Haus is nominative, accusative and dative: one row, labeled as the headword.
+        let haus = try readings("Haus").filter { $0.lemma.id == "de:Haus:n" }
+        #expect(haus.count == 1)
+        #expect(haus.first?.formLine == nil)
+        // Häuser is nominative, accusative and genitive plural: one row, labeled Plural.
+        let hauser = try readings("häuser").filter { $0.lemma.id == "de:Haus:n" }
+        #expect(hauser.count == 1)
+        #expect(hauser.first?.formLine == "Plural")
+        #expect(try readings("häusern").first?.formLine == "Dativ Plural")
+    }
+
+    @Test func formLinesNameOnlyWhatTheHeadwordDoesNot() throws {
+        let lemma = try #require(try germanDatabase().lemmas(headword: "Haus").first)
+        func line(_ tag: String) -> String? {
+            Reading(lemma: lemma, formTag: nil, genderNumber: nil, surface: "Haus", via: .form, caseTag: CaseTag(tag)).formLine
+        }
+        #expect(line("nom.ns") == nil)
+        #expect(line("acc.ns") == "Akkusativ neutral Singular")
+        #expect(line("nom.pl") == "Plural")
+        #expect(line("wk.nom.ms") == "schwach, Nominativ maskulin Singular")
+    }
+
     @Test func verbFormsUseGermanLabels() throws {
         let r = try #require(try readings("ging").first)
         #expect(r.lemma.id == "de:gehen:v")
@@ -61,7 +84,12 @@ func germanDatabase() throws -> ContentDatabase {
         #expect(try readings("Xyzqtür").isEmpty, "the first part must be a word too")
     }
 
+    @Test func compoundsTypedWithoutUmlauts() throws {
+        #expect(try readings("haustuer").first?.lemma.id == "de:Tür:n")
+    }
+
     @Test func separableVerbsJoinTheirParticle() throws {
+        #expect(try readings("rufe an").first?.lemma.id == "de:anrufen:v")
         let lookup = Lookup(content: try germanDatabase())
         let r = try #require(lookup.readings(verb: "rufe", particle: "an").first)
         #expect(r.lemma.id == "de:anrufen:v")

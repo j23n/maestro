@@ -23,13 +23,19 @@ public struct Lookup: Sendable {
         let query = Normalizer.query(input)
         guard !query.isEmpty else { return .empty }
 
+        let german = content.language == .de
         if query.contains(" ") {
             let phrase = readings(for: query)
             if !phrase.isEmpty { return .readings(phrase) }
+            // A separable verb typed as a main clause writes it: rufe an.
+            let words = query.split(separator: " ").map(String.init)
+            if german, words.count == 2 {
+                let separable = readings(verb: words[0], particle: words[1])
+                if !separable.isEmpty { return .readings(separable) }
+            }
             return .phrase(query)
         }
 
-        let german = content.language == .de
         if !german {
             let pieces = Normalizer.splitElision(query)
             if pieces.count > 1 {
@@ -47,8 +53,10 @@ public struct Lookup: Sendable {
                 let spelled = readings(for: umlauts)
                 if !spelled.isEmpty { return .readings(spelled) }
             }
-            let compound = compoundReadings(for: query)
-            if !compound.isEmpty { return .readings(compound) }
+            for spelling in umlauts != query ? [query, umlauts] : [query] {
+                let compound = compoundReadings(for: spelling)
+                if !compound.isEmpty { return .readings(compound) }
+            }
         } else {
             let clitic = cliticReadings(for: query)
             if !clitic.isEmpty { return .readings(clitic) }
@@ -83,12 +91,38 @@ public struct Lookup: Sendable {
                 add(Reading(lemma: lemma, formTag: nil, genderNumber: nil, surface: form, via: .headword))
             }
         }
+        if content.language == .de { result = Self.collapsingCases(result) }
         return result.sorted { a, b in
             let aBase = a.formTag == nil && a.genderNumber == nil && a.caseTag == nil ? 0 : 1
             let bBase = b.formTag == nil && b.genderNumber == nil && b.caseTag == nil ? 0 : 1
             if aBase != bBase { return aBase < bBase }
             if (a.lemma.pos == "v") != (b.lemma.pos == "v") { return a.lemma.pos == "v" }
             return a.lemma.id.count < b.lemma.id.count
+        }
+    }
+
+    /// A German noun spells several cases alike (Haus is nominative, accusative and dative). The dictionary
+    /// shows such a form once per number, in the nominative when it is one, and not at all when it is the
+    /// headword's own nominative singular, which the plain headword reading already shows.
+    static func collapsingCases(_ readings: [Reading]) -> [Reading] {
+        func plain(_ r: Reading) -> CaseTag? {
+            guard let tag = r.caseTag, tag.degree == nil, tag.declension == nil, tag.grammaticalCase != nil else { return nil }
+            return tag
+        }
+        func group(_ r: Reading) -> String { "\(r.lemma.id)|\(r.surface)|\(plain(r)?.number?.rawValue ?? "")" }
+        let hasBase = Set(readings.filter { $0.formTag == nil && $0.genderNumber == nil && $0.caseTag == nil }
+            .map { "\($0.lemma.id)|\($0.surface)" })
+        var kept: [String: Reading] = [:]
+        for r in readings {
+            guard let tag = plain(r) else { continue }
+            if let other = kept[group(r)], plain(other)?.grammaticalCase == .nom || tag.grammaticalCase != .nom { continue }
+            kept[group(r)] = r
+        }
+        return readings.filter { r in
+            guard let tag = plain(r) else { return true }
+            guard kept[group(r)]?.id == r.id else { return false }
+            let isOwnNominative = tag.grammaticalCase == .nom && tag.number != .pl
+            return !(isOwnNominative && hasBase.contains("\(r.lemma.id)|\(r.surface)"))
         }
     }
 
