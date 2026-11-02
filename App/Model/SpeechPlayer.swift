@@ -1,12 +1,14 @@
 import AVFoundation
 import Foundation
 import Observation
+import PackKit
 
-/// One stretch of text to speak, with an optional speaker for dialogue (two voices).
+/// One stretch of text to speak, with the speaker and their gender for a line of dialogue.
 struct SpeechSegment: Hashable {
     let id: String          // sentence ID
     let text: String
     let speaker: String?
+    var gender: SpeakerGender? = nil
 }
 
 /// On-device text to speech with it-IT voices (HANDOFF.md 3.6): sentence by sentence, with the
@@ -24,6 +26,8 @@ struct SpeechSegment: Hashable {
     private var repeated = false
     private var current: ObjectIdentifier?
     private var oneShot = false
+    /// The voice for each dialogue speaker in the loaded segments.
+    private var parts: [String: VoiceCasting.Part] = [:]
 
     override init() {
         super.init()
@@ -34,26 +38,37 @@ struct SpeechSegment: Hashable {
 
     // MARK: Voices
 
+    /// Installed it-IT voices that sound natural enough to read a text.
     static var italianVoices: [AVSpeechSynthesisVoice] {
-        AVSpeechSynthesisVoice.speechVoices().filter { $0.language == "it-IT" }
+        AVSpeechSynthesisVoice.speechVoices().filter { $0.language == "it-IT" && isReadingVoice($0) }
     }
 
-    /// The best installed it-IT voice: premium, then enhanced, then the default.
+    /// Leaves out the Eloquence voices (Eddy, Flo, Grandma…), which sound robotic, and novelty and
+    /// personal voices.
+    static func isReadingVoice(_ voice: AVSpeechSynthesisVoice) -> Bool {
+        !voice.identifier.hasPrefix("com.apple.eloquence.")
+            && voice.voiceTraits.isDisjoint(with: [.isNoveltyVoice, .isPersonalVoice])
+    }
+
+    /// The narrator's voice: the best installed it-IT voice, premium, then enhanced, then the default,
+    /// with ties broken as `VoiceCasting` breaks them, so that a narrator who also speaks keeps one voice.
     static var bestVoice: AVSpeechSynthesisVoice? {
-        italianVoices.max { $0.quality.rawValue < $1.quality.rawValue } ?? AVSpeechSynthesisVoice(language: "it-IT")
+        VoiceCasting.narrator(italianVoices.map { VoiceCasting.Voice($0) })
+            .flatMap { AVSpeechSynthesisVoice(identifier: $0.id) } ?? AVSpeechSynthesisVoice(language: "it-IT")
     }
 
     static var hasEnhancedVoice: Bool {
         italianVoices.contains { $0.quality == .enhanced || $0.quality == .premium }
     }
 
-    /// A second voice for the other speaker in a dialogue, if one is installed.
-    static func voice(forSpeaker speaker: String?, in speakers: [String]) -> AVSpeechSynthesisVoice? {
-        guard let speaker, let position = speakers.firstIndex(of: speaker), position % 2 == 1 else { return bestVoice }
-        let best = bestVoice
-        let others = italianVoices.filter { $0.identifier != best?.identifier }
-            .sorted { $0.quality.rawValue > $1.quality.rawValue }
-        return others.first ?? best
+    /// A voice for each dialogue speaker, matching their gender where such a voice is installed.
+    static func cast(_ segments: [SpeechSegment]) -> [String: VoiceCasting.Part] {
+        var speakers: [VoiceCasting.Speaker] = []
+        for segment in segments {
+            guard let name = segment.speaker, !speakers.contains(where: { $0.name == name }) else { continue }
+            speakers.append(VoiceCasting.Speaker(name: name, gender: segment.gender))
+        }
+        return VoiceCasting.cast(speakers, voices: italianVoices.map { VoiceCasting.Voice($0) })
     }
 
     // MARK: Playback
@@ -68,6 +83,7 @@ struct SpeechSegment: Hashable {
     func load(_ segments: [SpeechSegment], startAt: Int = 0) {
         stop()
         self.segments = segments
+        parts = Self.cast(segments)
         index = min(max(0, startAt), max(0, segments.count - 1))
     }
 
@@ -77,9 +93,7 @@ struct SpeechSegment: Hashable {
         isPlaying = true
         repeated = false
         activateAudioSession()
-        var speakers: [String] = []
-        for case let speaker? in segments.map(\.speaker) where !speakers.contains(speaker) { speakers.append(speaker) }
-        speak(segment.text, voice: Self.voice(forSpeaker: segment.speaker, in: speakers))
+        speak(segment)
     }
 
     func pause() {
@@ -122,9 +136,20 @@ struct SpeechSegment: Hashable {
         if wasPlaying { play() }
     }
 
-    private func speak(_ text: String, voice: AVSpeechSynthesisVoice?) {
+    /// Speaks a segment in its speaker's voice, or the narrator's.
+    private func speak(_ segment: SpeechSegment) {
+        if let speaker = segment.speaker, let part = parts[speaker],
+           let voice = AVSpeechSynthesisVoice(identifier: part.voiceID) {
+            speak(segment.text, voice: voice, pitch: part.pitch)
+        } else {
+            speak(segment.text, voice: Self.bestVoice)
+        }
+    }
+
+    private func speak(_ text: String, voice: AVSpeechSynthesisVoice?, pitch: Float = 1) {
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = voice
+        utterance.pitchMultiplier = pitch
         let normal = Double(AVSpeechUtteranceDefaultSpeechRate)
         utterance.rate = Float(normal * min(max(rate, 0.5), 1.0))
         utterance.postUtteranceDelay = oneShot ? 0 : 0.25
@@ -150,7 +175,7 @@ struct SpeechSegment: Hashable {
         guard isPlaying else { return }
         if repeatEach && !repeated {
             repeated = true
-            if let segment = currentSegment { speak(segment.text, voice: Self.bestVoice) }
+            if let segment = currentSegment { speak(segment) }
             return
         }
         if index + 1 < segments.count {
@@ -174,5 +199,16 @@ struct SpeechSegment: Hashable {
     nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         let id = ObjectIdentifier(utterance)
         Task { @MainActor in self.finished(id) }
+    }
+}
+
+extension VoiceCasting.Voice {
+    init(_ voice: AVSpeechSynthesisVoice) {
+        let gender: SpeakerGender? = switch voice.gender {
+        case .female: .female
+        case .male: .male
+        default: nil
+        }
+        self.init(id: voice.identifier, gender: gender, quality: voice.quality.rawValue)
     }
 }
