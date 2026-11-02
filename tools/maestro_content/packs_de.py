@@ -353,6 +353,7 @@ class Clause:
 def _clauses(raw: list[tuple[str, int, int, str]], infos: list[Info]) -> list[Clause]:
     out: list[Clause] = []
     current: list[int] = []
+    coordinated: set[int] = set()  # clauses split off at und or oder, which continue the clause before
     for i, (surface, _, _, kind) in enumerate(raw):
         if kind == "p":
             if surface in CLAUSE_BREAK and current:
@@ -361,11 +362,15 @@ def _clauses(raw: list[tuple[str, int, int, str]], infos: list[Info]) -> list[Cl
             continue
         if current and _starts_main_clause(raw, infos, current, i):
             out.append(Clause(current, False))
+            coordinated.add(len(out))
             current = []
         current.append(i)
     if current:
         out.append(Clause(current, False))
-    for c in out:
+    for k, c in enumerate(out):
+        if k in coordinated:
+            c.subordinate = out[k - 1].subordinate  # weil ich koche und wir essen wollen: still verb-final
+            continue
         first = raw[c.words[0]][0].lower()
         c.subordinate = first in SCONJ and infos[c.words[0]].pos == "conj" or _opens_relative_clause(raw, infos, c)
     return out

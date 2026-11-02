@@ -237,3 +237,6 @@ def test_coordinated_subjects_and_clauses(lex):
     assert tokens["Haus"]["case"] == "acc"
     tokens, units, _ = link(lex, "Ich rufe den Mann und die Frau an.")
     assert any(u["lemmaID"] == "de:anrufen:v" for u in units)
+    tokens, _, _ = link(lex, "Ich bleibe hier, weil ich Brot kaufe und wir essen wollen.")
+    assert tokens["wollen"]["form"] == "ind.pres.1p" and tokens["essen"]["form"] == "inf.pres", \
+        "a clause joined by und inside a subordinate clause is verb-final too"
