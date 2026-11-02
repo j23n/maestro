@@ -13,8 +13,10 @@ it works out:
 
 A source can name a case the linker can't work out with a hint on the noun: Frau{acc}, Haus{dat.ns}.
 
-Clauses joined by und or oder without a comma are split only in the simple cases: a subject and its
-finite verb (und wir essen), or one word, the finite verb and a subject pronoun (und dann essen wir).
+Clauses joined by und or oder without a comma are split only in the simple cases: a subject pronoun, or
+a determiner and one capitalized word, then the finite verb (und wir essen, und die Frau isst); or one
+word, the finite verb and a subject pronoun (und dann essen wir). A longer subject (und die alte Frau
+isst) stays in the clause before.
 Two cases are known limits. A longer opening (und am Abend essen wir) stays in the clause before, which a
 comma before und settles. A verb-final clause joined by und with words after its verbs (weil ich
 koche und wir essen wollen wie immer) reads as a main clause.
