@@ -27,7 +27,7 @@ import sqlite3
 import sys
 from dataclasses import dataclass, field
 
-from .normalize import fold, utf16_len, utf16_slice
+from .normalize import drill_key, fold, utf16_len, utf16_slice
 
 # mood.tense -> the grammar topic that teaches it (the same table the curriculum checker uses).
 FORM_TOPIC = {
@@ -629,7 +629,7 @@ def validate(text: dict, drills: list[dict]) -> list[str]:
                 errors.append(f"{where}: the sentence's own words are not an accepted answer")
         if d["kind"] == "choice" and not set(d["answers"]) <= set(d["options"]):
             errors.append(f"{where}: answer missing from options")
-        if d["kind"] == "choice" and len(set(map(fold, d["options"]))) != len(d["options"]):
+        if d["kind"] == "choice" and len({drill_key(o, d["topic"]) for o in d["options"]}) != len(d["options"]):
             errors.append(f"{where}: duplicate options")
         if d["kind"] == "build" and sorted(d["answers"][0].split(" ")) != sorted(d["tiles"]):
             errors.append(f"{where}: answer doesn't use exactly the tiles")

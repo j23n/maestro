@@ -21,6 +21,18 @@ def fold(text: str) -> str:
     return "".join(c for c in decomposed if unicodedata.category(c) != "Mn").replace("ß", "ss")
 
 
+def german_key(text: str) -> str:
+    """The key for a German drill: lowercase, ß as ss, ae/oe/ue as umlauts, umlauts kept (hatte isn't
+    hätte). The app's DrillGrader.germanKey mirrors it."""
+    key = nfc(apostrophes(text).lower()).replace("ß", "ss")
+    return key.replace("ae", "ä").replace("oe", "ö").replace("ue", "ü")
+
+
+def drill_key(text: str, topic: str) -> str:
+    """The key a drill's answers, options and near-misses are compared with: German drills keep umlauts."""
+    return german_key(text) if topic.startswith("de:") else fold(text)
+
+
 def utf16_len(text: str) -> int:
     """Length in UTF-16 code units, the unit pack ranges use (Python's len() counts code points)."""
     return len(text.encode("utf-16-le")) // 2
