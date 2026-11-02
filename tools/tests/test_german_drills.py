@@ -136,7 +136,9 @@ def test_order_keeps_a_noun_capital():
 @pytest.mark.parametrize("infinitive, participle, irregular", [
     ("machen", "gemacht", False), ("öffnen", "geöffnet", False), ("antworten", "geantwortet", False),
     ("wiederholen", "wiederholt", False), ("übersetzen", "übersetzt", False), ("atmen", "geatmet", False),
+    ("einkaufen", "eingekauft", False), ("aufmachen", "aufgemacht", False), ("kennenlernen", "kennengelernt", False),
     ("gehen", "gegangen", True), ("bringen", "gebracht", True), ("kennen", "gekannt", True),
+    ("mitbringen", "mitgebracht", True),
 ])
 def test_irregular_participles(infinitive, participle, irregular):
     assert drills_de.is_irregular_participle(infinitive, participle) is irregular

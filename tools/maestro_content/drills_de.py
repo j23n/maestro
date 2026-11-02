@@ -98,10 +98,13 @@ def weak_participle(infinitive: str) -> str | None:
 
 def is_irregular_participle(infinitive: str, participle: str) -> bool:
     """A participle is irregular when it doesn't end in t or doesn't hold the infinitive's stem:
-    gegangen, gebracht (bring), gekannt (kenn). geöffnet, geantwortet and wiederholt are regular."""
+    gegangen, gebracht (bring), gekannt (kenn). geöffnet, geantwortet, wiederholt and eingekauft are regular."""
     inf, part = infinitive.lower(), participle.lower()
     stem = inf[:-2] if inf.endswith("en") else inf[:-1] if inf.endswith("n") else inf
-    return not part.endswith("t") or stem not in part
+    # A separable verb puts ge between its particle and its stem: einkaufen -> eingekauft.
+    particle = next((p for p in sorted(PARTICLES, key=len, reverse=True)
+                     if stem.startswith(p) and part.startswith(p + "ge")), "")
+    return not part.endswith("t") or stem[len(particle):] not in part
 
 
 def _compound(sentence: dict, unit: dict) -> tuple[int, int, str] | None:
