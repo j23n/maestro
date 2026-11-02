@@ -398,7 +398,8 @@ RELATIVE = {"der", "die", "das", "dem", "den", "denen", "dessen", "deren"}
 def _starts_coordinated_clause(raw: list[tuple[str, int, int, str]], infos: list[Info], current: list[int], i: int) -> bool:
     """ich koche und wir essen: und or oder after a verb, before a subject pronoun, or a determiner and one
     capitalized word, then the finite verb, starts a coordinated clause without a comma (und wir essen, und
-    die Frau isst), and so does one word, a finite verb and a subject pronoun (und dann essen wir). _clauses decides whether it continues a verb-final clause before it.
+    die Frau isst), and so does one word, a finite verb and a subject pronoun (und dann essen wir). _clauses
+    decides whether it continues a verb-final clause before it.
     Before the clause has a verb it joins two subjects instead (die Frau und ich essen), and without a
     finite verb after the subject it joins two objects (Brot und eine Suppe gekauft)."""
     if raw[i][0].lower() not in CCONJ or infos[i].pos != "conj" or i + 1 >= len(raw) or raw[i + 1][3] == "p":
