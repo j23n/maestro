@@ -83,6 +83,7 @@ def test_participle_names_the_regular_guess(built):
 @pytest.mark.parametrize("infinitive, participle", [
     ("machen", "gemacht"), ("kaufen", "gekauft"), ("arbeiten", "gearbeitet"), ("besuchen", "besucht"),
     ("studieren", "studiert"), ("aufmachen", "aufgemacht"), ("gehen", "gegeht"), ("verkaufen", "verkauft"),
+    ("umziehen", "umgezieht"), ("teilnehmen", "teilgenehmt"),
 ])
 def test_weak_participle(infinitive, participle):
     assert drills_de.weak_participle(infinitive) == participle
