@@ -60,10 +60,11 @@ Lookup cascade, stopping at the first hit:
 7. Several words: offer sentence translation.
 
 German follows the same cascade, with these changes:
-- Nouns are capitalised, so steps 2 and 3 also try the capitalised spelling (`haus` finds *Haus*).
+- Nouns are capitalized, so steps 2 and 3 also try the capitalized spelling (`haus` finds *Haus*).
 - There is no elision split. A two-word query that isn't a phrase is tried as a separable verb before step 7 (`rufe an` → *anrufen*).
-- Step 4 is replaced by two steps: umlauts typed as two letters (`haeuser` → *Häuser*, `strasse` → *Straße*), then a compound split on the longest known tail (`Haustür` = *Haus* + *Tür*). Both run before the `NLTagger` lemma. A name missing from the dictionary can read as a compound (*Darmstadt* = *Darm* + *Stadt*); that is accepted.
+- Step 4 is replaced by two steps: umlauts typed as two letters (`haeuser` → *Häuser*), then a compound split on the longest known tail (`Haustür` = *Haus* + *Tür*). Both run before the `NLTagger` lemma. A name missing from the dictionary can read as a compound (*Darmstadt* = *Darm* + *Stadt*); that is accepted.
 - A form spelled alike in several cases shows once per gender and number, as the nominative where there is one.
+- Step 6's accent-insensitive match also reads ß as ss (`strasse` suggests *Straße*).
 
 Ambiguous forms list every reading (`canti` → cantare indicativo presente tu; cantare congiuntivo presente io/tu/lui; canto, noun plural). Each reading has a Remember button.
 
@@ -130,7 +131,7 @@ Decided 2026-11-02, from a mock of text → drills. The reader stays clean; prac
 - **Summary.** Each drill with First try / After a hint / Answer shown, then one Remember button per topic that needed help: a Grammar card (`grammar|<topicID>`) shown in the drill's sentence with the gap highlighted. "Practise again" reruns the set.
 - **German.** German texts use their own recipes (`tools/maestro_content/drills_de.py`): haben or sein, the participle, the verb form, the article in the case its phrase needs, *im* or *ins*, and a separable verb's particle. Answers typed with *ae*, *oe*, *ue* or *ss* for *ä*, *ö*, *ü* or *ß* (*haeuser*) count, like a missing accent; an answer that just drops an umlaut doesn't, since it is often another form (*hatte* for *hätte*).
 - **Data.** Drills are generated when packs are built (`tools/maestro_content/drills.py`), from the tokens' form tags, units and agreement, and stored in the text's JSON (section 6.3). Outcomes are not stored or synced; only kept cards are. Drill IDs (`d<n>`) are regenerated on every build, so nothing may depend on them.
-- **Not yet.** Speaking and dictation formats, practice outcomes feeding Remember automatically, drills on texts the learner hasn't opened. German recipes for negation, word order (Verbstellung), reflexive verbs, comparison, adjective endings and time prepositions, and for Futur I and the würde-Form as units: a German text that introduces one of these gets a set on another of its topics, or none.
+- **Not yet.** Speaking and dictation formats, practice outcomes feeding Remember automatically, drills on texts the learner hasn't opened. German recipes for negation, word order (Verbstellung), reflexive verbs, comparison, adjective endings and time prepositions, and for the würde-Form as a unit: a German text that introduces one of these gets a set on another topic it uses, or none. Futur I has no grammar topic yet, so no text introduces it and its units get no drills.
 
 ## 4. Screen inventory (mocks)
 
