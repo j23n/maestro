@@ -306,3 +306,16 @@ def test_the_german_texts_build(lex, tmp_path):
     for name in manifests:
         manifest = json.loads((tmp_path / "packs" / name / "manifest.json").read_text(encoding="utf-8"))
         assert all(t["id"].startswith("de:") and t["status"] == "draft" for t in manifest["texts"])
+
+
+def test_every_german_dialogue_speaker_has_a_gender():
+    """Text to speech casts a voice by the speaker's gender (HANDOFF.md 3.6), so no line falls back to the narrator."""
+    texts = os.path.join(ROOT, "content", "de", "texts")
+    missing = []
+    for folder, _, files in os.walk(texts):
+        for name in sorted(files):
+            if not name.endswith(".md"):
+                continue
+            src = packs.parse_source(os.path.join(folder, name))
+            missing += [f"{src.id}: {b.speaker}" for b in src.blocks if b.speaker and b.speaker not in src.speakers]
+    assert missing == []
