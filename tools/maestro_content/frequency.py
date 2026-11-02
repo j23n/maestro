@@ -1,4 +1,7 @@
-"""Word frequencies: a form list (content/it/frequency/) turned into a rank per lemma."""
+"""Word frequencies: a form list (content/<lang>/frequency/) turned into a rank per lemma.
+
+The lists are lowercase. German nouns are spelled with a capital, so for German a listed form also
+counts for the capitalized form (haus counts for Haus)."""
 
 from __future__ import annotations
 
@@ -30,21 +33,22 @@ def form_ranks(counts: dict[str, int]) -> dict[str, int]:
     return {form: n for n, (form, _) in enumerate(ordered, start=1)}
 
 
-def lemma_counts(conn: sqlite3.Connection, counts: dict[str, int]) -> dict[str, float]:
+def lemma_counts(conn: sqlite3.Connection, counts: dict[str, int], language: str = "it") -> dict[str, float]:
     """Lemma ID -> summed count of its forms. A form shared by several lemmas splits its count evenly."""
     totals: dict[str, float] = defaultdict(float)
     for form, count in counts.items():
+        spellings = (form, form[:1].upper() + form[1:]) if language == "de" else (form, form)
         lemmas = {row[0] for row in conn.execute(
             "SELECT DISTINCT f.lemma_id FROM form f JOIN lemma l ON l.id = f.lemma_id "
-            "WHERE f.form = ? AND l.retired = 0 AND l.pos != 'propn'", (form,))}
+            "WHERE f.form IN (?, ?) AND l.retired = 0 AND l.pos != 'propn'", spellings)}
         for lemma_id in lemmas:
             totals[lemma_id] += count / len(lemmas)
     return totals
 
 
-def assign_ranks(conn: sqlite3.Connection, counts: dict[str, int]) -> int:
+def assign_ranks(conn: sqlite3.Connection, counts: dict[str, int], language: str = "it") -> int:
     """Writes lemma.freq_rank (1 = most frequent). Returns the number of ranked lemmas."""
-    totals = lemma_counts(conn, counts)
+    totals = lemma_counts(conn, counts, language)
     ordered = sorted(totals.items(), key=lambda kv: (-kv[1], kv[0]))
     conn.execute("UPDATE lemma SET freq_rank = NULL")
     conn.executemany("UPDATE lemma SET freq_rank = ? WHERE id = ?",

@@ -1,4 +1,4 @@
-"""Build the bundled content database from kaikki (and optionally Morph-it!)."""
+"""Build the bundled content database from kaikki (and optionally Morph-it!), for one language."""
 
 from __future__ import annotations
 
@@ -64,9 +64,15 @@ def build(
 ) -> BuildStats:
     stats = BuildStats()
     cur = conn.cursor()
+    lang = registry.language
+
+    def key(headword: str, pos: str) -> str:
+        return headword_key(headword, pos, lang)
+
     by_key: dict[tuple[str, str], list[str]] = defaultdict(list)  # (headword_key, pos) -> lemma ids
     by_headword: dict[str, list[str]] = defaultdict(list)
     forms_seen: set[tuple[str, str, str]] = set()
+    genders: dict[str, str | None] = {}
 
     def add_form(form: str, lemma_id: str, tag: str, source: str) -> None:
         key = (form, lemma_id, tag)
@@ -78,10 +84,11 @@ def build(
         stats.forms += 1
 
     for e in entries:
-        fingerprint = f"{headword_key(e.headword, e.pos)}|{e.pos}|{fold(e.senses[0].gloss)}"
+        fingerprint = f"{key(e.headword, e.pos)}|{e.pos}|{fold(e.senses[0].gloss)}"
         lemma_id = registry.lemma_id(e.headword, e.pos, fingerprint)
-        by_key[(headword_key(e.headword, e.pos), e.pos)].append(lemma_id)
-        by_headword[headword_key(e.headword, "x")].append(lemma_id)
+        by_key[(key(e.headword, e.pos), e.pos)].append(lemma_id)
+        by_headword[key(e.headword, "x")].append(lemma_id)
+        genders[lemma_id] = e.gender
         cur.execute(
             "INSERT INTO lemma (id, headword, headword_fold, pos, gender, plural, ipa, auxiliary) VALUES (?,?,?,?,?,?,?,?)",
             (lemma_id, e.headword, fold(e.headword), e.pos, e.gender, e.plural, e.ipa, e.auxiliary),
@@ -112,10 +119,10 @@ def build(
             stats.retired_senses += 1
 
     def resolve(lemma: str, pos: str) -> str | None:
-        ids = by_key.get((headword_key(lemma, pos), pos))
+        ids = by_key.get((key(lemma, pos), pos))
         if ids:
             return ids[0]
-        ids = by_headword.get(headword_key(lemma, "x"))
+        ids = by_headword.get(key(lemma, "x"))
         return ids[0] if ids else None
 
     for fo in form_of:
@@ -123,10 +130,14 @@ def build(
         if lemma_id is None:
             stats.unlinked_form_of += 1
             continue
-        if not fo.tag and cur.execute("SELECT 1 FROM form WHERE form = ? AND lemma_id = ?",
+        tag = fo.tag
+        if tag.endswith(".s"):  # a German noun's singular form-of entry: the case tag takes the lemma's gender
+            gender = (genders.get(lemma_id) or "")[:1]
+            tag = tag[:-1] + gender + "s" if gender else ""
+        if not tag and cur.execute("SELECT 1 FROM form WHERE form = ? AND lemma_id = ?",
                                       (fo.form, lemma_id)).fetchone():
             continue  # the lemma's own forms table already analyses it, with a tag
-        add_form(fo.form, lemma_id, fo.tag, "kaikki")
+        add_form(fo.form, lemma_id, tag, "kaikki")
 
     for mf in morph:
         lemma_id = resolve(mf.lemma, mf.pos)

@@ -7,16 +7,17 @@ CREATE TABLE meta (
     value TEXT NOT NULL
 );
 
--- One row per dictionary entry. id: it:<headword>:<pos>[:<n>] (HANDOFF.md 6.5).
+-- One row per dictionary entry. id: <lang>:<headword>:<pos>[:<n>], it:andare:v or de:Haus:n (HANDOFF.md 6.5).
+-- Each language has its own database; meta.language says which.
 CREATE TABLE lemma (
     id            TEXT PRIMARY KEY,
     headword      TEXT NOT NULL,
     headword_fold TEXT NOT NULL,          -- lowercase, accents removed
     pos           TEXT NOT NULL,          -- v n adj adv prep art conj pron det num intj propn phr contr
-    gender        TEXT,                   -- m f mf
+    gender        TEXT,                   -- m f mf; German m f n, or two letters (mn)
     plural        TEXT,
     ipa           TEXT,
-    auxiliary     TEXT,                   -- verbs: essere | avere | both
+    auxiliary     TEXT,                   -- verbs: essere | avere | both; German haben | sein | both
     irregular     INTEGER NOT NULL DEFAULT 0,
     freq_rank     INTEGER,
     retired       INTEGER NOT NULL DEFAULT 0
@@ -37,13 +38,13 @@ CREATE INDEX sense_lemma ON sense (lemma_id, ord);
 
 CREATE TABLE example (
     sense_id TEXT NOT NULL,
-    it       TEXT NOT NULL,
+    it       TEXT NOT NULL,               -- the example in the target language, Italian or German
     en       TEXT
 );
 CREATE INDEX example_sense ON example (sense_id);
 
--- Inflected forms. tag: a form tag (cond.pass.1p) for verbs, gender-number (mp) for nouns
--- and adjectives, '' for the base form.
+-- Inflected forms. tag: a form tag (cond.pass.1p, ind.prat.1s) for verbs, gender-number (mp) for Italian
+-- nouns and adjectives, a case tag (gen.ns, str.nom.ms) for German ones, '' for the base form.
 CREATE TABLE form (
     form      TEXT NOT NULL,
     form_fold TEXT NOT NULL,

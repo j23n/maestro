@@ -33,8 +33,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="maestro_content")
     sub = ap.add_subparsers(dest="cmd", required=True)
     b = sub.add_parser("build", help="build content.sqlite and the text packs")
-    b.add_argument("--kaikki", required=True, help="kaikki.org Italian JSONL (.jsonl or .jsonl.gz)")
-    b.add_argument("--morphit", help="Morph-it! lexicon (optional)")
+    b.add_argument("--kaikki", required=True, help="kaikki.org JSONL in the target language (.jsonl or .jsonl.gz)")
+    b.add_argument("--morphit", help="Morph-it! lexicon (optional, Italian only)")
     b.add_argument("--out", required=True, help="output folder (gets content.sqlite and packs/)")
     b.add_argument("--language", choices=LANGUAGES, default="it", help="target language; picks the content/<lang>/ defaults")
     b.add_argument("--ids", help="ID registry folder (default content/<lang>/ids)")
@@ -81,11 +81,12 @@ def main(argv: list[str] | None = None) -> int:
     os.makedirs(out, exist_ok=True)
     db_path = os.path.join(out, "content.sqlite")
     conn = build_db.create(db_path, os.path.join(ROOT, "content", "schema", "content.sql"))
-    registry = Registry.load(args.ids)
+    registry = Registry.load(args.ids, args.language)
 
     print(f"reading {args.kaikki}", flush=True)
-    entries, form_of = kaikki.read(kaikki.open_jsonl(args.kaikki))
-    morph = list(morphit.read(args.morphit)) if args.morphit and os.path.exists(args.morphit) else []
+    entries, form_of = kaikki.read(kaikki.open_jsonl(args.kaikki), args.language)
+    use_morphit = args.language == "it" and args.morphit and os.path.exists(args.morphit)
+    morph = list(morphit.read(args.morphit)) if use_morphit else []
     stats = build_db.build(conn, entries, form_of, registry, morph,
                            redirects=build_db.load_redirects(os.path.join(args.ids, "redirects.tsv")),
                            meta={"language": args.language, "kaikki_dump": args.dump_date,
@@ -93,14 +94,15 @@ def main(argv: list[str] | None = None) -> int:
     print(f"lemmas {stats.lemmas}, senses {stats.senses} (+{stats.retired_senses} retired), forms {stats.forms} "
           f"(morphit {stats.morphit_forms}), unlinked form-of {stats.unlinked_form_of}", flush=True)
 
-    ranked = frequency.assign_ranks(conn, frequency.load(args.frequency))
+    ranked = frequency.assign_ranks(conn, frequency.load(args.frequency), args.language)
     print(f"frequency ranks for {ranked} lemmas")
 
-    topics = grammar.load_all(args.grammar)
+    topics = grammar.load_all(args.grammar, args.language)
     build_db.add_grammar(conn, topics)
     print(f"grammar topics {len(topics)}")
     base_path = os.path.join(args.grammar, "base.yaml")
-    base_errors = grammar.check_base(grammar.load_base(base_path), topics) if os.path.exists(base_path) else []
+    base_errors = (grammar.check_base(grammar.load_base(base_path, args.language), topics)
+                   if os.path.exists(base_path) else [])
 
     content_version = conn.execute("SELECT value FROM meta WHERE key = 'content_version'").fetchone()[0]
     warnings, errors = packs.build_all(conn, args.texts, os.path.join(out, "packs"), content_version,
@@ -146,7 +148,8 @@ def curriculum_command(args: argparse.Namespace) -> int:
         print("warning: the content database was built from the sample dictionary; most words won't link "
               "(make content CONTENT=full)", file=sys.stderr)
     extra = list(getattr(args, "paths", []) or [])
-    lib = curriculum.load_library(conn, args.texts, args.curriculum, args.grammar, args.frequency, extra=extra)
+    lib = curriculum.load_library(conn, args.texts, args.curriculum, args.grammar, args.frequency, extra=extra,
+                                  language=args.language)
 
     if args.cmd == "coverage":
         text = curriculum.report(lib, curriculum.coverage(lib, conn), sample)

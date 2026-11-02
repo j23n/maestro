@@ -385,7 +385,7 @@ Source tags differ: Morph-it! writes passato remoto as `ind+past`, which maps to
 | Person | `1s` `2s` `3s` `1p` `2p` `3p` (Sie = `3p`) |
 | Auxiliary suffix | `+h` / `+s` on compound tags, only for verbs that take both (`ind.perf.3s+s` *ist gefahren*, `ind.perf.3s+h` *hat gefahren*) |
 
-Examples: `ind.prat.1s` (ging), `k2.prat.1s` (ginge), `k2.wuerde.1s` (würde gehen), `k1.pres.3s` (gehe), `imp.pres.2s` (geh), `part.pass` (gegangen). German tokens keep `gn`, which gains `ns` and `pl` (German plurals have no gender), and add `case` (`nom` `acc` `dat` `gen`); adjectives add `decl` (`str` `wk` `mix`). Separable verbs are units (*rufe … an*), contractions are multiword tokens (*zum* = *zu* + *dem*).
+Examples: `ind.prat.1s` (ging), `k2.prat.1s` (ginge), `k2.wuerde.1s` (würde gehen), `k1.pres.3s` (gehe), `imp.pres.2s` (geh), `part.pass` (gegangen). German tokens keep `gn`, which gains `ns` and `pl` (German plurals have no gender), and add `case` (`nom` `acc` `dat` `gen`); adjectives add `decl` (`str` `wk` `mix`). In the content DB, German nouns, adjectives, articles and pronouns carry a case tag instead of Italian's gender-number: `[comp.|sup.][decl.]case[.gn]`, such as `gen.ns` (*Hauses*), `dat.pl` (*Häusern*), `str.nom.ms` (*guter*), `comp.str.nom.ms` (*besserer*) and `acc` (*mich*); `comp` and `sup` alone are the bare comparative and superlative (*besser*). German verbs record `haben`, `sein` or `both` as their auxiliary, and nouns `m`, `f`, `n` (or two letters, such as `mn`) as their gender. Separable verbs are units (*rufe … an*), contractions are multiword tokens (*zum* = *zu* + *dem*).
 
 **Item keys** (dedupe and log linking): Word `word|lemmaID|senseID`, Verb form `verbForm|lemmaID|formTag`, Grammar `grammar|grammarID`.
 

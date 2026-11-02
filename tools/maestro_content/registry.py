@@ -1,7 +1,8 @@
 """The ID registry (HANDOFF.md 6.5).
 
-Lemma and sense IDs are minted once and never reused. content/it/ids/lemmas.tsv and senses.tsv map
-each ID to the fingerprint it was minted from, so a rebuild from a newer dump keeps old IDs.
+Lemma and sense IDs are minted once and never reused. content/<lang>/ids/lemmas.tsv and senses.tsv map
+each ID to the fingerprint it was minted from, so a rebuild from a newer dump keeps old IDs. IDs start with
+the language (it:andare:v, de:Haus:n); German headwords keep their capitals.
 Sense codes are hash-derived, so the same dump always yields the same IDs.
 """
 
@@ -16,15 +17,19 @@ from dataclasses import dataclass, field
 from .normalize import fold, nfc
 
 
-def headword_key(headword: str, pos: str) -> str:
+# Languages whose headwords keep their capitals: German spells every noun with one (Haus, Essen).
+KEEPS_CASE = {"de"}
+
+
+def headword_key(headword: str, pos: str, language: str = "it") -> str:
     hw = nfc(headword.strip())
-    if pos != "propn":
+    if pos != "propn" and language not in KEEPS_CASE:
         hw = hw.lower()
     return hw.replace(" ", "_")
 
 
-def base_lemma_id(headword: str, pos: str) -> str:
-    return f"it:{headword_key(headword, pos)}:{pos}"
+def base_lemma_id(headword: str, pos: str, language: str = "it") -> str:
+    return f"{language}:{headword_key(headword, pos, language)}:{pos}"
 
 
 def sense_fingerprint(senseid: str | None, wikidata: str | None, lemma_id: str, gloss: str) -> str:
@@ -42,6 +47,7 @@ def _code(fingerprint: str, length: int) -> str:
 
 @dataclass
 class Registry:
+    language: str = "it"
     # id -> (fingerprint, label); label is the headword or the last gloss, kept for retired IDs
     lemmas: dict[str, tuple[str, str]] = field(default_factory=dict)
     senses: dict[str, tuple[str, str]] = field(default_factory=dict)
@@ -50,8 +56,8 @@ class Registry:
 
     # --- persistence ---
     @classmethod
-    def load(cls, directory: str | None) -> "Registry":
-        reg = cls()
+    def load(cls, directory: str | None, language: str = "it") -> "Registry":
+        reg = cls(language=language)
         if not directory:
             return reg
         for name, target in (("lemmas.tsv", reg.lemmas), ("senses.tsv", reg.senses)):
@@ -75,7 +81,7 @@ class Registry:
     # --- minting ---
     def lemma_id(self, headword: str, pos: str, fingerprint: str) -> str:
         """The lemma's ID: reuse the one minted for this fingerprint, else the next free homograph slot."""
-        base = base_lemma_id(headword, pos)
+        base = base_lemma_id(headword, pos, self.language)
         candidates = [base] + [f"{base}:{n}" for n in range(2, 100)]
         for cid in candidates:
             known = self.lemmas.get(cid)

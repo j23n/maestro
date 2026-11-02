@@ -307,7 +307,7 @@ class Library:
 
 
 def load_library(conn: sqlite3.Connection, texts_dir: str, curriculum_dir: str, grammar_dir: str,
-                 frequency_path: str, extra: list[str] | None = None) -> Library:
+                 frequency_path: str, extra: list[str] | None = None, language: str = "it") -> Library:
     lex = packs.Lexicon(conn)
     ranks = Ranks(conn, frequency.load(frequency_path))
     paths = [p for p in source_files(texts_dir) if not is_brief(p)]
@@ -315,7 +315,7 @@ def load_library(conn: sqlite3.Connection, texts_dir: str, curriculum_dir: str, 
         if os.path.abspath(p) not in {os.path.abspath(x) for x in paths} and not is_brief(p):
             paths.append(p)
     texts = sequence([analyse(lex, ranks, p) for p in paths])
-    topics = {t.id: t for t in grammar.load_all(grammar_dir)}
+    topics = {t.id: t for t in grammar.load_all(grammar_dir, language)}
     return Library(texts=texts, plans=load_plans(curriculum_dir), topics=topics, ranks=ranks, lex=lex)
 
 
