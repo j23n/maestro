@@ -47,6 +47,15 @@ func germanDatabase() throws -> ContentDatabase {
         #expect(try readings("häusern").first?.formLine == "Dativ Plural")
     }
 
+    @Test func formsThatAreNoNominativeKeepEveryCase() throws {
+        let lemma = try #require(try germanDatabase().lemmas(headword: "Haus").first)
+        func reading(_ tag: String) -> Reading {
+            Reading(lemma: lemma, formTag: nil, genderNumber: nil, surface: "Menschen", via: .form, caseTag: CaseTag(tag))
+        }
+        let weak = Lookup.collapsingCases(["acc.ms", "dat.ms", "gen.ms", "nom.pl", "acc.pl"].map(reading))
+        #expect(weak.compactMap(\.caseTag?.description) == ["acc.ms", "dat.ms", "gen.ms", "nom.pl"])
+    }
+
     @Test func formLinesNameOnlyWhatTheHeadwordDoesNot() throws {
         let lemma = try #require(try germanDatabase().lemmas(headword: "Haus").first)
         func line(_ tag: String) -> String? {

@@ -101,9 +101,10 @@ public struct Lookup: Sendable {
         }
     }
 
-    /// A German noun spells several cases alike (Haus is nominative, accusative and dative). The dictionary
-    /// shows such a form once per number, in the nominative when it is one, and not at all when it is the
-    /// headword's own nominative singular, which the plain headword reading already shows.
+    /// A German noun spells several cases alike (Haus is nominative, accusative and dative). Where one of
+    /// them is the nominative, the dictionary shows the form once, as the nominative, and not at all when
+    /// it is the headword's own nominative singular, which the plain headword reading already shows. Forms
+    /// that aren't a nominative keep every case (Menschen: Akkusativ, Dativ and Genitiv Singular).
     static func collapsingCases(_ readings: [Reading]) -> [Reading] {
         func plain(_ r: Reading) -> CaseTag? {
             guard let tag = r.caseTag, tag.degree == nil, tag.declension == nil, tag.grammaticalCase != nil else { return nil }
@@ -112,15 +113,13 @@ public struct Lookup: Sendable {
         func group(_ r: Reading) -> String { "\(r.lemma.id)|\(r.surface)|\(plain(r)?.number?.rawValue ?? "")" }
         let hasBase = Set(readings.filter { $0.formTag == nil && $0.genderNumber == nil && $0.caseTag == nil }
             .map { "\($0.lemma.id)|\($0.surface)" })
-        var kept: [String: Reading] = [:]
-        for r in readings {
-            guard let tag = plain(r) else { continue }
-            if let other = kept[group(r)], plain(other)?.grammaticalCase == .nom || tag.grammaticalCase != .nom { continue }
-            kept[group(r)] = r
+        var nominative: [String: Reading] = [:]
+        for r in readings where plain(r)?.grammaticalCase == .nom && nominative[group(r)] == nil {
+            nominative[group(r)] = r
         }
         return readings.filter { r in
             guard let tag = plain(r) else { return true }
-            guard kept[group(r)]?.id == r.id else { return false }
+            if let nom = nominative[group(r)], nom.id != r.id { return false }
             let isOwnNominative = tag.grammaticalCase == .nom && tag.number != .pl
             return !(isOwnNominative && hasBase.contains("\(r.lemma.id)|\(r.surface)"))
         }
