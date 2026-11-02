@@ -347,7 +347,7 @@ def link_sentence(lex: packs.Lexicon, sentence: packs.SourceSentence) -> tuple[l
 @dataclass
 class Clause:
     words: list[int]        # token indices of the clause's words, in order
-    subordinate: bool       # verb-final: opened by a subordinating conjunction
+    subordinate: bool       # verb-final: opened by a subordinator, or joined by und to one with its verbs last
 
 
 def _clauses(raw: list[tuple[str, int, int, str]], infos: list[Info]) -> list[Clause]:
@@ -360,7 +360,7 @@ def _clauses(raw: list[tuple[str, int, int, str]], infos: list[Info]) -> list[Cl
                 out.append(Clause(current, False))
                 current = []
             continue
-        if current and _starts_main_clause(raw, infos, current, i):
+        if current and _starts_coordinated_clause(raw, infos, current, i):
             out.append(Clause(current, False))
             coordinated.add(len(out))
             current = []
@@ -383,9 +383,10 @@ def _clauses(raw: list[tuple[str, int, int, str]], infos: list[Info]) -> list[Cl
 RELATIVE = {"der", "die", "das", "dem", "den", "denen", "dessen", "deren"}
 
 
-def _starts_main_clause(raw: list[tuple[str, int, int, str]], infos: list[Info], current: list[int], i: int) -> bool:
-    """ich koche und wir essen: und or oder after a verb, before a subject and its finite verb, opens a new
-    clause without a comma, and so does one word, a finite verb and a subject pronoun (und dann essen wir).
+def _starts_coordinated_clause(raw: list[tuple[str, int, int, str]], infos: list[Info], current: list[int], i: int) -> bool:
+    """ich koche und wir essen: und or oder after a verb, before a subject and its finite verb, starts a
+    coordinated clause without a comma, and so does one word, a finite verb and a subject pronoun (und dann
+    essen wir). _clauses decides whether it continues a verb-final clause before it.
     Before the clause has a verb it joins two subjects instead (die Frau und ich essen), and without a
     finite verb after the subject it joins two objects (Brot und eine Suppe gekauft)."""
     if raw[i][0].lower() not in CCONJ or infos[i].pos != "conj" or i + 1 >= len(raw) or raw[i + 1][3] == "p":
