@@ -146,8 +146,9 @@ def examples(lib: curriculum.Library, level: str, exclude: str) -> list[str]:
 
 def findings_for(conn: sqlite3.Connection, args, path: str) -> list[str]:
     try:
-        lib = curriculum.load_library(conn, args.texts, args.curriculum, args.grammar, args.frequency, extra=[path])
-        src = packs.parse_source(path)
+        lib = curriculum.load_library(conn, args.texts, args.curriculum, args.grammar, args.frequency, extra=[path],
+                                      language=getattr(args, "language", "it"))
+        src = packs.parse_source(path, getattr(args, "language", None))
     except (packs.PackError, ValueError, KeyError) as exc:
         return [f"The file doesn't parse: {exc}"]
     text, _ = packs.build_text(packs.Lexicon(conn), src)
@@ -157,7 +158,7 @@ def findings_for(conn: sqlite3.Connection, args, path: str) -> list[str]:
     return out
 
 
-def check_questions(api, source: str) -> list[str]:
+def check_questions(api, source: str, language: str = "it") -> list[str]:
     """A second, independent pass answers each question from the text alone."""
     src_path = None
     import tempfile
@@ -165,7 +166,7 @@ def check_questions(api, source: str) -> list[str]:
         fh.write(source)
         src_path = fh.name
     try:
-        src = packs.parse_source(src_path)
+        src = packs.parse_source(src_path, language)
     finally:
         os.unlink(src_path)
     sentences = [s.text for b in src.blocks for s in b.sentences]
@@ -206,7 +207,8 @@ def run(args) -> int:
         print(f"{path} is reviewed; drafting would overwrite it", file=sys.stderr)
         return 1
     conn = sqlite3.connect(args.db)
-    lib = curriculum.load_library(conn, args.texts, args.curriculum, args.grammar, args.frequency)
+    lib = curriculum.load_library(conn, args.texts, args.curriculum, args.grammar, args.frequency,
+                                  language=getattr(args, "language", "it"))
     level = dict(meta)["level"]
     prompt = ["Write the text for this brief.", "", "Brief:", describe_brief(lib, path), "",
               "The file as it stands (keep its front matter):", "```markdown", brief_source.strip(), "```", "",
@@ -256,7 +258,7 @@ def _rounds(api, args, conn: sqlite3.Connection, path: str, brief_source: str, m
             problems = ["Build: not checked yet"]  # in case the check itself fails
             problems = findings_for(conn, args, path)
             if not problems:
-                problems = check_questions(api, source)
+                problems = check_questions(api, source, getattr(args, "language", "it"))
             print(f"round {round_}: {len(problems)} problems")
             for p in problems:
                 print(f"  {p}")
