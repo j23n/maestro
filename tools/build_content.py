@@ -4,8 +4,8 @@
     python3 tools/build_content.py --mode full|auto|sample --out App/Resources/Content
 
 Each language goes into its own folder, <out>/<lang>/content.sqlite and <out>/<lang>/packs/ (HANDOFF.md
-5.3), and --language picks it (Italian by default). The app bundles every language folder it finds, so
-German appears in a build only after someone runs this with --language de.
+5.3), and --language picks it (Italian by default). The app bundles every language folder it finds;
+`make content` runs this once for each language the app ships.
 
 full    downloads the language's kaikki.org dump (tools/content-sources.txt) unless it's cached in
         .build/content-sources, and fails if it can't. TestFlight archives use this.
