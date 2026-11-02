@@ -29,7 +29,7 @@ let package = Package(
         .testTarget(name: "LanguageCoreTests", dependencies: ["LanguageCore"]),
         .testTarget(name: "LexiconKitTests", dependencies: ["LexiconKit"], resources: [.copy("Fixtures")]),
         .testTarget(name: "GrammarKitTests", dependencies: ["GrammarKit", "LexiconKit"], resources: [.copy("Fixtures")]),
-        .testTarget(name: "PackKitTests", dependencies: ["PackKit"], resources: [.copy("Fixtures")]),
+        .testTarget(name: "PackKitTests", dependencies: ["PackKit", "LanguageCore"], resources: [.copy("Fixtures")]),
         .testTarget(name: "SRSKitTests", dependencies: ["SRSKit"]),
         .testTarget(name: "SyncLogicTests", dependencies: ["SyncLogic", "LanguageCore"]),
         .testTarget(name: "PracticeKitTests", dependencies: ["PracticeKit", "PackKit"]),

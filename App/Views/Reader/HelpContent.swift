@@ -53,6 +53,8 @@ struct HelpContent {
 
         if let tag = formTag.flatMap(FormTag.init) {
             analysis = tag.label(in: lemmaID.flatMap { Language.of(id: $0) } ?? TargetLanguage.current)
+        } else if let caseTag = token.caseTag ?? token.parts?.lazy.compactMap(\.caseTag).first {
+            analysis = "\(PartOfSpeech.label(pos)), \(caseTag.label)"   // "noun, Dativ neutral Singular"
         } else if let gn = token.genderNumber {
             analysis = "\(PartOfSpeech.label(pos)), \(gn.label)"
         } else if !pos.isEmpty {

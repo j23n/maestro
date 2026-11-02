@@ -1,9 +1,10 @@
 import SwiftData
 import SwiftUI
+import LanguageCore
 import PackKit
 import SyncLogic
 
-/// Comprehension questions (HANDOFF.md 3.7): Italian with an English toggle; a wrong pick shows the
+/// Comprehension questions (HANDOFF.md 3.7): in the text's language with an English toggle; a wrong pick shows the
 /// sentence that answers it.
 struct QuestionsView: View {
     let textID: String
@@ -25,7 +26,7 @@ struct QuestionsView: View {
                         Text(english ? question.promptEN : question.prompt)
                             .font(.system(.body, design: .serif).weight(.semibold))
                             .targetLanguageUnless(english)
-                        ForEach(Array(question.choices(english: english).enumerated()), id: \.offset) { i, choice in
+                        ForEach(Array(question.choices(english: english, language: Language.of(id: text.id) ?? .it).enumerated()), id: \.offset) { i, choice in
                             choiceRow(question, index: i, label: choice)
                         }
                         if let pick = picks[question.id], !question.isCorrect(pick) {

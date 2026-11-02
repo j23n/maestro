@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+import LanguageCore
 @testable import PackKit
 
 @Suite struct PackKitTests {
@@ -43,6 +44,28 @@ import Testing
         #expect(q1.isCorrect(1))
         #expect(!q1.isCorrect(0))
         #expect(q1.choices(english: true).count == 3)
+    }
+
+    @Test func germanTokensCarryCase() throws {
+        let json = #"""
+        {"id": "s1", "r": [0, 13], "text": "im neuen Haus", "translation": "in the new house", "tokens": [
+          {"t": "im", "r": [0, 2], "parts": [{"t": "in", "pos": "ADP", "lemmaID": "de:in:prep"},
+                                             {"t": "dem", "pos": "DET", "lemmaID": "de:der:art", "case": "dat", "gn": "ns"}]},
+          {"t": "neuen", "r": [3, 5], "pos": "ADJ", "lemmaID": "de:neu:adj", "case": "dat", "gn": "ns", "decl": "wk"},
+          {"t": "Haus", "r": [9, 4], "pos": "NOUN", "lemmaID": "de:Haus:n", "case": "dat", "gn": "ns"}]}
+        """#
+        let sentence = try JSONDecoder().decode(Sentence.self, from: Data(json.utf8))
+        #expect(sentence.tokens[2].caseTag?.label == "Dativ neutral Singular")
+        #expect(sentence.tokens[1].caseTag?.description == "wk.dat.ns")
+        #expect(sentence.tokens[0].parts?[1].caseTag?.description == "dat.ns")
+        #expect(sentence.tokens[2].genderNumber == nil, "German numbers aren't Italian gender-number")
+    }
+
+    @Test func yesNoChoicesFollowTheTextLanguage() throws {
+        let json = #"{"id": "q1", "type": "yesNoNotStated", "prompt": "Ist es kalt?", "promptEN": "Is it cold?", "answer": "yes", "answerSentences": ["s1"]}"#
+        let question = try JSONDecoder().decode(Question.self, from: Data(json.utf8))
+        #expect(question.choices(english: false, language: .de) == ["Ja", "Nein", "Steht nicht im Text"])
+        #expect(question.choices(english: false) == ["Sì", "No", "Non si dice"])
     }
 
     @Test func knownWords() {

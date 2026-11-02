@@ -98,7 +98,12 @@ public struct Token: Codable, Sendable, Hashable {
     public let senseID: String?
     public let form: String?
     public let agree: String?
+    /// Italian `ms` `fs` `mp` `fp`; German `ms` `fs` `ns` `pl`.
     public let gn: String?
+    /// German case: `nom` `acc` `dat` `gen` (HANDOFF.md 6.5).
+    public let `case`: String?
+    /// A German adjective's declension: `str` `wk` `mix`.
+    public let decl: String?
     public let gloss: String?
     public let note: String?
     public let grammar: [String]?
@@ -107,6 +112,8 @@ public struct Token: Codable, Sendable, Hashable {
     public var isWord: Bool { pos != "PUNCT" }
     public var formTag: FormTag? { form.flatMap(FormTag.init) }
     public var genderNumber: GenderNumber? { gn.flatMap(GenderNumber.init(rawValue:)) }
+    /// A German token's case, number and declension, such as Dativ neutral Singular.
+    public var caseTag: CaseTag? { CaseTag(case: `case`, gn: gn, decl: decl) }
 }
 
 public struct TokenPart: Codable, Sendable, Hashable {
@@ -116,6 +123,18 @@ public struct TokenPart: Codable, Sendable, Hashable {
     public let senseID: String?
     public let form: String?
     public let gn: String?
+    public let `case`: String?
+
+    public var caseTag: CaseTag? { CaseTag(case: `case`, gn: gn, decl: nil) }
+}
+
+extension CaseTag {
+    /// From a pack token's separate `case`, `gn` and `decl` fields; nil without a case.
+    init?(case grammaticalCase: String?, gn: String?, decl: String?) {
+        guard let c = grammaticalCase.flatMap(Case.init(rawValue:)) else { return nil }
+        self.init(declension: decl.flatMap(Declension.init(rawValue:)), grammaticalCase: c,
+                  number: gn.flatMap(Number.init(rawValue:)))
+    }
 }
 
 public struct Unit: Codable, Sendable, Hashable {
@@ -168,11 +187,17 @@ public struct Question: Codable, Sendable, Hashable, Identifiable {
     public let answer: QuestionAnswer
     public let answerSentences: [String]
 
-    /// The choices to show, in Italian or English.
-    public func choices(english: Bool) -> [String] {
+    /// The choices to show, in the text's language or English.
+    public func choices(english: Bool, language: Language = .it) -> [String] {
         switch type {
         case .choice: (english ? optionsEN : options) ?? []
-        case .yesNoNotStated: english ? ["Yes", "No", "Not stated"] : ["Sì", "No", "Non si dice"]
+        case .yesNoNotStated:
+            if english { ["Yes", "No", "Not stated"] } else {
+                switch language {
+                case .it: ["Sì", "No", "Non si dice"]
+                case .de: ["Ja", "Nein", "Steht nicht im Text"]
+                }
+            }
         }
     }
 
