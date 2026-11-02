@@ -55,6 +55,8 @@ struct HelpContent {
             analysis = tag.label(in: lemmaID.flatMap { Language.of(id: $0) } ?? TargetLanguage.current)
         } else if let caseTag = token.caseTag ?? token.parts?.lazy.compactMap(\.caseTag).first {
             analysis = "\(PartOfSpeech.label(pos)), \(caseTag.label)"   // "noun, Dativ neutral Singular"
+        } else if lemmaID.flatMap({ Language.of(id: $0) }) == .de, let number = token.gn.flatMap(CaseTag.Number.init(rawValue:)) {
+            analysis = "\(PartOfSpeech.label(pos)), \(number.germanName)"   // "noun, feminin Singular"
         } else if let gn = token.genderNumber {
             analysis = "\(PartOfSpeech.label(pos)), \(gn.label)"
         } else if !pos.isEmpty {

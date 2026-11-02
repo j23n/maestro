@@ -180,7 +180,8 @@ class Ranks:
         return self.form.get(surface.lower())
 
 
-def analyse(lex: packs.Lexicon, ranks: Ranks, path: str, language: str = "it") -> TextFacts:
+def analyse(lex: packs.Lexicon, ranks: Ranks, path: str, language: str | None = None) -> TextFacts:
+    """What a text uses and teaches. Without a language, the text's folder decides (content/de/…)."""
     src = packs.parse_source(path, language)
     meta = _front_matter(path)
     text, warnings = packs.build_text(lex, src)

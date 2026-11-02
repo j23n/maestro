@@ -39,6 +39,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 
 from . import drills as drillgen
+from . import grammar
 from .normalize import apostrophes, nfc, utf16_len, utf16_slice
 
 # --- linguistic tables --------------------------------------------------------------------
@@ -169,7 +170,7 @@ def language_of(path: str) -> str:
 
 def parse_source(path: str, language: str | None = None) -> SourceText:
     language = language or language_of(path)
-    prefix = "" if language == "it" else f"{language}:"
+    prefix = grammar.id_prefix(language)
     text_id = prefix + os.path.splitext(os.path.basename(path))[0]
     with open(path, encoding="utf-8") as fh:
         lines = [nfc(apostrophes(l.rstrip("\n"))) for l in fh]
