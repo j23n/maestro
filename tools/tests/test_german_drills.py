@@ -5,7 +5,7 @@ import os
 
 import pytest
 
-from maestro_content import build_db, drills, drills_de, grammar, kaikki, packs
+from maestro_content import build_db, drills, drills_de, grammar, kaikki, packs, packs_de
 from maestro_content.registry import Registry
 
 HERE = os.path.dirname(__file__)
@@ -131,3 +131,37 @@ def test_order_keeps_a_noun_capital():
          "tokens": [{"t": "Frauen", "pos": "NOUN"}, {"t": "gehen", "pos": "VERB"}, {"t": "nach", "pos": "ADP"},
                     {"t": "Hause", "pos": "NOUN"}, {"t": ".", "pos": "PUNCT"}]}
     assert drills_de.order_candidate(s, "de:verbstellung").drill["tiles"][0] == "Frauen"
+
+
+@pytest.mark.parametrize("infinitive, participle, irregular", [
+    ("machen", "gemacht", False), ("öffnen", "geöffnet", False), ("antworten", "geantwortet", False),
+    ("wiederholen", "wiederholt", False), ("übersetzen", "übersetzt", False), ("atmen", "geatmet", False),
+    ("gehen", "gegangen", True), ("bringen", "gebracht", True), ("kennen", "gekannt", True),
+])
+def test_irregular_participles(infinitive, participle, irregular):
+    assert drills_de.is_irregular_participle(infinitive, participle) is irregular
+
+
+def test_german_keys_keep_umlauts():
+    from maestro_content.normalize import german_key
+    assert german_key("hatte") != german_key("hätte") and german_key("fahrt") != german_key("fährt")
+    assert german_key("haeuser") == german_key("Häuser") and german_key("strasse") == german_key("Straße")
+    assert german_key("abenteuerbuecher") == german_key("Abenteuerbücher")
+
+
+def linked(conn, text):
+    tokens, units, _ = packs_de.link_sentence(packs.Lexicon(conn), packs.SourceSentence(text=text, translation=""))
+    return {"id": "s1", "text": text, "translation": "", "tokens": tokens, "units": units}
+
+
+def test_case_drill_without_a_preposition_names_only_the_case(built):
+    _, text = built
+    case = next(c for c in drills_de.case_candidates(sentence(text, 3)))
+    assert case.drill["answers"] == ["das"] and set(case.drill["near"].values()) == {"Here it's in the accusative."}
+
+
+def test_aux_rule_follows_the_sentence_order(built):
+    conn, _ = built
+    s = linked(conn, "Ich esse, weil ich Brot gegessen habe.")
+    aux = next(c for c in drills_de.compound_candidates(s, TOPIC_INFO) if c.recipe == "aux")
+    assert aux.drill["rule"] == "essen takes haben: gegessen … habe."

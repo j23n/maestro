@@ -16,7 +16,8 @@ from __future__ import annotations
 
 from .drills import (BUILD_WORDS, Candidate, Forms, TopicInfo, _gap, _neutral, _seed, form_key, form_person,
                      headword, match_case)
-from .normalize import fold
+from .normalize import german_key
+from .packs_de import VERB_LAST_TOPIC_WORDS
 
 FORM_TOPIC = {
     "ind.pres": "de:praesens", "imp.pres": "de:imperativ", "ind.prat": "de:praeteritum",
@@ -76,7 +77,6 @@ TWO_WAY = {"an", "auf", "hinter", "in", "neben", "über", "unter", "vor", "zwisc
 NO_GE = ("be", "emp", "ent", "er", "ge", "miss", "ver", "zer")
 PARTICLES = {"ab", "an", "auf", "aus", "bei", "ein", "fest", "fort", "her", "hin", "los", "mit", "nach", "vor", "weg",
              "zu", "zurück", "zusammen", "weiter", "vorbei", "herein", "hinaus", "heraus", "hinein", "kennen"}
-SUBORDINATORS = {"dass", "weil", "wenn", "ob", "obwohl", "als", "bevor", "nachdem", "damit", "sobald", "falls"}
 
 
 # --- helpers -----------------------------------------------------------------------------
@@ -94,6 +94,14 @@ def weak_participle(infinitive: str) -> str | None:
     if rest.endswith("ier") or inseparable:
         return particle + rest + ending
     return particle + "ge" + rest + ending
+
+
+def is_irregular_participle(infinitive: str, participle: str) -> bool:
+    """A participle is irregular when it doesn't end in t or doesn't hold the infinitive's stem:
+    gegangen, gebracht (bring), gekannt (kenn). geöffnet, geantwortet and wiederholt are regular."""
+    inf, part = infinitive.lower(), participle.lower()
+    stem = inf[:-2] if inf.endswith("en") else inf[:-1] if inf.endswith("n") else inf
+    return not part.endswith("t") or stem not in part
 
 
 def _compound(sentence: dict, unit: dict) -> tuple[int, int, str] | None:
@@ -130,11 +138,12 @@ def _next_noun(sentence: dict, index: int) -> dict | None:
 
 
 def _clause_after_subordinator(sentence: dict, index: int) -> bool:
-    """Whether a token is in a clause that a subordinating conjunction opens."""
+    """Whether a token is in a clause that one of the subordinators the Nebensätze page teaches opens
+    (the linker's set; ambiguous words like damit and als stay out)."""
     for tok in reversed(sentence["tokens"][:index]):
         if tok.get("pos") == "PUNCT" and tok["t"] in (",", ";", ":", ".", "!", "?"):
             return False
-        if tok["t"].lower() in SUBORDINATORS and tok.get("pos") == "SCONJ":
+        if tok["t"].lower() in VERB_LAST_TOPIC_WORDS and tok.get("pos") == "SCONJ":
             return True
     return False
 
@@ -168,12 +177,14 @@ def compound_candidates(sentence: dict, topics: dict[str, TopicInfo]) -> list[Ca
             out.append(Candidate("aux", topic, sentence["id"], {
                 "kind": "choice", "prompt": "Pick the auxiliary.", **_gap(sentence, *aux_tok["r"]), "cue": infinitive,
                 "options": [right, wrong] if aux == "haben" else [wrong, right],  # haben first, always
-                "answers": [right], "near": {fold(wrong): why},
-                "rule": f"{infinitive} takes {aux}: {right.lower()} … {participle}."}))
+                "answers": [right], "near": {german_key(wrong): why},
+                "rule": f"{infinitive} takes {aux}: " + (f"{right.lower()} … {participle}." if aux_i < part_i
+                                                          else f"{participle} … {right.lower()}.")}))
 
+        irregular = is_irregular_participle(infinitive, participle)
         weak = weak_participle(infinitive)
-        irregular = weak is not None and fold(weak) != fold(participle)
-        near = {fold(weak): f"{infinitive} has an irregular participle."} if irregular and weak else {}
+        near = {german_key(weak): f"{infinitive} has an irregular participle."} \
+            if irregular and weak and german_key(weak) != german_key(participle) else {}
         out.append(Candidate("participle", topic, sentence["id"], {
             "kind": "gap", "prompt": "Type the past participle.", **_gap(sentence, *toks[part_i]["r"]),
             "cue": infinitive, "answers": [participle], "near": near,
@@ -202,30 +213,31 @@ def form_candidates(sentence: dict, covered: set[int], forms: Forms) -> list[Can
         g = _gap(sentence, *tok["r"])
         cue = f"{infinitive}, {PERSON_LABEL.get(person, person)}"
         lemma_forms = forms.of(tok["lemmaID"])
-        right = {fold(f) for f, t in lemma_forms if form_key(t) == key and form_person(t) == person} | {fold(surface)}
+        right = {german_key(f) for f, t in lemma_forms if form_key(t) == key and form_person(t) == person} \
+            | {german_key(surface)}
         near: dict[str, str] = {}
         same_tense: list[str] = []
         other_tense: list[str] = []
         for form, other in lemma_forms:
             okey, operson = form_key(other), form_person(other)
-            if fold(form) in right or not operson:
+            if german_key(form) in right or not operson:
                 continue
             if okey == key and operson != person:
-                near.setdefault(fold(form), f"Check the person: we need {PERSON_LABEL.get(person, person)}.")
+                near.setdefault(german_key(form), f"Check the person: we need {PERSON_LABEL.get(person, person)}.")
                 same_tense.append(match_case(form, surface))
             elif operson == person and okey != key and okey in TENSE_LABEL:
-                near.setdefault(fold(form), f"That's the {TENSE_LABEL[okey]}. We need the {TENSE_LABEL[key]}.")
+                near.setdefault(german_key(form), f"That's the {TENSE_LABEL[okey]}. We need the {TENSE_LABEL[key]}.")
                 other_tense.append(match_case(form, surface))
         # Present and imperative drill the person; the other tenses drill the tense.
         pool = same_tense if key in ("ind.pres", "imp.pres") else other_tense or same_tense
-        others = sorted({fold(f): f for f in pool}.values(), key=lambda f: _seed(sentence["id"], f))[:2]
+        others = sorted({german_key(f): f for f in pool}.values(), key=lambda f: _seed(sentence["id"], f))[:2]
         rule = f"{infinitive}, {TENSE_LABEL[key]}, {PERSON_LABEL.get(person, person)} → {surface.lower()}."
         for topic in topics:
             if len(others) == 2:
                 out.append(Candidate("form-choice", topic, sentence["id"], {
                     "kind": "choice", "prompt": "Pick the form.", **g, "cue": cue,
                     "options": _neutral([surface] + others, sentence["id"]), "answers": [surface],
-                    "near": {k: v for k, v in near.items() if k in {fold(o) for o in others}}, "rule": rule}))
+                    "near": {k: v for k, v in near.items() if k in {german_key(o) for o in others}}, "rule": rule}))
             out.append(Candidate("form", topic, sentence["id"], {
                 "kind": "gap", "prompt": "Type the verb.", **g, "cue": cue, "answers": [surface], "near": near,
                 "rule": rule}))
@@ -265,7 +277,7 @@ def case_candidates(sentence: dict) -> list[Candidate]:
             continue
         lemma, by_case = family
         right = tok["t"]
-        if fold(by_case.get(case, "")) != fold(right):
+        if german_key(by_case.get(case, "")) != german_key(right):
             continue  # the token isn't the form the tables give; don't guess
         options = [match_case(by_case[c], right) for c in CASE_ORDER if c != "gen" or case == "gen"]
         options = list(dict.fromkeys(options))
@@ -281,15 +293,18 @@ def case_candidates(sentence: dict) -> list[Candidate]:
             reason = f"{prep} takes the {CASE_NAME[case]}."
         else:
             topic = CASE_TOPIC.get(case, "de:artikel")
+            # Without a preposition, the case alone: an accusative can be a time (jeden Tag) and a
+            # dative the object of helfen, so naming a role would often be wrong.
             reason = {"nom": "It's the subject, so it's in the nominative.",
-                      "acc": "It's the direct object, so it's in the accusative.",
-                      "dat": "It's the indirect object, so it's in the dative.",
+                      "acc": "Here it's in the accusative.",
+                      "dat": "Here it's in the dative.",
                       "gen": "It says whose, so it's in the genitive."}[case]
         if lemma in POSSESSIVES:
             topic = "de:possessivartikel"
         out.append(Candidate("case", topic, sentence["id"], {
             "kind": "choice", "prompt": "Pick the article.", **_gap(sentence, *tok["r"]), "cue": noun["t"],
-            "options": options, "answers": [right], "near": {fold(o): reason for o in options if fold(o) != fold(right)},
+            "options": options, "answers": [right],
+            "near": {german_key(o): reason for o in options if german_key(o) != german_key(right)},
             "rule": f"{reason[:-1]}: {right.lower()} {noun['t']}."}))
     return out
 
@@ -306,8 +321,8 @@ def contraction_candidates(sentence: dict) -> list[Candidate]:
         topic = "de:dativ" if prep == "zu" else "de:wechselpraepositionen"
         out.append(Candidate("contraction", topic, sentence["id"], {
             "kind": "choice", "prompt": "Pick the preposition.", **_gap(sentence, *tok["r"]),
-            "cue": f"{prep} + …", "options": sorted([right, wrong], key=fold), "answers": [right],
-            "near": {fold(wrong): CONTRACTION_WHY[low]}, "rule": CONTRACTION_WHY[low]}))
+            "cue": f"{prep} + …", "options": sorted([right, wrong], key=german_key), "answers": [right],
+            "near": {german_key(wrong): CONTRACTION_WHY[low]}, "rule": CONTRACTION_WHY[low]}))
     return out
 
 
@@ -347,7 +362,7 @@ def order_candidate(sentence: dict, topic: str) -> Candidate | None:
             tense = _aux_tense(sentence["tokens"][found[0]], found[2])
             if tense:
                 wrong = AUX_FORMS["haben" if found[2] == "sein" else "sein"][tense[0]][tense[1]]
-                if fold(wrong) not in {fold(t) for t in tiles}:
+                if german_key(wrong) not in {german_key(t) for t in tiles}:
                     distractors = [wrong]
             break
     return Candidate("order", topic, sentence["id"], {
