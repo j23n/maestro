@@ -264,20 +264,23 @@ def kaikki_case_tags_de(tags: list[str], gender: str | None = None, pos: str = "
         return []
     degree = "comp." if "comparative" in t else "sup." if "superlative" in t else ""
     cases = [c for x, c in _DE_CASE.items() if x in t]
-    decl = next((d for x, d in _DE_DECL.items() if x in t), None)
+    decls = [d for x, d in _DE_DECL.items() if x in t]
+    if not cases and pos == "n" and "plural" in t and t <= {"plural"} | set(_DE_GENDER):
+        cases = ["nom", "acc", "gen"]  # a head line's plural (Bäume) names no case; the dative often differs
     if not cases:
         if degree and len(t - {"comparative", "superlative"}) == 0:
             return [degree[:-1]]
         return []
-    if pos == "n" and decl:
-        decl = None  # strong and weak describe the noun's class, not this form
+    if pos == "n":
+        decls = []  # strong and weak describe the noun's class, not this form
     genders = [g for x, g in _DE_GENDER.items() if x in t]
     if pos == "n" and "feminine" in t and "f" not in (gender or "") and gender != "?":
         return []  # a female-equivalent listed among a masculine noun's forms
     gns: list[str] = []
     if "plural" in t:
         gns.append("pl")
-    if "singular" in t or (genders and "plural" not in t):
+    # A head line's genitive (Baumes) names no number: it is the singular.
+    if "singular" in t or ("plural" not in t and (genders or pos == "n")):
         if pos == "n":
             # A two-gender noun's row may name which of its genders it is (die/der Joghurt).
             g = next((x for x in genders if x in (gender or "")), (gender or "")[:1])
@@ -289,7 +292,7 @@ def kaikki_case_tags_de(tags: list[str], gender: str | None = None, pos: str = "
             gns.extend(g + "s" for g in genders)
     if not gns and pos == "n":
         return []
-    prefix = degree + (decl + "." if decl and pos == "adj" else "")
+    prefixes = [degree + d + "." for d in decls] if decls and pos == "adj" else [degree]
     if not gns:
-        return [f"{prefix}{c}" for c in cases]
-    return [f"{prefix}{c}.{gn}" for c in cases for gn in gns]
+        return [f"{prefix}{c}" for prefix in prefixes for c in cases]
+    return [f"{prefix}{c}.{gn}" for prefix in prefixes for c in cases for gn in gns]

@@ -187,3 +187,14 @@ def test_article_rows_keep_definite_and_feminine_rows_of_two_gender_nouns():
     assert tags.kaikki_case_tags_de(["definite", "dative", "singular"], "n", "n") == []
     assert tags.kaikki_case_tags_de(["feminine", "dative", "singular"], "mf", "n") == ["dat.fs"]
     assert tags.kaikki_case_tags_de(["feminine", "dative", "singular"], "m", "n") == []
+
+
+def test_head_line_forms_without_a_case_or_number():
+    assert tags.kaikki_case_tags_de(["plural"], "m", "n") == ["nom.pl", "acc.pl", "gen.pl"]
+    assert tags.kaikki_case_tags_de(["genitive"], "m", "n") == ["gen.ms"]
+    assert tags.kaikki_case_tags_de(["plural"], "?", "n") == ["nom.pl", "acc.pl", "gen.pl"], "plural of Baum"
+
+
+def test_a_row_naming_two_declensions_gives_both():
+    assert tags.kaikki_case_tags_de(["strong", "mixed", "nominative", "neuter", "singular"], None, "adj") == \
+        ["str.nom.ns", "mix.nom.ns"]
