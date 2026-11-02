@@ -17,7 +17,7 @@ from __future__ import annotations
 from .drills import (BUILD_WORDS, Candidate, Forms, TopicInfo, _gap, _neutral, _seed, form_key, form_person,
                      headword, match_case)
 from .normalize import german_key
-from .packs_de import VERB_LAST_TOPIC_WORDS
+from .packs_de import PARTICLES as SEPARABLE_PARTICLES, VERB_LAST_TOPIC_WORDS
 
 FORM_TOPIC = {
     "ind.pres": "de:praesens", "imp.pres": "de:imperativ", "ind.prat": "de:praeteritum",
@@ -101,8 +101,9 @@ def is_irregular_participle(infinitive: str, participle: str) -> bool:
     gegangen, gebracht (bring), gekannt (kenn). geöffnet, geantwortet, wiederholt and eingekauft are regular."""
     inf, part = infinitive.lower(), participle.lower()
     stem = inf[:-2] if inf.endswith("en") else inf[:-1] if inf.endswith("n") else inf
-    # A separable verb puts ge between its particle and its stem: einkaufen -> eingekauft.
-    particle = next((p for p in sorted(PARTICLES, key=len, reverse=True)
+    # A separable verb puts ge between its particle and its stem: einkaufen -> eingekauft. The linker's
+    # particles include um, durch and wieder, which are safe here because the participle must repeat them.
+    particle = next((p for p in sorted(SEPARABLE_PARTICLES, key=len, reverse=True)
                      if stem.startswith(p) and part.startswith(p + "ge")), "")
     return not part.endswith("t") or stem[len(particle):] not in part
 

@@ -138,6 +138,7 @@ def test_order_keeps_a_noun_capital():
     ("wiederholen", "wiederholt", False), ("übersetzen", "übersetzt", False), ("atmen", "geatmet", False),
     ("einkaufen", "eingekauft", False), ("aufmachen", "aufgemacht", False), ("kennenlernen", "kennengelernt", False),
     ("gehen", "gegangen", True), ("bringen", "gebracht", True), ("kennen", "gekannt", True),
+    ("umtauschen", "umgetauscht", False), ("heimkehren", "heimgekehrt", False), ("umziehen", "umgezogen", True),
     ("mitbringen", "mitgebracht", True),
 ])
 def test_irregular_participles(infinitive, participle, irregular):
