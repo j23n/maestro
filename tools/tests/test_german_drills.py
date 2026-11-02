@@ -167,3 +167,10 @@ def test_aux_rule_follows_the_sentence_order(built):
     s = linked(conn, "Ich esse, weil ich Brot gegessen habe.")
     aux = next(c for c in drills_de.compound_candidates(s, TOPIC_INFO) if c.recipe == "aux")
     assert aux.drill["rule"] == "essen takes haben: gegessen … habe."
+
+
+def test_order_keeps_a_sentence_first_sie():
+    s = {"id": "s1", "translation": "You speak German well.", "text": "Sie sprechen gut Deutsch.",
+         "tokens": [{"t": "Sie", "pos": "PRON"}, {"t": "sprechen", "pos": "VERB"}, {"t": "gut", "pos": "ADV"},
+                    {"t": "Deutsch", "pos": "NOUN"}, {"t": ".", "pos": "PUNCT"}]}
+    assert drills_de.order_candidate(s, "de:verbstellung").drill["tiles"][0] == "Sie"

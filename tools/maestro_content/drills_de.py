@@ -296,9 +296,9 @@ def case_candidates(sentence: dict) -> list[Candidate]:
             reason = f"{prep} takes the {CASE_NAME[case]}."
         else:
             topic = CASE_TOPIC.get(case, "de:artikel")
-            # Without a preposition, the case alone: an accusative can be a time (jeden Tag) and a
-            # dative the object of helfen, so naming a role would often be wrong.
-            reason = {"nom": "It's the subject, so it's in the nominative.",
+            # Without a preposition, the case alone: a nominative can be a predicate (Das ist der
+            # Bahnhof), an accusative a time (jeden Tag) and a dative the object of helfen.
+            reason = {"nom": "Here it's in the nominative.",
                       "acc": "Here it's in the accusative.",
                       "dat": "Here it's in the dative.",
                       "gen": "It says whose, so it's in the genitive."}[case]
@@ -354,8 +354,9 @@ def order_candidate(sentence: dict, topic: str) -> Candidate | None:
     tiles = []
     for n, tok in enumerate(words):
         w = tok["t"]
-        # Nouns, names and polite Sie keep their capital; other words lose the sentence's.
-        if n == 0 and tok.get("pos") not in ("NOUN", "PROPN") and tok.get("lemmaID") != "de:Sie:pron":
+        # Nouns, names and a sentence-first Sie keep their capital (the linker can't tell polite Sie
+        # from sie there, and both take the same tiles); other words lose the sentence's.
+        if n == 0 and tok.get("pos") not in ("NOUN", "PROPN") and w != "Sie":
             w = w[:1].lower() + w[1:]
         tiles.append(w)
     distractors: list[str] = []
