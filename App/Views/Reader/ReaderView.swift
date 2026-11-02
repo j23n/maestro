@@ -210,8 +210,10 @@ struct ReaderView: View {
         var out: [SpeechSegment] = []
         for block in text.blocks {
             for sentence in block.sentences {
+                let dialogue = block.type == .dialogue
                 out.append(SpeechSegment(id: "\(text.id)#\(out.count)", text: sentence.text,
-                                         speaker: block.type == .dialogue ? block.speaker : nil))
+                                         speaker: dialogue ? block.speaker : nil,
+                                         gender: dialogue ? block.speakerGender : nil))
             }
         }
         return out
