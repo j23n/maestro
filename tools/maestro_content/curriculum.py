@@ -1,7 +1,8 @@
 """Level plans, text analysis, the text checker, the coverage report and new briefs.
 
-Level plans live in content/it/curriculum/<level>.md: a key: value header, a line with ---, then notes.
-The grammar sequence itself comes from content/it/grammar (each topic's level and order).
+Level plans live in content/<lang>/curriculum/<level>.md: a key: value header, a line with ---, then notes.
+The grammar sequence itself comes from content/<lang>/grammar (each topic's level and order). What differs
+between languages (form topics, registers, which words count as which grammar point) is in RULES.
 
 A text's front matter can carry a brief for the checker (all optional):
 
@@ -12,7 +13,7 @@ A text's front matter can carry a brief for the checker (all optional):
     reuse: festa:n, invitare:v             recent words it must use again
     avoid: passato-remoto                  grammar points it must not use
     words: 90-130                          length in words
-    register: tu | Lei | tu, Lei
+    register: tu | Lei | tu, Lei        (German: du | Sie)
     window: 12-01..01-06 | easter-60..easter-47   when the library features it
 """
 
@@ -25,6 +26,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 
 from . import frequency, grammar, packs
+from .drills_de import FORM_TOPIC as DE_FORM_TOPIC
 
 LEVELS = ["A1", "A2", "B1", "B2"]
 
@@ -39,6 +41,40 @@ FORM_TOPIC = {
 }
 FORM_LEVEL = {"inf.pres": "A1", "ger.pres": "A2", "inf.pass": "B1", "part.pres": "B1", "ger.pass": "B2"}
 ARTICLES = {"it:il:art", "it:un:art"}  # every article counts as a use of the articles topic
+
+# German: verb forms by grammar topic; forms without a topic carry a level.
+DE_FORM_LEVEL = {"inf.pres": "A1", "part.pass": "A1", "inf.zu": "A2", "ind.fut1": "A2", "ind.pqp": "B1",
+                 "part.pres": "B1", "inf.perf": "B1", "k1.pres": "B2", "ind.fut2": "B2", "k1.perf": "B2"}
+# German words that count as a use of a grammar point, by headword (the linker tags cases, prepositions,
+# separable verbs, compound tenses, subordinators and sich itself).
+DE_VERB_TOPIC = {
+    **{w: "de:modalverben" for w in ("können", "müssen", "wollen", "sollen", "dürfen", "mögen", "möchten")},
+    "sein": "de:sein-haben", "haben": "de:sein-haben",
+}
+DE_WORD_TOPIC = {"der": "de:artikel", "ein": "de:artikel"}
+
+
+@dataclass(frozen=True)
+class Rules:
+    """What the checker needs to know about a target language."""
+    prefix: str                       # on grammar topic IDs: "" or "de:"
+    form_topic: dict[str, str]
+    form_level: dict[str, str]
+    registers: tuple[str, ...]
+    finite_moods: tuple[str, ...]
+
+    def topic(self, name: str) -> str:
+        """A grammar topic as a source names it (perfekt) -> its ID (de:perfekt)."""
+        return name if not self.prefix or name.startswith(self.prefix) else self.prefix + name
+
+    def source_name(self, topic_id: str) -> str:
+        return topic_id[len(self.prefix):] if self.prefix and topic_id.startswith(self.prefix) else topic_id
+
+
+RULES = {
+    "it": Rules("", FORM_TOPIC, FORM_LEVEL, ("tu", "Lei"), ("ind.", "sub.", "cond.", "imp.")),
+    "de": Rules("de:", DE_FORM_TOPIC, DE_FORM_LEVEL, ("du", "Sie"), ("ind.", "k1.", "k2.", "imp.")),
+}
 PERSONS = ["1s", "2s", "3s", "1p", "2p", "3p"]
 STATUSES = ("brief", "draft", "reviewed")
 
@@ -148,6 +184,11 @@ class TextFacts:
     lemma_counts: Counter = field(default_factory=Counter)
     sentences: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    language: str = "it"
+
+    @property
+    def rules(self) -> Rules:
+        return RULES[self.language]
 
     @property
     def status(self) -> str:
@@ -163,7 +204,12 @@ class TextFacts:
 
     def uses(self, topic: str) -> int:
         """How often the text uses a grammar topic: marked tokens and units, plus verb forms."""
-        return self.grammar_tags[topic] + sum(n for f, n in self.forms.items() if FORM_TOPIC.get(f) == topic)
+        form_topic = self.rules.form_topic
+        return self.grammar_tags[topic] + sum(n for f, n in self.forms.items() if form_topic.get(f) == topic)
+
+    def brief_topics(self, key: str) -> list[str]:
+        """The grammar topics a front-matter key names (introduces, recycle, avoid), as IDs."""
+        return [self.rules.topic(t) for t in split_list(self.meta.get(key, ""))]
 
     def word_keys(self) -> set[str]:
         return {w.key for w in self.words if not w.proper}
@@ -186,7 +232,8 @@ def analyse(lex: packs.Lexicon, ranks: Ranks, path: str, language: str | None = 
     meta = _front_matter(path)
     text, warnings = packs.build_text(lex, src)
     facts = TextFacts(id=src.id, path=path, title=src.title, level=src.level, collection=src.collection,
-                      order=src.order, meta=meta, warnings=warnings, lemma_counts=packs.text_lemmas(text))
+                      order=src.order, meta=meta, warnings=warnings, lemma_counts=packs.text_lemmas(text),
+                      language=src.language)
     for block in text["blocks"]:
         facts.block_types.add(block["type"])
         for s in block["sentences"]:
@@ -213,6 +260,12 @@ def analyse(lex: packs.Lexicon, ranks: Ranks, path: str, language: str | None = 
                     lemma_id = p.get("lemmaID")
                     if lemma_id in ARTICLES:
                         facts.grammar_tags["articles"] += 1
+                    elif lemma_id and lemma_id.startswith("de:"):
+                        _, headword, pos = lemma_id.split(":")[:3]
+                        topic = DE_VERB_TOPIC.get(headword) if pos == "v" else \
+                            DE_WORD_TOPIC.get(headword) if pos == "art" else None
+                        if topic:
+                            facts.grammar_tags[topic] += 1
                     key = lemma_id or f"form:{p['t'].lower()}"
                     facts.words.append(Word(key=key, surface=p["t"], rank=ranks.of(lemma_id, p["t"]), proper=proper))
             facts.sentence_lengths.append(n)
@@ -263,14 +316,19 @@ class Library:
     topics: dict[str, grammar.Topic]
     ranks: Ranks
     lex: packs.Lexicon
+    language: str = "it"
+
+    @property
+    def rules(self) -> Rules:
+        return RULES[self.language]
 
     def topic_level(self, topic: str) -> str | None:
         t = self.topics.get(topic)
         return t.level if t else None
 
     def form_level(self, form: str) -> str | None:
-        topic = FORM_TOPIC.get(form)
-        return self.topic_level(topic) if topic else FORM_LEVEL.get(form)
+        topic = self.rules.form_topic.get(form)
+        return self.topic_level(topic) if topic else self.rules.form_level.get(form)
 
     def before(self, text: TextFacts) -> list[TextFacts]:
         """Texts a reader of this text has met: lower levels, and earlier texts at its level."""
@@ -317,7 +375,8 @@ def load_library(conn: sqlite3.Connection, texts_dir: str, curriculum_dir: str, 
             paths.append(p)
     texts = sequence([analyse(lex, ranks, p, language) for p in paths])
     topics = {t.id: t for t in grammar.load_all(grammar_dir, language)}
-    return Library(texts=texts, plans=load_plans(curriculum_dir), topics=topics, ranks=ranks, lex=lex)
+    return Library(texts=texts, plans=load_plans(curriculum_dir), topics=topics, ranks=ranks, lex=lex,
+                   language=language)
 
 
 # --- the checker -------------------------------------------------------------------------
@@ -341,7 +400,7 @@ def check_text(lib: Library, text: TextFacts) -> list[Finding]:
 
     plan = lib.plans.get(text.level)
     if plan is None:
-        add("plan", f"no level plan for {text.level} in content/it/curriculum")
+        add("plan", f"no level plan for {text.level} in content/{text.language}/curriculum")
         return out
     meta = text.meta
     if text.status not in STATUSES:
@@ -387,22 +446,22 @@ def check_text(lib: Library, text: TextFacts) -> list[Finding]:
     explained = set(text.grammar_tags)
     for form, n in sorted(text.forms.items()):
         level = lib.form_level(form)
-        topic = FORM_TOPIC.get(form)
+        topic = text.rules.form_topic.get(form)
         if level and level_index(level) > level_index(text.level) and topic not in explained:
             add("above-level grammar", f"{form} ({topic or level}) used {n} times; it is taught at {level}")
-    for topic in split_list(meta.get("avoid", "")):
+    for topic in text.brief_topics("avoid"):
         if text.uses(topic):
             add("brief", f"uses {topic}, which the brief avoids")
 
     # Brief targets.
-    for topic in split_list(meta.get("introduces", "")):
+    for topic in text.brief_topics("introduces"):
         if topic not in lib.topics:
             add("brief", f"unknown grammar topic {topic!r}")
             continue
-        need = 3 if any(t == topic for t in FORM_TOPIC.values()) else 1
+        need = 3 if any(t == topic for t in text.rules.form_topic.values()) else 1
         if text.uses(topic) < need:
             add("brief", f"introduces {topic} but uses it {text.uses(topic)} times (needs {need})")
-    for topic in split_list(meta.get("recycle", "")):
+    for topic in text.brief_topics("recycle"):
         if topic not in lib.topics:
             add("brief", f"unknown grammar topic {topic!r}")
         elif not text.uses(topic):
@@ -430,9 +489,10 @@ def check_text(lib: Library, text: TextFacts) -> list[Finding]:
             add("length", f"{mean:.1f} words per sentence, above {plan.sentence_words:g}")
 
     # Register and feature window.
+    registers = text.rules.registers
     for r in text.registers:
-        if r not in ("tu", "Lei"):
-            add("register", f"register must be tu or Lei, not {r!r}")
+        if r not in registers:
+            add("register", f"register must be {' or '.join(registers)}, not {r!r}")
     window = meta.get("window")
     if window and not packs.window_valid(window):
         add("window", f"window {window!r} must look like 12-01..01-06 or easter-60..easter-47")
@@ -485,9 +545,6 @@ class LevelCoverage:
     above: list[Finding] = field(default_factory=list)
 
 
-FINITE_MOODS = ("ind.", "sub.", "cond.", "imp.")
-
-
 def coverage(lib: Library, conn: sqlite3.Connection) -> dict[str, LevelCoverage]:
     result: dict[str, LevelCoverage] = {}
     for level in LEVELS:
@@ -517,14 +574,14 @@ def coverage(lib: Library, conn: sqlite3.Connection) -> dict[str, LevelCoverage]
         for topic in sorted(lib.topics.values(), key=lambda x: x.order):
             if topic.level != level:
                 continue
-            introduced = [t.id for t in lib.texts if topic.id in split_list(t.meta.get("introduces", ""))]
+            introduced = [t.id for t in lib.texts if topic.id in t.brief_topics("introduces")]
             used_in = sum(1 for t in lib.texts if level_index(t.level) >= level_index(level) and t.uses(topic.id))
             cov.grammar[topic.id] = (introduced, used_in)
 
         for t in texts:
             tenses = cov.tenses.setdefault(t.collection, Counter())
             for form, n in t.forms.items():
-                if form.startswith(FINITE_MOODS):
+                if form.startswith(lib.rules.finite_moods):
                     tenses[form] += n
             cov.persons.update(t.persons)
             cov.blocks.update(t.block_types)
@@ -649,10 +706,11 @@ def propose_brief(lib: Library, conn: sqlite3.Connection, level: str, collection
     persons = [p for p in plan.persons if not cov.persons[p]]
     registers = sorted(plan.registers, key=lambda r: cov.registers[r])
 
+    name = lib.rules.source_name
     lines = [f"# {title}", f"level: {level}", f"collection: {collection}", f"order: {order}", "status: brief",
-             "topics: ", f"introduces: {introduces}", f"recycle: {', '.join(recycle)}",
+             "topics: ", f"introduces: {name(introduces)}", f"recycle: {', '.join(name(r) for r in recycle)}",
              f"newWords: {', '.join(new)}", f"reuse: {', '.join(reuse)}",
-             f"words: {plan.words[0]}-{plan.words[1]}", f"register: {registers[0] if registers else 'tu'}"]
+             f"words: {plan.words[0]}-{plan.words[1]}", f"register: {registers[0] if registers else lib.rules.registers[0]}"]
     if blocks:
         lines.append(f"blocks: {blocks[0]}")
     if persons:

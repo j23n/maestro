@@ -113,6 +113,7 @@ MODALS = {"können", "müssen", "wollen", "sollen", "dürfen", "mögen", "möcht
 PARTICLES = {"ab", "an", "auf", "aus", "bei", "ein", "fest", "fort", "her", "hin", "los", "mit", "nach", "vor",
              "weg", "zu", "zurück", "zusammen", "weiter", "fern", "heim", "teil", "statt", "vorbei", "herein",
              "hinaus", "heraus", "hinein", "kennen", "spazieren", "frei", "um", "durch", "wieder", "dabei"}
+CLOSING_QUOTES = {"“", "”", "«", "»", "\"", "‘", "’"}
 CLAUSE_BREAK = {",", ";", ":", ".", "!", "?", "–", "—", "(", ")", "«", "»", "„", "“", "\""}
 SENTENCE_START = {".", "!", "?", "«", "\"", "—", ":", "„", "»", "“"}
 
@@ -126,6 +127,20 @@ TOPIC = {"ind.perf": "de:perfekt", "k2.pqp": "de:konjunktiv-2", "k2.wuerde": "de
 CASE_TOPIC = {"acc": "de:akkusativ", "dat": "de:dativ"}
 SEPARABLE_TOPIC = "de:trennbare-verben"
 VERB_LAST_TOPIC = "de:nebensaetze"
+REFLEXIVE_TOPIC = "de:reflexive-verben"
+WORD_ORDER_TOPIC = "de:verbstellung"
+NEGATION_TOPIC = "de:negation"
+POSSESSIVE_TOPIC = "de:possessivartikel"
+TIME_TOPIC = "de:praepositionen-zeit"
+COMPARISON_TOPIC = "de:komparation"
+ADJECTIVE_TOPIC = "de:adjektivdeklination"
+TIME_PREPOSITIONS = {"um", "am", "im", "von", "bis", "seit", "ab", "vor", "nach", "in"}
+TIME_WORDS = {"Uhr", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag", "Morgen",
+              "Vormittag", "Mittag", "Nachmittag", "Abend", "Nacht", "Wochenende", "Januar", "Februar", "März",
+              "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember", "Frühling",
+              "Sommer", "Herbst", "Winter", "Jahr", "Monat", "Woche", "Tag", "Stunde", "Minute", "Mittagessen",
+              "Abendessen", "Frühstück"}
+POSSESSIVE_HEADWORDS = {"mein", "dein", "sein", "ihr", "unser", "euer"}
 VERB_LAST_TOPIC_WORDS = {"dass", "weil", "wenn", "ob"}
 TWO_WAY_TOPIC = "de:wechselpraepositionen"
 
@@ -295,6 +310,10 @@ def link_sentence(lex: packs.Lexicon, sentence: packs.SourceSentence) -> tuple[l
             headword, det_kind, slots = det
             lemma_id, pos = _lemma(lex, headword, "art", "det", "pron")
             _link(tok, lex, lemma_id, "DET", sense=pos != "art")
+            if headword in POSSESSIVE_HEADWORDS:
+                tok["grammar"] = [POSSESSIVE_TOPIC]
+            elif headword == "kein":
+                tok["grammar"] = [NEGATION_TOPIC]
             info.pos, info.lemma, info.headword, info.det, info.slots = pos, lemma_id, headword, det_kind, slots
         elif lower in PREP_CASES and following and not (lower in SCONJ and following[0].lower() in SUBJECT_PERSONS):
             lemma_id, _ = _lemma(lex, lower, "prep")
@@ -312,6 +331,8 @@ def link_sentence(lex: packs.Lexicon, sentence: packs.SourceSentence) -> tuple[l
             info.pos, info.lemma, info.headword = "pron", lemma_id, headword
             if case:
                 tok["case"] = case
+            if lower == "sich":
+                tok["grammar"] = [REFLEXIVE_TOPIC]
         elif lower in CCONJ or lower in SCONJ:
             lemma_id, _ = _lemma(lex, lower, "conj")
             _link(tok, lex, lemma_id, "CCONJ" if lower in CCONJ else "SCONJ", sense=False)
@@ -344,6 +365,7 @@ def link_sentence(lex: packs.Lexicon, sentence: packs.SourceSentence) -> tuple[l
     _verb_forms(tokens, infos, clauses)
     _noun_phrases(lex, tokens, infos, words, clauses)
     _single_cases(tokens, infos)
+    _topic_tags(tokens, infos, clauses)
     units = _separable_units(lex, tokens, infos, clauses)
     units += _compound_units(lex, tokens, infos, clauses, {i for u in units for i in u["tokens"]})
     units = packs._apply_manual_units(lex, sentence, tokens, sorted(units, key=lambda u: u["tokens"][0]), warnings)
@@ -654,6 +676,69 @@ def _single_cases(tokens: list[dict], infos: list[Info]) -> None:
             gns = {s[1] for s in slots}
             if len(gns) == 1:
                 tok["gn"] = next(iter(gns))
+
+
+def _tag(tok: dict, topic: str) -> None:
+    grammar = tok.setdefault("grammar", [])
+    if topic not in grammar:
+        grammar.append(topic)
+
+
+def _is_comparison(tok: dict, info: Info) -> bool:
+    """Whether an adjective is a comparative or superlative. kleiner is also the strong positive
+    (ein kleiner Hund): with its ending resolved, only a comp. or sup. tag for that ending counts."""
+    degrees = [t for t in info.tags if t.split(".")[0] in ("comp", "sup")]
+    if not degrees:
+        return False
+    if tok.get("decl") and tok.get("case") and tok.get("gn"):
+        resolved = f"{tok['decl']}.{tok['case']}.{tok['gn']}"
+        return any(t in (f"comp.{resolved}", f"sup.{resolved}") for t in degrees)
+    return True
+
+
+def _topic_tags(tokens: list[dict], infos: list[Info], clauses: list[Clause]) -> None:
+    """Grammar points a token shows by itself: nicht, comparatives, adjective endings, time
+    prepositions (um acht Uhr, am Montag), and a main clause's verb second after something
+    other than its subject (Morgen fahre ich)."""
+    for i, (tok, info) in enumerate(zip(tokens, infos)):
+        low = tok["t"].lower()
+        if low == "nicht":
+            _tag(tok, NEGATION_TOPIC)
+        if info.pos == "adj" and _is_comparison(tok, info):
+            _tag(tok, COMPARISON_TOPIC)
+        if tok.get("decl"):
+            _tag(tok, ADJECTIVE_TOPIC)
+        if low in TIME_PREPOSITIONS and infos[i].pos in ("prep", "contr"):
+            ahead = [t for t in tokens[i + 1:i + 4] if t.get("pos") != "PUNCT"]
+            if any(t["t"] in TIME_WORDS or t.get("pos") == "NUM" for t in ahead[:3]):
+                _tag(tok, TIME_TOPIC)
+    for n, clause in enumerate(clauses):
+        # A leading und or aber stands outside the clause (aber heute gehe ich). doch right before the
+        # verb is an adverb in the first place (Doch kommt er nicht).
+        w0, lead = clause.words[0], tokens[clause.words[0]]["t"].lower()
+        adverb = lead == "doch" and len(clause.words) > 1 and is_finite(tokens[clause.words[1]].get("form", ""))
+        words = clause.words[1:] if lead in CCONJ and infos[w0].pos == "conj" and not adverb else clause.words
+        if clause.subordinate or len(words) < 2:
+            continue
+        verb = next((i for i in words if is_finite(tokens[i].get("form", ""))), None)
+        if verb is None or tokens[verb]["form"].startswith("imp."):
+            continue  # Dann kauf ihr Blumen: an imperative has no subject to invert
+        at = words.index(verb)
+        # Wenn ich Zeit habe, gehe ich: the subordinate clause takes the first place. A relative clause
+        # inside the subject doesn't (Die Frau, die ich kenne, besucht sie).
+        after_subordinate = at == 0 and n > 0 and all(c.subordinate for c in clauses[:n])
+        if not after_subordinate and (at == 0 or len(words) < 3):
+            continue
+        after = words[at + 1] if at + 1 < len(words) else None
+        first = tokens[words[0]]
+        if words[0] != verb and (first["t"].lower() in SUBJECT_PERSONS or first.get("case") == "nom"):
+            continue  # Er freut sich, Ich besuche sie: the subject comes first
+        if after is not None and tokens[after]["t"] == "Sie" and tokens[verb]["form"] == "ind.pres.3p" \
+                and next((t["t"] for t in reversed(tokens) if t["t"] not in CLOSING_QUOTES), "") == "!":
+            continue  # Dann kaufen Sie Brot! is a Sie imperative; without the ! it reads either way
+        if after is not None and infos[after].pos == "pron" and tokens[after].get("case") in (None, "nom") \
+                and tokens[after]["t"].lower() in SUBJECT_PERSONS:
+            _tag(tokens[verb], WORD_ORDER_TOPIC)
 
 
 # --- units ---------------------------------------------------------------------------------
