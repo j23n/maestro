@@ -106,6 +106,7 @@ struct VoiceGuideView: View {
                     Text("Open Settings › Accessibility › Read & Speak › Voices.")
                     #endif
                     Text("Choose Italian, then download a voice marked Enhanced or Premium, such as Alice or Federica.")
+                    Text("For dialogue, also download a male voice, such as Luca, so that men and women sound different.")
                     Text("Come back to Maestro: it uses the best Italian voice it finds.")
                 } footer: {
                     Text("Apps can't download voices themselves, so this takes a trip to Settings.")

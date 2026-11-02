@@ -47,6 +47,7 @@ SOURCE = """# Test
 level: B1
 collection: test-pack
 order: 1
+speakers: Nonno m
 
 Quando eravamo ragazzi, andavamo ogni estate dai nonni. || When we were kids, we went to our grandparents' every summer.
 Noi siamo andati a Bologna in treno. || We went to Bologna by train.
@@ -84,12 +85,36 @@ def test_pack_build_links_and_validates(db, tmp_path):
     assert manual["form"] == "cond.pass.1p" and manual["grammar"] == ["future-in-the-past"]
     assert manual["gloss"] == "we would go"
     dialogue = text["blocks"][1]
-    assert dialogue["type"] == "dialogue" and dialogue["speaker"] == "Nonno"
+    assert dialogue["type"] == "dialogue" and dialogue["speaker"] == "Nonno" and dialogue["gender"] == "m"
+    assert "gender" not in b0
+    assert not any("Nonno" in w for w in warnings)
     assert text["questions"][0]["answer"] == 1 and text["questions"][1]["answer"] == "yes"
     manifest = json.loads((tmp_path / "packs" / "test-pack" / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["texts"][0]["words"] > 20 and "it:andare:v" in manifest["texts"][0]["lemmas"]
     assert manifest["language"] == "it"
     assert db.execute("SELECT count FROM text_lemma WHERE text_id='test-01' AND lemma_id='it:andare:v'").fetchone()[0] >= 3
+
+
+def test_speakers_without_a_gender_warn(db, tmp_path):
+    src_dir = tmp_path / "texts"
+    src_dir.mkdir()
+    (src_dir / "test-01.md").write_text(SOURCE.replace("speakers: Nonno m", "speakers: Nonna f"), encoding="utf-8")
+    warnings, errors = packs.build_all(db, str(src_dir), str(tmp_path / "packs"), "2026.10")
+    assert errors == []
+    assert any("speaker 'Nonno' has no gender" in w for w in warnings)
+    assert any("names 'Nonna', who has no dialogue line" in w for w in warnings)
+    text = json.loads((tmp_path / "packs" / "test-pack" / "texts" / "test-01.json").read_text(encoding="utf-8"))
+    assert "gender" not in text["blocks"][1]
+
+
+def test_speakers_parse_names_with_spaces_and_reject_bad_genders():
+    assert packs.parse_speakers("Marta f, Signor Rossi m, ", "x") == {"Marta": "f", "Signor Rossi": "m"}
+    with pytest.raises(packs.PackError):
+        packs.parse_speakers("Marta female", "x")
+    with pytest.raises(packs.PackError):
+        packs.parse_speakers("f", "x")
+    with pytest.raises(packs.PackError):
+        packs.parse_speakers("Marta f, Marta m", "x")
 
 
 def test_validation_catches_bad_ranges():

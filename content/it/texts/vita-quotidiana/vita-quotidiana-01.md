@@ -4,6 +4,7 @@ collection: vita-quotidiana
 order: 1
 topics: food, shopping
 introduces: passato-prossimo
+speakers: Fruttivendolo m, Io f
 
 Sabato mattina mi sono svegliata presto. || On Saturday morning I woke up early.
 Ho preso la borsa della spesa e sono andata al mercato. || I took my shopping bag and went to the market.

@@ -24,7 +24,7 @@ German comes next, in the same app, as a second target language (section 5.3). E
 | Platforms | iPhone, iPad, Mac. One SwiftUI codebase with a native macOS target (not Mac Catalyst). |
 | Offline | Every feature works in airplane mode. The network is used only for iCloud sync and optional text-pack downloads. |
 | Backend | None. The learner's Apple ID is the identity; CloudKit private database is the only cloud. |
-| Reading | Text first. The reader shows clean text with no highlighting, colour coding or grammar layers. Help appears only on tap (iPhone), in a popover (iPad) or in an inspector panel (Mac). |
+| Reading | Text first. The reader shows clean text with no highlighting, colour coding or grammar layers. Help appears only on tap: in a sheet (iPhone) or in an inspector panel beside the text (iPad and Mac). |
 | Grammar | Reference (lookup, verb tables, grammar pages), plus optional practice after each text: 3 to 8 drills on the text's grammar point, in the text's own sentences, with stepped hints and no scores (3.9). No standalone drills or quizzes. The grammar base lists every A0 to B2 point and the page that covers it. |
 | Remember | Replaces the "vocab trainer". Three kinds of item: Word, Verb form, Grammar point. Reviewed as flashcards (FSRS scheduling), front shows the original sentence with the item highlighted. |
 | Library | 100 texts across A1 to B2, grouped by level and collection, ranked by "good fit" (share of words the learner already knows). |
@@ -32,7 +32,7 @@ German comes next, in the same app, as a second target language (section 5.3). E
 | Listening | On-device TTS (`AVSpeechSynthesizer`). Player with "Show text" and "Listen first" modes, sentence-by-sentence navigation, repeat, speed. |
 | Questions | Each text has comprehension questions; a wrong answer shows the sentence that answers it. |
 | Languages | Italian, then German (decided 2026-11-02). One app; the learner picks a language at onboarding and can switch in Settings. One language is active at a time, and every tab shows only that language (section 5.3). |
-| iPhone help sheet | The sentence translation was removed (user feedback). iPad popover and Mac inspector still show it: open question. |
+| iPhone help sheet | The sentence translation was removed (user feedback). The iPad and Mac inspector still show it: open question. |
 
 ## 3. Functional spec
 
@@ -100,6 +100,7 @@ English → Italian search runs over English glosses; weaker, so curate the most
 - Listen tab: voice-quality banner when only the standard voice is installed, Continue, "Listen first" (new texts), "Listen again" (texts already read).
 - Player: Show text / Listen first toggle; current sentence and word highlighted; scrubber with sentence count; previous / play-pause / next sentence; speed (0.6× to 1×); repeat each sentence; voice.
 - Enhanced and Premium Italian voices must be installed by the learner in iOS Settings (Accessibility › Spoken Content › Voices); the app detects voice quality and shows a guide. There was no API to trigger the download through iOS 26; check whether iOS 27 added one (open task).
+- Voices: the narrator reads in the best installed voice. Each dialogue speaker gets a voice of their gender (the text's `speakers:` line, section 6.3), a different one per speaker while enough are installed; speakers who must share a voice get a slightly different pitch. A speaker without a gender, or whose gender has no voice installed, gets the least used voice. The casting (`VoiceCasting` in PackKit) takes the voices installed for the text's language, without the robotic Eloquence voices (Eddy, Flo, Grandma…) and novelty or personal voices.
 - Optional: render a text to buffers with `write(_:toBufferCallback:)` for a scrubbable timeline; background audio with Now Playing info.
 
 ### 3.7 Comprehension questions
@@ -300,7 +301,7 @@ The database built from Wiktionary and Morph-it! must be offered under CC BY-SA;
 ### 6.3 Text packs
 
 - A pack is a versioned folder: `manifest.json` plus one JSON file per text. See `content/fixtures/manifest.json` and `content/fixtures/racconti-brevi-03.json`. The format is defined by JSON Schema 2020-12 files in `content/schema/` (`manifest.schema.json`, `text.schema.json`); the fixtures are test cases for it.
-- Text is stored verbatim in typed **blocks** (`prose`, `dialogue`, `message`, `list`, `sign`, `verse`). Dialogue blocks carry a `speaker`, which also drives two-voice TTS. Each block holds its sentences; each sentence holds its tokens.
+- Text is stored verbatim in typed **blocks** (`prose`, `dialogue`, `message`, `list`, `sign`, `verse`). Dialogue blocks carry a `speaker` and, when the source's `speakers:` line gives it, the speaker's `gender` (`m` or `f`), which picks the voice that reads the line (section 3.6). The build warns about a speaker without a gender. Each block holds its sentences; each sentence holds its tokens.
 - **Ranges.** Sentences carry `r: [start, length]` into their block's `text`, and tokens carry `r` into their sentence's `text`. Sentences also repeat their `text` for readability; the build checks it equals the slice. Ranges count UTF-16 code units (what TextKit, `NSRange` and `AVSpeechSynthesizer` use) over NFC text. The build computes UTF-16 lengths explicitly (Python's `len()` counts code points) and checks that every range slices out exactly the token's `t`. The app converts to `AttributedString` indices through one helper.
 - Every token is pre-linked at build time to `lemmaID` and `senseID` (section 6.5) and carries its analysis: `pos` (Universal Dependencies UPOS), `form` (section 6.5 form tag), `agree` (participle agreement, `ms` `fs` `mp` `fp`), `gn` (gender and number of nouns and adjectives), and any `grammar` topic tags. This powers tap-for-help without guessing; it is not shown as highlighting.
 - Contractions and clitic clusters are UD multiword tokens: the surface token (`dai`, `dammelo`) has no `pos` and lists `parts`, each with its own UPOS and lemma.
@@ -414,7 +415,7 @@ Look: quiet, text first, no colour except where it carries meaning. The mocks us
 
 - [ ] Speaking and writing: in scope?
 - [ ] Phrase as a fourth Remember kind?
-- [ ] Sentence translation in iPad popover and Mac inspector: keep or remove (removed on iPhone)?
+- [ ] Sentence translation in the iPad and Mac inspector: keep or remove (removed on iPhone)?
 - [x] Minimum OS 26 or 27? **26.0** (decided 2026-10-31, replacing an earlier choice of 27; see section 5).
 - [ ] Business model: paid, subscription, or free with paid packs?
 - [ ] Learners' base language: English only for v1?
