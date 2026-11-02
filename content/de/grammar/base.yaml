@@ -1,0 +1,965 @@
+# The German grammar base: every point of the A0 to B2 syllabus (HANDOFF.md 5.3 and 6.4). Levels follow
+# Profile deutsch and the Goethe-Institut's exam descriptions as references; the labels are our own, in German.
+# Each point's `topic` names the reference page in content/de/grammar/ that covers it, when there is one; the
+# unmapped points are the pages still to write. IDs are frozen once shipped; the pipeline adds the `de:` prefix.
+#
+# id        stable short ID
+# level     A0 (survival basics) to B2
+# category  basics, verben, nomen, artikel, pronomen, praepositionen, adjektive, adverbien, satz,
+#           satzverbindungen, wortbildung
+# label     the point, in German
+# topic     optional: the content/de/grammar page for it
+points:
+- id: gruss
+  level: A0
+  category: basics
+  label: "Grüße und Abschiede: Hallo, Guten Tag, Tschüss, Auf Wiedersehen"
+- id: vorstellen
+  level: A0
+  category: basics
+  label: "Sich vorstellen: Ich heiße …, Ich komme aus …, Ich wohne in …"
+- id: aussprache
+  level: A0
+  category: basics
+  label: "Grundlagen der Aussprache: ä ö ü, ß, ch, sch, ei und ie, Auslautverhärtung"
+- id: alphabet
+  level: A0
+  category: basics
+  label: "Das Alphabet und Buchstabieren"
+- id: zahl_0_20
+  level: A0
+  category: basics
+  label: "Zahlen von null bis zwanzig"
+- id: zahl_20_100
+  level: A0
+  category: basics
+  label: "Zahlen bis hundert, Zehner und Einer umgekehrt (einundzwanzig)"
+- id: uhrzeit
+  level: A0
+  category: basics
+  label: "Uhrzeit, offiziell und umgangssprachlich (halb drei, Viertel nach)"
+- id: wochentage
+  level: A0
+  category: basics
+  label: "Wochentage, Monate, Jahreszeiten"
+- id: moechte
+  level: A0
+  category: basics
+  label: "Wünsche äußern mit ich möchte und ich hätte gern"
+- id: bitte_danke
+  level: A0
+  category: basics
+  label: "Höflichkeitsformeln: bitte, danke, Entschuldigung"
+- id: ja_nein_doch
+  level: A0
+  category: basics
+  label: "Antworten mit ja, nein und doch"
+- id: du_sie
+  level: A0
+  category: basics
+  label: "Anrede mit du und Sie"
+- id: genus_wortschatz
+  level: A0
+  category: basics
+  label: "Nomen immer mit Artikel lernen: der, die, das"
+  topic: artikel
+- id: vocab_essen
+  level: A0
+  category: basics
+  label: "Wortschatz Essen, Trinken, Restaurant"
+- id: vocab_reise
+  level: A0
+  category: basics
+  label: "Wortschatz Reise und Verkehr"
+- id: vocab_familie
+  level: A0
+  category: basics
+  label: "Wortschatz Familie und Personen"
+- id: pers_nom
+  level: A1
+  category: pronomen
+  label: "Personalpronomen im Nominativ: ich, du, er, sie, es, wir, ihr, sie, Sie"
+  topic: praesens
+- id: sein_praes
+  level: A1
+  category: verben
+  label: "Präsens von sein"
+  topic: sein-haben
+- id: haben_praes
+  level: A1
+  category: verben
+  label: "Präsens von haben"
+  topic: sein-haben
+- id: praes_regel
+  level: A1
+  category: verben
+  label: "Präsens der regelmäßigen Verben: Endungen -e, -st, -t, -en, -t, -en"
+  topic: praesens
+- id: praes_e_einschub
+  level: A1
+  category: verben
+  label: "Präsens mit e-Einschub: du arbeitest, er wartet"
+  topic: praesens
+- id: praes_s_stamm
+  level: A1
+  category: verben
+  label: "Präsens bei Stamm auf -s, -ß, -z: du heißt, du tanzt"
+  topic: praesens
+- id: praes_e_i
+  level: A1
+  category: verben
+  label: "Präsens mit Vokalwechsel e → i/ie: sprechen, sehen, lesen, nehmen"
+  topic: praesens
+- id: praes_a_ae
+  level: A1
+  category: verben
+  label: "Präsens mit Vokalwechsel a → ä, au → äu: fahren, schlafen, laufen"
+  topic: praesens
+- id: werden_praes
+  level: A1
+  category: verben
+  label: "Präsens von werden und wissen"
+  topic: praesens
+- id: modal_praes
+  level: A1
+  category: verben
+  label: "Modalverben im Präsens: können, müssen, wollen, dürfen, sollen, mögen"
+  topic: modalverben
+- id: moechten
+  level: A1
+  category: verben
+  label: "möchten als Form von mögen für Wünsche"
+  topic: modalverben
+- id: modal_satz
+  level: A1
+  category: satz
+  label: "Satzklammer mit Modalverb: Ich kann heute nicht kommen."
+  topic: modalverben
+- id: trennbar
+  level: A1
+  category: verben
+  label: "Trennbare Verben im Präsens: Ich rufe dich an."
+  topic: trennbare-verben
+- id: untrennbar
+  level: A1
+  category: verben
+  label: "Untrennbare Vorsilben: be-, ver-, er-, ge-, ent-, zer-, emp-, miss-"
+  topic: trennbare-verben
+- id: imperativ_sie
+  level: A1
+  category: verben
+  label: "Imperativ mit Sie: Kommen Sie bitte!"
+  topic: imperativ
+- id: imperativ_du
+  level: A1
+  category: verben
+  label: "Imperativ mit du und ihr: Komm! Kommt!"
+  topic: imperativ
+- id: imperativ_trennbar
+  level: A1
+  category: verben
+  label: "Imperativ trennbarer Verben: Ruf mich an!"
+  topic: imperativ
+- id: perf_haben
+  level: A1
+  category: verben
+  label: "Perfekt mit haben, regelmäßige Verben: ich habe gemacht"
+  topic: perfekt
+- id: perf_sein
+  level: A1
+  category: verben
+  label: "Perfekt mit sein bei Bewegung und Zustandsänderung: ich bin gefahren"
+  topic: perfekt
+- id: perf_unregel
+  level: A1
+  category: verben
+  label: "Partizip II häufiger unregelmäßiger Verben: gegessen, getrunken, gegangen"
+  topic: perfekt
+- id: perf_trennbar
+  level: A1
+  category: verben
+  label: "Partizip II trennbarer und untrennbarer Verben: angerufen, besucht"
+  topic: perfekt
+- id: perf_ieren
+  level: A1
+  category: verben
+  label: "Partizip II der Verben auf -ieren: telefoniert"
+  topic: perfekt
+- id: praet_sein_haben
+  level: A1
+  category: verben
+  label: "Präteritum von sein und haben: war, hatte"
+  topic: praeteritum
+- id: es_gibt
+  level: A1
+  category: verben
+  label: "es gibt mit Akkusativ"
+  topic: akkusativ
+- id: gern
+  level: A1
+  category: adverbien
+  label: "Vorlieben mit gern, lieber, am liebsten"
+  topic: komparation
+- id: genus
+  level: A1
+  category: artikel
+  label: "Genus der Nomen und bestimmter Artikel: der, die, das"
+  topic: artikel
+- id: unbest_artikel
+  level: A1
+  category: artikel
+  label: "Unbestimmter Artikel: ein, eine"
+  topic: artikel
+- id: kein
+  level: A1
+  category: artikel
+  label: "Negativartikel kein, keine"
+  topic: negation
+- id: nullartikel
+  level: A1
+  category: artikel
+  label: "Nullartikel bei Stoffen, Berufen und Nationalitäten: Ich bin Lehrerin."
+  topic: artikel
+- id: plural
+  level: A1
+  category: nomen
+  label: "Pluralformen der Nomen: -e, -(e)n, -er, -s, ohne Endung, mit Umlaut"
+  topic: artikel
+- id: komposita_genus
+  level: A1
+  category: nomen
+  label: "Genus der Komposita: das letzte Wort bestimmt den Artikel (die Haustür)"
+  topic: artikel
+- id: nom
+  level: A1
+  category: nomen
+  label: "Nominativ: Subjekt und Ergänzung nach sein"
+  topic: akkusativ
+- id: akk_artikel
+  level: A1
+  category: artikel
+  label: "Akkusativ der Artikel: den, einen, keinen"
+  topic: akkusativ
+- id: akk_verben
+  level: A1
+  category: verben
+  label: "Verben mit Akkusativ: haben, brauchen, kaufen, sehen, möchten"
+  topic: akkusativ
+- id: pers_akk
+  level: A1
+  category: pronomen
+  label: "Personalpronomen im Akkusativ: mich, dich, ihn, sie, es, uns, euch"
+  topic: akkusativ
+- id: poss_nom
+  level: A1
+  category: artikel
+  label: "Possessivartikel im Nominativ: mein, dein, sein, ihr, unser, euer, Ihr"
+  topic: possessivartikel
+- id: poss_akk
+  level: A1
+  category: artikel
+  label: "Possessivartikel im Akkusativ: meinen, deine"
+  topic: possessivartikel
+- id: dat_basis
+  level: A1
+  category: praepositionen
+  label: "Dativ nach mit, bei, von, zu, aus, nach: mit dem Bus"
+  topic: dativ
+- id: akk_praep
+  level: A1
+  category: praepositionen
+  label: "Präpositionen mit Akkusativ: für, ohne, durch, gegen, um"
+  topic: akkusativ
+- id: zeit_praep
+  level: A1
+  category: praepositionen
+  label: "Temporale Präpositionen: am Montag, um acht Uhr, im Mai"
+  topic: praepositionen-zeit
+- id: ort_praep_basis
+  level: A1
+  category: praepositionen
+  label: "Lokale Angaben: in, nach, aus mit Ländern und Städten"
+  topic: praepositionen-zeit
+- id: kontraktion
+  level: A1
+  category: praepositionen
+  label: "Verschmelzungen: am, im, zum, zur, ins, beim, vom"
+  topic: dativ
+- id: v2
+  level: A1
+  category: satz
+  label: "Verb an zweiter Stelle im Aussagesatz"
+  topic: verbstellung
+- id: inversion
+  level: A1
+  category: satz
+  label: "Inversion: Heute gehe ich ins Kino."
+  topic: verbstellung
+- id: w_fragen
+  level: A1
+  category: satz
+  label: "W-Fragen: wer, was, wo, woher, wohin, wann, wie, warum"
+  topic: verbstellung
+- id: ja_nein_fragen
+  level: A1
+  category: satz
+  label: "Ja/Nein-Fragen mit dem Verb an erster Stelle"
+  topic: verbstellung
+- id: nicht
+  level: A1
+  category: satz
+  label: "Negation mit nicht und ihre Stellung"
+  topic: negation
+- id: nicht_kein
+  level: A1
+  category: satz
+  label: "nicht oder kein"
+  topic: negation
+- id: konj_hs
+  level: A1
+  category: satzverbindungen
+  label: "Hauptsätze verbinden: und, aber, oder, denn, sondern"
+  topic: verbstellung
+- id: fragewort_welch
+  level: A1
+  category: artikel
+  label: "Fragewörter welcher, welche, welches und was für ein"
+- id: zahlen_ordnung
+  level: A1
+  category: basics
+  label: "Ordnungszahlen und Datum: der erste Mai, am dritten"
+- id: mengen
+  level: A1
+  category: nomen
+  label: "Mengenangaben: ein Kilo Äpfel, eine Flasche Wasser"
+- id: man
+  level: A1
+  category: pronomen
+  label: "Indefinitpronomen man"
+- id: es_wetter
+  level: A1
+  category: pronomen
+  label: "es bei Wetter und Zeit: Es regnet. Es ist spät."
+- id: adj_praed
+  level: A1
+  category: adjektive
+  label: "Adjektive nach sein, ohne Endung: Das Haus ist groß."
+  topic: adjektivdeklination
+- id: oft_immer
+  level: A1
+  category: adverbien
+  label: "Häufigkeit: immer, oft, manchmal, nie"
+- id: hier_dort
+  level: A1
+  category: adverbien
+  label: "Ortsadverbien: hier, da, dort, links, rechts, geradeaus"
+- id: schon_noch
+  level: A1
+  category: adverbien
+  label: "schon, noch, noch nicht, nicht mehr"
+- id: dat_artikel
+  level: A2
+  category: artikel
+  label: "Dativ der Artikel: dem, der, dem, den + -n im Plural"
+  topic: dativ
+- id: pers_dat
+  level: A2
+  category: pronomen
+  label: "Personalpronomen im Dativ: mir, dir, ihm, ihr, uns, euch, ihnen, Ihnen"
+  topic: dativ
+- id: dat_verben
+  level: A2
+  category: verben
+  label: "Verben mit Dativ: helfen, gefallen, gehören, danken, schmecken, passen"
+  topic: dativ
+- id: dat_akk_verben
+  level: A2
+  category: verben
+  label: "Verben mit Dativ und Akkusativ: geben, schenken, zeigen, erklären"
+  topic: dativ
+- id: dat_akk_stellung
+  level: A2
+  category: satz
+  label: "Stellung von Dativ und Akkusativ im Mittelfeld"
+  topic: verbstellung
+- id: poss_dat
+  level: A2
+  category: artikel
+  label: "Possessivartikel im Dativ: meinem, meiner"
+  topic: possessivartikel
+- id: wechsel
+  level: A2
+  category: praepositionen
+  label: "Wechselpräpositionen: wo? mit Dativ, wohin? mit Akkusativ"
+  topic: wechselpraepositionen
+- id: legen_liegen
+  level: A2
+  category: verben
+  label: "Positionsverben: legen/liegen, stellen/stehen, setzen/sitzen, hängen"
+  topic: wechselpraepositionen
+- id: dat_praep
+  level: A2
+  category: praepositionen
+  label: "Präpositionen mit Dativ: ab, gegenüber, seit"
+  topic: dativ
+- id: seit_vor
+  level: A2
+  category: praepositionen
+  label: "Zeitangaben mit seit, vor, nach, bis, ab, in"
+  topic: praepositionen-zeit
+- id: ort_zu_nach_in
+  level: A2
+  category: praepositionen
+  label: "Richtung und Ort: nach Hause / zu Hause, zum Arzt / beim Arzt"
+  topic: praepositionen-zeit
+- id: reflexiv_akk
+  level: A2
+  category: verben
+  label: "Reflexive Verben mit Akkusativ: sich freuen, sich waschen"
+  topic: reflexive-verben
+- id: reflexiv_dat
+  level: A2
+  category: verben
+  label: "Reflexivpronomen im Dativ: Ich wasche mir die Hände."
+  topic: reflexive-verben
+- id: perf_alle
+  level: A2
+  category: verben
+  label: "Perfekt aller Verbgruppen, haben oder sein"
+  topic: perfekt
+- id: perf_modal
+  level: A2
+  category: verben
+  label: "Präteritum der Modalverben: konnte, musste, wollte, durfte, sollte"
+  topic: praeteritum
+- id: praet_haeufig
+  level: A2
+  category: verben
+  label: "Präteritum häufiger Verben: gab, ging, kam, wusste"
+  topic: praeteritum
+- id: k2_hoeflich
+  level: A2
+  category: verben
+  label: "Konjunktiv II für Höflichkeit: Könnten Sie …? Ich hätte gern …"
+  topic: konjunktiv-2
+- id: k2_wuerde
+  level: A2
+  category: verben
+  label: "Konjunktiv II mit würde für Wünsche und Ratschläge"
+  topic: konjunktiv-2
+- id: k2_haette_waere
+  level: A2
+  category: verben
+  label: "hätte und wäre"
+  topic: konjunktiv-2
+- id: futur1
+  level: A2
+  category: verben
+  label: "Futur I mit werden für Pläne und Vermutungen"
+- id: werden_vollverb
+  level: A2
+  category: verben
+  label: "werden als Vollverb: Er wird Arzt."
+- id: verb_praep
+  level: A2
+  category: verben
+  label: "Verben mit Präposition: warten auf, sich freuen auf/über, denken an"
+- id: da_wo
+  level: A2
+  category: pronomen
+  label: "Präpositionaladverbien: darauf, worauf, damit, womit"
+- id: weil
+  level: A2
+  category: satzverbindungen
+  label: "Nebensatz mit weil, Verb am Ende"
+  topic: nebensaetze
+- id: dass
+  level: A2
+  category: satzverbindungen
+  label: "Nebensatz mit dass"
+  topic: nebensaetze
+- id: wenn
+  level: A2
+  category: satzverbindungen
+  label: "Bedingung und Zeit mit wenn"
+  topic: nebensaetze
+- id: ob
+  level: A2
+  category: satzverbindungen
+  label: "Indirekte Ja/Nein-Fragen mit ob"
+  topic: nebensaetze
+- id: indirekt_w
+  level: A2
+  category: satzverbindungen
+  label: "Indirekte W-Fragen: Weißt du, wo er wohnt?"
+  topic: nebensaetze
+- id: ns_vorn
+  level: A2
+  category: satz
+  label: "Nebensatz vor dem Hauptsatz: Wenn es regnet, bleibe ich zu Hause."
+  topic: nebensaetze
+- id: trennbar_ns
+  level: A2
+  category: satz
+  label: "Trennbare Verben im Nebensatz: …, weil er früh aufsteht."
+  topic: nebensaetze
+- id: deshalb
+  level: A2
+  category: satzverbindungen
+  label: "Folge mit deshalb, deswegen, darum, also"
+  topic: verbstellung
+- id: trotzdem
+  level: A2
+  category: satzverbindungen
+  label: "Gegensatz mit trotzdem"
+  topic: verbstellung
+- id: komparativ
+  level: A2
+  category: adjektive
+  label: "Komparativ: größer, schöner als"
+  topic: komparation
+- id: superlativ
+  level: A2
+  category: adjektive
+  label: "Superlativ: am größten, der größte"
+  topic: komparation
+- id: komp_unregel
+  level: A2
+  category: adjektive
+  label: "Unregelmäßige Steigerung: gut, besser, am besten; viel, mehr; gern, lieber"
+  topic: komparation
+- id: so_wie
+  level: A2
+  category: adjektive
+  label: "Vergleich mit so … wie und als"
+  topic: komparation
+- id: adj_best
+  level: A2
+  category: adjektive
+  label: "Adjektivendungen nach dem bestimmten Artikel"
+  topic: adjektivdeklination
+- id: adj_unbest
+  level: A2
+  category: adjektive
+  label: "Adjektivendungen nach dem unbestimmten Artikel und kein, mein"
+  topic: adjektivdeklination
+- id: genitiv_namen
+  level: A2
+  category: nomen
+  label: "Genitiv bei Namen: Annas Buch; von + Dativ in der gesprochenen Sprache"
+- id: dieser
+  level: A2
+  category: artikel
+  label: "Demonstrativartikel dieser, diese, dieses"
+  topic: artikel
+- id: jeder
+  level: A2
+  category: artikel
+  label: "jeder, alle, viele, einige, manche"
+  topic: artikel
+- id: indef_pron
+  level: A2
+  category: pronomen
+  label: "Indefinitpronomen: einer, keiner, jemand, niemand, etwas, nichts"
+- id: irgend
+  level: A2
+  category: pronomen
+  label: "irgendwo, irgendwann, irgendwas"
+- id: zu_infinitiv_basis
+  level: A2
+  category: verben
+  label: "Infinitiv mit zu nach Verben wie anfangen, vergessen, versuchen"
+- id: lassen_basis
+  level: A2
+  category: verben
+  label: "lassen: Ich lasse mein Auto reparieren."
+- id: brauchen_zu
+  level: A2
+  category: verben
+  label: "nicht brauchen zu als Gegenteil von müssen"
+  topic: modalverben
+- id: nomen_n_dekl
+  level: A2
+  category: nomen
+  label: "n-Deklination häufiger Nomen: der Student, den Studenten"
+- id: wortbildung_ung
+  level: A2
+  category: wortbildung
+  label: "Nomen aus Verben: -ung, -heit, -keit"
+- id: wortbildung_un
+  level: A2
+  category: wortbildung
+  label: "Adjektive mit un- und -los, -bar, -lich, -ig"
+- id: zeitadverb
+  level: A2
+  category: adverbien
+  label: "Zeitadverbien: zuerst, dann, danach, später, zum Schluss"
+- id: modalpartikel_mal
+  level: A2
+  category: adverbien
+  label: "Modalpartikeln mal, doch, ja in Aufforderungen und Aussagen"
+- id: praet_regel
+  level: B1
+  category: verben
+  label: "Präteritum der regelmäßigen Verben: machte, wohnte"
+  topic: praeteritum
+- id: praet_stark
+  level: B1
+  category: verben
+  label: "Präteritum der starken und gemischten Verben: fuhr, nahm, brachte, dachte"
+  topic: praeteritum
+- id: praet_erzaehlen
+  level: B1
+  category: verben
+  label: "Präteritum in schriftlichen Erzählungen, Perfekt im Gespräch"
+  topic: praeteritum
+- id: pqp
+  level: B1
+  category: verben
+  label: "Plusquamperfekt: hatte gemacht, war gefahren"
+- id: nachdem
+  level: B1
+  category: satzverbindungen
+  label: "Vorzeitigkeit mit nachdem und Plusquamperfekt"
+- id: passiv_praes
+  level: B1
+  category: verben
+  label: "Vorgangspassiv im Präsens: wird gemacht"
+- id: passiv_praet
+  level: B1
+  category: verben
+  label: "Passiv im Präteritum und Perfekt: wurde gemacht, ist gemacht worden"
+- id: passiv_von
+  level: B1
+  category: verben
+  label: "Agens im Passiv mit von und durch"
+- id: passiv_modal_basis
+  level: B1
+  category: verben
+  label: "Passiv mit Modalverb im Präsens: muss repariert werden"
+- id: k2_vergangenheit
+  level: B1
+  category: verben
+  label: "Konjunktiv II der Vergangenheit: hätte gemacht, wäre gefahren"
+  topic: konjunktiv-2
+- id: k2_irreal
+  level: B1
+  category: satzverbindungen
+  label: "Irreale Bedingungen: Wenn ich Zeit hätte, würde ich …"
+  topic: konjunktiv-2
+- id: k2_wunsch
+  level: B1
+  category: verben
+  label: "Irreale Wünsche: Wenn ich doch … hätte!"
+  topic: konjunktiv-2
+- id: k2_modal
+  level: B1
+  category: verben
+  label: "Konjunktiv II der Modalverben: könnte, müsste, sollte, dürfte"
+  topic: konjunktiv-2
+- id: relativ_nom_akk
+  level: B1
+  category: satzverbindungen
+  label: "Relativsätze im Nominativ und Akkusativ: der Mann, der …, den …"
+- id: relativ_dat
+  level: B1
+  category: satzverbindungen
+  label: "Relativsätze im Dativ: dem, der, denen"
+- id: relativ_praep
+  level: B1
+  category: satzverbindungen
+  label: "Relativsätze mit Präposition: die Stadt, in der ich wohne"
+- id: relativ_wo_was
+  level: B1
+  category: satzverbindungen
+  label: "Relativsätze mit wo und was: alles, was …; dort, wo …"
+- id: relativ_gen
+  level: B1
+  category: satzverbindungen
+  label: "Relativpronomen im Genitiv: dessen, deren"
+- id: genitiv_artikel
+  level: B1
+  category: artikel
+  label: "Genitiv der Artikel und Nomen: des Mannes, der Frau"
+- id: genitiv_praep
+  level: B1
+  category: praepositionen
+  label: "Präpositionen mit Genitiv: wegen, trotz, während, statt, innerhalb, außerhalb"
+- id: adj_ohne_artikel
+  level: B1
+  category: adjektive
+  label: "Adjektivendungen ohne Artikel: guter Wein, mit frischem Brot"
+  topic: adjektivdeklination
+- id: adj_alle_kasus
+  level: B1
+  category: adjektive
+  label: "Adjektivendungen in allen Kasus, auch im Genitiv"
+  topic: adjektivdeklination
+- id: adj_nominal
+  level: B1
+  category: adjektive
+  label: "Nominalisierte Adjektive: der Deutsche, die Bekannte, etwas Neues"
+  topic: adjektivdeklination
+- id: n_dekl
+  level: B1
+  category: nomen
+  label: "n-Deklination: Herr, Kollege, Nachbar, Name"
+- id: um_zu
+  level: B1
+  category: satzverbindungen
+  label: "Finalsätze mit um … zu und damit"
+- id: ohne_zu
+  level: B1
+  category: satzverbindungen
+  label: "ohne … zu, statt … zu, ohne dass, statt dass"
+- id: zu_inf_adj
+  level: B1
+  category: verben
+  label: "Infinitiv mit zu nach Adjektiven und Nomen: Es ist schwer, …; Ich habe Lust, …"
+- id: zu_trennbar
+  level: B1
+  category: verben
+  label: "zu bei trennbaren Verben: anzurufen"
+- id: als_wenn
+  level: B1
+  category: satzverbindungen
+  label: "Temporalsätze mit als und wenn"
+  topic: nebensaetze
+- id: bevor_waehrend
+  level: B1
+  category: satzverbindungen
+  label: "Temporalsätze mit bevor, während, seit, bis, sobald"
+  topic: nebensaetze
+- id: obwohl
+  level: B1
+  category: satzverbindungen
+  label: "Konzessivsätze mit obwohl"
+  topic: nebensaetze
+- id: da_konj
+  level: B1
+  category: satzverbindungen
+  label: "Kausalsätze mit da"
+  topic: nebensaetze
+- id: sodass
+  level: B1
+  category: satzverbindungen
+  label: "Konsekutivsätze mit sodass und so … dass"
+  topic: nebensaetze
+- id: indem
+  level: B1
+  category: satzverbindungen
+  label: "Modalsätze mit indem und dadurch, dass"
+  topic: nebensaetze
+- id: zweiteilig
+  level: B1
+  category: satzverbindungen
+  label: "Zweiteilige Konnektoren: sowohl … als auch, weder … noch, entweder … oder, nicht nur … sondern auch"
+- id: je_desto
+  level: B1
+  category: satzverbindungen
+  label: "je … desto / umso"
+- id: lassen
+  level: B1
+  category: verben
+  label: "lassen als Hilfsverb und Vollverb, Perfekt mit Ersatzinfinitiv: hat machen lassen"
+- id: modal_perf
+  level: B1
+  category: verben
+  label: "Modalverben im Perfekt mit Ersatzinfinitiv: Ich habe kommen müssen."
+  topic: modalverben
+- id: verb_praep_alle
+  level: B1
+  category: verben
+  label: "Feste Verbindungen mit Präpositionen und Kasus"
+- id: da_komplement
+  level: B1
+  category: satzverbindungen
+  label: "Präpositionaladverb mit Nebensatz: Ich freue mich darauf, dass …"
+- id: reflexiv_rez
+  level: B1
+  category: pronomen
+  label: "reziprokes sich und einander"
+  topic: reflexive-verben
+- id: pron_stellung
+  level: B1
+  category: satz
+  label: "Stellung der Pronomen im Mittelfeld"
+  topic: verbstellung
+- id: tekamolo
+  level: B1
+  category: satz
+  label: "Reihenfolge der Angaben: temporal, kausal, modal, lokal"
+  topic: verbstellung
+- id: nicht_stellung
+  level: B1
+  category: satz
+  label: "Stellung von nicht bei Satz- und Teilnegation"
+  topic: negation
+- id: statt_sondern
+  level: B1
+  category: satzverbindungen
+  label: "nicht …, sondern"
+  topic: negation
+- id: es_platzhalter
+  level: B1
+  category: pronomen
+  label: "es als Platzhalter und Korrelat: Es freut mich, dass …"
+- id: partizip_adj_basis
+  level: B1
+  category: adjektive
+  label: "Partizip I und II als Adjektiv: der lachende Junge, das gekochte Ei"
+- id: wortbildung_komposita
+  level: B1
+  category: wortbildung
+  label: "Komposita mit Fugenelement: Arbeitszeit, Hundeleine"
+- id: wortbildung_verb
+  level: B1
+  category: wortbildung
+  label: "Verben mit Präfix ändern die Bedeutung: kommen, ankommen, bekommen, verkommen"
+  topic: trennbare-verben
+- id: nominal_basis
+  level: B1
+  category: wortbildung
+  label: "Nominalisierte Infinitive: das Lesen, beim Kochen"
+- id: modalpartikel
+  level: B1
+  category: adverbien
+  label: "Modalpartikeln: eigentlich, eben, halt, wohl, schon"
+- id: k1_rede
+  level: B2
+  category: verben
+  label: "Konjunktiv I in der indirekten Rede: Er sagt, er sei krank."
+- id: k1_ersatz
+  level: B2
+  category: verben
+  label: "Ersatzformen: Konjunktiv II, wenn Konjunktiv I dem Indikativ gleicht"
+- id: k1_vergangenheit
+  level: B2
+  category: verben
+  label: "Konjunktiv I der Vergangenheit: er habe gesagt, sie sei gekommen"
+- id: indirekt_frage_auff
+  level: B2
+  category: satzverbindungen
+  label: "Indirekte Fragen und Aufforderungen: Er fragt, ob …; Sie sagt, ich solle …"
+- id: passiv_modal
+  level: B2
+  category: verben
+  label: "Passiv mit Modalverb in allen Zeiten: hätte gemacht werden müssen"
+- id: zustandspassiv
+  level: B2
+  category: verben
+  label: "Zustandspassiv: Die Tür ist geschlossen."
+- id: passiv_ersatz
+  level: B2
+  category: verben
+  label: "Passiversatz: man, sich lassen, -bar, sein + zu, bekommen-Passiv"
+- id: passiv_unpersoenlich
+  level: B2
+  category: verben
+  label: "Unpersönliches Passiv: Hier wird nicht geraucht."
+- id: futur2
+  level: B2
+  category: verben
+  label: "Futur II für Vermutungen über die Vergangenheit: Er wird es vergessen haben."
+- id: modal_subjektiv
+  level: B2
+  category: verben
+  label: "Subjektive Modalverben: Er soll reich sein. Sie muss krank sein. Das dürfte stimmen."
+  topic: modalverben
+- id: modal_verben_ersatz
+  level: B2
+  category: verben
+  label: "Modalitätsverben: scheinen zu, brauchen zu, haben zu, sein zu"
+  topic: modalverben
+- id: k2_als_ob
+  level: B2
+  category: satzverbindungen
+  label: "Vergleichssätze mit als ob und als wenn"
+  topic: konjunktiv-2
+- id: k2_beinahe
+  level: B2
+  category: verben
+  label: "Konjunktiv II bei Fast-Ereignissen: Beinahe hätte ich den Zug verpasst."
+  topic: konjunktiv-2
+- id: partizip_attribut
+  level: B2
+  category: adjektive
+  label: "Erweiterte Partizipialattribute: der seit Jahren geplante Umbau"
+- id: partizip_konstr
+  level: B2
+  category: satz
+  label: "Partizipialkonstruktionen: In Berlin angekommen, rief er an."
+- id: zu_partizip
+  level: B2
+  category: adjektive
+  label: "Gerundivum: die zu lösende Aufgabe"
+- id: nominalstil
+  level: B2
+  category: wortbildung
+  label: "Nominalstil und Verbalstil umformen: nach dem Essen / nachdem wir gegessen hatten"
+- id: fvg
+  level: B2
+  category: verben
+  label: "Funktionsverbgefüge: zur Verfügung stellen, in Frage kommen, Kritik üben"
+- id: konnektoren_b2
+  level: B2
+  category: satzverbindungen
+  label: "Konnektoren: dennoch, folglich, infolgedessen, andernfalls, stattdessen"
+- id: konzessiv_b2
+  level: B2
+  category: satzverbindungen
+  label: "Konzessive Angaben: zwar … aber, auch wenn, selbst wenn, wenn auch"
+- id: modal_satz_b2
+  level: B2
+  category: satzverbindungen
+  label: "Modalsätze: je nachdem, ob; soweit; insofern … als"
+- id: kausal_praep
+  level: B2
+  category: praepositionen
+  label: "Präpositionen der Begründung und Folge: aufgrund, infolge, dank, angesichts"
+- id: praep_gen_b2
+  level: B2
+  category: praepositionen
+  label: "Weitere Genitivpräpositionen: anlässlich, bezüglich, mithilfe, zugunsten"
+- id: praep_nachgestellt
+  level: B2
+  category: praepositionen
+  label: "Nachgestellte Präpositionen: der Sache wegen, dem Bericht zufolge, meiner Meinung nach"
+- id: adj_rektion
+  level: B2
+  category: adjektive
+  label: "Adjektive mit Präposition oder Kasus: stolz auf, bekannt für, jemandem dankbar"
+- id: nomen_praep
+  level: B2
+  category: nomen
+  label: "Nomen mit Präposition: die Angst vor, das Interesse an"
+- id: es_unpersoenlich
+  level: B2
+  category: pronomen
+  label: "Unpersönliche Ausdrücke mit es: es geht um, es handelt sich um"
+- id: relativ_wer
+  level: B2
+  category: satzverbindungen
+  label: "Verallgemeinernde Relativsätze: Wer …, (der) …; Was …, (das) …"
+- id: attributsatz
+  level: B2
+  category: satz
+  label: "Satzglieder als Nebensätze und umgekehrt"
+- id: stellung_vorfeld
+  level: B2
+  category: satz
+  label: "Vorfeldbesetzung und Informationsstruktur"
+  topic: verbstellung
+- id: ausklammerung
+  level: B2
+  category: satz
+  label: "Ausklammerung im gesprochenen und geschriebenen Deutsch"
+  topic: verbstellung
+- id: wortbildung_b2
+  level: B2
+  category: wortbildung
+  label: "Ableitungen: -ling, -tum, -schaft, -nis, ver- bei Nomen und Adjektiven"
+- id: modalpartikel_b2
+  level: B2
+  category: adverbien
+  label: "Modalpartikeln in Fragen und Ausrufen: denn, etwa, bloß, nur"
