@@ -114,11 +114,23 @@ private func gap(answers: [String], near: [String: String] = [:]) -> Drill {
         #expect(orders == [["ho", "sono"], ["sono", "ho"]])
     }
 
-    @Test func tilesNeverStartInTheAnswerOrder() {
-        let tiles = ["il", "nonno", "ha", "mangiato"]
+    @Test func matchPairsNeverStartLinedUp() {
+        let participles = ["preso", "andato", "dato"]
         for n in 0..<40 {
-            let s = SeededShuffle.shuffled(tiles, seed: "t.d\(n)", avoidingGivenOrder: true)
-            #expect(s != tiles && Set(s) == Set(tiles))
+            let s = SeededShuffle.shuffled(participles, seed: "t.d\(n)", avoidingGivenOrder: true)
+            #expect(s != participles && Set(s) == Set(participles))
+        }
+    }
+
+    @Test func tilesNeverReadInTheAnswerOrderWhereverTheDistractorLands() {
+        let tiles = ["il", "nonno", "ha", "mangiato"]
+        for n in 0..<200 {
+            let bank = SeededShuffle.tileBank(tiles: tiles, distractors: ["è"], seed: "t.d\(n)")
+            #expect(bank.sorted() == (tiles + ["è"]).sorted())
+            #expect(bank.filter { $0 != "è" } != tiles)
+        }
+        for n in 0..<40 {
+            #expect(SeededShuffle.tileBank(tiles: tiles, distractors: [], seed: "t.d\(n)") != tiles)
         }
     }
 

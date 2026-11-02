@@ -29,8 +29,8 @@ public enum SeededShuffle {
     /// The items in a stable order for this seed (Fisher-Yates). Every order is possible, the given
     /// one included, so an option's place says nothing about whether it's the answer.
     ///
-    /// With `avoidingGivenOrder`, an order equal to the given one is rotated by one: for word tiles,
-    /// which are given in the answer's order.
+    /// With `avoidingGivenOrder`, an order equal to the given one is rotated by one: for match
+    /// pairs, which are given in the answer's order.
     public static func shuffled<T: Equatable>(_ items: [T], seed: String, avoidingGivenOrder: Bool = false) -> [T] {
         guard items.count > 1 else { return items }
         var rng = SplitMix64(seed: fnv1a(seed))
@@ -43,6 +43,20 @@ public enum SeededShuffle {
             out.append(out.removeFirst())
         }
         return out
+    }
+
+    /// A build drill's tiles and distractors, shuffled so the tiles never read in the answer's
+    /// order, wherever the distractors land. When they would, the tiles rotate by one among their
+    /// own places and the distractors stay put.
+    public static func tileBank(tiles: [String], distractors: [String], seed: String) -> [String] {
+        let all = tiles + distractors
+        var order = shuffled(Array(all.indices), seed: seed)
+        let slots = order.indices.filter { order[$0] < tiles.count }
+        if tiles.count > 1 && slots.map({ all[order[$0]] }) == tiles {
+            let moved = slots.map { order[$0] }
+            for (k, slot) in slots.enumerated() { order[slot] = moved[(k + 1) % moved.count] }
+        }
+        return order.map { all[$0] }
     }
 }
 
