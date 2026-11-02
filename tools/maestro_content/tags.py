@@ -215,6 +215,11 @@ def kaikki_verb_tags_de(tags: list[str]) -> list[str]:
 
     One source row can name several persons (gehen is 1p and 3p), so this returns every tag it covers."""
     t = set(tags) - _DE_IGNORE_VERB
+    if "participle" in t and not t & {"multiword-construction", "auxiliary", "canonical"}:
+        # Checked before the compound tenses: a past participle may be tagged perfect.
+        if "past" in t or "perfect" in t:
+            return ["part.pass"]
+        return ["part.pres"] if "present" in t else []
     if t & _DE_SKIP or "auxiliary" in t or "canonical" in t or "table-tags" in t or "inflection-template" in t:
         return []
     persons = sorted(_DE_PERSON[x] for x in t if x in _DE_PERSON)
@@ -222,12 +227,6 @@ def kaikki_verb_tags_de(tags: list[str]) -> list[str]:
 
     if "infinitive" in t or "zu-infinitive" in t:
         return ["inf.zu"] if ("zu" in t or "zu-infinitive" in t) else ["inf.pres"]
-    if "participle" in t:
-        if "past" in t or "perfect" in t:
-            return ["part.pass"]
-        if "present" in t:
-            return ["part.pres"]
-        return []
     if "imperative" in t:
         if persons and persons != ["2"]:
             return []

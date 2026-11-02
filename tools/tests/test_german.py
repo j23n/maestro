@@ -37,6 +37,7 @@ def db(tmp_path):
     (["infinitive", "zu"], ["inf.zu"]),
     (["participle", "present"], ["part.pres"]),
     (["participle", "past"], ["part.pass"]),
+    (["participle", "perfect"], ["part.pass"]),
     (["first-person", "singular", "present", "subordinate-clause"], ["ind.pres.1s"]),
     (["first-person", "singular", "perfect", "indicative"], []),
     (["first-person", "singular", "future-i"], []),
@@ -129,7 +130,7 @@ def test_database(db):
 
 def test_lowercase_frequency_list_ranks_nouns(db, tmp_path):
     freq = tmp_path / "de.txt"
-    freq.write_text("ich 900\nhaus 500\ngehen 300\nging 200\nessen 100\n", encoding="utf-8")
+    freq.write_text("ich 900\nhaus 600\ngehen 300\nging 200\nessen 100\n", encoding="utf-8")
     frequency.assign_ranks(db, frequency.load(str(freq)), "de")
     ranks = dict(db.execute("SELECT id, freq_rank FROM lemma WHERE freq_rank IS NOT NULL"))
     assert ranks["de:Haus:n"] < ranks["de:gehen:v"]
@@ -148,3 +149,22 @@ def test_grammar_ids_get_the_prefix():
     assert grammar.check_base(points, topics) == []
     italian = grammar.load_all(os.path.join(ROOT, "content", "it", "grammar"))
     assert not any(":" in t.id for t in italian)
+
+
+def test_head_line_gives_auxiliary_and_plural():
+    verb = {"word": "laufen", "pos": "verb", "lang_code": "de", "senses": [{"glosses": ["to run"]}],
+            "head_templates": [{"name": "de-verb", "expansion": "laufen (class 7 strong, auxiliary sein or haben)"}]}
+    assert kaikki.parse_de(verb)[0].auxiliary == "both"
+    noun = {"word": "Baum", "pos": "noun", "lang_code": "de", "senses": [{"glosses": ["tree"]}],
+            "head_templates": [{"name": "de-noun", "args": {"1": "m,es,^e"}}],
+            "forms": [{"form": "Baumes", "tags": ["genitive"]}, {"form": "Bäume", "tags": ["plural"]}]}
+    assert kaikki.parse_de(noun)[0].plural == "Bäume"
+
+
+def test_form_of_without_a_lemma_gender_is_skipped(tmp_path):
+    conn = build_db.create(str(tmp_path / "c.sqlite"), os.path.join(ROOT, "content", "schema", "content.sql"))
+    lemma = kaikki.Entry(headword="Leute", pos="n", senses=[kaikki.Sense(gloss="people")])
+    form = kaikki.FormOf(form="Leuten", lemma="Leute", pos="n", tag="dat.s")
+    stats = build_db.build(conn, [lemma], [form], Registry(language="de"))
+    assert stats.ungendered_form_of == 1
+    assert conn.execute("SELECT count(*) FROM form WHERE form = 'Leuten'").fetchone()[0] == 0

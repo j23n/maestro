@@ -92,7 +92,8 @@ def main(argv: list[str] | None = None) -> int:
                            meta={"language": args.language, "kaikki_dump": args.dump_date,
                                  "morphit": "yes" if morph else "no"})
     print(f"lemmas {stats.lemmas}, senses {stats.senses} (+{stats.retired_senses} retired), forms {stats.forms} "
-          f"(morphit {stats.morphit_forms}), unlinked form-of {stats.unlinked_form_of}", flush=True)
+          f"(morphit {stats.morphit_forms}), unlinked form-of {stats.unlinked_form_of}"
+          + (f", form-of without a lemma gender {stats.ungendered_form_of}" if stats.ungendered_form_of else ""), flush=True)
 
     ranked = frequency.assign_ranks(conn, frequency.load(args.frequency), args.language)
     print(f"frequency ranks for {ranked} lemmas")

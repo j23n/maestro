@@ -21,7 +21,7 @@ class Topic:
 
 
 def id_prefix(language: str) -> str:
-    """The prefix the pipeline adds to a language's grammar and text IDs: none for Italian, de: for German."""
+    """The prefix the pipeline adds to a language's grammar topic and base IDs: none for Italian, de: for German."""
     return "" if language == "it" else f"{language}:"
 
 

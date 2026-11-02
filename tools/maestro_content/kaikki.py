@@ -211,9 +211,16 @@ def _gender_de(raw: dict) -> str | None:
     return "".join(found) or None
 
 
+_AUX_DE_RE = re.compile(r"auxiliary (haben|sein)(?: or (haben|sein))?")
+
+
 def _auxiliary_de(raw: dict) -> str | None:
     found = {f["form"] for f in raw.get("forms", [])
              if "auxiliary" in f.get("tags", []) and f.get("form") in ("haben", "sein")}
+    for ht in raw.get("head_templates", []):
+        m = _AUX_DE_RE.search(ht.get("expansion", ""))
+        if m:
+            found.update(x for x in m.groups() if x)
     if not found:
         return None
     return "both" if len(found) == 2 else found.pop()
@@ -278,7 +285,14 @@ def parse_de(raw: dict) -> tuple[Entry | None, list[FormOf]]:
             if (form, tag) not in seen:
                 seen.add((form, tag))
                 entry.forms.append((form, tag))
+    if pos == "n" and entry.plural is None:
+        # No declension table: the head line's plural (Haus n (…, plural Häuser)) names no case.
+        entry.plural = next((_clean_form(f.get("form", "")) for f in raw.get("forms", [])
+                             if "plural" in f.get("tags", []) and not set(f.get("tags", [])) & _CASES), None)
     return entry, form_of
+
+
+_CASES = {"nominative", "accusative", "dative", "genitive"}
 
 
 def read(lines: Iterable[dict], language: str = "it") -> tuple[list[Entry], list[FormOf]]:

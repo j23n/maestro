@@ -23,6 +23,7 @@ class BuildStats:
     forms: int = 0
     retired_senses: int = 0
     unlinked_form_of: int = 0
+    ungendered_form_of: int = 0
     morphit_forms: int = 0
 
 
@@ -66,7 +67,7 @@ def build(
     cur = conn.cursor()
     lang = registry.language
 
-    def key(headword: str, pos: str) -> str:
+    def hw_key(headword: str, pos: str) -> str:
         return headword_key(headword, pos, lang)
 
     by_key: dict[tuple[str, str], list[str]] = defaultdict(list)  # (headword_key, pos) -> lemma ids
@@ -84,10 +85,10 @@ def build(
         stats.forms += 1
 
     for e in entries:
-        fingerprint = f"{key(e.headword, e.pos)}|{e.pos}|{fold(e.senses[0].gloss)}"
+        fingerprint = f"{hw_key(e.headword, e.pos)}|{e.pos}|{fold(e.senses[0].gloss)}"
         lemma_id = registry.lemma_id(e.headword, e.pos, fingerprint)
-        by_key[(key(e.headword, e.pos), e.pos)].append(lemma_id)
-        by_headword[key(e.headword, "x")].append(lemma_id)
+        by_key[(hw_key(e.headword, e.pos), e.pos)].append(lemma_id)
+        by_headword[hw_key(e.headword, "x")].append(lemma_id)
         genders[lemma_id] = e.gender
         cur.execute(
             "INSERT INTO lemma (id, headword, headword_fold, pos, gender, plural, ipa, auxiliary) VALUES (?,?,?,?,?,?,?,?)",
@@ -119,10 +120,10 @@ def build(
             stats.retired_senses += 1
 
     def resolve(lemma: str, pos: str) -> str | None:
-        ids = by_key.get((key(lemma, pos), pos))
+        ids = by_key.get((hw_key(lemma, pos), pos))
         if ids:
             return ids[0]
-        ids = by_headword.get(key(lemma, "x"))
+        ids = by_headword.get(hw_key(lemma, "x"))
         return ids[0] if ids else None
 
     for fo in form_of:
@@ -133,7 +134,10 @@ def build(
         tag = fo.tag
         if tag.endswith(".s"):  # a German noun's singular form-of entry: the case tag takes the lemma's gender
             gender = (genders.get(lemma_id) or "")[:1]
-            tag = tag[:-1] + gender + "s" if gender else ""
+            if not gender:
+                stats.ungendered_form_of += 1
+                continue  # without the gender there is no tag, and an empty one would read as the headword
+            tag = tag[:-1] + gender + "s"
         if not tag and cur.execute("SELECT 1 FROM form WHERE form = ? AND lemma_id = ?",
                                       (fo.form, lemma_id)).fetchone():
             continue  # the lemma's own forms table already analyses it, with a tag
