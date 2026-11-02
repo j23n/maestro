@@ -16,10 +16,13 @@ struct SpeechSegment: Hashable {
 /// by sentence, with the word being spoken reported for highlighting.
 @MainActor @Observable final class SpeechPlayer: NSObject, AVSpeechSynthesizerDelegate {
     private let synthesizer = AVSpeechSynthesizer()
-    /// The language whose voices read. Changing it stops playback, since what is loaded is in the old one.
+    /// The active language, whose voices say single words. Changing it stops playback.
     var language: Language = .it {
-        didSet { if language != oldValue { stop(); segments = []; index = 0 } }
+        didSet { if language != oldValue { stop() } }
     }
+    /// The language of the loaded segments, from their IDs, whose voices read them: an Italian text
+    /// reopened after switching to German is still read in Italian.
+    private var segmentLanguage: Language?
 
     private(set) var segments: [SpeechSegment] = []
     private(set) var index: Int = 0
@@ -88,7 +91,9 @@ struct SpeechSegment: Hashable {
     func load(_ segments: [SpeechSegment], startAt: Int = 0) {
         stop()
         self.segments = segments
-        parts = Self.cast(segments, language: language)
+        let textLanguage = segments.first.flatMap { Language.of(id: $0.id) } ?? language
+        segmentLanguage = textLanguage
+        parts = Self.cast(segments, language: textLanguage)
         index = min(max(0, startAt), max(0, segments.count - 1))
     }
 
@@ -147,7 +152,7 @@ struct SpeechSegment: Hashable {
            let voice = AVSpeechSynthesisVoice(identifier: part.voiceID) {
             speak(segment.text, voice: voice, pitch: part.pitch)
         } else {
-            speak(segment.text, voice: Self.bestVoice(for: language))
+            speak(segment.text, voice: Self.bestVoice(for: segmentLanguage ?? language))
         }
     }
 
