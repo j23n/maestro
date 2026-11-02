@@ -176,3 +176,13 @@ def test_order_keeps_a_sentence_first_sie():
          "tokens": [{"t": "Sie", "pos": "PRON"}, {"t": "sprechen", "pos": "VERB"}, {"t": "gut", "pos": "ADV"},
                     {"t": "Deutsch", "pos": "NOUN"}, {"t": ".", "pos": "PUNCT"}]}
     assert drills_de.order_candidate(s, "de:verbstellung").drill["tiles"][0] == "Sie"
+
+
+def test_a_main_clause_after_und_is_not_subordinate():
+    def toks(spec):
+        return {"tokens": [{"t": t, "pos": p} for t, p in (w.split("/") for w in spec.split())]}
+    s = toks("Du/PRON kaufst/VERB Brot/NOUN ,/PUNCT weil/SCONJ du/PRON Hunger/NOUN hast/VERB und/CCONJ "
+             "wir/PRON essen/VERB jetzt/ADV ./PUNCT")
+    assert drills_de._clause_after_subordinator(s, 7) and not drills_de._clause_after_subordinator(s, 10)
+    s = toks("Ich/PRON bleibe/VERB ,/PUNCT weil/SCONJ du/PRON Brot/NOUN und/CCONJ Käse/NOUN kaufst/VERB ./PUNCT")
+    assert drills_de._clause_after_subordinator(s, 8), "und between two objects"

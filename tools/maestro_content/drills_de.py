@@ -140,12 +140,23 @@ def _next_noun(sentence: dict, index: int) -> dict | None:
 
 def _clause_after_subordinator(sentence: dict, index: int) -> bool:
     """Whether a token is in a clause that one of the subordinators the Nebensätze page teaches opens
-    (the linker's set; ambiguous words like damit and als stay out)."""
-    for tok in reversed(sentence["tokens"][:index]):
-        if tok.get("pos") == "PUNCT" and tok["t"] in (",", ";", ":", ".", "!", "?"):
+    (the linker's set; ambiguous words like damit and als stay out). Like the linker, an und or oder
+    whose clause isn't verb-final opens a main clause (weil du Hunger hast und wir essen jetzt)."""
+    toks = sentence["tokens"]
+    breaks = (",", ";", ":", ".", "!", "?")
+    for j in range(index - 1, -1, -1):
+        tok = toks[j]
+        if tok.get("pos") == "PUNCT" and tok["t"] in breaks:
             return False
         if tok["t"].lower() in VERB_LAST_TOPIC_WORDS and tok.get("pos") == "SCONJ":
             return True
+        if tok.get("pos") == "CCONJ" and tok["t"].lower() in ("und", "oder"):
+            end = next((k for k in range(j + 1, len(toks)) if toks[k].get("pos") == "PUNCT" and toks[k]["t"] in breaks),
+                       len(toks))
+            words = [t for t in toks[j + 1:end] if t.get("pos") != "PUNCT"]
+            verbs = [n for n, t in enumerate(words) if t.get("pos") in ("VERB", "AUX")]
+            if verbs != list(range(len(words) - len(verbs), len(words))):
+                return False
     return False
 
 
