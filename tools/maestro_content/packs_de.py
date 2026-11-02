@@ -12,6 +12,12 @@ it works out:
   as units.
 
 A source can name a case the linker can't work out with a hint on the noun: Frau{acc}, Haus{dat.ns}.
+
+Clauses joined by und or oder without a comma are split only in the simple cases: a subject and its
+finite verb (und wir essen), or one word, the finite verb and a subject pronoun (und dann essen wir).
+Two cases are known limits. A longer opening (und am Abend essen wir) stays in the clause before, which a
+comma before und settles. A verb-final clause joined by und with words after its verbs (weil ich
+koche und wir essen wollen wie immer) reads as a main clause.
 """
 
 from __future__ import annotations
