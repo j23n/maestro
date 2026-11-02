@@ -722,11 +722,10 @@ def _topic_tags(tokens: list[dict], infos: list[Info], clauses: list[Clause]) ->
         at = words.index(verb)
         # Wenn ich Zeit habe, gehe ich: the subordinate clause takes the first place. A relative clause
         # inside the subject doesn't (Die Frau, die ich kenne, besucht sie).
-        if at == 0 and n > 0 and all(c.subordinate for c in clauses[:n]):
-            at = 1
-        elif at == 0 or len(words) < 3:
+        after_subordinate = at == 0 and n > 0 and all(c.subordinate for c in clauses[:n])
+        if not after_subordinate and (at == 0 or len(words) < 3):
             continue
-        after = words[words.index(verb) + 1] if words.index(verb) + 1 < len(words) else None
+        after = words[at + 1] if at + 1 < len(words) else None
         first = tokens[words[0]]
         if words[0] != verb and (first["t"].lower() in SUBJECT_PERSONS or first.get("case") == "nom"):
             continue  # Er freut sich, Ich besuche sie: the subject comes first
