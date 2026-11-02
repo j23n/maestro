@@ -730,6 +730,9 @@ def _topic_tags(tokens: list[dict], infos: list[Info], clauses: list[Clause]) ->
         first = tokens[words[0]]
         if words[0] != verb and (first["t"].lower() in SUBJECT_PERSONS or first.get("case") == "nom"):
             continue  # Er freut sich, Ich besuche sie: the subject comes first
+        if after is not None and tokens[after]["t"] == "Sie" and tokens[verb]["form"] == "ind.pres.3p" \
+                and tokens[-1]["t"] == "!":
+            continue  # Dann kaufen Sie Brot! is a Sie imperative; without the ! it reads either way
         if after is not None and infos[after].pos == "pron" and tokens[after].get("case") in (None, "nom") \
                 and tokens[after]["t"].lower() in SUBJECT_PERSONS:
             _tag(tokens[verb], WORD_ORDER_TOPIC)
