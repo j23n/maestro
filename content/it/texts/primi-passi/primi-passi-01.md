@@ -4,6 +4,7 @@ collection: primi-passi
 order: 1
 topics: food, everyday
 introduces: presente-indicativo
+speakers: Barista m, Marta f
 
 > Barista: Buongiorno! || Good morning!
 > Barista: Cosa prende? || What will you have?
