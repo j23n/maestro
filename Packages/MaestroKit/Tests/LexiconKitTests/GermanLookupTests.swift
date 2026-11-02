@@ -49,11 +49,14 @@ func germanDatabase() throws -> ContentDatabase {
 
     @Test func formsThatAreNoNominativeKeepEveryCase() throws {
         let lemma = try #require(try germanDatabase().lemmas(headword: "Haus").first)
-        func reading(_ tag: String) -> Reading {
-            Reading(lemma: lemma, formTag: nil, genderNumber: nil, surface: "Menschen", via: .form, caseTag: CaseTag(tag))
+        func reading(_ tag: String, _ surface: String) -> Reading {
+            Reading(lemma: lemma, formTag: nil, genderNumber: nil, surface: surface, via: .form, caseTag: CaseTag(tag))
         }
-        let weak = Lookup.collapsingCases(["acc.ms", "dat.ms", "gen.ms", "nom.pl", "acc.pl"].map(reading))
+        let weak = Lookup.collapsingCases(["acc.ms", "dat.ms", "gen.ms", "nom.pl", "acc.pl"].map { reading($0, "Menschen") })
         #expect(weak.compactMap(\.caseTag?.description) == ["acc.ms", "dat.ms", "gen.ms", "nom.pl"])
+        // An article's cases group by gender and number: der's feminine and plural cases stay beside nom.ms.
+        let article = Lookup.collapsingCases(["nom.ms", "gen.fs", "dat.fs", "gen.pl"].map { reading($0, "der") })
+        #expect(article.compactMap(\.caseTag?.description) == ["nom.ms", "gen.fs", "dat.fs", "gen.pl"])
     }
 
     @Test func formLinesNameOnlyWhatTheHeadwordDoesNot() throws {
