@@ -270,7 +270,7 @@ Decided 2026-11-02: German is added to the same app, not as a second app. The pl
 - **Language codes.** `it` and `de` (`LanguageCore.Language`). They prefix lemma IDs today (`it:andare:v`) and every German ID (section 6.5).
 - **Content per language.** Sources live in `content/<lang>/` (`texts/`, `grammar/`, `curriculum/`, `frequency/`, `ids/`); `content/schema/` and `content/fixtures/` are shared. The app bundles `Content/<lang>/content.sqlite` and `Content/<lang>/packs/`; a language is available when its database is in the bundle. Each database records its language in `meta.language`, each pack manifest in `language`.
 - **Shared code.** The packages never decide a language on their own: the app passes the active `Language` in, and Italian rules (form tags, elision and clitic lookup, the conjugator, drill recipes) sit behind it until German's arrive.
-- **Learner data.** `Card`, `TextProgress` and `LookupEntry` carry `language` (default `it`, so every existing record is Italian). `ReviewLog` needs none: its item key's IDs carry the language. Preferences keep `level` and `newItemsPerDay` as Italian's and add `activeLanguage`, `level.de` and `newItemsPerDay.de`, so older builds keep reading the keys they know. The FSRS parameters are shared.
+- **Learner data.** `Card`, `TextProgress` and `LookupEntry` carry `language` (default `it`, so every existing record is Italian). `ReviewLog` needs none: its item key's IDs carry the language. Preferences keep `level` and `newItemsPerDay` as Italian's and add `level.de` and `newItemsPerDay.de`, so older builds keep reading the keys they know. The active language stays on the device (`UserDefaults`), because another device may not bundle the same languages. The FSRS parameters are shared.
 - **Order of releases.** The language-aware build ships at least one release before any German content: an older build would show synced German cards in its deck.
 - **Terms.** Form and grammar names use the target language's own terms: *condizionale passato* for Italian, *Präteritum*, *Dativ*, *Konjunktiv II* for German.
 
@@ -342,7 +342,7 @@ Cards live in CloudKit indefinitely and packs reference content by ID, so IDs mu
 
 Headwords are NFC, lowercase except proper nouns; spaces in multiword lemmas become `_`. Homograph numbers are ours, assigned when an entry is first seen, never taken from Wiktionary's etymology order. Sense codes are meaningless on purpose: readable codes invite renaming, and renaming breaks synced cards.
 
-**Languages.** Lemma and sense IDs start with their language (`it:`, `de:`). Italian grammar slugs, grammar base IDs and text IDs have no prefix; every German ID has one (`de:dativ`, `de:alltag-01`), so an ID without a prefix is Italian. The pipeline adds the prefix; German file names don't carry it (`content/de/grammar/dativ.md`). German headwords keep their capitals (`de:Haus:n`, `de:essen:v`, `de:Essen:n`), because German spells nouns with one.
+**Languages.** Lemma and sense IDs start with their language (`it:`, `de:`). Italian grammar slugs, grammar base IDs and text IDs have no prefix; every German ID has one (`de:dativ`, `de:alltag-01`), so an ID without a prefix is Italian. An ID whose prefix this build doesn't know (`fr:` from a later build) belongs to no language here: its cards stay hidden and the merge pass leaves them alone. The pipeline adds the prefix; German file names don't carry it (`content/de/grammar/dativ.md`). German headwords keep their capitals (`de:Haus:n`, `de:essen:v`, `de:Essen:n`), because German spells nouns with one.
 
 **Registry.** `content/it/ids/lemmas.tsv` and `content/it/ids/senses.tsv` map each ID to the fingerprint it was minted from. On each rebuild every sense is matched in this order: wiktextract's `senseid`, then its Wikidata QID, then headword + part of speech + normalised gloss. Etymology numbers are never used (they are positions and changed type in 2026). Unmatched senses get a fresh, hash-derived ID, so builds are reproducible. Uncertain matches go to a review list, limited to senses used by packs or in the curated frequent-word set. IDs are edited only by the pipeline, never by hand.
 
@@ -381,6 +381,7 @@ Source tags differ: Morph-it! writes passato remoto as `ind+past`, which maps to
 | Simple tense | `pres` Präsens, `prat` Präteritum |
 | Compound tense | `perf` Perfekt, `pqp` Plusquamperfekt, `fut1` Futur I, `fut2` Futur II, `wuerde` (k2 only: *würde gehen*) |
 | Infinitive | `inf.pres` (*gehen*), `inf.zu` (*anzurufen*), `inf.perf` (*gegangen sein*) |
+| Participle | `part.pres` (*gehend*), `part.pass` (*gegangen*) |
 | Person | `1s` `2s` `3s` `1p` `2p` `3p` (Sie = `3p`) |
 | Auxiliary suffix | `+h` / `+s` on compound tags, only for verbs that take both (`ind.perf.3s+s` *ist gefahren*, `ind.perf.3s+h` *hat gefahren*) |
 

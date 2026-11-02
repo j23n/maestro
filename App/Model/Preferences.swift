@@ -4,7 +4,8 @@ import LanguageCore
 import SRSKit
 
 /// Preferences, synced through NSUbiquitousKeyValueStore (HANDOFF.md 5.1), with UserDefaults as
-/// the local copy so they work signed out of iCloud. The device ID and onboarding state stay local.
+/// the local copy so they work signed out of iCloud. The device ID, onboarding state and active
+/// language stay local.
 ///
 /// Level and new items per day are kept per language (HANDOFF.md 5.3). Italian's stay under the keys
 /// they had before German (`level`, `newItemsPerDay`), so older builds keep reading them; other
@@ -13,8 +14,9 @@ import SRSKit
     private let cloud = NSUbiquitousKeyValueStore.default
     private let local = UserDefaults.standard
 
-    /// The language the learner is studying now.
-    var language: Language { didSet { save("activeLanguage", language.rawValue) } }
+    /// The language the learner is studying now. Kept on this device only: another device may not
+    /// bundle the same languages. Set it through `AppModel.activate(_:)`, which loads the content too.
+    var language: Language { didSet { local.set(language.rawValue, forKey: "activeLanguage") } }
     private var levels: [Language: String]
     private var newItems: [Language: Int]
 
@@ -54,7 +56,7 @@ import SRSKit
         func value<T>(_ key: String) -> T? {
             (NSUbiquitousKeyValueStore.default.object(forKey: key) as? T) ?? (UserDefaults.standard.object(forKey: key) as? T)
         }
-        language = (value("activeLanguage") as String?).flatMap(Language.init(rawValue:)) ?? .it
+        language = UserDefaults.standard.string(forKey: "activeLanguage").flatMap(Language.init(rawValue:)) ?? .it
         var levels: [Language: String] = [:]
         var newItems: [Language: Int] = [:]
         for language in Language.allCases {
@@ -100,9 +102,6 @@ import SRSKit
 
     /// Picks up values another device changed.
     func reloadFromCloud() {
-        if let v = cloud.string(forKey: "activeLanguage").flatMap(Language.init(rawValue:)), v != language {
-            language = v
-        }
         for language in Language.allCases {
             if let v = cloud.string(forKey: Self.key("level", language)), v != levels[language] {
                 levels[language] = v

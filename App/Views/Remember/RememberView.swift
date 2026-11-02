@@ -96,12 +96,12 @@ struct RememberView: View {
         .accessibilityAddTraits(filter == kind ? .isSelected : [])
     }
 
-    @ViewBuilder
     /// The deck is per language (HANDOFF.md 5.3).
     private func inLanguage(_ card: Card) -> Bool {
         Language.of(itemKey: card.itemKey) == model.language
     }
 
+    @ViewBuilder
     private func group(_ title: String, _ cards: [Card], stateByKey: [String: ScheduleState]) -> some View {
         if !cards.isEmpty {
             LabeledSection(title) {

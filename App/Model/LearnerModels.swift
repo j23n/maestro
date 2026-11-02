@@ -29,7 +29,7 @@ import LanguageCore
     init(itemKey: String, kind: String) {
         self.itemKey = itemKey
         self.kind = kind
-        self.language = Language.of(itemKey: itemKey).rawValue
+        self.language = Language.of(itemKey: itemKey)?.rawValue ?? ""
     }
 
     var isActive: Bool {
@@ -77,7 +77,7 @@ import LanguageCore
 
     init(textID: String) {
         self.textID = textID
-        self.language = Language.of(id: textID).rawValue
+        self.language = Language.of(id: textID)?.rawValue ?? ""
     }
 }
 

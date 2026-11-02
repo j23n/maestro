@@ -89,6 +89,8 @@ import Testing
         #expect(Language.of(id: "future-in-the-past") == .it)
         #expect(Language.of(id: "racconti-brevi-03") == .it)
         #expect(Language.of(id: "") == .it)
+        // A language this build doesn't know.
+        #expect(Language.of(id: "fr:maison:n") == nil)
     }
 
     @Test func readsTheLanguageOfAnItemKey() {
@@ -97,6 +99,7 @@ import Testing
         #expect(Language.of(itemKey: ItemKey.grammar("de:dativ")) == .de)
         #expect(Language.of(itemKey: ItemKey.grammar("articles")) == .it)
         #expect(Language.of(itemKey: "nonsense") == .it)
+        #expect(Language.of(itemKey: ItemKey.word(lemmaID: "fr:maison:n", senseID: "fr:maison:n#aaaa")) == nil)
     }
 
     @Test func namesAndLocales() {

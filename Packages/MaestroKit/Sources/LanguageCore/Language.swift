@@ -47,15 +47,16 @@ public enum Language: String, Sendable, Codable, CaseIterable, Hashable, Identif
 
     /// The language a content ID belongs to. Lemma and sense IDs always carry their language
     /// (`it:andare:v`, `de:gehen:v#k3fq`), German grammar and text IDs do too (`de:dativ`), and an ID
-    /// without a language prefix is Italian (`future-in-the-past`, `inverno-01`).
-    public static func of(id: String) -> Language {
-        guard let colon = id.firstIndex(of: ":"),
-              let language = Language(rawValue: String(id[..<colon])) else { return .it }
-        return language
+    /// without a prefix is Italian (`future-in-the-past`, `inverno-01`). Nil for a prefix this build
+    /// doesn't know (`fr:maison:n`, from a later build): such items stay hidden and untouched.
+    public static func of(id: String) -> Language? {
+        guard let colon = id.firstIndex(of: ":") else { return .it }
+        return Language(rawValue: String(id[..<colon]))
     }
 
-    /// The language of an item key (HANDOFF.md 6.5), read from the content ID it carries.
-    public static func of(itemKey: String) -> Language {
+    /// The language of an item key (HANDOFF.md 6.5), read from the content ID it carries; nil when
+    /// that ID's language is unknown to this build.
+    public static func of(itemKey: String) -> Language? {
         let parts = itemKey.split(separator: "|", omittingEmptySubsequences: false)
         guard parts.count >= 2 else { return .it }
         return of(id: String(parts[1]))
