@@ -123,6 +123,8 @@ FUTURE = {"ind.pres": "ind.fut1", "k2.prat": "k2.wuerde"}
 TOPIC = {"ind.perf": "de:perfekt", "k2.pqp": "de:konjunktiv-2", "k2.wuerde": "de:konjunktiv-2"}
 CASE_TOPIC = {"acc": "de:akkusativ", "dat": "de:dativ"}
 SEPARABLE_TOPIC = "de:trennbare-verben"
+VERB_LAST_TOPIC = "de:nebensaetze"
+VERB_LAST_TOPIC_WORDS = {"dass", "weil", "wenn", "ob"}
 TWO_WAY_TOPIC = "de:wechselpraepositionen"
 
 
@@ -312,6 +314,8 @@ def link_sentence(lex: packs.Lexicon, sentence: packs.SourceSentence) -> tuple[l
             lemma_id, _ = _lemma(lex, lower, "conj")
             _link(tok, lex, lemma_id, "CCONJ" if lower in CCONJ else "SCONJ", sense=False)
             info.pos, info.lemma, info.headword = "conj", lemma_id, lower
+            if lower in VERB_LAST_TOPIC_WORDS:
+                tok["grammar"] = [VERB_LAST_TOPIC]
         else:
             rows = _candidates(lex, surface, sentence_start)
             choice = packs._choose(rows, surface, prev_pos, sentence_start)
