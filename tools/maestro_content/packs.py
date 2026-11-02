@@ -1,6 +1,6 @@
 """Text packs: parse authored sources, tokenise, link tokens to the content DB, validate, write.
 
-Source format (content/texts/<collection>/<nn>-<slug>.md):
+Source format (content/it/texts/<collection>/<nn>-<slug>.md):
 
     # Il treno per Bologna
     level: B1
@@ -670,8 +670,10 @@ def window_valid(window: str) -> bool:
 
 
 def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_content_db: str,
-              bundled: bool = True, topics: list | None = None) -> tuple[list[str], list[str]]:
+              bundled: bool = True, topics: list | None = None, language: str = "it") -> tuple[list[str], list[str]]:
     """Build every pack under source_dir into out_dir/<collection>/. Returns (warnings, errors).
+
+    `language` is the packs' target language (HANDOFF.md 5.3), written into each manifest.
 
     With grammar topics, each text also gets its practice drills (drills.py, HANDOFF.md 3.9)."""
     lex = Lexicon(conn)
@@ -709,7 +711,7 @@ def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_conte
         levels = sorted({src.level for src, _ in items})
         manifest = {"id": collection, "title": collection.replace("-", " ").capitalize(),
                     "level": levels[0] if len(levels) == 1 else "-".join([levels[0], levels[-1]]),
-                    "formatVersion": 1, "version": 1, "minContentDB": min_content_db, "language": "it",
+                    "formatVersion": 1, "version": 1, "minContentDB": min_content_db, "language": language,
                     "translationLanguage": "en", "texts": []}
         for src, text in items:
             path = f"texts/{text['id']}.json"

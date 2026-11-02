@@ -1,4 +1,4 @@
-"""Word frequencies: a form list (content/frequency/) turned into a rank per lemma."""
+"""Word frequencies: a form list (content/it/frequency/) turned into a rank per lemma."""
 
 from __future__ import annotations
 

@@ -1,4 +1,7 @@
-"""python3 -m maestro_content build --kaikki FILE --out DIR [--morphit FILE] [--ids DIR] [--save-ids]"""
+"""python3 -m maestro_content build --kaikki FILE --out DIR [--language it] [--morphit FILE] [--ids DIR] [--save-ids]
+
+Every command works on one target language (HANDOFF.md 5.3), Italian unless --language says otherwise; its
+sources are content/<lang>/ and its database App/Resources/Content/<lang>/content.sqlite."""
 
 from __future__ import annotations
 
@@ -10,6 +13,20 @@ from . import build_db, curriculum, frequency, grammar, kaikki, morphit, packs
 from .registry import Registry
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+LANGUAGES = ("it", "de")
+
+
+def language_dir(language: str, *parts: str) -> str:
+    """A path in the language's content folder, content/<lang>/."""
+    return os.path.join(ROOT, "content", language, *parts)
+
+
+def frequency_list(language: str) -> str:
+    return language_dir(language, "frequency", f"{language}-opensubtitles-2018.txt")
+
+
+def default_db(language: str) -> str:
+    return os.path.join(ROOT, "App", "Resources", "Content", language, "content.sqlite")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -19,25 +36,25 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--kaikki", required=True, help="kaikki.org Italian JSONL (.jsonl or .jsonl.gz)")
     b.add_argument("--morphit", help="Morph-it! lexicon (optional)")
     b.add_argument("--out", required=True, help="output folder (gets content.sqlite and packs/)")
-    b.add_argument("--ids", default=os.path.join(ROOT, "content", "ids"), help="ID registry folder")
+    b.add_argument("--language", choices=LANGUAGES, default="it", help="target language; picks the content/<lang>/ defaults")
+    b.add_argument("--ids", help="ID registry folder (default content/<lang>/ids)")
     b.add_argument("--save-ids", action="store_true", help="write the updated registry back")
-    b.add_argument("--texts", default=os.path.join(ROOT, "content", "texts"))
-    b.add_argument("--grammar", default=os.path.join(ROOT, "content", "grammar"))
-    b.add_argument("--frequency", default=os.path.join(ROOT, "content", "frequency", "it-opensubtitles-2018.txt"),
-                   help="word-frequency list (form count per line)")
+    b.add_argument("--texts", help="default content/<lang>/texts")
+    b.add_argument("--grammar", help="default content/<lang>/grammar")
+    b.add_argument("--frequency", help="word-frequency list (form count per line); default in content/<lang>/frequency")
     b.add_argument("--dump-date", default="", help="date of the kaikki dump, recorded in meta")
     b.add_argument("--strict", action="store_true", help="fail on linker warnings too")
 
-    default_db = os.path.join(ROOT, "App", "Resources", "Content", "content.sqlite")
     for name, text in (("coverage", "write the coverage report"), ("check", "check texts against their level and brief"),
                        ("brief", "propose a brief for the next text"),
                        ("draft", "draft a brief's text with Claude, then check it")):
         c = sub.add_parser(name, help=text)
-        c.add_argument("--db", default=default_db, help="content.sqlite from make content")
-        c.add_argument("--texts", default=os.path.join(ROOT, "content", "texts"))
-        c.add_argument("--curriculum", default=os.path.join(ROOT, "content", "curriculum"))
-        c.add_argument("--grammar", default=os.path.join(ROOT, "content", "grammar"))
-        c.add_argument("--frequency", default=os.path.join(ROOT, "content", "frequency", "it-opensubtitles-2018.txt"))
+        c.add_argument("--language", choices=LANGUAGES, default="it", help="target language; picks the defaults below")
+        c.add_argument("--db", help="content.sqlite from make content (default App/Resources/Content/<lang>/)")
+        c.add_argument("--texts", help="default content/<lang>/texts")
+        c.add_argument("--curriculum", help="default content/<lang>/curriculum")
+        c.add_argument("--grammar", help="default content/<lang>/grammar")
+        c.add_argument("--frequency", help="default in content/<lang>/frequency")
         if name == "coverage":
             c.add_argument("--out", default=os.path.join(ROOT, ".build", "coverage.md"))
         elif name == "check":
@@ -50,6 +67,7 @@ def main(argv: list[str] | None = None) -> int:
             c.add_argument("--title", default="Senza titolo")
             c.add_argument("--window", default="", help="feature window, such as 12-01..01-06")
     args = ap.parse_args(argv)
+    fill_defaults(args)
     if args.cmd == "draft":
         from . import draft
         if not os.path.exists(args.db):
@@ -70,7 +88,8 @@ def main(argv: list[str] | None = None) -> int:
     morph = list(morphit.read(args.morphit)) if args.morphit and os.path.exists(args.morphit) else []
     stats = build_db.build(conn, entries, form_of, registry, morph,
                            redirects=build_db.load_redirects(os.path.join(args.ids, "redirects.tsv")),
-                           meta={"kaikki_dump": args.dump_date, "morphit": "yes" if morph else "no"})
+                           meta={"language": args.language, "kaikki_dump": args.dump_date,
+                                 "morphit": "yes" if morph else "no"})
     print(f"lemmas {stats.lemmas}, senses {stats.senses} (+{stats.retired_senses} retired), forms {stats.forms} "
           f"(morphit {stats.morphit_forms}), unlinked form-of {stats.unlinked_form_of}", flush=True)
 
@@ -85,7 +104,7 @@ def main(argv: list[str] | None = None) -> int:
 
     content_version = conn.execute("SELECT value FROM meta WHERE key = 'content_version'").fetchone()[0]
     warnings, errors = packs.build_all(conn, args.texts, os.path.join(out, "packs"), content_version,
-                                     topics=topics)
+                                     topics=topics, language=args.language)
     for w in warnings:
         print(f"warning: {w}")
     errors = base_errors + errors
@@ -101,6 +120,17 @@ def main(argv: list[str] | None = None) -> int:
     if errors or (args.strict and warnings):
         return 1
     return 0
+
+
+def fill_defaults(args: argparse.Namespace) -> None:
+    """Paths the command line left out come from the language's folder, content/<lang>/."""
+    lang = args.language
+    defaults = {"ids": language_dir(lang, "ids"), "texts": language_dir(lang, "texts"),
+                "grammar": language_dir(lang, "grammar"), "curriculum": language_dir(lang, "curriculum"),
+                "frequency": frequency_list(lang), "db": default_db(lang)}
+    for key, value in defaults.items():
+        if hasattr(args, key) and getattr(args, key) is None:
+            setattr(args, key, value)
 
 
 def curriculum_command(args: argparse.Namespace) -> int:

@@ -1,12 +1,12 @@
 # The grammar base: every point of the A0 to B2 syllabus, after the Profilo della lingua italiana
 # (Spinelli & Parizzi; unistrapg.it). HANDOFF.md 3.3 and 6.4. Each point's `topic` names the reference page in
-# content/grammar/ that covers it, when there is one. IDs are frozen once shipped, like topic slugs.
+# content/it/grammar/ that covers it, when there is one. IDs are frozen once shipped, like topic slugs.
 #
 # id        stable short ID
 # level     A0 (survival basics) to B2
 # category  the Profilo's area: verbi, pronomi, preposizioni, articoli, …
 # label     the Profilo's description, in Italian
-# topic     optional: the content/grammar page for it
+# topic     optional: the content/it/grammar page for it
 # source    the Profilo page it comes from
 points:
 - id: art_un_una

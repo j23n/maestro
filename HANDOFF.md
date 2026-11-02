@@ -284,7 +284,7 @@ Decided 2026-11-02: German is added to the same app, not as a second app. The pl
 | Inflected form → lemma | Morph-it! (~505k forms, ~35k lemmas; newspaper corpus, gaps in everyday words) | CC BY-SA 2.0 or LGPL | Form analysis, clitics, cross-checks |
 | Example sentences with translations | Tatoeba ita–eng pairs (weekly exports) | CC BY 2.0 FR (some CC0); audio per contributor, often unusable | Examples |
 | Reading texts | Drafted with Claude from briefs, or written or commissioned; public-domain classics for upper levels. Never adapted from published articles: news-based texts start from our own list of facts | Yours / public domain | Library |
-| Word frequency ranking | FrequencyWords, OpenSubtitles 2018, top 20,000 forms (`content/frequency/`) | CC BY-SA 4.0 | `lemma.freq_rank`, level core vocabulary, "Known %" |
+| Word frequency ranking | FrequencyWords, OpenSubtitles 2018, top 20,000 forms (`content/it/frequency/`) | CC BY-SA 4.0 | `lemma.freq_rank`, level core vocabulary, "Known %" |
 
 The database built from Wiktionary and Morph-it! must be offered under CC BY-SA; app code is unaffected. Get a legal review. Credit sources in Acknowledgements.
 
@@ -311,20 +311,20 @@ The database built from Wiktionary and Morph-it! must be offered under CC BY-SA;
 - Manifest: `formatVersion` (schema version, separate from the pack's content `version`), `minContentDB` (lowest content DB that resolves the pack's IDs), and per text its lemma set so a pack newer than the app can still be ranked.
 - Each app release bundles a catalog (`catalog_text`, `text_lemma`) of every text, downloaded or not, for library ranking, "Good fit" and Known %.
 - Pack builds fail when an ID doesn't resolve, a range doesn't match, text isn't NFC, or units overlap.
-- Authoring: brief → draft → check → native-speaker review → pack. A brief is the front matter of a new text file (`make brief`, aimed at the gaps in the coverage report); `make draft` has Claude write the text and sends checker findings back for up to three rounds; `make check-texts` checks known words, new words, grammar above the level and the brief's targets against the level plans in `content/curriculum/`. Texts carry `status: brief | draft | reviewed`: briefs stay out of packs, and drafts are marked in the manifest and labelled Draft in the library until a native speaker has reviewed them. The LLM runs only on the author's machine, never in the app. Sentence IDs (`s<n>`) are assigned once and never renumbered when a text is edited after release.
+- Authoring: brief → draft → check → native-speaker review → pack. A brief is the front matter of a new text file (`make brief`, aimed at the gaps in the coverage report); `make draft` has Claude write the text and sends checker findings back for up to three rounds; `make check-texts` checks known words, new words, grammar above the level and the brief's targets against the level plans in `content/it/curriculum/`. Texts carry `status: brief | draft | reviewed`: briefs stay out of packs, and drafts are marked in the manifest and labelled Draft in the library until a native speaker has reviewed them. The LLM runs only on the author's machine, never in the app. Sentence IDs (`s<n>`) are assigned once and never renumbered when a text is edited after release.
 - Feature windows: a text's `window:` (`12-01..01-06`, or days from Easter such as `easter-60..easter-47`) puts it on the library's "Right now" shelf in season. Season collections (`inverno`, then `primavera`, `estate`, `autunno`) gain texts each year; a monthly `cronache` drop covers news-inspired stories that stay true for months.
 - Delivery: starter texts bundled; others as Apple-hosted asset packs (up to 200 packs, 200 GB per app; reviewed separately from builds). Packs stay on disk until `remove(assetPackWithID:)`. Use only the current `AssetPackManager` API; several methods were deprecated in 26.4 and 27.0. 26.4–26.6 had download failures, so downloads are offered only on 26.7 and later (`#available`); earlier 26.x devices read the bundled texts. Bundle enough to never block the first session; add retry and "not downloaded" states. Don't use On-Demand Resources (deprecated in iOS 27).
 
 ### 6.4 Curriculum gaps to close
 
-1. **Scope and sequence.** Define per level the grammar points and core vocabulary; tag each text with what it uses and introduces; order texts to add one or two points at a time and recycle earlier ones. Reference: *Profilo della lingua italiana* (Spinelli & Parizzi), CEFR levels A1 to B2. Started: level plans in `content/curriculum/` (core vocabulary as frequency bands, length, persons, registers, block types); the grammar sequence is each topic's `level` and `order` in `content/grammar/`; `make coverage` reports per level what the texts cover.
+1. **Scope and sequence.** Define per level the grammar points and core vocabulary; tag each text with what it uses and introduces; order texts to add one or two points at a time and recycle earlier ones. Reference: *Profilo della lingua italiana* (Spinelli & Parizzi), CEFR levels A1 to B2. Started: level plans in `content/it/curriculum/` (core vocabulary as frequency bands, length, persons, registers, block types); the grammar sequence is each topic's `level` and `order` in `content/it/grammar/`; `make coverage` reports per level what the texts cover.
 2. **Vocabulary targets.** Write each text for ~95 to 98% known words at its level; make new words recur in later texts. The checker enforces the known-word share; the coverage report tracks how often new words come back. At today's text lengths a level's texts can't carry its whole core list; the dictionary and Remember cover the rest.
 3. **Speaking and writing.** Currently out of scope by default. Options that fit: shadowing (optionally with on-device speech recognition), short writing prompts per text with optional on-device model feedback.
 4. **A1 on-ramp.** Tiny first texts, fuller help, pronunciation basics (double consonants, c/g/sc before e/i, gli/gn, stress), survival phrases, numbers, time.
 5. **Text variety and register.** Dialogues (two voices), messages, emails, signs, menus, articles; *tu* vs *Lei*. Narrative alone over-weights the passato remoto.
 6. **Placement and progress.** Short placement (calibrated passages, mark unknown words); per-level progress (texts read, core words known, grammar points met).
 
-Smaller: Phrase as a fourth Remember kind; cultural notes. The full A0 to B2 grammar list is `content/grammar/base.yaml`: 351 points from the *Profilo*, 37 of them mapped to the 20 topic pages so far; the unmapped ones are the pages still to write.
+Smaller: Phrase as a fourth Remember kind; cultural notes. The full A0 to B2 grammar list is `content/it/grammar/base.yaml`: 351 points from the *Profilo*, 37 of them mapped to the 20 topic pages so far; the unmapped ones are the pages still to write.
 
 ### 6.5 Content IDs and form tags
 
@@ -336,15 +336,15 @@ Cards live in CloudKit indefinitely and packs reference content by ID, so IDs mu
 | --- | --- | --- | --- |
 | Lemma | `it:<headword>:<pos>`, plus `:<n>` for the 2nd and later homograph with the same part of speech | `it:pesca:n` (peach), `it:pesca:n:2` (fishing) | Registry, when the entry is first seen |
 | Sense | `<lemmaID>#<code>`, code = 4 base32 characters from a hash of the sense's fingerprint (5+ on collision) | `it:andare:v#k3fq` | Registry, when the sense is first seen |
-| Grammar topic | Hand-picked kebab-case slug | `future-in-the-past` | Us, in `content/grammar/` |
+| Grammar topic | Hand-picked kebab-case slug | `future-in-the-past` | Us, in `content/it/grammar/` |
 | Text | `<collection>-<nn>` | `racconti-brevi-03` | Authoring tool |
 | Sentence | `s<n>`, unique within its text | `s2` | Authoring tool |
 
 Headwords are NFC, lowercase except proper nouns; spaces in multiword lemmas become `_`. Homograph numbers are ours, assigned when an entry is first seen, never taken from Wiktionary's etymology order. Sense codes are meaningless on purpose: readable codes invite renaming, and renaming breaks synced cards.
 
-**Languages.** Lemma and sense IDs start with their language (`it:`, `de:`). Italian grammar slugs, grammar base IDs and text IDs have no prefix; every German ID has one (`de:dativ`, `de:alltag-01`), so an ID without a prefix is Italian. German headwords keep their capitals (`de:Haus:n`, `de:essen:v`, `de:Essen:n`), because German spells nouns with one.
+**Languages.** Lemma and sense IDs start with their language (`it:`, `de:`). Italian grammar slugs, grammar base IDs and text IDs have no prefix; every German ID has one (`de:dativ`, `de:alltag-01`), so an ID without a prefix is Italian. The pipeline adds the prefix; German file names don't carry it (`content/de/grammar/dativ.md`). German headwords keep their capitals (`de:Haus:n`, `de:essen:v`, `de:Essen:n`), because German spells nouns with one.
 
-**Registry.** `content/ids/lemmas.tsv` and `content/ids/senses.tsv` map each ID to the fingerprint it was minted from. On each rebuild every sense is matched in this order: wiktextract's `senseid`, then its Wikidata QID, then headword + part of speech + normalised gloss. Etymology numbers are never used (they are positions and changed type in 2026). Unmatched senses get a fresh, hash-derived ID, so builds are reproducible. Uncertain matches go to a review list, limited to senses used by packs or in the curated frequent-word set. IDs are edited only by the pipeline, never by hand.
+**Registry.** `content/it/ids/lemmas.tsv` and `content/it/ids/senses.tsv` map each ID to the fingerprint it was minted from. On each rebuild every sense is matched in this order: wiktextract's `senseid`, then its Wikidata QID, then headword + part of speech + normalised gloss. Etymology numbers are never used (they are positions and changed type in 2026). Unmatched senses get a fresh, hash-derived ID, so builds are reproducible. Uncertain matches go to a review list, limited to senses used by packs or in the curated frequent-word set. IDs are edited only by the pipeline, never by hand.
 
 | Change in the source | What the registry does |
 | --- | --- |

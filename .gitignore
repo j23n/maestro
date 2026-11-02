@@ -22,4 +22,4 @@ App/Resources/Content/*
 !App/Resources/Content/README.md
 
 # A draft from make draft that did not build (tools/maestro_content/draft.py, set_aside)
-content/texts/**/*.md.failed
+content/it/texts/**/*.md.failed

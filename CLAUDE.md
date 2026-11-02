@@ -3,7 +3,7 @@
 
 # Italian learning app
 
-Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded reading and listening, with an offline dictionary, verb tables, grammar reference and a spaced-repetition "Remember" deck. Full spec: `HANDOFF.md`. Read it before making product or data-model decisions.
+Native SwiftUI app (iPhone, iPad, Mac) for learning Italian, and next German (HANDOFF.md 5.3), through graded reading and listening, with an offline dictionary, verb tables, grammar reference and a spaced-repetition "Remember" deck. Full spec: `HANDOFF.md`. Read it before making product or data-model decisions.
 
 ## Non-negotiables
 
@@ -37,7 +37,8 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 
 ## Content IDs and form tags (HANDOFF.md 6.5)
 
-- Lemma and sense IDs come only from the ID registry in `content/ids/`, written by the pipeline. Never edit or invent them by hand. Grammar topic slugs are the file names in `content/grammar/`; the grammar base (`content/grammar/base.yaml`) lists every syllabus point and the topic that covers it.
+- Lemma and sense IDs come only from the ID registry in `content/<lang>/ids/`, written by the pipeline. Never edit or invent them by hand. Grammar topic slugs are the file names in `content/<lang>/grammar/`; the grammar base (`content/<lang>/grammar/base.yaml`) lists every syllabus point and the topic that covers it.
+- German IDs all start with `de:` (lemmas, senses, grammar topics and base points, texts); the pipeline adds the prefix, so file names don't carry it. Italian lemma and sense IDs start with `it:`; other Italian IDs have no prefix, and an ID without one is Italian.
 - Verb forms use only the form tags in HANDOFF.md 6.5 (`cond.pass.1p`); labels are rendered from tags, never stored.
 - Pack text is NFC; token and sentence ranges are UTF-16 `[start, length]`. Pack files must validate against `content/schema/`.
 
@@ -52,7 +53,8 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 - `Packages/MaestroKit/Sources/PracticeKit`: drill grading, stepped feedback, seeded shuffles
 - `App/`: SwiftUI screens per platform
 - `tools/`: content database and pack build scripts
-- `content/`: pack sources (Markdown + front matter), `curriculum/` level plans, `frequency/` word list, `ids/` registry, `schema/`, `fixtures/`
+- `content/<lang>/` (`it`, `de`): pack sources in `texts/` (Markdown + front matter), `grammar/` topics and base, `curriculum/` level plans, `frequency/` word list, `ids/` registry
+- `content/schema/`, `content/fixtures/`: shared by every language
 
 ## Conventions
 

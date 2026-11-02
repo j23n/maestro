@@ -10,7 +10,7 @@ HERE = os.path.dirname(__file__)
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 SAMPLE = os.path.join(HERE, "fixtures", "kaikki-sample.jsonl")
 TOPICS = {t.id: drills.TopicInfo(t.id, t.title, t.level, t.order, t.summary)
-          for t in grammar.load_all(os.path.join(ROOT, "content", "grammar"))}
+          for t in grammar.load_all(os.path.join(ROOT, "content", "it", "grammar"))}
 
 
 @pytest.fixture()
@@ -39,7 +39,7 @@ def built(db, tmp_path, source=SOURCE):
     src_dir = tmp_path / "texts"
     src_dir.mkdir(exist_ok=True)
     (src_dir / "test-01.md").write_text(source, encoding="utf-8")
-    grammar_topics = grammar.load_all(os.path.join(ROOT, "content", "grammar"))
+    grammar_topics = grammar.load_all(os.path.join(ROOT, "content", "it", "grammar"))
     warnings, errors = packs.build_all(db, str(src_dir), str(tmp_path / "packs"), "2026.10", topics=grammar_topics)
     assert errors == []
     return json.loads((tmp_path / "packs" / "test-pack" / "texts" / "test-01.json").read_text(encoding="utf-8"))
@@ -150,8 +150,8 @@ def test_validate_catches_a_broken_gap():
 
 
 def test_grammar_base_points_at_real_topics():
-    topics = grammar.load_all(os.path.join(ROOT, "content", "grammar"))
-    points = grammar.load_base(os.path.join(ROOT, "content", "grammar", "base.yaml"))
+    topics = grammar.load_all(os.path.join(ROOT, "content", "it", "grammar"))
+    points = grammar.load_base(os.path.join(ROOT, "content", "it", "grammar", "base.yaml"))
     assert len(points) == 351
     assert grammar.check_base(points, topics) == []
     covered = {p.topic for p in points if p.topic}

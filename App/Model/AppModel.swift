@@ -44,8 +44,9 @@ import PackKit
         contentVersion = db?.meta("content_version") ?? "none"
     }
 
+    /// Italian's content folder in the bundle: `Content/it/` (HANDOFF.md 5.3).
     static var bundledContentDirectory: URL? {
-        Bundle.main.url(forResource: "Content", withExtension: nil)
+        Bundle.main.url(forResource: "Content", withExtension: nil)?.appendingPathComponent("it")
     }
 
     var hasDictionary: Bool { content != nil }

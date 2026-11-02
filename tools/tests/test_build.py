@@ -37,7 +37,7 @@ def test_lookup_tables(db):
 
 
 def test_grammar_topics_parse():
-    topics = grammar.load_all(os.path.join(ROOT, "content", "grammar"))
+    topics = grammar.load_all(os.path.join(ROOT, "content", "it", "grammar"))
     ids = {t.id for t in topics}
     assert {"future-in-the-past", "passato-prossimo", "preposition-contractions"} <= ids
     assert all(t.summary and t.body for t in topics)
@@ -88,6 +88,7 @@ def test_pack_build_links_and_validates(db, tmp_path):
     assert text["questions"][0]["answer"] == 1 and text["questions"][1]["answer"] == "yes"
     manifest = json.loads((tmp_path / "packs" / "test-pack" / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["texts"][0]["words"] > 20 and "it:andare:v" in manifest["texts"][0]["lemmas"]
+    assert manifest["language"] == "it"
     assert db.execute("SELECT count FROM text_lemma WHERE text_id='test-01' AND lemma_id='it:andare:v'").fetchone()[0] >= 3
 
 
@@ -113,3 +114,26 @@ def test_label_glosses_sort_after_meanings():
     assert order == [(0, "to be"), (1, "to exist"), (2, "copula")]
     assert build_db.is_label_gloss("Auxiliary verb.")
     assert not build_db.is_label_gloss("to be")
+
+
+def test_language_picks_its_content_folder():
+    import argparse
+
+    from maestro_content import __main__ as cli
+    MAIN_ROOT = cli.ROOT
+
+    args = argparse.Namespace(language="de", texts=None, grammar=None, ids=None, frequency="/tmp/f.txt")
+    cli.fill_defaults(args)
+    assert args.texts == os.path.join(MAIN_ROOT, "content", "de", "texts")
+    assert args.ids == os.path.join(MAIN_ROOT, "content", "de", "ids")
+    assert args.frequency == "/tmp/f.txt"
+    assert not hasattr(args, "db")
+
+
+def test_manifest_carries_the_language(db, tmp_path):
+    src_dir = tmp_path / "texts"
+    src_dir.mkdir()
+    (src_dir / "test-01.md").write_text(SOURCE, encoding="utf-8")
+    packs.build_all(db, str(src_dir), str(tmp_path / "packs"), "2026.10", language="de")
+    manifest = json.loads((tmp_path / "packs" / "test-pack" / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["language"] == "de"

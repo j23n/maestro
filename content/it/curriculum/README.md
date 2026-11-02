@@ -1,6 +1,6 @@
 # Level plans
 
-One file per CEFR level says what that level's texts must contain together: the core vocabulary as a frequency band, how many new words a text may bring, how long texts are, and which persons, block types and registers the level must include. The grammar sequence is not repeated here: each topic in `content/grammar/` carries its `level` and `order`.
+One file per CEFR level says what that level's texts must contain together: the core vocabulary as a frequency band, how many new words a text may bring, how long texts are, and which persons, block types and registers the level must include. The grammar sequence is not repeated here: each topic in `content/it/grammar/` carries its `level` and `order`.
 
 The pipeline reads these files for `make check-texts`, `make coverage` and `make brief` (`tools/maestro_content/curriculum.py`). Every number is a first guess, to be tuned on the first generated texts.
 
@@ -19,4 +19,4 @@ The pipeline reads these files for `make check-texts`, `make coverage` and `make
 | `tenseShare` | Largest share of a collection's finite verbs any tense other than the present may take. |
 | `recurrence`, `recurrenceWindow` | A new word should reappear in `recurrence` of the next `recurrenceWindow` texts at its level or the next. |
 
-Ranks come from `content/frequency/`, mapped to lemmas by the content build (`lemma.freq_rank`).
+Ranks come from `content/it/frequency/`, mapped to lemmas by the content build (`lemma.freq_rank`).
