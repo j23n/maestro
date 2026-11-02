@@ -248,7 +248,9 @@ def kaikki_verb_tags_de(tags: list[str]) -> list[str]:
 _DE_IGNORE_NOMINAL = {"error-unknown-tag", "archaic", "rare", "dated", "colloquial", "nonstandard", "regional",
                       "predicative", "attributive", "table-tags", "inflection-template", "class"}
 _DE_NOT_A_FORM = {"diminutive", "augmentative", "feminine-equivalent", "masculine-equivalent", "abbreviation",
-                  "canonical", "romanization", "article", "definite", "indefinite", "adverbial", "alternative"}
+                  "canonical", "romanization", "article", "adverbial", "alternative"}
+# Rows of a noun's or adjective's table that name the article they go with; an article's own rows may carry them.
+_DE_ARTICLE_KIND = {"definite", "indefinite"}
 
 
 def kaikki_case_tags_de(tags: list[str], gender: str | None = None, pos: str = "n") -> list[str]:
@@ -258,7 +260,7 @@ def kaikki_case_tags_de(tags: list[str], gender: str | None = None, pos: str = "
     (a form-of entry, which doesn't know its lemma's gender) a singular gets "s" (gen.s). One row can name
     several cases (nominative/accusative/genitive plural), so this returns every tag it covers."""
     t = set(tags) - _DE_IGNORE_NOMINAL
-    if t & _DE_NOT_A_FORM:
+    if t & _DE_NOT_A_FORM or (t & _DE_ARTICLE_KIND and pos not in ("art", "det")):
         return []
     degree = "comp." if "comparative" in t else "sup." if "superlative" in t else ""
     cases = [c for x, c in _DE_CASE.items() if x in t]
@@ -270,14 +272,15 @@ def kaikki_case_tags_de(tags: list[str], gender: str | None = None, pos: str = "
     if pos == "n" and decl:
         decl = None  # strong and weak describe the noun's class, not this form
     genders = [g for x, g in _DE_GENDER.items() if x in t]
-    if pos == "n" and "feminine" in t and gender != "f":
+    if pos == "n" and "feminine" in t and "f" not in (gender or "") and gender != "?":
         return []  # a female-equivalent listed among a masculine noun's forms
     gns: list[str] = []
     if "plural" in t:
         gns.append("pl")
     if "singular" in t or (genders and "plural" not in t):
         if pos == "n":
-            g = (gender or "")[:1]
+            # A two-gender noun's row may name which of its genders it is (die/der Joghurt).
+            g = next((x for x in genders if x in (gender or "")), (gender or "")[:1])
             if g in ("m", "f", "n"):
                 gns.append(g + "s")
             elif gender == "?":

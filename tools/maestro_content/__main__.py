@@ -93,7 +93,8 @@ def main(argv: list[str] | None = None) -> int:
                                  "morphit": "yes" if morph else "no"})
     print(f"lemmas {stats.lemmas}, senses {stats.senses} (+{stats.retired_senses} retired), forms {stats.forms} "
           f"(morphit {stats.morphit_forms}), unlinked form-of {stats.unlinked_form_of}"
-          + (f", form-of without a lemma gender {stats.ungendered_form_of}" if stats.ungendered_form_of else ""), flush=True)
+          + (f", form-of without a lemma gender {stats.ungendered_form_of}" if stats.ungendered_form_of else "")
+          + (f", form-of without a form tag {stats.untagged_form_of}" if stats.untagged_form_of else ""), flush=True)
 
     ranked = frequency.assign_ranks(conn, frequency.load(args.frequency), args.language)
     print(f"frequency ranks for {ranked} lemmas")

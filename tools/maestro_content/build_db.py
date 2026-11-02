@@ -24,6 +24,7 @@ class BuildStats:
     retired_senses: int = 0
     unlinked_form_of: int = 0
     ungendered_form_of: int = 0
+    untagged_form_of: int = 0
     morphit_forms: int = 0
 
 
@@ -132,6 +133,9 @@ def build(
             stats.unlinked_form_of += 1
             continue
         tag = fo.tag
+        if tag == kaikki.UNTAGGED:
+            stats.untagged_form_of += 1
+            continue  # its tags name no form, and an empty tag would read as the headword
         if tag.endswith(".s"):  # a German noun's singular form-of entry: the case tag takes the lemma's gender
             gender = (genders.get(lemma_id) or "")[:1]
             if not gender:

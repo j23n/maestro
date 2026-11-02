@@ -46,6 +46,10 @@ class Entry:
     forms: list[tuple[str, str]] = field(default_factory=list)  # (form, tag)
 
 
+UNTAGGED = "?"
+"""A German form-of row whose tags name no case or form: build_db skips it rather than store it as a headword."""
+
+
 @dataclass
 class FormOf:
     form: str
@@ -253,7 +257,11 @@ def parse_de(raw: dict) -> tuple[Entry | None, list[FormOf]]:
             lemma = targets[0].get("word")
             if lemma:
                 # The lemma's gender isn't known here: "?" leaves it to build_db (gen.s becomes gen.ns).
-                found = _form_tags_de([t for t in stags if t != "form-of"], pos, "?") or [""]
+                found = _form_tags_de([t for t in stags if t != "form-of"], pos, "?")
+                if not found:
+                    # A spelling variant is the headword again. A form-of sense whose tags name no form
+                    # (dem tagged only "definite") is UNTAGGED, which build_db counts and skips.
+                    found = [UNTAGGED if s.get("form_of") and pos != "v" else ""]
                 form_of.extend(FormOf(form=word, lemma=nfc(lemma), pos=pos, tag=tag) for tag in found)
             continue
         glosses = s.get("glosses") or s.get("raw_glosses")

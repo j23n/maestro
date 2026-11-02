@@ -168,3 +168,22 @@ def test_form_of_without_a_lemma_gender_is_skipped(tmp_path):
     stats = build_db.build(conn, [lemma], [form], Registry(language="de"))
     assert stats.ungendered_form_of == 1
     assert conn.execute("SELECT count(*) FROM form WHERE form = 'Leuten'").fetchone()[0] == 0
+
+
+def test_form_of_whose_tags_name_no_form_is_skipped(tmp_path):
+    raw = {"lang_code": "de", "word": "dem", "pos": "article",
+           "senses": [{"tags": ["form-of", "definite"], "form_of": [{"word": "der"}], "glosses": ["the"]}]}
+    _, forms = kaikki.parse_de(raw)
+    assert [f.tag for f in forms] == [kaikki.UNTAGGED]
+    conn = build_db.create(str(tmp_path / "c.sqlite"), os.path.join(ROOT, "content", "schema", "content.sql"))
+    lemma = kaikki.Entry(headword="der", pos="art", senses=[kaikki.Sense(gloss="the")])
+    stats = build_db.build(conn, [lemma], forms, Registry(language="de"))
+    assert stats.untagged_form_of == 1
+    assert conn.execute("SELECT count(*) FROM form WHERE form = 'dem'").fetchone()[0] == 0
+
+
+def test_article_rows_keep_definite_and_feminine_rows_of_two_gender_nouns():
+    assert tags.kaikki_case_tags_de(["definite", "dative", "masculine", "singular"], None, "art") == ["dat.ms"]
+    assert tags.kaikki_case_tags_de(["definite", "dative", "singular"], "n", "n") == []
+    assert tags.kaikki_case_tags_de(["feminine", "dative", "singular"], "mf", "n") == ["dat.fs"]
+    assert tags.kaikki_case_tags_de(["feminine", "dative", "singular"], "m", "n") == []
