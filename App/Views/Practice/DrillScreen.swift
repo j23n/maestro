@@ -244,7 +244,7 @@ struct DrillScreen: View {
 
     private var match: some View {
         let pairs = drill.pairs?.filter { $0.count == 2 } ?? []
-        let right = SeededShuffle.shuffled(pairs.map { $0[1] }, seed: seed)
+        let right = SeededShuffle.shuffled(pairs.map { $0[1] }, seed: seed, avoidingGivenOrder: true)
         return HStack(alignment: .top, spacing: 10) {
             VStack(spacing: 8) {
                 ForEach(pairs.map { $0[0] }, id: \.self) { left in
