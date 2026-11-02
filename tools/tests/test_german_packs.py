@@ -265,6 +265,12 @@ def test_grammar_points_a_token_shows_by_itself(lex):
                        ("Sie kaufen es heute.", "kaufen"), ("Der Mann kauft es.", "kauft")):
         tokens, _, _ = link(lex, text)
         assert "de:verbstellung" not in tokens[verb].get("grammar", []), f"the subject comes first: {text}"
+    tokens, _, _ = link(lex, "Morgen kauf ihr Brot!")
+    assert "de:verbstellung" not in tokens["kauf"].get("grammar", []), "an imperative has no subject"
+    tokens, _, _ = link(lex, "Ich esse, aber morgen kaufe ich Brot.")
+    assert "de:verbstellung" in tokens["kaufe"]["grammar"], "a leading aber stands outside the clause"
+    tokens, _, _ = link(lex, "Wenn du kommst, esse ich Brot.")
+    assert "de:verbstellung" in tokens["esse"]["grammar"], "after a subordinate clause"
 
 
 def test_a_positive_spelled_like_a_comparative():

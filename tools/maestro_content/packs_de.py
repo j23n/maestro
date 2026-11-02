@@ -708,18 +708,25 @@ def _topic_tags(tokens: list[dict], infos: list[Info], clauses: list[Clause]) ->
             ahead = [t for t in tokens[i + 1:i + 4] if t.get("pos") != "PUNCT"]
             if any(t["t"] in TIME_WORDS or t.get("pos") == "NUM" for t in ahead[:3]):
                 _tag(tok, TIME_TOPIC)
-    for clause in clauses:
-        if clause.subordinate or len(clause.words) < 3:
+    for n, clause in enumerate(clauses):
+        # A leading und or aber stands outside the clause (aber heute gehe ich).
+        words = clause.words[1:] if tokens[clause.words[0]]["t"].lower() in CCONJ else clause.words
+        if clause.subordinate or len(words) < 2:
             continue
-        verb = next((i for i in clause.words if is_finite(tokens[i].get("form", ""))), None)
-        if verb is None:
+        verb = next((i for i in words if is_finite(tokens[i].get("form", ""))), None)
+        if verb is None or tokens[verb]["form"].startswith("imp."):
+            continue  # Dann kauf ihr Blumen: an imperative has no subject to invert
+        at = words.index(verb)
+        # Wenn ich Zeit habe, gehe ich: the subordinate clause takes the first place.
+        if at == 0 and n > 0 and clauses[n - 1].subordinate:
+            at = 1
+        elif at == 0 or len(words) < 3:
             continue
-        at = clause.words.index(verb)
-        after = clause.words[at + 1] if at + 1 < len(clause.words) else None
-        first = tokens[clause.words[0]]
-        if first["t"].lower() in CCONJ or first["t"].lower() in SUBJECT_PERSONS or first.get("case") == "nom":
+        after = words[words.index(verb) + 1] if words.index(verb) + 1 < len(words) else None
+        first = tokens[words[0]]
+        if words[0] != verb and (first["t"].lower() in SUBJECT_PERSONS or first.get("case") == "nom"):
             continue  # Er freut sich, Ich besuche sie: the subject comes first
-        if at >= 1 and after is not None and infos[after].pos == "pron" and tokens[after].get("case") in (None, "nom") \
+        if after is not None and infos[after].pos == "pron" and tokens[after].get("case") in (None, "nom") \
                 and tokens[after]["t"].lower() in SUBJECT_PERSONS:
             _tag(tokens[verb], WORD_ORDER_TOPIC)
 

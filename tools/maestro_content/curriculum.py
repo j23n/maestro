@@ -262,7 +262,8 @@ def analyse(lex: packs.Lexicon, ranks: Ranks, path: str, language: str | None = 
                         facts.grammar_tags["articles"] += 1
                     elif lemma_id and lemma_id.startswith("de:"):
                         _, headword, pos = lemma_id.split(":")[:3]
-                        topic = DE_VERB_TOPIC.get(headword) if pos == "v" else DE_WORD_TOPIC.get(headword)
+                        topic = DE_VERB_TOPIC.get(headword) if pos == "v" else \
+                            DE_WORD_TOPIC.get(headword) if pos == "art" else None
                         if topic:
                             facts.grammar_tags[topic] += 1
                     key = lemma_id or f"form:{p['t'].lower()}"
