@@ -8,6 +8,7 @@ introduces: direct-object-pronouns
 recycle: futuro-semplice
 register: Lei
 window: 12-01..12-24
+speakers: Commessa f, Paolo m
 
 > Commessa: Buongiorno, posso aiutarla? || Good morning, can I help you?
 > Paolo: Sì, grazie. Cerco un regalo per mio padre. || Yes, thanks. I'm looking for a present for my father.

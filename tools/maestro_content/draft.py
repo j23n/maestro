@@ -78,11 +78,12 @@ def merge(brief_source: str, drafted: str) -> str:
     title, theirs, body = front_matter(drafted)
     meta = dict(brief)
     keep = {k: v for k, v in theirs}
-    for key in ("topics", "type"):
+    for key in ("topics", "type", "speakers"):
         if keep.get(key) and not meta.get(key):
             meta[key] = keep[key]
     meta["status"] = "draft"
-    keys = [k for k, _ in brief] + [k for k in ("status", "topics", "type") if k in meta and k not in dict(brief)]
+    keys = [k for k, _ in brief] + [k for k in ("status", "topics", "type", "speakers")
+                                    if k in meta and k not in dict(brief)]
     lines = [f"# {title}"] + [f"{k}: {meta[k]}" for k in keys] + ["", body]
     return "\n".join(lines).rstrip() + "\n"
 
@@ -123,7 +124,8 @@ def describe_brief(lib: curriculum.Library, path: str) -> str:
     if meta.get("register"):
         parts.append(f"Register: {meta['register']}.")
     if meta.get("blocks"):
-        parts.append(f"Mostly {meta['blocks']} (dialogue lines start with '> Name:').")
+        parts.append(f"Mostly {meta['blocks']} (dialogue lines start with '> Name:', and 'speakers:' gives "
+                     "each speaker's gender).")
     if meta.get("persons"):
         parts.append(f"Include verbs in these persons: {meta['persons']}.")
     if meta.get("window"):

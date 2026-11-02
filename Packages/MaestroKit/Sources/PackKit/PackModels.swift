@@ -67,8 +67,18 @@ public enum BlockType: String, Codable, Sendable, Hashable {
 public struct Block: Codable, Sendable, Hashable {
     public let type: BlockType
     public let speaker: String?
+    /// The speaker's gender, `m` or `f`, from the text's `speakers:` line; absent when not given.
+    public let gender: String?
     public let text: String
     public let sentences: [Sentence]
+
+    public var speakerGender: SpeakerGender? { gender.flatMap(SpeakerGender.init(rawValue:)) }
+}
+
+/// A dialogue speaker's gender, which picks the voice that reads their lines.
+public enum SpeakerGender: String, Codable, Sendable, Hashable {
+    case female = "f"
+    case male = "m"
 }
 
 public struct Sentence: Codable, Sendable, Hashable, Identifiable {
