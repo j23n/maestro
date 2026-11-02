@@ -152,8 +152,9 @@ extension Text {
 extension AttributedString {
     /// A string in the target language, marked so VoiceOver reads it with that language's voice.
     init(target string: String) {
-        self.init(string)
-        languageIdentifier = TargetLanguage.current.bcp47
+        var marked = AttributedString(string)
+        marked.languageIdentifier = TargetLanguage.current.bcp47
+        self = marked
     }
 }
 
