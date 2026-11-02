@@ -13,7 +13,11 @@ struct VerbView: View {
     @Environment(\.horizontalSizeClass) private var sizeClass
     @State private var mood: Mood = .ind
 
-    private static let moods: [Mood] = [.ind, .sub, .cond, .imp]
+    /// The verb's language, which names its moods and tenses.
+    private var language: Language { Language.of(id: lemmaID) ?? .it }
+
+    /// The finite moods, each a section or a picker segment.
+    private var moods: [Mood] { language == .de ? [.ind, .k1, .k2, .imp] : [.ind, .sub, .cond, .imp] }
 
     var body: some View {
         if let table = model.conjugator?.table(for: lemmaID), let entry = model.content?.entry(lemmaID) {
@@ -24,12 +28,12 @@ struct VerbView: View {
                         banner(tag: tag, form: form, entry: entry)
                     }
                     if sizeClass == .regular {
-                        ForEach(Self.moods, id: \.self) { m in
+                        ForEach(moods, id: \.self) { m in
                             moodSection(m, table: table)
                         }
                     } else {
                         Picker("Mood", selection: $mood) {
-                            ForEach(Self.moods, id: \.self) { m in Text(m.italianName.capitalized).tag(m) }
+                            ForEach(moods, id: \.self) { m in Text(m.name(in: language).capitalized).tag(m) }
                         }
                         .pickerStyle(.segmented)
                         moodSection(mood, table: table, showTitle: false)
@@ -44,7 +48,7 @@ struct VerbView: View {
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .onAppear {
-                if let tag = highlightTag.flatMap(FormTag.init), Self.moods.contains(tag.mood) { mood = tag.mood }
+                if let tag = highlightTag.flatMap(FormTag.init), moods.contains(tag.mood) { mood = tag.mood }
             }
         } else {
             EmptyState(title: "No table for this verb", message: LemmaID.headword(of: lemmaID), systemImage: "tablecells")
@@ -110,7 +114,7 @@ struct VerbView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(target: form.text).font(.system(.title3, design: .serif).weight(.semibold))
-                    Text(tag.label).font(.subheadline)
+                    Text(tag.label(in: language)).font(.subheadline)
                 }
                 Spacer()
             }
@@ -124,7 +128,7 @@ struct VerbView: View {
 
     private func moodSection(_ mood: Mood, table: ConjugationTable, showTitle: Bool = true) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            if showTitle { SectionLabel(mood.italianName) }
+            if showTitle { SectionLabel(mood.name(in: language)) }
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 220), spacing: 12, alignment: .top)], alignment: .leading,
                       spacing: 12) {
                 ForEach(table.blocks(for: mood)) { block in
@@ -145,7 +149,7 @@ struct TenseBlockView: View {
             ForEach(block.forms) { form in
                 let isHighlighted = highlight.map { $0.mood == form.tag.mood && $0.tense == form.tag.tense && $0.person == form.tag.person } ?? false
                 HStack(spacing: 8) {
-                    Text(form.tag.person?.pronoun ?? "")
+                    Text(form.tag.person?.pronoun(in: block.language) ?? "")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                         .frame(width: 58, alignment: .leading)

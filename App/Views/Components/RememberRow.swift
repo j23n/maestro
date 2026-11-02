@@ -75,7 +75,10 @@ extension RememberItem {
             return (LemmaID.headword(of: lemmaID), gloss)
         case .verbForm:
             let tag = FormTag(formTag)
-            let detail = tag.map { t in [t.shortTenseLabel, t.person?.pronoun].compactMap { $0 }.joined(separator: ", ") }
+            let language = Language.of(id: lemmaID) ?? .it
+            let detail = tag.map { t in
+                [t.shortTenseLabel(in: language), t.person?.pronoun(in: language)].compactMap { $0 }.joined(separator: ", ")
+            }
             return (surface, detail)
         case .grammar:
             return (model.grammarTitle(grammarID), model.grammarTopic(grammarID)?.summary)

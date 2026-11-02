@@ -52,7 +52,7 @@ struct HelpContent {
         gloss = unit?.gloss ?? token.gloss ?? senseGloss ?? lemma?.firstGloss
 
         if let tag = formTag.flatMap(FormTag.init) {
-            analysis = tag.label
+            analysis = tag.label(in: lemmaID.flatMap { Language.of(id: $0) } ?? TargetLanguage.current)
         } else if let gn = token.genderNumber {
             analysis = "\(PartOfSpeech.label(pos)), \(gn.label)"
         } else if !pos.isEmpty {
