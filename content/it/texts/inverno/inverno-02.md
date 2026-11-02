@@ -6,6 +6,7 @@ status: draft
 topics: holidays, friends, food
 register: tu
 window: 12-26..01-01
+speakers: Luca m, Anna f
 
 > Luca: Ciao Anna, che cosa fai a Capodanno? || Hi Anna, what are you doing for New Year's Eve?
 > Anna: Non so ancora. E tu? || I don't know yet. And you?

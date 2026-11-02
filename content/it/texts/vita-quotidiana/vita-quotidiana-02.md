@@ -4,6 +4,7 @@ collection: vita-quotidiana
 order: 2
 topics: friends, plans
 introduces: futuro-semplice
+speakers: Chiara f, Sara f
 
 > Chiara: Ciao Sara, sei libera venerdì sera? || Hi Sara, are you free on Friday evening?
 > Sara: Credo di sì, perché? || I think so, why?
