@@ -88,6 +88,9 @@ def test_entries():
     assert [s.gloss for s in gehen.senses][0] == "to walk, to go"
     anrufen = dict((t, f) for f, t in by[("anrufen", "v")].forms)
     assert anrufen["ind.pres.1s"] == "anrufe" and anrufen["inf.zu"] == "anzurufen"
+    assert anrufen["imp.pres.2p"] == "anruft", "separated forms are kept joined"
+    assert kaikki._join_particle("rufe an", "anrufen") == "anrufe"
+    assert kaikki._join_particle("bin gegangen", "gehen") == "bin gegangen"
     haus = by[("Haus", "n")]
     assert haus.gender == "n" and haus.plural == "Häuser"
     assert ("Häusern", "dat.pl") in haus.forms and not any(f == "Häuschen" for f, _ in haus.forms)
@@ -125,7 +128,7 @@ def test_database(db):
     assert db.execute("SELECT tag FROM form WHERE form = 'Hauses' AND lemma_id = 'de:Haus:n'").fetchall() == [("gen.ns",)]
     assert db.execute("SELECT gender, plural FROM lemma WHERE id = 'de:Haus:n'").fetchone() == ("n", "Häuser")
     assert db.execute("SELECT auxiliary FROM lemma WHERE id = 'de:fahren:v'").fetchone()[0] == "both"
-    assert ("äße",) in db.execute("SELECT form FROM form WHERE form_fold = 'aße'").fetchall()
+    assert ("äße",) in db.execute("SELECT form FROM form WHERE form_fold = 'asse'").fetchall()
 
 
 def test_lowercase_frequency_list_ranks_nouns(db, tmp_path):

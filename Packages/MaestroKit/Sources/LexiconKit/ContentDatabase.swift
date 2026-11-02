@@ -4,13 +4,23 @@ import LanguageCore
 /// The bundled read-only content database (HANDOFF.md 6.2; schema in content/schema/content.sql).
 public final class ContentDatabase: Sendable {
     public let db: SQLiteDatabase
+    /// The language this database holds (meta `language`; databases built before German are Italian).
+    public let language: Language
 
     public init(path: String) throws {
-        db = try SQLiteDatabase(path: path, readOnly: true)
+        let database = try SQLiteDatabase(path: path, readOnly: true)
+        db = database
+        language = Self.language(of: database)
     }
 
     public init(database: SQLiteDatabase) {
         db = database
+        language = Self.language(of: database)
+    }
+
+    static func language(of database: SQLiteDatabase) -> Language {
+        let value = (try? database.query("SELECT value FROM meta WHERE key = 'language'"))?.first?.string("value")
+        return value.flatMap(Language.init(rawValue:)) ?? .it
     }
 
     public func meta(_ key: String) -> String? {
