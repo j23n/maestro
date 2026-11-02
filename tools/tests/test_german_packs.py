@@ -240,5 +240,8 @@ def test_coordinated_subjects_and_clauses(lex):
     tokens, _, _ = link(lex, "Ich bleibe hier, weil ich Brot kaufe und wir essen wollen.")
     assert tokens["wollen"]["form"] == "ind.pres.1p" and tokens["essen"]["form"] == "inf.pres", \
         "a clause joined by und inside a subordinate clause is verb-final too"
+    tokens, _, _ = link(lex, "Ich bleibe hier, weil ich Brot kaufe und wir wollen heute essen.")
+    assert tokens["wollen"]["form"] == "ind.pres.1p" and tokens["essen"]["form"] == "inf.pres", \
+        "a clause joined by und whose verb isn't last is a main clause"
     tokens, _, _ = link(lex, "Ich kaufe Brot und dann essen wir.")
     assert tokens["essen"]["form"] == "ind.pres.1p", "und before an inverted main clause"

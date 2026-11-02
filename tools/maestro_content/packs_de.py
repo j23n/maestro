@@ -369,7 +369,11 @@ def _clauses(raw: list[tuple[str, int, int, str]], infos: list[Info]) -> list[Cl
         out.append(Clause(current, False))
     for k, c in enumerate(out):
         if k in coordinated:
-            c.subordinate = out[k - 1].subordinate  # weil ich koche und wir essen wollen: still verb-final
+            # weil ich koche und wir essen wollen: still verb-final, its verbs all together at the end.
+            # Otherwise it's a new main clause (weil ich koche und wir wollen heute essen).
+            verbs = [pos for pos, w in enumerate(c.words) if infos[w].pos == "v"]
+            verb_final = bool(verbs) and verbs == list(range(len(c.words) - len(verbs), len(c.words)))
+            c.subordinate = out[k - 1].subordinate and verb_final
             continue
         first = raw[c.words[0]][0].lower()
         c.subordinate = first in SCONJ and infos[c.words[0]].pos == "conj" or _opens_relative_clause(raw, infos, c)
