@@ -223,3 +223,12 @@ def test_subordinators_that_are_also_prepositions_and_relative_clauses(lex):
     assert tokens["bis"]["pos"] == "ADP"
     tokens, _, _ = link(lex, "Das ist das Brot, das ich essen will.")
     assert tokens["essen"]["form"] == "inf.pres" and tokens["will"]["form"] == "ind.pres.1s"
+
+
+def test_coordinated_subjects_and_clauses(lex):
+    tokens, _, _ = link(lex, "Die Frau und ich essen Brot.")
+    assert tokens["Frau"]["case"] == "nom" and "de:akkusativ" not in tokens["Die"].get("grammar", [])
+    tokens, _, _ = link(lex, "Die Frau kauft Brot und ich esse.")
+    assert tokens["Frau"]["case"] == "nom" and tokens["esse"]["form"] == "ind.pres.1s"
+    tokens, _, _ = link(lex, "Ich kaufe Brot und wir essen.")
+    assert tokens["essen"]["form"] == "ind.pres.1p", "und before a subject opens a new main clause"

@@ -359,6 +359,9 @@ def _clauses(raw: list[tuple[str, int, int, str]], infos: list[Info]) -> list[Cl
                 out.append(Clause(current, False))
                 current = []
             continue
+        if current and _starts_main_clause(raw, infos, current, i):
+            out.append(Clause(current, False))
+            current = []
         current.append(i)
     if current:
         out.append(Clause(current, False))
@@ -369,6 +372,18 @@ def _clauses(raw: list[tuple[str, int, int, str]], infos: list[Info]) -> list[Cl
 
 
 RELATIVE = {"der", "die", "das", "dem", "den", "denen", "dessen", "deren"}
+
+
+def _starts_main_clause(raw: list[tuple[str, int, int, str]], infos: list[Info], current: list[int], i: int) -> bool:
+    """ich koche und wir essen: und or oder after a verb, before a subject, opens a new clause without a
+    comma. Before the clause has a verb it joins two subjects instead (die Frau und ich essen)."""
+    if raw[i][0].lower() not in CCONJ or infos[i].pos != "conj" or i + 1 >= len(raw) or raw[i + 1][3] == "p":
+        return False
+    if not any(infos[k].pos == "v" for k in current):
+        return False
+    nxt = raw[i + 1][0]
+    return nxt.lower() in SUBJECT_PERSONS or nxt == "Sie" or (
+        infos[i + 1].slots is not None and i + 2 < len(raw) and raw[i + 2][0][:1].isupper())
 
 
 def _opens_relative_clause(raw: list[tuple[str, int, int, str]], infos: list[Info], clause: Clause) -> bool:
@@ -507,9 +522,14 @@ def _noun_phrases(lex: packs.Lexicon, tokens: list[dict], infos: list[Info], wor
     unless a subject pronoun follows, and once a clause has its subject the other phrases are objects. Determiners that end up in
     no phrase stand alone (Das ist gut) and become pronouns."""
     phrases: list[Phrase] = []
-    # Die Suppe esse ich: with a subject pronoun in its clause, the opening phrase is the object.
-    opening_has_subject_pronoun = bool(clauses) and any(
-        infos[x].pos == "pron" and tokens[x].get("case") == "nom" for x in clauses[0].words)
+    # Die Suppe esse ich: with a subject pronoun right after the verb, the opening phrase is the object.
+    opening_has_subject_pronoun = False
+    if clauses:
+        first = clauses[0].words
+        verb = next((n for n, x in enumerate(first) if is_finite(tokens[x].get("form", ""))), None)
+        if verb is not None and verb + 1 < len(first):
+            after = first[verb + 1]
+            opening_has_subject_pronoun = infos[after].pos == "pron" and tokens[after].get("case") == "nom"
     for n, i in enumerate(words):
         info = infos[i]
         if info.pos != "n":
