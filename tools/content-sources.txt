@@ -1,6 +1,8 @@
 # Sources `make content` downloads into .build/content-sources (tools/build_content.py).
 # name  url  (lines are tried in order for each name; the first that works wins)
-# English Wiktionary's Italian entries, from kaikki.org (wiktextract). The per-language file is marked
-# deprecated on kaikki.org; when it's gone, the all-languages dump is streamed and filtered instead.
+# English Wiktionary's Italian (kaikki) and German (kaikki-de) entries, from kaikki.org (wiktextract). The
+# per-language files are marked deprecated on kaikki.org; when one is gone, the all-languages dump is
+# streamed and filtered to the language instead.
 kaikki https://kaikki.org/dictionary/Italian/kaikki.org-dictionary-Italian.jsonl
+kaikki-de https://kaikki.org/dictionary/German/kaikki.org-dictionary-German.jsonl
 kaikki-all https://kaikki.org/dictionary/raw-wiktextract-data.jsonl.gz
