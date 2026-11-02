@@ -1,5 +1,5 @@
 import Foundation
-import ItalianCore
+import LanguageCore
 
 /// The bundled read-only content database (HANDOFF.md 6.2; schema in content/schema/content.sql).
 public final class ContentDatabase: Sendable {

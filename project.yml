@@ -61,7 +61,7 @@ targets:
         ENABLE_USER_SCRIPT_SANDBOXING: "NO"
     dependencies:
       - package: MaestroKit
-        product: ItalianCore
+        product: LanguageCore
       - package: MaestroKit
         product: LexiconKit
       - package: MaestroKit
@@ -98,7 +98,7 @@ targets:
       - package: MaestroKit
         product: SRSKit
       - package: MaestroKit
-        product: ItalianCore
+        product: LanguageCore
 
   # Screenshots of the main screens for checking the UI against the mocks (`make screenshots`),
   # which `make test-app` skips, and the reader's UI tests, which it runs. iOS only.

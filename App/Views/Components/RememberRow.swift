@@ -1,6 +1,6 @@
 import SwiftData
 import SwiftUI
-import ItalianCore
+import LanguageCore
 
 /// One keepable item with its Remember / Added toggle (HANDOFF.md 3.1).
 struct RememberRow: View {

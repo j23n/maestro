@@ -1,5 +1,5 @@
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import LexiconKit
 
 /// A dictionary entry (HANDOFF.md 3.2): headword with article, IPA, gender, plural, numbered

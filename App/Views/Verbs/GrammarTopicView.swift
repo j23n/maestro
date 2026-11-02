@@ -1,6 +1,6 @@
 import SwiftUI
 import GrammarKit
-import ItalianCore
+import LanguageCore
 import LexiconKit
 import PackKit
 

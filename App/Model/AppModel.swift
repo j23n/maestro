@@ -1,7 +1,7 @@
 import Foundation
 import NaturalLanguage
 import Observation
-import ItalianCore
+import LanguageCore
 import LexiconKit
 import GrammarKit
 import PackKit

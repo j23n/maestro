@@ -1,4 +1,4 @@
-"""Text normalisation shared by the pipeline. The app mirrors fold() in ItalianCore."""
+"""Text normalisation shared by the pipeline. The app mirrors fold() in LanguageCore."""
 
 import unicodedata
 

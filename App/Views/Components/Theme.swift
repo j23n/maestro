@@ -1,5 +1,5 @@
 import SwiftUI
-import ItalianCore
+import LanguageCore
 
 /// Colours and type from design/tokens.json. The mocks are light only; dark values are first guesses.
 enum Theme {

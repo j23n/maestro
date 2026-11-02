@@ -1,7 +1,7 @@
 import SwiftData
 import SwiftUI
 import Translation
-import ItalianCore
+import LanguageCore
 import LexiconKit
 
 /// Dictionary search (HANDOFF.md 3.2): Italian through the lookup cascade, English over glosses,

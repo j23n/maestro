@@ -1,6 +1,6 @@
 import SwiftData
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import PackKit
 
 /// The reader (HANDOFF.md 3.1): clean serif text, nothing highlighted but the current selection.

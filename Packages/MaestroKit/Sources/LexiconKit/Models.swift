@@ -1,5 +1,5 @@
 import Foundation
-import ItalianCore
+import LanguageCore
 
 public struct LemmaSummary: Sendable, Hashable, Identifiable {
     public let id: String

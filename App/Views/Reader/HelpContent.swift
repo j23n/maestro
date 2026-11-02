@@ -1,5 +1,5 @@
 import Foundation
-import ItalianCore
+import LanguageCore
 import LexiconKit
 import PackKit
 

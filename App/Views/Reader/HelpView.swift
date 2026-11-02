@@ -1,5 +1,5 @@
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import PackKit
 
 /// Tap-for-help: a sheet on iPhone and iPad, the inspector on the Mac (HANDOFF.md 3.1).

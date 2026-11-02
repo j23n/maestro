@@ -1,6 +1,6 @@
 import SwiftData
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import SRSKit
 
 /// The Remember tab (HANDOFF.md 3.4): due count with Review, filters, New / Due today / Later.

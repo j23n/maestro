@@ -1,6 +1,6 @@
 import SwiftData
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import LexiconKit
 
 /// Verbs and grammar home (HANDOFF.md 3.3): search accepting any form, recent verbs, common

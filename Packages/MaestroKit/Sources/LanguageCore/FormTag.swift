@@ -1,4 +1,5 @@
-/// Verb form tags, HANDOFF.md 6.5: `mood.tense[.person][+aux]`, e.g. `cond.pass.1p`, `ind.pp.3s+e`.
+/// Italian verb form tags, HANDOFF.md 6.5: `mood.tense[.person][+aux]`, e.g. `cond.pass.1p`, `ind.pp.3s+e`.
+/// German uses the same syntax with its own codes, read in the language of the lemma.
 public enum Mood: String, Sendable, CaseIterable, Codable, Hashable {
     case ind, sub, cond, imp, inf, ger, part
 

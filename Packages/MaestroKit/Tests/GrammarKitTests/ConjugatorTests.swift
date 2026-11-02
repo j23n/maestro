@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-import ItalianCore
+import LanguageCore
 import LexiconKit
 @testable import GrammarKit
 

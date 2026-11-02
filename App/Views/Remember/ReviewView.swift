@@ -1,6 +1,6 @@
 import SwiftData
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import SRSKit
 
 /// Flashcard review (HANDOFF.md 3.4): the sentence with the item highlighted and a prompt; the

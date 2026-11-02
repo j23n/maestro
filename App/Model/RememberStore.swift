@@ -1,6 +1,6 @@
 import Foundation
 import SwiftData
-import ItalianCore
+import LanguageCore
 import LexiconKit
 import SRSKit
 import SyncLogic

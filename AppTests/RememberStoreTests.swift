@@ -1,7 +1,7 @@
 import Foundation
 import SwiftData
 import Testing
-import ItalianCore
+import LanguageCore
 import SRSKit
 @testable import Maestro
 
