@@ -3,8 +3,8 @@ import Testing
 import PackKit
 @testable import PracticeKit
 
-private func gap(answers: [String], near: [String: String] = [:]) -> Drill {
-    Drill(id: "d1", kind: "gap", recipe: "participle", topic: "passato-prossimo", sentence: "s1",
+private func gap(answers: [String], near: [String: String] = [:], topic: String = "passato-prossimo") -> Drill {
+    Drill(id: "d1", kind: "gap", recipe: "participle", topic: topic, sentence: "s1",
           prompt: "Type the past participle.", before: "Ho ", after: " la borsa.", cue: "prendere",
           answers: answers, near: near, rule: "prendere → preso.")
 }
@@ -20,6 +20,21 @@ private func gap(answers: [String], near: [String: String] = [:]) -> Drill {
         let drill = gap(answers: ["perché"])
         #expect(DrillGrader.grade("perche", for: drill) == .accentSlip(expected: "perché"))
         #expect(DrillGrader.grade("perché", for: drill) == .correct)
+    }
+
+    @Test func germanWithoutUmlautKeysOrEszettIsAnAccentSlip() {
+        let drill = gap(answers: ["Häuser", "Straße", "Abenteuerbücher"], topic: "de:plural")
+        #expect(DrillGrader.grade("haeuser", for: drill) == .accentSlip(expected: "Häuser"))
+        #expect(DrillGrader.grade("strasse", for: drill) == .accentSlip(expected: "Straße"))
+        #expect(DrillGrader.grade("abenteuerbuecher", for: drill) == .accentSlip(expected: "Abenteuerbücher"))
+        #expect(DrillGrader.grade("häuser", for: drill) == .correct)
+    }
+
+    @Test func aGermanFormWithoutItsUmlautIsAnotherForm() {
+        let drill = gap(answers: ["hätte"], near: ["hatte": "That's the Präteritum. We need the Konjunktiv II."],
+                        topic: "de:konjunktiv-2")
+        #expect(DrillGrader.grade("hatte", for: drill) == .wrong(hint: "That's the Präteritum. We need the Konjunktiv II."))
+        #expect(!DrillGrader.grade("fahrt", for: gap(answers: ["fährt"], topic: "de:praesens")).isAccepted)
     }
 
     @Test func nearMissesGetTheirOwnHint() {

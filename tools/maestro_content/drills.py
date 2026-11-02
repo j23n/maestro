@@ -24,9 +24,10 @@ from __future__ import annotations
 
 import hashlib
 import sqlite3
+import sys
 from dataclasses import dataclass, field
 
-from .normalize import fold, utf16_len, utf16_slice
+from .normalize import drill_key, fold, utf16_len, utf16_slice
 
 # mood.tense -> the grammar topic that teaches it (the same table the curriculum checker uses).
 FORM_TOPIC = {
@@ -94,7 +95,7 @@ RECYCLED_DRILLS = 2
 PER_RECIPE = 3
 BUILD_WORDS = (4, 9)
 
-CHOICE_RECIPES = ("aux", "agreement", "form-choice", "article", "contraction")
+CHOICE_RECIPES = ("aux", "agreement", "form-choice", "article", "contraction", "case")
 
 
 @dataclass
@@ -536,9 +537,15 @@ def _pick(pool: list[Candidate], limit: int, used: set[str], seed: int, allow_re
 
 def generate(text: dict, introduces: list[str], topics: dict[str, TopicInfo],
              conn: sqlite3.Connection | None = None) -> list[dict]:
-    """The practice set for one built text, or [] when it can't fill a set."""
+    """The practice set for one built text, or [] when it can't fill a set.
+
+    A German text (its ID starts with de:) takes its recipes from drills_de."""
     forms = Forms(conn)
-    pool = candidates(text, topics, forms)
+    if text["id"].startswith("de:"):
+        from . import drills_de as recipes
+    else:
+        recipes = sys.modules[__name__]
+    pool = recipes.candidates(text, topics, forms)
     level_rank = {lvl: n for n, lvl in enumerate(["A1", "A2", "B1", "B2"])}
     text_rank = level_rank.get(text.get("level", ""), 9)
     present = {c.topic for c in pool}
@@ -562,10 +569,10 @@ def generate(text: dict, introduces: list[str], topics: dict[str, TopicInfo],
         build = None
         if not any(x.recipe == "order" for x, _ in chosen):
             for sid in reversed(list(dict.fromkeys(c.sentence for c in own))):
-                build = order_candidate(sentences[sid], topic)
+                build = recipes.order_candidate(sentences[sid], topic)
                 if build:
                     break
-        match = participles_match(text, topic) if topic in COMPOUND_TOPICS else None
+        match = recipes.participles_match(text, topic) if topic in recipes.COMPOUND_TOPICS else None
         extras = [x for x in (match, build) if x][:max(room - 1, 0)]
         if build and build not in extras:
             build = None
@@ -622,7 +629,7 @@ def validate(text: dict, drills: list[dict]) -> list[str]:
                 errors.append(f"{where}: the sentence's own words are not an accepted answer")
         if d["kind"] == "choice" and not set(d["answers"]) <= set(d["options"]):
             errors.append(f"{where}: answer missing from options")
-        if d["kind"] == "choice" and len(set(map(fold, d["options"]))) != len(d["options"]):
+        if d["kind"] == "choice" and len({drill_key(o, d["topic"]) for o in d["options"]}) != len(d["options"]):
             errors.append(f"{where}: duplicate options")
         if d["kind"] == "build" and sorted(d["answers"][0].split(" ")) != sorted(d["tiles"]):
             errors.append(f"{where}: answer doesn't use exactly the tiles")

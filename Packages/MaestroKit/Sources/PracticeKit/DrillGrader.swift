@@ -6,7 +6,7 @@ import PackKit
 public enum Grade: Sendable, Equatable {
     /// Accepted as given.
     case correct
-    /// Accepted, but the accents differ from `expected` ("perche" for "perché").
+    /// Accepted, but the accents differ from `expected` ("perche" for "perché", "haeuser" for "Häuser").
     case accentSlip(expected: String)
     /// Not accepted; `hint` says what to look at.
     case wrong(hint: String)
@@ -29,20 +29,34 @@ public enum DrillGrader {
     /// The key `Drill.near` uses: normalized, then without diacritics.
     public static func key(_ text: String) -> String { Normalizer.fold(normalize(text)) }
 
+    /// The key for a German drill: ß as ss and ae, oe, ue as umlauts, but umlauts kept, since dropping
+    /// one often gives another form (hatte for hätte, fahrt for fährt). Both sides get the same mapping,
+    /// so a real ue (Abenteuer) still matches itself.
+    public static func germanKey(_ text: String) -> String {
+        Normalizer.umlauts(normalize(text).replacingOccurrences(of: "ß", with: "ss"))
+    }
+
+    /// The key a drill's answers and `near` are compared with: German drills keep umlauts.
+    public static func key(_ text: String, for drill: Drill) -> String {
+        drill.topic.hasPrefix("de:") ? germanKey(text) : key(text)
+    }
+
     /// A typed answer to a `gap` drill, or a typed version of a `choice` answer.
     public static func grade(_ answer: String, for drill: Drill) -> Grade {
         let given = normalize(answer)
         let accepted = drill.answers ?? []
         if accepted.contains(where: { normalize($0) == given }) { return .correct }
-        if let match = accepted.first(where: { key($0) == key(given) }) { return .accentSlip(expected: match) }
-        if let hint = drill.near?[key(given)] { return .wrong(hint: hint) }
+        // "perche" for "perché"; in German, "haeuser" for "Häuser" and "strasse" for "Straße".
+        let givenKey = key(given, for: drill)
+        if let match = accepted.first(where: { key($0, for: drill) == givenKey }) { return .accentSlip(expected: match) }
+        if let hint = drill.near?[givenKey] { return .wrong(hint: hint) }
         return .wrong(hint: genericHint(given, expected: normalize(drill.answer)))
     }
 
     /// A picked option of a `choice` drill.
     public static func grade(option: String, for drill: Drill) -> Grade {
         if (drill.answers ?? []).contains(option) { return .correct }
-        return .wrong(hint: drill.near?[key(option)] ?? "Not that one. Read the sentence around the gap again.")
+        return .wrong(hint: drill.near?[key(option, for: drill)] ?? "Not that one. Read the sentence around the gap again.")
     }
 
     /// Tiles in order for a `build` drill.
