@@ -64,6 +64,7 @@ endif
 # The app bundles every language folder there, so builds and TestFlight archives ship each language in
 # CONTENT_LANGUAGES. LANGUAGE=de builds only German.
 content:
+	@[ -n "$(CONTENT_LANGUAGES)" ] || { echo "usage: make content [LANGUAGE=it|de]"; exit 2; }
 	@for lang in $(CONTENT_LANGUAGES); do \
 	  echo "$(PYTHON) tools/build_content.py --mode $(CONTENT) --language $$lang"; \
 	  $(PYTHON) tools/build_content.py --mode $(CONTENT) --language $$lang || exit 1; \
@@ -73,6 +74,9 @@ content:
 # (tools/maestro_content/curriculum.py). They read the content database, so build it with
 # CONTENT=full first for real numbers; the sample dictionary links few words.
 CONTENT_TOOL := PYTHONPATH=tools $(PYTHON) -m maestro_content
+
+# These read one language, so their content prerequisite builds only that one.
+coverage check-texts brief draft: CONTENT_LANGUAGES = $(LANGUAGE)
 
 coverage: content
 	$(CONTENT_TOOL) coverage --language $(LANGUAGE)
