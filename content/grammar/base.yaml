@@ -1,0 +1,1781 @@
+# The grammar base: every point of the A0 to B2 syllabus, after the Profilo della lingua italiana
+# (Spinelli & Parizzi; unistrapg.it). HANDOFF.md 3.3 and 6.4. Each point's `topic` names the reference page in
+# content/grammar/ that covers it, when there is one. IDs are frozen once shipped, like topic slugs.
+#
+# id        stable short ID
+# level     A0 (survival basics) to B2
+# category  the Profilo's area: verbi, pronomi, preposizioni, articoli, …
+# label     the Profilo's description, in Italian
+# topic     optional: the content/grammar page for it
+# source    the Profilo page it comes from
+points:
+- id: art_un_una
+  level: A0
+  category: basics
+  label: "Articoli indeterminativi singolari un una un'"
+  topic: articles
+- id: art_i_le
+  level: A0
+  category: basics
+  label: "Articoli determinativi plurali i e le"
+  topic: articles
+- id: num_20_100
+  level: A0
+  category: basics
+  label: "Numeri da venti a cento"
+- id: ore_giorni
+  level: A0
+  category: basics
+  label: "Ore e giorni della settimana"
+- id: vocab_cibo
+  level: A0
+  category: basics
+  label: "Vocabolario del cibo e del ristorante"
+- id: vocab_viaggio
+  level: A0
+  category: basics
+  label: "Vocabolario del viaggio e dei trasporti"
+- id: saluti
+  level: A0
+  category: basics
+  label: "Saluti e congedi"
+- id: pronun_bas
+  level: A0
+  category: basics
+  label: "Pronuncia italiana fondamentale"
+- id: num_0_20
+  level: A0
+  category: basics
+  label: "Numeri da zero a venti"
+- id: si_no_non
+  level: A0
+  category: basics
+  label: "Affermazione, negazione e negativo"
+- id: simp_sent
+  level: A0
+  category: basics
+  label: "Frasi semplici dichiarative"
+- id: vorrei
+  level: A0
+  category: basics
+  label: "Condizionale presente di volere per cortesia"
+- id: polite_exp
+  level: A0
+  category: basics
+  label: "Espressioni di cortesia e ringraziamento"
+- id: art_il_la
+  level: A0
+  category: basics
+  label: "Articoli determinativi singolari il e la"
+  topic: articles
+- id: che_cose
+  level: A0
+  category: basics
+  label: "Domanda identificativa che cos'è"
+- id: subj_pron
+  level: A0
+  category: basics
+  label: "Pronomi personali soggetto io tu lui lei"
+- id: essere_pre
+  level: A0
+  category: basics
+  label: "Indicativo presente di essere forme sono sei è"
+- id: avere_pre
+  level: A0
+  category: basics
+  label: "Indicativo presente di avere forma ho"
+- id: mi_piace
+  level: A0
+  category: basics
+  label: "Indicativo presente di piacere forme mi piace non mi piace"
+- id: dove_e
+  level: A0
+  category: basics
+  label: "Domanda di localizzazione dov'è"
+- id: prep_place
+  level: A0
+  category: basics
+  label: "Preposizioni di luogo: a, in, di"
+- id: mi_chiamo
+  level: A0
+  category: basics
+  label: "Verbo chiamarsi al presente indicativo per l'autopresentazione"
+- id: noun_o_a_e
+  level: A1
+  category: nome
+  label: "Genere e numero regolari di nomi suffissi O A E"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html
+- id: noun_invar
+  level: A1
+  category: nome
+  label: "Nomi invariabili caffè cinema città università"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html
+- id: noun_plur
+  level: A1
+  category: nome
+  label: "Nomi generalmente utilizzati al plurale occhiali pantaloni"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html
+- id: noun_irr_p
+  level: A1
+  category: nome
+  label: "Plurali irregolari uomo uomini"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html
+- id: noun_forei
+  level: A1
+  category: nome
+  label: "Nomi di origine straniera con plurale invariato bar computer"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html
+- id: noun_e_ess
+  level: A1
+  category: nome
+  label: "Nomi suffisso E ESSA dottore dottoressa professore professoressa"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a1.html
+- id: noun_ista
+  level: A2
+  category: nome
+  label: "Nomi suffisso ISTA singolare invariato giornalista turista"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html
+- id: noun_tore
+  level: A2
+  category: nome
+  label: "Nomi suffisso TORE TRICE direttore direttrice"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html
+- id: noun_co_go
+  level: A2
+  category: nome
+  label: "Plurale nomi suffisso CO GO CA GA"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html
+- id: noun_irr_a
+  level: A2
+  category: nome
+  label: "Plurali irregolari braccio braccia dito dita mano mani uovo uova"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html
+- id: noun_inva2
+  level: A2
+  category: nome
+  label: "Nomi invariabili al plurale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_a2.html
+- id: noun_ista2
+  level: B1
+  category: nome
+  label: "Plurale dei nomi a suffisso -ista e -a"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html
+- id: noun_sovra
+  level: B1
+  category: nome
+  label: "Plurale dei nomi sovrabbondanti"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html
+- id: noun_dimin
+  level: B1
+  category: nome
+  label: "Nomi alterati diminutivi e accrescitivi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b1.html
+- id: noun_abstr
+  level: B2
+  category: nome
+  label: "Nomi astratti difettivi di singolare"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html
+- id: noun_gende
+  level: B2
+  category: nome
+  label: "Nomi a forma invariata con cambio di significato per genere"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html
+- id: noun_var_g
+  level: B2
+  category: nome
+  label: "Nomi a forma variata con cambio di significato per genere"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html
+- id: noun_colle
+  level: B2
+  category: nome
+  label: "Nomi collettivi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html
+- id: noun_cia_g
+  level: B2
+  category: nome
+  label: "Plurale dei nomi a suffisso -cia e -gia"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_nome_b2.html
+- id: pron_pers
+  level: A1
+  category: pronomi
+  label: "Pronomi personali soggetto e complemento delle tre persone singolari"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html
+- id: pron_refl
+  level: A1
+  category: pronomi
+  label: "Pronomi riflessivi"
+  topic: reflexive-verbs
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html
+- id: pron_inter
+  level: A1
+  category: pronomi
+  label: "Pronomi interrogativi chi, che, quanto, quale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html
+- id: pron_indef
+  level: A1
+  category: pronomi
+  label: "Pronomi indefiniti nessuno, niente"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a1.html
+- id: pron_pers2
+  level: A2
+  category: pronomi
+  label: "Pronomi personali soggetto di sei persone"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html
+- id: pron_tonic
+  level: A2
+  category: pronomi
+  label: "Pronomi personali tonici complemento con preposizione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html
+- id: pron_atoni
+  level: A2
+  category: pronomi
+  label: "Pronomi personali atoni complemento diretto e indiretto"
+  topic: direct-object-pronouns
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html
+- id: pron_poss
+  level: A2
+  category: pronomi
+  label: "Pronomi possessivi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html
+- id: pron_rfl2
+  level: A2
+  category: pronomi
+  label: "Pronomi riflessivi"
+  topic: reflexive-verbs
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html
+- id: pron_demo
+  level: A2
+  category: pronomi
+  label: "Pronomi dimostrativi questo, quello"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html
+- id: pron_indf2
+  level: A2
+  category: pronomi
+  label: "Pronomi indefiniti altro, qualcuno, qualcosa"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html
+- id: pron_rel
+  level: A2
+  category: pronomi
+  label: "Pronomi relativi che con funzione di soggetto e oggetto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html
+- id: pron_ci_lu
+  level: A2
+  category: pronomi
+  label: "Particella pronominale ci con valore di complemento di luogo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_a2.html
+- id: pron_aton2
+  level: B1
+  category: pronomi
+  label: "Pronomi personali atoni complemento diretto e indiretto di sei persone"
+  topic: direct-object-pronouns
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: pron_aton3
+  level: B1
+  category: pronomi
+  label: "Pronomi atoni nei tempi composti"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: pron_ci_vr
+  level: B1
+  category: pronomi
+  label: "Particella pronominale ci in verbi pronominali"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: ci_use_oth
+  level: B1
+  category: pronomi
+  label: "Particella ci con valore di complemento oggetto e altri usi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: ne_partiti
+  level: B1
+  category: pronomi
+  label: "Particella pronominale ne con valore partitivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: ne_use_oth
+  level: B1
+  category: pronomi
+  label: "Particella pronominale ne con valore di complemento di termine"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: atone_coup
+  level: B1
+  category: pronomi
+  label: "Forme accoppiate di pronomi atoni con ordine regolare"
+  topic: combined-pronouns
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: atone_cmpd
+  level: B1
+  category: pronomi
+  label: "Forme accoppiate di pronomi atoni con verbi composti"
+  topic: combined-pronouns
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: ci_ce_lo
+  level: B1
+  category: pronomi
+  label: "Forma accoppiata ce lo con verbo avere"
+  topic: combined-pronouns
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: encl_inf
+  level: B1
+  category: pronomi
+  label: "Posizione enclitica di pronomi atoni con infinito e imperativo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: procl_encl
+  level: B1
+  category: pronomi
+  label: "Posizione proclitica ed enclitica di pronomi atoni con verbi servili"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: cui_prep
+  level: B1
+  category: pronomi
+  label: "Pronome relativo invariabile cui preceduto da preposizione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: si_impers
+  level: B1
+  category: pronomi
+  label: "Pronome si nella costruzione impersonale"
+  topic: si-impersonale
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b1.html
+- id: poss_fam
+  level: B2
+  category: pronomi
+  label: "Pronomi possessivi per familiari e genitori senza articolo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: refl_tonic
+  level: B2
+  category: pronomi
+  label: "Pronomi riflessivi tonici con preposizione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: dem_stesso
+  level: B2
+  category: pronomi
+  label: "Pronomi dimostrativi stesso e ciò"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: indef_cias
+  level: B2
+  category: pronomi
+  label: "Pronomi indefiniti ciascuno, ognuno, uno, chiunque"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: rel_quale
+  level: B2
+  category: pronomi
+  label: "Pronomi relativi il quale, la quale, i quali, le quali"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: rel_doppi
+  level: B2
+  category: pronomi
+  label: "Pronomi relativi doppi chi e quanto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: atone_pron
+  level: B2
+  category: pronomi
+  label: "Forme accoppiate di pronomi atoni in verbi pronominali"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: encl_gerun
+  level: B2
+  category: pronomi
+  label: "Posizione enclitica di pronomi atoni con gerundio"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: ci_si_comb
+  level: B2
+  category: pronomi
+  label: "Combinazione del pronome atono con si impersonale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: si_passiv
+  level: B2
+  category: pronomi
+  label: "Pronome si nella costruzione passivante"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_pronomi_b2.html
+- id: qual_o_a_e
+  level: A1
+  category: aggettivi
+  label: "Aggettivo qualificativo con suffisso o, a, e"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html
+- id: poss_adj
+  level: A1
+  category: aggettivi
+  label: "Aggettivo possessivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html
+- id: dem_questo
+  level: A1
+  category: aggettivi
+  label: "Aggettivo dimostrativo questo e quello"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html
+- id: inter_che
+  level: A1
+  category: aggettivi
+  label: "Aggettivo interrogativo che e quanto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html
+- id: indef_poco
+  level: A1
+  category: aggettivi
+  label: "Aggettivo indefinito poco, molto, tanto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html
+- id: card_1_100
+  level: A1
+  category: aggettivi
+  label: "Aggettivi numerali cardinali da uno a cento"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html
+- id: ord_primo
+  level: A1
+  category: aggettivi
+  label: "Aggettivi numerali ordinali da primo a decimo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a1.html
+- id: qual_co_ga
+  level: A2
+  category: aggettivi
+  label: "Aggettivi qualificativi con suffisso -co, -go, -ca, -ga"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html
+- id: comp_super
+  level: A2
+  category: aggettivi
+  label: "Comparativo di maggioranza e superlativo assoluto dell'aggettivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html
+- id: poss_adj_6
+  level: A2
+  category: aggettivi
+  label: "Aggettivi possessivi di tutte le sei persone"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html
+- id: dem_stess2
+  level: A2
+  category: aggettivi
+  label: "Aggettivo dimostrativo stesso"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html
+- id: inter_qual
+  level: A2
+  category: aggettivi
+  label: "Aggettivo interrogativo quale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html
+- id: indef_ogni
+  level: A2
+  category: aggettivi
+  label: "Aggettivi indefiniti ogni, qualche, troppo, altro, tutto, alcuni"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html
+- id: card_100pl
+  level: A2
+  category: aggettivi
+  label: "Aggettivi numerali cardinali centinaia, migliaia, milione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html
+- id: coll_paio
+  level: A2
+  category: aggettivi
+  label: "Numerali collettivi paio, coppia"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_a2.html
+- id: bello_buon
+  level: B1
+  category: aggettivi
+  label: "Uso prenominale di bello e buono"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html
+- id: comp_degre
+  level: B1
+  category: aggettivi
+  label: "Gradi dell'aggettivo comparativi e superlativi relativi e organici"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html
+- id: meglio_peg
+  level: B1
+  category: aggettivi
+  label: "Avverbi meglio e peggio"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html
+- id: alter_ino
+  level: B1
+  category: aggettivi
+  label: "Aggettivi alterati diminuitivi con suffisso -ino"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html
+- id: indef_ness
+  level: B1
+  category: aggettivi
+  label: "Aggettivi indefiniti nessuno, qualsiasi, diverso, parecchio"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html
+- id: ord_all
+  level: B1
+  category: aggettivi
+  label: "Aggettivi numerali ordinali"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b1.html
+- id: nom_adj
+  level: B2
+  category: aggettivi
+  label: "Nominalizzazione dell'aggettivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html
+- id: poss_propr
+  level: B2
+  category: aggettivi
+  label: "Aggettivo possessivo proprio"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html
+- id: dem_tale
+  level: B2
+  category: aggettivi
+  label: "Aggettivo dimostrativo tale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html
+- id: indef_vari
+  level: B2
+  category: aggettivi
+  label: "Aggettivi indefiniti qualunque, parecchio, tale, certo, vario"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html
+- id: part_adj
+  level: B2
+  category: aggettivi
+  label: "Participio passato con funzione aggettivale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html
+- id: card_subst
+  level: B2
+  category: aggettivi
+  label: "Aggettivi numerali cardinali sostantivati con elissi di mille"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_aggettivi_b2.html
+- id: all_det_in
+  level: A1
+  category: articoli
+  label: "Funzioni dell'articolo determinativo e indeterminativo"
+  topic: articles
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html
+- id: art_hora
+  level: A1
+  category: articoli
+  label: "Articolo determinativo per esprimere l'ora"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html
+- id: art_omit_d
+  level: A1
+  category: articoli
+  label: "Omissione dell'articolo determinativo con aggettivi dimostrativi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html
+- id: art_om_ind
+  level: A1
+  category: articoli
+  label: "Omissione dell'articolo determinativo con aggettivi indefiniti"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html
+- id: art_pos_ad
+  level: A1
+  category: articoli
+  label: "Articolo determinativo con aggettivi possessivi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a1.html
+- id: art_geog_c
+  level: A2
+  category: articoli
+  label: "Articolo determinativo con nomi geografici di città e stati"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html
+- id: art_pos_pr
+  level: A2
+  category: articoli
+  label: "Articolo determinativo con pronomi possessivi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html
+- id: art_indef
+  level: A2
+  category: articoli
+  label: "Omissione dell'articolo con aggettivi indefiniti e presenza con aggettivo tutto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html
+- id: art_om_tim
+  level: A2
+  category: articoli
+  label: "Omissione dell'articolo in espressioni di tempo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html
+- id: art_time_d
+  level: A2
+  category: articoli
+  label: "Articolo determinativo in espressioni di tempo con parti del giorno"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html
+- id: art_pos_ki
+  level: A2
+  category: articoli
+  label: "Articolo con aggettivi possessivi e nomi di parentela"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html
+- id: art_date
+  level: A2
+  category: articoli
+  label: "Articolo determinativo per esprimere la data"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html
+- id: art_om_mat
+  level: A2
+  category: articoli
+  label: "Omissione dell'articolo con complemento di materia"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_a2.html
+- id: art_geog_m
+  level: B1
+  category: articoli
+  label: "Articolo determinativo con nomi geografici di monti, fiumi, laghi, isole grandi, continenti e regioni"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html
+- id: art_om_isl
+  level: B1
+  category: articoli
+  label: "Omissione dell'articolo con nomi di isole piccole"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html
+- id: art_weekda
+  level: B1
+  category: articoli
+  label: "Articolo determinativo con espressioni di tempo ricorrenti"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html
+- id: art_partit
+  level: B1
+  category: articoli
+  label: "Articolo partitivo con possibile omissione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html
+- id: art_spec_n
+  level: B1
+  category: articoli
+  label: "Articolo con nomi seguiti da specificazioni"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html
+- id: art_om_pre
+  level: B1
+  category: articoli
+  label: "Omissione dell'articolo con preposizioni senza e con valore modale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html
+- id: art_om_da
+  level: B1
+  category: articoli
+  label: "Omissione dell'articolo con preposizione da per esprimere il fine"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_articoli_b1.html
+- id: ind_pres
+  level: A1
+  category: verbi
+  label: "Indicativo presente"
+  topic: presente-indicativo
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html
+- id: cond_simp
+  level: A1
+  category: verbi
+  label: "Condizionale semplice del verbo volere alla prima persona singolare"
+  topic: condizionale-presente
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html
+- id: imper_form
+  level: A1
+  category: verbi
+  label: "Imperativo formale e informale del verbo scusare"
+  topic: imperativo
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html
+- id: imper_prim
+  level: A1
+  category: verbi
+  label: "Imperativo prima persona plurale per invitare"
+  topic: imperativo
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html
+- id: percez_sig
+  level: A1
+  category: verbi
+  label: "Valore modale dei verbi potere, volere e dovere"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html
+- id: costru_ess
+  level: A1
+  category: verbi
+  label: "Costruzione ci + indicativo presente del verbo essere"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html
+- id: inf_final
+  level: A1
+  category: verbi
+  label: "Infinito presente in proposizioni finali implicite"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a1.html
+- id: ind_pres_2
+  level: A2
+  category: verbi
+  label: "Indicativo presente"
+  topic: presente-indicativo
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html
+- id: ind_pass_p
+  level: A2
+  category: verbi
+  label: "Indicativo passato prossimo"
+  topic: passato-prossimo
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html
+- id: ind_imperf
+  level: A2
+  category: verbi
+  label: "Indicativo imperfetto di essere e avere nella descrizione"
+  topic: imperfetto
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html
+- id: ind_fut_si
+  level: A2
+  category: verbi
+  label: "Indicativo futuro semplice con valore temporale"
+  topic: futuro-semplice
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html
+- id: imper_seco
+  level: A2
+  category: verbi
+  label: "Imperativo affermativo e negativo per istruzioni e inviti"
+  topic: imperativo
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html
+- id: mod_consap
+  level: A2
+  category: verbi
+  label: "Verbi modali per esprimere atti linguistici"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html
+- id: impers
+  level: A2
+  category: verbi
+  label: "Verbi impersonali"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html
+- id: form_prog
+  level: A2
+  category: verbi
+  label: "Forma progressiva stare più gerundio"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_a2.html
+- id: pass_pros
+  level: B1
+  category: verbi
+  label: "Passato prossimo con verbi intransitivi inaccusativi transitivi e riflessivi"
+  topic: passato-prossimo
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: ind_trpass
+  level: B1
+  category: verbi
+  label: "Indicativo trapassato prossimo"
+  topic: trapassato-prossimo
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: val_mod_de
+  level: B1
+  category: verbi
+  label: "Indicativo futuro semplice con valore modale"
+  topic: futuro-semplice
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: ind_fut_an
+  level: B1
+  category: verbi
+  label: "Indicativo futuro anteriore con valore temporale"
+  topic: futuro-anteriore
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: fut_ant_va
+  level: B1
+  category: verbi
+  label: "Indicativo futuro anteriore con valore modale di supposizione"
+  topic: futuro-anteriore
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: ind_impe_2
+  level: B1
+  category: verbi
+  label: "Indicativo imperfetto per descrizioni periodi vita abitudini e azioni incompiute"
+  topic: imperfetto
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: cond_temp
+  level: B1
+  category: verbi
+  label: "Condizionale presente per eventualità desideri richieste attenuate e consigli"
+  topic: condizionale-presente
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: imper_se_2
+  level: B1
+  category: verbi
+  label: "Imperativo affermativo e negativo per consigli e ordini"
+  topic: imperativo
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: form_imper
+  level: B1
+  category: verbi
+  label: "Forma impersonale e passivante con particella si"
+  topic: si-impersonale
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: form_imp_2
+  level: B1
+  category: verbi
+  label: "Forma impersonale con verbi modali potere e dovere"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: mod_cong_t
+  level: B1
+  category: verbi
+  label: "Congiuntivo presente con valore esortativo terza persona singolare"
+  topic: congiuntivo-presente
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: cong_temp
+  level: B1
+  category: verbi
+  label: "Congiuntivo presente in subordinate oggettive e soggettive esplicite"
+  topic: congiuntivo-presente
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: fut_simp_i
+  level: B1
+  category: verbi
+  label: "Futuro indicativo in subordinate oggettive e soggettive esplicite"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: inf_prepos
+  level: B1
+  category: verbi
+  label: "Infinito con preposizione di in oggettive implicite"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: inf_simp_s
+  level: B1
+  category: verbi
+  label: "Infinito semplice nelle soggettive implicite"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: inf_seguit
+  level: B1
+  category: verbi
+  label: "Infinito seguito dalla preposizione di"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: inf_fin_im
+  level: B1
+  category: verbi
+  label: "Infinito in finali implicite con valore di necessità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: inf_esclus
+  level: B1
+  category: verbi
+  label: "Infinito in proposizioni esclusive implicite con senza"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: pres_ind_f
+  level: B1
+  category: verbi
+  label: "Indicativo presente e futuro nel periodo ipotetico della realtà"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b1.html
+- id: ind_pass_r
+  level: B2
+  category: verbi
+  label: "Indicativo passato remoto per azioni concluse e distanza temporale"
+  topic: passato-remoto
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_cong_2
+  level: B2
+  category: verbi
+  label: "Congiuntivo presente in subordinate oggettive ed soggettive esplicite"
+  topic: congiuntivo-presente
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_ind_te
+  level: B2
+  category: verbi
+  label: "Indicativo presente storico per rivivere il passato nella narrazione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_cong_3
+  level: B2
+  category: verbi
+  label: "Congiuntivo passato per anteriorità con verbi di opinione e sentimento"
+  topic: congiuntivo-passato
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_cong_4
+  level: B2
+  category: verbi
+  label: "Congiuntivo imperfetto in subordinate oggettive ed soggettive esplicite"
+  topic: congiuntivo-imperfetto
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_cong_5
+  level: B2
+  category: verbi
+  label: "Congiuntivo trapassato per anteriorità con verbi al passato"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_cong_p
+  level: B2
+  category: verbi
+  label: "Congiuntivo in subordinate introdotte da prima che, purché, perché, sebbene, come se, a meno che"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: seq_tutti
+  level: B2
+  category: verbi
+  label: "Concordanza dei tempi del congiuntivo: presente-passato e imperfetto-trapassato"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_cond_t
+  level: B2
+  category: verbi
+  label: "Condizionale passato per desideri e azioni future nel passato"
+  topic: condizionale-passato
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: dellim_con
+  level: B2
+  category: verbi
+  label: "Congiuntivo imperfetto e condizionale presente nel periodo ipotetico della possibilità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: trpass_con
+  level: B2
+  category: verbi
+  label: "Congiuntivo trapassato e condizionale passato nel periodo ipotetico dell'irrealtà"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_ger_te
+  level: B2
+  category: verbi
+  label: "Gerundio presente con valore temporale, modale e causale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_ger_2
+  level: B2
+  category: verbi
+  label: "Gerundio passato con valore causale e temporale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_inf_pr
+  level: B2
+  category: verbi
+  label: "Infinito presente con valore nominale, preposizionale e con verbi fattivi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: mod_inf_te
+  level: B2
+  category: verbi
+  label: "Infinito passato in subordinate temporali implicite con dopo e prima di"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: part_pass
+  level: B2
+  category: verbi
+  label: "Participio passato con funzione aggettivale e temporale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: form_passv
+  level: B2
+  category: verbi
+  label: "Forma passiva con verbi essere e venire"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_verbi_b2.html
+- id: prep_di_or
+  level: A1
+  category: preposizioni
+  label: "Preposizione di con valore di provenienza"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_a_ind
+  level: A1
+  category: preposizioni
+  label: "Preposizione a con valore di termine"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_a_tem
+  level: A1
+  category: preposizioni
+  label: "Preposizione a con valore di tempo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_a_dom
+  level: A1
+  category: preposizioni
+  label: "Preposizione a in espressioni di distanza temporale prossima"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_a_loc
+  level: A1
+  category: preposizioni
+  label: "Preposizione a con valore di stato in luogo e moto a luogo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_a_l_2
+  level: A1
+  category: preposizioni
+  label: "Preposizione a con valore di luogo con nomi di città"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_in_lo
+  level: A1
+  category: preposizioni
+  label: "Preposizione in con valore di stato in luogo e moto a luogo con nazioni"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_in_me
+  level: A1
+  category: preposizioni
+  label: "Preposizione in con valore di mezzo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_con_c
+  level: A1
+  category: preposizioni
+  label: "Preposizione con con valore di compagnia"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_pe_va
+  level: A1
+  category: preposizioni
+  label: "Preposizione per con valore di vantaggio"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_pe_mv
+  level: A1
+  category: preposizioni
+  label: "Preposizione per con valore di moto a luogo e finalità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_idiom
+  level: A1
+  category: preposizioni
+  label: "Uso idiomatico di preposizioni in forme frequenti"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_other
+  level: A1
+  category: preposizioni
+  label: "Altre preposizioni semplici di uso formulaico"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a1.html
+- id: prep_di_ap
+  level: A2
+  category: preposizioni
+  label: "Preposizione di con valore di appartenenza"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_di_ma
+  level: A2
+  category: preposizioni
+  label: "Preposizione di con valore di materia"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_di_qn
+  level: A2
+  category: preposizioni
+  label: "Preposizione di con valore di quantità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_di_mo
+  level: A2
+  category: preposizioni
+  label: "Preposizione di con valore di modo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_a_l_3
+  level: A2
+  category: preposizioni
+  label: "Preposizione a con valore di stato in luogo e moto a luogo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_a_t_2
+  level: A2
+  category: preposizioni
+  label: "Preposizione a con valore di tempo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_a_mez
+  level: A2
+  category: preposizioni
+  label: "Preposizione a con valore di mezzo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_da_mo
+  level: A2
+  category: preposizioni
+  label: "Preposizione da con valore di modo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_da_or
+  level: A2
+  category: preposizioni
+  label: "Preposizione da con valore di origine"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_da_te
+  level: A2
+  category: preposizioni
+  label: "Preposizione da con valore di durata temporale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_da_mv
+  level: A2
+  category: preposizioni
+  label: "Preposizione da con valore di moto a luogo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_da_so
+  level: A2
+  category: preposizioni
+  label: "Preposizione da con valore di stato in luogo presso persona"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_in_2
+  level: A2
+  category: preposizioni
+  label: "Preposizione in con valore di stato in luogo e moto a luogo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_in_mo
+  level: A2
+  category: preposizioni
+  label: "Preposizione in con valore di modo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_in_te
+  level: A2
+  category: preposizioni
+  label: "Preposizione in con valore di tempo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_co_me
+  level: A2
+  category: preposizioni
+  label: "Preposizione con con valore di mezzo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_co_qu
+  level: A2
+  category: preposizioni
+  label: "Preposizione con con valore di qualità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_co_2
+  level: A2
+  category: preposizioni
+  label: "Preposizione con con valore di mezzo di trasporto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_su_a2
+  level: A2
+  category: preposizioni
+  label: "Preposizione su con valore di stato in luogo e moto a luogo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_pe_te
+  level: A2
+  category: preposizioni
+  label: "Preposizione per con valore di durata temporale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_pe_fi
+  level: A2
+  category: preposizioni
+  label: "Preposizione per con valore di scopo o fine formulaico"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_tr_te
+  level: A2
+  category: preposizioni
+  label: "Preposizione tra/fra con valore di tempo futuro"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_tr_lo
+  level: A2
+  category: preposizioni
+  label: "Preposizione tra/fra con valore di luogo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_id_id
+  level: A2
+  category: preposizioni
+  label: "Preposizione di in locuzioni verbali di uso frequente"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_id_vo
+  level: A2
+  category: preposizioni
+  label: "Preposizione di in locuzioni verbali di desiderio"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_id_pa
+  level: A2
+  category: preposizioni
+  label: "Preposizione di in locuzioni verbali di timore"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_id_no
+  level: A2
+  category: preposizioni
+  label: "Preposizione di in locuzioni verbali di nostalgia"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_id_an
+  level: A2
+  category: preposizioni
+  label: "Costruzione andare a con infinito"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_locut
+  level: A2
+  category: preposizioni
+  label: "Locuzioni preposizionali di luogo e movimento"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_othe2
+  level: A2
+  category: preposizioni
+  label: "Preposizioni semplici di luogo e tempo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_a2.html
+- id: prep_di_co
+  level: B1
+  category: preposizioni
+  label: "Preposizione di con valore di paragone"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_di_pi
+  level: B1
+  category: preposizioni
+  label: "Preposizione di in comparativo di preferenza"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_di_pa
+  level: B1
+  category: preposizioni
+  label: "Preposizione di con valore partitivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_di_in
+  level: B1
+  category: preposizioni
+  label: "Preposizione di in proposizioni implicite oggettive e soggettive"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_di_de
+  level: B1
+  category: preposizioni
+  label: "Preposizione di in costruzioni causali e decisionali"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_di_ab
+  level: B1
+  category: preposizioni
+  label: "Preposizione di con valore di abbondanza o quantità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_di_ar
+  level: B1
+  category: preposizioni
+  label: "Preposizione di con valore di argomento o materia"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_di_te
+  level: B1
+  category: preposizioni
+  label: "Preposizione di con valore di tempo determinato"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_di_et
+  level: B1
+  category: preposizioni
+  label: "Preposizione di con valore di età"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_a_dis
+  level: B1
+  category: preposizioni
+  label: "Preposizione a con valore distributivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_a_d_2
+  level: B1
+  category: preposizioni
+  label: "Preposizione a con valore di distanza"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_a_eta
+  level: B1
+  category: preposizioni
+  label: "Preposizione a con valore di età o momento specifico"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_a_fin
+  level: B1
+  category: preposizioni
+  label: "Preposizione a con valore di fine o scopo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_da_2
+  level: B1
+  category: preposizioni
+  label: "Preposizione da con valore di tempo iniziale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_da_in
+  level: B1
+  category: preposizioni
+  label: "Preposizione da con valore di fine implicita"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_da_3
+  level: B1
+  category: preposizioni
+  label: "Preposizione da con valore di conseguenza"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_da_al
+  level: B1
+  category: preposizioni
+  label: "Preposizione da con valore di necessità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_da_fi
+  level: B1
+  category: preposizioni
+  label: "Preposizione da con valore di destinazione d'uso"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_da_qu
+  level: B1
+  category: preposizioni
+  label: "Preposizione da con valore di qualità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_in_3
+  level: B1
+  category: preposizioni
+  label: "Preposizione in con valore di tempo determinato"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_in_li
+  level: B1
+  category: preposizioni
+  label: "Preposizione in con valore di limitazione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_con_b
+  level: B1
+  category: preposizioni
+  label: "Preposizione con con valore di modo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_su_b1
+  level: B1
+  category: preposizioni
+  label: "Preposizione su con valore di età approssimata"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_per_l
+  level: B1
+  category: preposizioni
+  label: "Preposizione per con valore di moto per luogo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_tr_co
+  level: B1
+  category: preposizioni
+  label: "Preposizione tra con valore di compagnia"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_tr_pa
+  level: B1
+  category: preposizioni
+  label: "Preposizione tra con valore di partitivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_tr_di
+  level: B1
+  category: preposizioni
+  label: "Preposizione tra con valore di distanza"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_locu2
+  level: B1
+  category: preposizioni
+  label: "Locuzioni preposizionali complesse"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_vb_ph
+  level: B1
+  category: preposizioni
+  label: "Preposizioni dopo verbi fraseologici"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: verb_prep
+  level: B1
+  category: preposizioni
+  label: "Preposizioni dopo verbi di uso frequente"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_othe3
+  level: B1
+  category: preposizioni
+  label: "Preposizione verso con valore direzionale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b1.html
+- id: prep_di_qu
+  level: B2
+  category: preposizioni
+  label: "Preposizione di con valore di qualità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_di_2
+  level: B2
+  category: preposizioni
+  label: "Preposizione di con valore di denominazione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_di_3
+  level: B2
+  category: preposizioni
+  label: "Preposizione di in correlazione iterativa"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_di_4
+  level: B2
+  category: preposizioni
+  label: "Preposizione di con valore di proposizione finale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_da_ca
+  level: B2
+  category: preposizioni
+  label: "Preposizione da con valore di causa"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_da_ag
+  level: B2
+  category: preposizioni
+  label: "Preposizione da con valore di agente passivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_da_st
+  level: B2
+  category: preposizioni
+  label: "Preposizione a con valore di stima e prezzo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_in_b2
+  level: B2
+  category: preposizioni
+  label: "Preposizione in con valore di tempo continuato"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_su_ar
+  level: B2
+  category: preposizioni
+  label: "Preposizione su con valore di argomento"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_su_di
+  level: B2
+  category: preposizioni
+  label: "Preposizione su con valore distributivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_pe_2
+  level: B2
+  category: preposizioni
+  label: "Preposizione per con valore di durata temporale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_pe_ca
+  level: B2
+  category: preposizioni
+  label: "Preposizione per con valore di causa"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_pe_di
+  level: B2
+  category: preposizioni
+  label: "Preposizione per con valore distributivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_tra_2
+  level: B2
+  category: preposizioni
+  label: "Preposizione tra/fra con valore di relazione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_loc_b
+  level: B2
+  category: preposizioni
+  label: "Locuzioni preposizionali comuni"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: prep_misc
+  level: B2
+  category: preposizioni
+  label: "Altre forme preposizionali"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_preposizioni_b2.html
+- id: adv_manner
+  level: A1
+  category: avverbi
+  label: "Avverbi di modo: bene, male"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html
+- id: adv_place
+  level: A1
+  category: avverbi
+  label: "Avverbi di luogo: qui, qua, lì, là, fuori, dentro, dietro, davanti, sopra, sotto, vicino, lontano, su, giù, indietro, avanti"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html
+- id: adv_time_a
+  level: A1
+  category: avverbi
+  label: "Avverbi di tempo: ora, adesso, oggi, dopo, ieri, domani, spesso, sempre, mai, presto, tardi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html
+- id: adv_quant
+  level: A1
+  category: avverbi
+  label: "Avverbi di quantità: molto, poco, tanto, più, meno, niente, un po'"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html
+- id: adv_judge
+  level: A1
+  category: avverbi
+  label: "Avverbi di giudizio: sì, no, non, certo, quasi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html
+- id: adv_interr
+  level: A1
+  category: avverbi
+  label: "Avverbi interrogativi: come, dove, quando, quanto, perché"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a1.html
+- id: adv_manne2
+  level: A2
+  category: avverbi
+  label: "Avverbi di modo: di solito, insieme, così"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html
+- id: adv_place2
+  level: A2
+  category: avverbi
+  label: "Avverbi di luogo: a destra, sinistra, nord, sud, est, ovest, dritto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html
+- id: adv_time_2
+  level: A2
+  category: avverbi
+  label: "Avverbi di tempo: appena, già, subito, non ancora, non mai, prima, poi, ancora"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html
+- id: adv_quant2
+  level: A2
+  category: avverbi
+  label: "Avverbi di quantità: abbastanza, troppo, più o meno, solo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html
+- id: adv_judge2
+  level: A2
+  category: avverbi
+  label: "Avverbi di giudizio: probabilmente, veramente, forse"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html
+- id: adv_text_a
+  level: A2
+  category: avverbi
+  label: "Avverbi testuali: allora"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_a2.html
+- id: adv_manne3
+  level: B1
+  category: avverbi
+  label: "Avverbi di modo in -mente e locuzioni avverbiali"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html
+- id: adv_place3
+  level: B1
+  category: avverbi
+  label: "Avverbi di luogo: dappertutto, di sopra, di sotto, via"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html
+- id: adv_time_b
+  level: B1
+  category: avverbi
+  label: "Avverbi di tempo: improvvisamente, all'improvviso, di nuovo, per sempre, in futuro"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html
+- id: adv_quant3
+  level: B1
+  category: avverbi
+  label: "Avverbi di quantità: soltanto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html
+- id: adv_judge3
+  level: B1
+  category: avverbi
+  label: "Avverbi di giudizio: certamente, neanche, assolutamente, sicuramente, particolarmente, specialmente, soprattutto, proprio, per niente, per forza, di sicuro, volentieri, davvero"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html
+- id: adv_text_b
+  level: B1
+  category: avverbi
+  label: "Avverbi testuali di collegamento e conclusione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html
+- id: adv_intens
+  level: B1
+  category: avverbi
+  label: "Avverbi intensificativi di grado e enfasi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html
+- id: adv_alter
+  level: B1
+  category: avverbi
+  label: "Avverbi alterati con suffissi e forme organiche"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b1.html
+- id: adv_manne4
+  level: B2
+  category: avverbi
+  label: "Avverbi di modo con struttura preposizionale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html
+- id: adv_place4
+  level: B2
+  category: avverbi
+  label: "Avverbi di luogo con valore direzionale e locativo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html
+- id: adv_time_3
+  level: B2
+  category: avverbi
+  label: "Avverbi di tempo con riferimento temporale specifico"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html
+- id: adv_judge4
+  level: B2
+  category: avverbi
+  label: "Avverbi di giudizio e valutazione logica"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html
+- id: adv_quant4
+  level: B2
+  category: avverbi
+  label: "Avverbi di quantità indeterminata"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html
+- id: adv_text_2
+  level: B2
+  category: avverbi
+  label: "Avverbi testuali di argomentazione e strutturazione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html
+- id: adv_inten2
+  level: B2
+  category: avverbi
+  label: "Avverbi intensificativi di esclusione e inclusione"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_avverbi_b2.html
+- id: sent_affir
+  level: A1
+  category: frase_semplice
+  label: "Proposizioni enunciative affermative e negative"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html
+- id: sent_desir
+  level: A1
+  category: frase_semplice
+  label: "Proposizioni volitive desiderative con verbo volitivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html
+- id: sent_excla
+  level: A1
+  category: frase_semplice
+  label: "Proposizioni esclamative con verbo sottinteso"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html
+- id: sent_inter
+  level: A1
+  category: frase_semplice
+  label: "Proposizioni interrogative totali e parziali"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a1.html
+- id: sent_simpl
+  level: A2
+  category: frase_semplice
+  label: "La frase semplice e i suoi componenti"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_a2.html
+- id: sent_desi2
+  level: B1
+  category: frase_semplice
+  label: "Proposizioni volitive desiderative con condizionale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b1.html
+- id: sent_imper
+  level: B1
+  category: frase_semplice
+  label: "Proposizioni volitive imperative con congiuntivo esortativo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b1.html
+- id: sent_simp2
+  level: B2
+  category: frase_semplice
+  label: "La frase semplice in contesti complessi"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasesemplice_b2.html
+- id: coord_copu
+  level: A1
+  category: frase_complessa
+  label: "Proposizioni coordinate copulative con congiunzione e"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html
+- id: coord_disj
+  level: A1
+  category: frase_complessa
+  label: "Proposizioni coordinate disgiuntive con congiunzione o"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html
+- id: subord_cau
+  level: A1
+  category: frase_complessa
+  label: "Proposizioni causali con congiunzione perché"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html
+- id: subord_fin
+  level: A1
+  category: frase_complessa
+  label: "Proposizioni finali implicite con preposizione per e infinito"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a1.html
+- id: coord_adve
+  level: A2
+  category: frase_complessa
+  label: "Proposizioni coordinate avversative con congiunzione ma"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html
+- id: coord_anch
+  level: A2
+  category: frase_complessa
+  label: "Proposizioni coordinate copulative con congiunzione anche"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html
+- id: temp_quand
+  level: A2
+  category: frase_complessa
+  label: "Proposizioni temporali esplicite con congiunzione quando"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html
+- id: cond_se
+  level: A2
+  category: frase_complessa
+  label: "Proposizione condizionale esplicita con se e indicativo presente"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html
+- id: rel_che
+  level: A2
+  category: frase_complessa
+  label: "Proposizione relativa con pronome che soggetto e oggetto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html
+- id: final_a_in
+  level: A2
+  category: frase_complessa
+  label: "Proposizione finale implicita con a infinito"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_a2.html
+- id: coord_avve
+  level: B1
+  category: frase_complessa
+  label: "Proposizione coordinata avversativa con però tuttavia comunque invece"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: coord_pure
+  level: B1
+  category: frase_complessa
+  label: "Proposizione coordinata copulativa con pure"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: coord_conc
+  level: B1
+  category: frase_complessa
+  label: "Proposizione coordinata conclusiva con quindi dunque perciò"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: coord_espl
+  level: B1
+  category: frase_complessa
+  label: "Proposizione coordinata esplicativa con infatti cioè"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: coord_corr
+  level: B1
+  category: frase_complessa
+  label: "Proposizione coordinata correlativa con né né o o sia sia"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: coord_nean
+  level: B1
+  category: frase_complessa
+  label: "Proposizione coordinata copulativa con neanche"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: coord_disg
+  level: B1
+  category: frase_complessa
+  label: "Proposizione coordinata disgiuntiva con oppure sennò"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: caus_espl
+  level: B1
+  category: frase_complessa
+  label: "Proposizione causale esplicita con siccome dato che visto che"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: temp_mentr
+  level: B1
+  category: frase_complessa
+  label: "Proposizione temporale esplicita contemporaneità con mentre"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: temp_prima
+  level: B1
+  category: frase_complessa
+  label: "Proposizione temporale implicita anteriorità con prima di"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: temp_dopo
+  level: B1
+  category: frase_complessa
+  label: "Proposizione temporale esplicita posteriorità dopo che appena indicativo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: comp_espl
+  level: B1
+  category: frase_complessa
+  label: "Proposizione comparativa esplicita maggioranza minoranza uguaglianza"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: concess_an
+  level: B1
+  category: frase_complessa
+  label: "Proposizione concesiva esplicita con anche se"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: ipot_realt
+  level: B1
+  category: frase_complessa
+  label: "Periodo ipotetico della realtà presente indicativo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: rel_cui
+  level: B1
+  category: frase_complessa
+  label: "Proposizione relativa con preposizione cui complemento indiretto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: excl_senza
+  level: B1
+  category: frase_complessa
+  label: "Proposizione esclusiva implicita con senza infinito"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: obj_congiu
+  level: B1
+  category: frase_complessa
+  label: "Proposizione oggettiva esplicita congiuntivo e implicita di infinito"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: sogg_espl
+  level: B1
+  category: frase_complessa
+  label: "Proposizione soggettiva esplicita con pare sembra"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: sogg_impl
+  level: B1
+  category: frase_complessa
+  label: "Proposizione soggettiva implicita espressioni impersonali infinito"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b1.html
+- id: coord_nemm
+  level: B2
+  category: frase_complessa
+  label: "Proposizione coordinata copulativa con nemmeno"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: final_espl
+  level: B2
+  category: frase_complessa
+  label: "Proposizione finale esplicita con perché affinché congiuntivo"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: caus_poich
+  level: B2
+  category: frase_complessa
+  label: "Proposizione causale esplicita poiché e implicita gerundio"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: temp_gerun
+  level: B2
+  category: frase_complessa
+  label: "Proposizione temporale implicita con gerundio presente per contemporaneità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: temp_geru2
+  level: B2
+  category: frase_complessa
+  label: "Proposizione temporale implicita con gerundio passato e participio passato per anteriorità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: temp_dopo2
+  level: B2
+  category: frase_complessa
+  label: "Proposizione temporale implicita con dopo e infinito passato per posteriorità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: temp_prim2
+  level: B2
+  category: frase_complessa
+  label: "Proposizione temporale esplicita con prima che per anteriorità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: temp_finch
+  level: B2
+  category: frase_complessa
+  label: "Proposizione temporale esplicita con finché per posteriorità"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: coord_altr
+  level: B2
+  category: frase_complessa
+  label: "Proposizione coordinata disgiuntiva con altrimenti"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: ipot_poss
+  level: B2
+  category: frase_complessa
+  label: "Periodo ipotetico della possibilità e dell'irrealtà"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: concess_se
+  level: B2
+  category: frase_complessa
+  label: "Proposizione concessiva con sebbene, benché, nonostante"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: int_indir
+  level: B2
+  category: frase_complessa
+  label: "Proposizione interrogativa indiretta con congiunzione se"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: mod_come_s
+  level: B2
+  category: frase_complessa
+  label: "Proposizione modale con come se"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: eccett_alm
+  level: B2
+  category: frase_complessa
+  label: "Proposizione eccettuativa con a meno che"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_frasecomplessa_b2.html
+- id: ord_svo
+  level: A1
+  category: costruzione_frase
+  label: "Ordine non marcato SVO dei costituenti in enunciato semplice"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a1.html
+- id: omiss_sogg
+  level: A1
+  category: costruzione_frase
+  label: "Omissione del soggetto in frasi dichiarative e interrogative"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a1.html
+- id: ord_vs
+  level: A1
+  category: costruzione_frase
+  label: "Ordine VS nelle interrogative con pronome o avverbio"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a1.html
+- id: frase_cost
+  level: A2
+  category: costruzione_frase
+  label: "Costruzione della frase"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_a2.html
+- id: disloc_sin
+  level: B2
+  category: costruzione_frase
+  label: "Dislocazione a sinistra con ripresa pronominale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html
+- id: frase_scis
+  level: B2
+  category: costruzione_frase
+  label: "Frase scissa con proposizione subordinata esplicita"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html
+- id: sogg_postv
+  level: B2
+  category: costruzione_frase
+  label: "Posizione postverbale del soggetto"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html
+- id: agg_prenom
+  level: B2
+  category: costruzione_frase
+  label: "Significato specifico di aggettivi in posizione prenominale o postnominale"
+  source: https://www.unistrapg.it/profilo_lingua_italiana/site/gram_costruz_b2.html

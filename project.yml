@@ -72,6 +72,8 @@ targets:
         product: SRSKit
       - package: MaestroKit
         product: SyncLogic
+      - package: MaestroKit
+        product: PracticeKit
     postBuildScripts:
       - name: Build number
         script: '"$SRCROOT/.apple-ci/build-number.sh"'
