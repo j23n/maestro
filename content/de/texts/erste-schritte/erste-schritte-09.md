@@ -15,7 +15,7 @@ Sie ist Ärztin. || She's a doctor.
 Mein Bruder Max ist zwölf. || My brother Max is twelve.
 Sein Hobby ist Fußball. || His hobby is football.
 Unsere Katze heißt Mimi. || Our cat is called Mimi.
-Ihr Lieblingsplatz ist das Sofa. || Her favorite spot is the sofa.
+Ihr Lieblingsplatz ist das Sofa. || Her favourite spot is the sofa.
 Meine Eltern wohnen in einem Dorf. || My parents live in a village.
 Ich besuche sie oft am Wochenende. || I often visit them at the weekend.
 Und deine Familie? || And your family?
