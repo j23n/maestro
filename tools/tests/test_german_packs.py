@@ -269,6 +269,8 @@ def test_grammar_points_a_token_shows_by_itself(lex):
     assert "de:verbstellung" not in tokens["kauf"].get("grammar", []), "an imperative has no subject"
     tokens, _, _ = link(lex, "Dann kaufen Sie Brot!")
     assert "de:verbstellung" not in tokens["kaufen"].get("grammar", []), "a Sie imperative"
+    tokens, _, _ = link(lex, "„Dann kaufen Sie Brot!“")
+    assert "de:verbstellung" not in tokens["kaufen"].get("grammar", []), "a Sie imperative in quotes"
     tokens, _, _ = link(lex, "Dann kaufen Sie Brot.")
     assert "de:verbstellung" in tokens["kaufen"]["grammar"]
     tokens, _, _ = link(lex, "Ich esse, aber morgen kaufe ich Brot.")

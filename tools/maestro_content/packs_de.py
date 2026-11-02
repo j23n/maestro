@@ -111,6 +111,7 @@ MODALS = {"können", "müssen", "wollen", "sollen", "dürfen", "mögen", "möcht
 PARTICLES = {"ab", "an", "auf", "aus", "bei", "ein", "fest", "fort", "her", "hin", "los", "mit", "nach", "vor",
              "weg", "zu", "zurück", "zusammen", "weiter", "fern", "heim", "teil", "statt", "vorbei", "herein",
              "hinaus", "heraus", "hinein", "kennen", "spazieren", "frei", "um", "durch", "wieder", "dabei"}
+CLOSING_QUOTES = {"“", "”", "«", "»", "\"", "‘", "’"}
 CLAUSE_BREAK = {",", ";", ":", ".", "!", "?", "–", "—", "(", ")", "«", "»", "„", "“", "\""}
 SENTENCE_START = {".", "!", "?", "«", "\"", "—", ":", "„", "»", "“"}
 
@@ -730,7 +731,7 @@ def _topic_tags(tokens: list[dict], infos: list[Info], clauses: list[Clause]) ->
         if words[0] != verb and (first["t"].lower() in SUBJECT_PERSONS or first.get("case") == "nom"):
             continue  # Er freut sich, Ich besuche sie: the subject comes first
         if after is not None and tokens[after]["t"] == "Sie" and tokens[verb]["form"] == "ind.pres.3p" \
-                and tokens[-1]["t"] == "!":
+                and next((t["t"] for t in reversed(tokens) if t["t"] not in CLOSING_QUOTES), "") == "!":
             continue  # Dann kaufen Sie Brot! is a Sie imperative; without the ! it reads either way
         if after is not None and infos[after].pos == "pron" and tokens[after].get("case") in (None, "nom") \
                 and tokens[after]["t"].lower() in SUBJECT_PERSONS:
