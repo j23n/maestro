@@ -193,6 +193,11 @@ def test_head_line_forms_without_a_case_or_number():
     assert tags.kaikki_case_tags_de(["plural"], "m", "n") == ["nom.pl", "acc.pl", "gen.pl"]
     assert tags.kaikki_case_tags_de(["genitive"], "m", "n") == ["gen.ms"]
     assert tags.kaikki_case_tags_de(["plural"], "?", "n") == ["nom.pl", "acc.pl", "gen.pl"], "plural of Baum"
+    noun = {"word": "Baum", "pos": "noun", "lang_code": "de", "senses": [{"glosses": ["tree"]}],
+            "head_templates": [{"name": "de-noun", "args": {"1": "m,es,^e"}}],
+            "forms": [{"form": "Baumes", "tags": ["genitive"]}, {"form": "Bäume", "tags": ["plural"]}]}
+    forms = kaikki.parse_de(noun)[0].forms
+    assert ("Bäume", "nom.pl") in forms and ("Baumes", "gen.ms") in forms
 
 
 def test_a_row_naming_two_declensions_gives_both():

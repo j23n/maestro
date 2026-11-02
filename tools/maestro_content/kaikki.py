@@ -294,7 +294,7 @@ def parse_de(raw: dict) -> tuple[Entry | None, list[FormOf]]:
                 seen.add((form, tag))
                 entry.forms.append((form, tag))
     if pos == "n" and entry.plural is None:
-        # No declension table: the head line's plural (Haus n (…, plural Häuser)) names no case.
+        # A head-line plural with tags the case mapping rejects (plural, uncommon) still names the plural.
         entry.plural = next((_clean_form(f.get("form", "")) for f in raw.get("forms", [])
                              if "plural" in f.get("tags", []) and not set(f.get("tags", [])) & _CASES), None)
     return entry, form_of
