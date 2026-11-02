@@ -28,6 +28,19 @@ func germanDatabase() throws -> ContentDatabase {
         #expect(!machen.isIrregular)
         #expect(GermanRegularConjugator.forms(infinitive: "arbeiten", tag: FormTag("ind.pres.3s")!) == ["arbeitet"])
         #expect(GermanRegularConjugator.forms(infinitive: "reisen", tag: FormTag("ind.pres.2s")!) == ["reist"])
+        // An e after a consonant and m or n, not after l, r, a lengthening h or a doubled consonant.
+        #expect(GermanRegularConjugator.forms(infinitive: "öffnen", tag: FormTag("ind.pres.3s")!) == ["öffnet"])
+        #expect(GermanRegularConjugator.forms(infinitive: "öffnen", tag: FormTag("ind.prat.1s")!) == ["öffnete"])
+        #expect(GermanRegularConjugator.forms(infinitive: "rechnen", tag: FormTag("ind.pres.2s")!) == ["rechnest"])
+        #expect(GermanRegularConjugator.forms(infinitive: "atmen", tag: FormTag("ind.pres.3s")!) == ["atmet"])
+        #expect(GermanRegularConjugator.forms(infinitive: "lernen", tag: FormTag("ind.pres.2s")!) == ["lernst"])
+        #expect(GermanRegularConjugator.forms(infinitive: "wohnen", tag: FormTag("ind.pres.3s")!) == ["wohnt"])
+        #expect(GermanRegularConjugator.forms(infinitive: "kommen", tag: FormTag("ind.pres.2s")!) == ["kommst"])
+        // -eln and -ern verbs may drop the stem's e in the 1s.
+        #expect(GermanRegularConjugator.forms(infinitive: "sammeln", tag: FormTag("ind.pres.1s")!) == ["sammele", "sammle"])
+        #expect(GermanRegularConjugator.forms(infinitive: "sammeln", tag: FormTag("ind.pres.3s")!) == ["sammelt"])
+        #expect(GermanRegularConjugator.forms(infinitive: "sammeln", tag: FormTag("k1.pres.1p")!) == ["sammeln"])
+        #expect(GermanRegularConjugator.forms(infinitive: "wandern", tag: FormTag("ind.pres.1s")!).contains("wandre"))
     }
 
     @Test func compoundTensesTakeTheirAuxiliary() throws {

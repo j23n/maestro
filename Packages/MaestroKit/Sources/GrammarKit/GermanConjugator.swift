@@ -106,24 +106,46 @@ public enum GermanRegularConjugator {
             return []
         }
         guard !stem.isEmpty, let person = tag.person else { return [] }
-        // arbeiten, rechnen: an e before st and t.
-        let e = stem.hasSuffix("t") || stem.hasSuffix("d") || stem.hasSuffix("chn") || stem.hasSuffix("tm")
-            || stem.hasSuffix("gn") || stem.hasSuffix("dn") ? "e" : ""
+        let e = needsLinkingE(stem) ? "e" : ""
+        // sammeln, wandern: the 1s also drops the stem's e (sammle, wandre).
+        let elided = inf.hasSuffix("eln") || inf.hasSuffix("ern") ? String(stem.dropLast(2)) + String(stem.last ?? "e") : nil
         let sibilant = ["s", "ß", "z", "x"].contains { stem.hasSuffix($0) }
         let i = Person.allCases.firstIndex(of: person) ?? 0
         switch (tag.mood, tag.tense) {
         case (.ind, .pres):
             let second = sibilant ? stem + "t" : stem + e + "st"
-            return [[stem + "e", second, stem + e + "t", inf, stem + e + "t", inf][i]]
+            var forms: Set<String> = [[stem + "e", second, stem + e + "t", inf, stem + e + "t", inf][i]]
+            if person == .s1, let elided { forms.insert(elided + "e") }
+            return forms
         case (.ind, .prat), (.k2, .prat):
             let past = stem + e + "te"
             return [[past, past + "st", past, past + "n", past + "t", past + "n"][i]]
         case (.k1, .pres):
-            return [[stem + "e", stem + "est", stem + "e", stem + "en", stem + "et", stem + "en"][i]]
+            // -eln and -ern verbs drop the ending's e: du sammelst, wir sammeln.
+            let (est, en, et) = elided == nil ? ("est", "en", "et") : ("st", "n", "t")
+            var forms: Set<String> = [[stem + "e", stem + est, stem + "e", stem + en, stem + et, stem + en][i]]
+            if person == .s1 || person == .s3, let elided { forms.insert(elided + "e") }
+            return forms
         case (.imp, .pres):
-            return person == .s2 ? [stem, stem + "e"] : [stem + e + "t"]
+            var forms: Set<String> = person == .s2 ? [stem, stem + "e"] : [stem + e + "t"]
+            if person == .s2, let elided { forms.insert(elided + "e") }
+            return forms
         default:
             return []
         }
+    }
+
+    /// An e goes before st and t after a stem ending in t or d (arbeitest), or in m or n after another
+    /// consonant (öffnest, atmest, rechnest). Not after l, r or a lengthening h (lernst, filmst, wohnst),
+    /// nor after a doubled m or n (kommst, nennst).
+    static func needsLinkingE(_ stem: String) -> Bool {
+        let letters = Array(stem)
+        guard let last = letters.last else { return false }
+        if last == "t" || last == "d" { return true }
+        guard last == "m" || last == "n", letters.count >= 2 else { return false }
+        let before = letters[letters.count - 2]
+        if "aeiouyäöü".contains(before) || "lrmn".contains(before) { return false }
+        if before == "h" { return letters.count >= 3 && letters[letters.count - 3] == "c" }
+        return true
     }
 }
