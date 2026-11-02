@@ -24,7 +24,7 @@ struct SettingsView: View {
             LabeledSection("Offline") {
                 LabeledContent("Dictionary", value: model.hasDictionary ? "Built in (\(model.contentVersion))" : "Missing")
                 LabeledContent("Texts on this device", value: "\(model.entries.count)")
-                LabeledContent("\(model.language.name) voice", value: SpeechPlayer.hasEnhancedVoice ? "Enhanced" : "Standard only")
+                LabeledContent("\(model.language.name) voice", value: SpeechPlayer.hasEnhancedVoice(for: model.language) ? "Enhanced" : "Standard only")
             }
             LabeledSection("Reading") {
                 Picker("Level", selection: $prefs.level) {

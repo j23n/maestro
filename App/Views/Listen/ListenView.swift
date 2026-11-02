@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import LanguageCore
 import PackKit
 
 /// The Listen tab (HANDOFF.md 3.6): voice-quality banner, Continue, Listen first, Listen again.
@@ -12,7 +13,7 @@ struct ListenView: View {
         let read = Set(progress.filter { $0.maxFractionRead > 0.5 || $0.finishedAt != nil }.map(\.textID))
         let entries = model.entries
         List {
-            if !SpeechPlayer.hasEnhancedVoice {
+            if !SpeechPlayer.hasEnhancedVoice(for: model.language) {
                 Section {
                     Button {
                         showVoiceGuide = true
@@ -20,7 +21,7 @@ struct ListenView: View {
                         HStack(alignment: .top, spacing: 10) {
                             Image(systemName: "waveform.badge.exclamationmark").foregroundStyle(Theme.warning.foreground)
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Only the standard Italian voice is installed").font(.subheadline.weight(.semibold))
+                                Text("Only the standard \(model.language.name) voice is installed").font(.subheadline.weight(.semibold))
                                 Text("An Enhanced or Premium voice sounds much more natural. Tap for how to get one.")
                                     .font(.footnote)
                             }
@@ -68,7 +69,7 @@ struct ListenView: View {
         }
         .plainPage()
         .navigationTitle("Listen")
-        .sheet(isPresented: $showVoiceGuide) { VoiceGuideView() }
+        .sheet(isPresented: $showVoiceGuide) { VoiceGuideView(language: model.language) }
     }
 }
 
@@ -94,7 +95,17 @@ struct ListenRow: View {
 }
 
 struct VoiceGuideView: View {
+    let language: Language
     @Environment(\.dismiss) private var dismiss
+
+    /// Voices Apple offers for the language: two women's voices with an Enhanced or Premium download,
+    /// and a man's.
+    private var examples: (women: String, man: String) {
+        switch language {
+        case .it: ("Alice or Federica", "Luca")
+        case .de: ("Anna or Petra", "Markus")
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -105,15 +116,15 @@ struct VoiceGuideView: View {
                     #else
                     Text("Open Settings › Accessibility › Read & Speak › Voices.")
                     #endif
-                    Text("Choose Italian, then download a voice marked Enhanced or Premium, such as Alice or Federica.")
-                    Text("For dialogue, also download a male voice, such as Luca, so that men and women sound different.")
-                    Text("Come back to Maestro: it uses the best Italian voice it finds.")
+                    Text("Choose \(language.name), then download a voice marked Enhanced or Premium, such as \(examples.women).")
+                    Text("For dialogue, also download a male voice, such as \(examples.man), so that men and women sound different.")
+                    Text("Come back to Maestro: it uses the best \(language.name) voice it finds.")
                 } footer: {
                     Text("Apps can't download voices themselves, so this takes a trip to Settings.")
                 }
             }
             .plainPage()
-            .navigationTitle("Better Italian voices")
+            .navigationTitle("Better \(language.name) voices")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }
             }

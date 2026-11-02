@@ -33,9 +33,9 @@ struct OnboardingView: View {
                     Divider()
                     check(true, "Sentence translation", detail: "Apple's translation downloads \(model.language.name) the first time you use it")
                     Divider()
-                    check(SpeechPlayer.hasEnhancedVoice, "Natural \(model.language.name) voice",
-                          detail: SpeechPlayer.hasEnhancedVoice ? "Installed" : "Optional, installed from Settings") {
-                        if !SpeechPlayer.hasEnhancedVoice {
+                    check(SpeechPlayer.hasEnhancedVoice(for: model.language), "Natural \(model.language.name) voice",
+                          detail: SpeechPlayer.hasEnhancedVoice(for: model.language) ? "Installed" : "Optional, installed from Settings") {
+                        if !SpeechPlayer.hasEnhancedVoice(for: model.language) {
                             Button("Show me") { showVoiceGuide = true }
                                 .font(.subheadline.weight(.semibold))
                                 .foregroundStyle(Theme.ink)
@@ -86,7 +86,7 @@ struct OnboardingView: View {
             .frame(maxWidth: .infinity)
         }
         .background(Theme.background)
-        .sheet(isPresented: $showVoiceGuide) { VoiceGuideView() }
+        .sheet(isPresented: $showVoiceGuide) { VoiceGuideView(language: model.language) }
     }
 
     private var welcome: String {

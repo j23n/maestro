@@ -74,6 +74,7 @@ struct LanguageContent {
         current = content
         loaded[start] = content
         TargetLanguage.current = start
+        speech.language = start
         if prefs.language != start { prefs.language = start }
     }
 
@@ -92,6 +93,7 @@ struct LanguageContent {
             ?? LanguageContent(language: language, directory: contentRoot?.appendingPathComponent(language.rawValue))
         loaded[language] = next
         TargetLanguage.current = language
+        speech.language = language
         current = next
         prefs.language = language
     }
