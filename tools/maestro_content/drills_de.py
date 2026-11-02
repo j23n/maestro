@@ -17,7 +17,7 @@ from __future__ import annotations
 from .drills import (BUILD_WORDS, Candidate, Forms, TopicInfo, _gap, _neutral, _seed, form_key, form_person,
                      headword, match_case)
 from .normalize import german_key
-from .packs_de import PARTICLES, VERB_LAST_TOPIC_WORDS
+from .packs_de import CLAUSE_BREAK, PARTICLES, VERB_LAST_TOPIC_WORDS
 
 FORM_TOPIC = {
     "ind.pres": "de:praesens", "imp.pres": "de:imperativ", "ind.prat": "de:praeteritum",
@@ -143,15 +143,14 @@ def _clause_after_subordinator(sentence: dict, index: int) -> bool:
     (the linker's set; ambiguous words like damit and als stay out). Like the linker, an und or oder
     whose clause isn't verb-final opens a main clause (weil du Hunger hast und wir essen jetzt)."""
     toks = sentence["tokens"]
-    breaks = (",", ";", ":", ".", "!", "?")
     for j in range(index - 1, -1, -1):
         tok = toks[j]
-        if tok.get("pos") == "PUNCT" and tok["t"] in breaks:
+        if tok.get("pos") == "PUNCT" and tok["t"] in CLAUSE_BREAK:
             return False
         if tok["t"].lower() in VERB_LAST_TOPIC_WORDS and tok.get("pos") == "SCONJ":
             return True
         if tok.get("pos") == "CCONJ" and tok["t"].lower() in ("und", "oder"):
-            end = next((k for k in range(j + 1, len(toks)) if toks[k].get("pos") == "PUNCT" and toks[k]["t"] in breaks),
+            end = next((k for k in range(j + 1, len(toks)) if toks[k].get("pos") == "PUNCT" and toks[k]["t"] in CLAUSE_BREAK),
                        len(toks))
             words = [t for t in toks[j + 1:end] if t.get("pos") != "PUNCT"]
             verbs = [n for n, t in enumerate(words) if t.get("pos") in ("VERB", "AUX")]

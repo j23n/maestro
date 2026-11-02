@@ -186,3 +186,5 @@ def test_a_main_clause_after_und_is_not_subordinate():
     assert drills_de._clause_after_subordinator(s, 7) and not drills_de._clause_after_subordinator(s, 10)
     s = toks("Ich/PRON bleibe/VERB ,/PUNCT weil/SCONJ du/PRON Brot/NOUN und/CCONJ Käse/NOUN kaufst/VERB ./PUNCT")
     assert drills_de._clause_after_subordinator(s, 8), "und between two objects"
+    s = toks("Er/PRON bleibt/VERB –/PUNCT weil/SCONJ er/PRON krank/ADJ ist/AUX –/PUNCT und/CCONJ liest/VERB ./PUNCT")
+    assert not drills_de._clause_after_subordinator(s, 9), "a dash ends the clause, as in the linker"
