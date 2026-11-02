@@ -415,5 +415,102 @@
         "s4"
       ]
     }
+  ],
+  "drills": [
+    {
+      "id": "d1",
+      "kind": "choice",
+      "recipe": "agreement",
+      "topic": "future-in-the-past",
+      "sentence": "s2",
+      "prompt": "Pick the right ending.",
+      "before": "L'anno in cui compii sedici anni, però, mio padre decise che saremmo ",
+      "after": " a Bologna in treno.",
+      "r": [
+        69,
+        6
+      ],
+      "cue": "andare",
+      "options": [
+        "andato",
+        "andata",
+        "andati",
+        "andate"
+      ],
+      "answers": [
+        "andati"
+      ],
+      "near": {
+        "andato": "With essere, the participle agrees with the subject.",
+        "andata": "With essere, the participle agrees with the subject.",
+        "andate": "With essere, the participle agrees with the subject."
+      },
+      "rule": "With essere, the participle agrees with the subject (masculine plural)."
+    },
+    {
+      "id": "d2",
+      "kind": "choice",
+      "recipe": "aux",
+      "topic": "future-in-the-past",
+      "sentence": "s2",
+      "prompt": "Pick the auxiliary.",
+      "before": "L'anno in cui compii sedici anni, però, mio padre decise che ",
+      "after": " andati a Bologna in treno.",
+      "r": [
+        61,
+        7
+      ],
+      "cue": "andare",
+      "options": [
+        "saremmo",
+        "avremmo"
+      ],
+      "answers": [
+        "saremmo"
+      ],
+      "near": {
+        "avremmo": "andare takes essere."
+      },
+      "rule": "andare takes essere: saremmo andati."
+    },
+    {
+      "id": "d3",
+      "kind": "gap",
+      "recipe": "unit",
+      "topic": "future-in-the-past",
+      "sentence": "s2",
+      "prompt": "Fill the gap.",
+      "before": "L'anno in cui compii sedici anni, però, mio padre decise che ",
+      "after": " a Bologna in treno.",
+      "r": [
+        61,
+        14
+      ],
+      "cue": "we would go",
+      "answers": [
+        "saremmo andati"
+      ],
+      "rule": "Future in the past: after a past verb (decise che), Italian uses the condizionale passato where English says \"would\"."
+    },
+    {
+      "id": "d4",
+      "kind": "gap",
+      "recipe": "form",
+      "topic": "imperfetto",
+      "sentence": "s1",
+      "prompt": "Type the verb.",
+      "before": "Quando eravamo ragazzi, ",
+      "after": " ogni estate dai nonni.",
+      "r": [
+        24,
+        8
+      ],
+      "cue": "andare, noi",
+      "answers": [
+        "andavamo"
+      ],
+      "rule": "andare, imperfetto, noi → andavamo.",
+      "recycled": true
+    }
   ]
 }
