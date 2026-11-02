@@ -16,7 +16,7 @@ Mein Bruder Max ist zwölf. || My brother Max is twelve.
 Sein Hobby ist Fußball. || His hobby is football.
 Unsere Katze heißt Mimi. || Our cat is called Mimi.
 Ihr Lieblingsplatz ist das Sofa. || Her favorite spot is the sofa.
-Meine Eltern wohnen in Dresden. || My parents live in Dresden.
+Meine Eltern wohnen in einem Dorf. || My parents live in a village.
 Ich besuche sie oft am Wochenende. || I often visit them at the weekend.
 Und deine Familie? || And your family?
 Wie heißen deine Eltern? || What are your parents called?
