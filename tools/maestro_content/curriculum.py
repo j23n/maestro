@@ -180,8 +180,8 @@ class Ranks:
         return self.form.get(surface.lower())
 
 
-def analyse(lex: packs.Lexicon, ranks: Ranks, path: str) -> TextFacts:
-    src = packs.parse_source(path)
+def analyse(lex: packs.Lexicon, ranks: Ranks, path: str, language: str = "it") -> TextFacts:
+    src = packs.parse_source(path, language)
     meta = _front_matter(path)
     text, warnings = packs.build_text(lex, src)
     facts = TextFacts(id=src.id, path=path, title=src.title, level=src.level, collection=src.collection,
@@ -314,7 +314,7 @@ def load_library(conn: sqlite3.Connection, texts_dir: str, curriculum_dir: str, 
     for p in extra or []:
         if os.path.abspath(p) not in {os.path.abspath(x) for x in paths} and not is_brief(p):
             paths.append(p)
-    texts = sequence([analyse(lex, ranks, p) for p in paths])
+    texts = sequence([analyse(lex, ranks, p, language) for p in paths])
     topics = {t.id: t for t in grammar.load_all(grammar_dir, language)}
     return Library(texts=texts, plans=load_plans(curriculum_dir), topics=topics, ranks=ranks, lex=lex)
 

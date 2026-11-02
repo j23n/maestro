@@ -20,9 +20,13 @@ Source format (content/it/texts/<collection>/<nn>-<slug>.md):
     * Dai nonni || To their grandparents'
     ?? La madre era d'accordo? || Did the mother agree? @s4 = no
 
+German sources live in content/de/texts/ and are linked by packs_de.py; their text IDs and grammar
+slugs get the de: prefix (HANDOFF.md 6.5), so a source never writes it.
+
 One line is one sentence, written as Italian || English. Consecutive lines form a prose block and a
 blank line ends it. A line starting with "> Speaker:" is its own dialogue block. A word can carry a
-hint for the linker: la{pron}, estate{estate:n}. Hints are removed from the text.
+hint for the linker: la{pron}, estate{estate:n}; in German also a case, Frau{acc} or Haus{dat.ns}.
+Hints are removed from the text.
 """
 
 from __future__ import annotations
@@ -128,6 +132,12 @@ class SourceText:
     questions: list[dict]
     introduces: list[str] = field(default_factory=list)
     meta: dict[str, str] = field(default_factory=dict)
+    language: str = "it"
+
+    @property
+    def file_name(self) -> str:
+        """The text's file in its pack: its ID without the language prefix (de:alltag-01 -> alltag-01.json)."""
+        return f"texts/{self.id.split(':')[-1]}.json"
 
     @property
     def status(self) -> str:
@@ -148,8 +158,19 @@ def _strip_hints(text: str) -> tuple[str, dict[int, str]]:
     return "".join(out), hints
 
 
-def parse_source(path: str) -> SourceText:
-    text_id = os.path.splitext(os.path.basename(path))[0]
+def language_of(path: str) -> str:
+    """The language a source is in, from its folder (content/<lang>/texts/…); Italian otherwise."""
+    parts = os.path.abspath(path).split(os.sep)
+    for i in range(len(parts) - 2):
+        if parts[i] == "content" and parts[i + 2] == "texts" and parts[i + 1] in ("it", "de"):
+            return parts[i + 1]
+    return "it"
+
+
+def parse_source(path: str, language: str | None = None) -> SourceText:
+    language = language or language_of(path)
+    prefix = "" if language == "it" else f"{language}:"
+    text_id = prefix + os.path.splitext(os.path.basename(path))[0]
     with open(path, encoding="utf-8") as fh:
         lines = [nfc(apostrophes(l.rstrip("\n"))) for l in fh]
     if not lines or not lines[0].startswith("# "):
@@ -220,7 +241,7 @@ def parse_source(path: str) -> SourceText:
                     key, _, value = f.partition("=")
                     unit[key.strip()] = value.strip()
                 if "grammar" in unit:
-                    unit["grammar"] = [g.strip() for g in unit["grammar"].split(",") if g.strip()]
+                    unit["grammar"] = [prefix + g.strip() for g in unit["grammar"].split(",") if g.strip()]
                 last_sentence.units.append(unit)
             elif kind == "gloss":
                 word, _, gloss = rest.partition("=")
@@ -248,8 +269,8 @@ def parse_source(path: str) -> SourceText:
     return SourceText(
         id=text_id, title=title, level=meta["level"], collection=meta["collection"], order=int(meta["order"]),
         topics=[t.strip() for t in meta.get("topics", "").split(",") if t.strip()], blocks=blocks,
-        questions=questions, introduces=[t.strip() for t in meta.get("introduces", "").split(",") if t.strip()],
-        meta=meta,
+        questions=questions, introduces=[prefix + t.strip() for t in meta.get("introduces", "").split(",") if t.strip()],
+        meta=meta, language=language,
     )
 
 
@@ -567,6 +588,11 @@ def _apply_manual_units(lex: Lexicon, sentence: SourceSentence, tokens: list[dic
 # --- building ----------------------------------------------------------------------------
 
 def build_text(lex: Lexicon, src: SourceText) -> tuple[dict, list[str]]:
+    if src.language == "de":
+        from . import packs_de
+        link = packs_de.link_sentence
+    else:
+        link = link_sentence
     warnings: list[str] = []
     blocks = []
     n = 0
@@ -577,7 +603,7 @@ def build_text(lex: Lexicon, src: SourceText) -> tuple[dict, list[str]]:
         offset = 0
         for s in block.sentences:
             n += 1
-            tokens, units, w = link_sentence(lex, s)
+            tokens, units, w = link(lex, s)
             warnings.extend(f"{src.id} s{n}: {x}" for x in w)
             entry = {"id": f"s{n}", "r": [offset, utf16_len(s.text)], "text": s.text,
                      "translation": s.translation, "tokens": tokens}
@@ -602,7 +628,10 @@ def text_lemmas(text: dict) -> Counter:
             for u in s.get("units", []):
                 if u.get("lemmaID"):
                     counts[u["lemmaID"]] += 1
-                    covered.update(u["tokens"][1:])  # the participle; the auxiliary still counts
+                    # The participle, and any token linked to the unit's own verb (rufe … an);
+                    # the auxiliary still counts.
+                    covered.update(u["tokens"][1:])
+                    covered.update(i for i in u["tokens"] if s["tokens"][i].get("lemmaID") == u["lemmaID"])
             for i, tok in enumerate(s["tokens"]):
                 if i in covered:
                     continue
@@ -685,7 +714,7 @@ def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_conte
         for f in sorted(files):
             if not f.endswith(".md"):
                 continue
-            src = parse_source(os.path.join(root, f))
+            src = parse_source(os.path.join(root, f), language)
             if src.status not in STATUSES:
                 errors.append(f"{src.id}: status {src.status!r} must be one of {', '.join(STATUSES)}")
             if src.meta.get("window") and not window_valid(src.meta["window"]):
@@ -714,7 +743,7 @@ def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_conte
                     "formatVersion": 1, "version": 1, "minContentDB": min_content_db, "language": language,
                     "translationLanguage": "en", "texts": []}
         for src, text in items:
-            path = f"texts/{text['id']}.json"
+            path = src.file_name
             with open(os.path.join(pack_dir, path), "w", encoding="utf-8") as fh:
                 json.dump(text, fh, ensure_ascii=False, indent=1)
             counts = text_lemmas(text)

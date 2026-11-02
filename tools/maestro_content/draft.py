@@ -144,8 +144,9 @@ def examples(lib: curriculum.Library, level: str, exclude: str) -> list[str]:
 
 def findings_for(conn: sqlite3.Connection, args, path: str) -> list[str]:
     try:
-        lib = curriculum.load_library(conn, args.texts, args.curriculum, args.grammar, args.frequency, extra=[path])
-        src = packs.parse_source(path)
+        lib = curriculum.load_library(conn, args.texts, args.curriculum, args.grammar, args.frequency, extra=[path],
+                                      language=getattr(args, "language", "it"))
+        src = packs.parse_source(path, getattr(args, "language", None))
     except (packs.PackError, ValueError, KeyError) as exc:
         return [f"The file doesn't parse: {exc}"]
     text, _ = packs.build_text(packs.Lexicon(conn), src)
