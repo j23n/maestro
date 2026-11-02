@@ -1,6 +1,6 @@
 # Italian Learning App: Project Handoff
 
-As of 2026-10-31. This file is the single source of truth for the project. Paste it into a new project as context.
+As of 2026-11-02. This file is the single source of truth for the project. Paste it into a new project as context.
 
 Related artifacts (private until shared):
 - Plan doc: https://claude.ai/artifact/1XmB2MpMvtVEvxBNW7UhzP
@@ -14,6 +14,8 @@ Where this file and the plan doc disagree, this file wins. The plan doc still de
 ## 1. The product in one paragraph
 
 A native app for iPhone, iPad and Mac that teaches Italian through reading and listening. Learners read graded texts (100 texts, A1 to B2) as plain text. When they tap a word or phrase they get help: meaning in context, the dictionary form, a grammatical analysis, and why that form is used. Anything from that help (a word, a verb form, a grammar point) can be kept in **Remember**, a flashcard deck reviewed with spaced repetition, always shown in the sentence it came from. A full offline dictionary, verb tables and grammar reference sit behind it. Listening uses on-device text-to-speech. Everything works offline; progress syncs over iCloud; there is no server.
+
+German comes next, in the same app, as a second target language (section 5.3). Everything below describes Italian unless it says otherwise; German follows the same rules with its own content.
 
 ## 2. Decisions so far
 
@@ -29,6 +31,7 @@ A native app for iPhone, iPad and Mac that teaches Italian through reading and l
 | Navigation (iPhone) | Tabs: Read, Dictionary, Verbs, Remember, Listen. Settings is reached from Read. "Today" was dropped. |
 | Listening | On-device TTS (`AVSpeechSynthesizer`). Player with "Show text" and "Listen first" modes, sentence-by-sentence navigation, repeat, speed. |
 | Questions | Each text has comprehension questions; a wrong answer shows the sentence that answers it. |
+| Languages | Italian, then German (decided 2026-11-02). One app; the learner picks a language at onboarding and can switch in Settings. One language is active at a time, and every tab shows only that language (section 5.3). |
 | iPhone help sheet | The sentence translation was removed (user feedback). iPad popover and Mac inspector still show it: open question. |
 
 ## 3. Functional spec
@@ -259,6 +262,18 @@ Preferences (level, text size, new items per day, reminder) and the FSRS paramet
 - Keep sync behind a repository protocol so it can move to GRDB + `CKSyncEngine` if SwiftData limits bite.
 - Test on real devices: same card reviewed offline on two devices; same item added offline on two devices; a card deleted on one device while the other reviews it offline; fresh install; signed out of iCloud.
 
+### 5.3 Target languages
+
+Decided 2026-11-02: German is added to the same app, not as a second app. The plan: https://claude.ai/artifact/NGCtsY5wjnmSVAWUdYjYhu.
+
+- **One active language.** The learner picks Italian or German at onboarding; Settings switches. Library, Dictionary, Verbs, Remember, Listen and Practice show only the active language. Level, new items per day, the Remember deck and due count, Continue reading, lookup history and the voice are per language. The daily reminder is one reminder and counts what is due in every language. The language choice appears only when the app bundles content for more than one language.
+- **Language codes.** `it` and `de` (`LanguageCore.Language`). They prefix lemma IDs today (`it:andare:v`) and every German ID (section 6.5).
+- **Content per language.** Sources live in `content/<lang>/` (`texts/`, `grammar/`, `curriculum/`, `frequency/`, `ids/`); `content/schema/` and `content/fixtures/` are shared. The app bundles `Content/<lang>/content.sqlite` and `Content/<lang>/packs/`; a language is available when its database is in the bundle. Each database records its language in `meta.language`, each pack manifest in `language`.
+- **Shared code.** The packages never decide a language on their own: the app passes the active `Language` in, and Italian rules (form tags, elision and clitic lookup, the conjugator, drill recipes) sit behind it until German's arrive.
+- **Learner data.** `Card`, `TextProgress` and `LookupEntry` carry `language` (default `it`, so every existing record is Italian). `ReviewLog` needs none: its item key's IDs carry the language. Preferences keep `level` and `newItemsPerDay` as Italian's and add `activeLanguage`, `level.de` and `newItemsPerDay.de`, so older builds keep reading the keys they know. The FSRS parameters are shared.
+- **Order of releases.** The language-aware build ships at least one release before any German content: an older build would show synced German cards in its deck.
+- **Terms.** Form and grammar names use the target language's own terms: *condizionale passato* for Italian, *Präteritum*, *Dativ*, *Konjunktiv II* for German.
+
 ## 6. Content
 
 ### 6.1 Sources and licences
@@ -327,6 +342,8 @@ Cards live in CloudKit indefinitely and packs reference content by ID, so IDs mu
 
 Headwords are NFC, lowercase except proper nouns; spaces in multiword lemmas become `_`. Homograph numbers are ours, assigned when an entry is first seen, never taken from Wiktionary's etymology order. Sense codes are meaningless on purpose: readable codes invite renaming, and renaming breaks synced cards.
 
+**Languages.** Lemma and sense IDs start with their language (`it:`, `de:`). Italian grammar slugs, grammar base IDs and text IDs have no prefix; every German ID has one (`de:dativ`, `de:alltag-01`), so an ID without a prefix is Italian. German headwords keep their capitals (`de:Haus:n`, `de:essen:v`, `de:Essen:n`), because German spells nouns with one.
+
 **Registry.** `content/ids/lemmas.tsv` and `content/ids/senses.tsv` map each ID to the fingerprint it was minted from. On each rebuild every sense is matched in this order: wiktextract's `senseid`, then its Wikidata QID, then headword + part of speech + normalised gloss. Etymology numbers are never used (they are positions and changed type in 2026). Unmatched senses get a fresh, hash-derived ID, so builds are reproducible. Uncertain matches go to a review list, limited to senses used by packs or in the curated frequent-word set. IDs are edited only by the pipeline, never by hand.
 
 | Change in the source | What the registry does |
@@ -355,6 +372,19 @@ Examples: `ind.impf.1p` (andavamo), `ind.prem.1s` (compii), `cond.pass.1p` (sare
 Not in the tag: participle agreement (`agree`), so *saremmo andati* and *saremmo andate* are one card; reflexive and pronominal verbs, which are their own lemmas (`lavarsi`, `andarsene`); clitics, which are token parts; the passive, which is a grammar topic in v1. The app turns tags into labels ("condizionale passato · noi") from one lookup table; packs and cards never store label text.
 
 Source tags differ: Morph-it! writes passato remoto as `ind+past`, which maps to `ind.prem`. The pipeline's mapping table has tests, and the build fails on an unmapped tag.
+
+**German form tags.** Same syntax, German codes. A tag is read in the language of its lemma, so `verbForm|de:gehen:v|ind.prat.1s` needs no language field.
+
+| Part | Codes |
+| --- | --- |
+| Mood | `ind` Indikativ, `k1` Konjunktiv I, `k2` Konjunktiv II, `imp` Imperativ, `inf` Infinitiv, `part` Partizip |
+| Simple tense | `pres` Präsens, `prat` Präteritum |
+| Compound tense | `perf` Perfekt, `pqp` Plusquamperfekt, `fut1` Futur I, `fut2` Futur II, `wuerde` (k2 only: *würde gehen*) |
+| Infinitive | `inf.pres` (*gehen*), `inf.zu` (*anzurufen*), `inf.perf` (*gegangen sein*) |
+| Person | `1s` `2s` `3s` `1p` `2p` `3p` (Sie = `3p`) |
+| Auxiliary suffix | `+h` / `+s` on compound tags, only for verbs that take both (`ind.perf.3s+s` *ist gefahren*, `ind.perf.3s+h` *hat gefahren*) |
+
+Examples: `ind.prat.1s` (ging), `k2.prat.1s` (ginge), `k2.wuerde.1s` (würde gehen), `k1.pres.3s` (gehe), `imp.pres.2s` (geh), `part.pass` (gegangen). German tokens keep `gn`, which gains `ns` and `pl` (German plurals have no gender), and add `case` (`nom` `acc` `dat` `gen`); adjectives add `decl` (`str` `wk` `mix`). Separable verbs are units (*rufe … an*), contractions are multiword tokens (*zum* = *zu* + *dem*).
 
 **Item keys** (dedupe and log linking): Word `word|lemmaID|senseID`, Verb form `verbForm|lemmaID|formTag`, Grammar `grammar|grammarID`.
 
@@ -387,6 +417,8 @@ Look: quiet, text first, no colour except where it carries meaning. The mocks us
 - [x] Minimum OS 26 or 27? **26.0** (decided 2026-10-31, replacing an earlier choice of 27; see section 5).
 - [ ] Business model: paid, subscription, or free with paid packs?
 - [ ] Learners' base language: English only for v1?
+- [x] German in the same app or a second app? **The same app, with a language switch** (decided 2026-11-02; section 5.3).
+- [ ] Who reviews the German texts? App name and listing once German ships ("Maestro" reads Italian)?
 - [ ] Who reviews the texts (a teacher of Italian as a second language is the plan; Claude drafts them); level split (mocks use 20/28/30/22)?
 - [x] Which word-frequency list, and its licence? **FrequencyWords (OpenSubtitles 2018), CC BY-SA 4.0** (decided 2026-10-31).
 - [ ] Placement test in v1?
