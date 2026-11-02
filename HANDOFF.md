@@ -105,7 +105,7 @@ English → Italian search runs over English glosses; weaker, so curate the most
 
 - Listen tab: voice-quality banner when only the standard voice is installed, Continue, "Listen first" (new texts), "Listen again" (texts already read).
 - Player: Show text / Listen first toggle; current sentence and word highlighted; scrubber with sentence count; previous / play-pause / next sentence; speed (0.6× to 1×); repeat each sentence; voice.
-- Enhanced and Premium Italian voices must be installed by the learner in iOS Settings (Accessibility › Spoken Content › Voices); the app detects voice quality and shows a guide. There was no API to trigger the download through iOS 26; check whether iOS 27 added one (open task).
+- Speech uses the active language's voices: it-IT for Italian, de-DE for German. Enhanced and Premium voices must be installed by the learner in iOS Settings (Accessibility › Spoken Content › Voices); the app detects voice quality for the active language and shows a guide that names that language and some of its voices. There was no API to trigger the download through iOS 26; check whether iOS 27 added one (open task).
 - Voices: the narrator reads in the best installed voice. Each dialogue speaker gets a voice of their gender (the text's `speakers:` line, section 6.3), a different one per speaker while enough are installed; speakers who must share a voice get a slightly different pitch. A speaker without a gender, or whose gender has no voice installed, gets the least used voice. The casting (`VoiceCasting` in PackKit) takes the voices installed for the text's language, without the robotic Eloquence voices (Eddy, Flo, Grandma…) and novelty or personal voices.
 - Optional: render a text to buffers with `write(_:toBufferCallback:)` for a scrubbable timeline; background audio with Now Playing info.
 
@@ -169,7 +169,7 @@ Not mocked yet: dark mode, iPad library and review, Mac Listen and Settings, wid
 | Content store | Read-only SQLite bundled with the app, read through a thin wrapper over the SQLite C API in LexiconKit (no third-party dependency, builds and tests on Linux), FTS5 index, plus a catalog of every text (downloaded or not) |
 | Learner store | SwiftData + CloudKit private database for cards, review logs, progress and lookups; the FSRS schedule cache in a separate local-only SwiftData store |
 | Scheduler | FSRS-6 package behind a protocol |
-| Speech | `AVSpeechSynthesizer`, it-IT voices |
+| Speech | `AVSpeechSynthesizer`, it-IT and de-DE voices |
 | Translation | Apple Translation framework, on device after a one-time download; does not run in the Simulator |
 | Lemmatizer fallback | NaturalLanguage `NLTagger` (`.lemma`, `.lexicalClass` support Italian) |
 | Text delivery | Starter texts bundled; the rest as Apple-hosted Background Assets (iOS/macOS 26+) |

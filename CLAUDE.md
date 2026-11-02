@@ -18,7 +18,7 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian, and next German (HA
 - Content: bundled read-only SQLite via GRDB, FTS5. Built offline by a script in `tools/`; never modified on device.
 - Learner data: SwiftData + CloudKit private database. Preferences in `NSUbiquitousKeyValueStore`.
 - Scheduling: FSRS-6 behind a `Scheduler` protocol. The schedule is computed from review logs into a local-only store (`ScheduleState`, `cloudKitDatabase: .none`) and never syncs.
-- Speech: `AVSpeechSynthesizer` (it-IT). Translation: Apple Translation framework (test on device; it does not run in the Simulator).
+- Speech: `AVSpeechSynthesizer` (it-IT, de-DE). Translation: Apple Translation framework (test on device; it does not run in the Simulator).
 
 ## Build, CI and TestFlight
 
