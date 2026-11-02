@@ -22,6 +22,14 @@ private func gap(answers: [String], near: [String: String] = [:]) -> Drill {
         #expect(DrillGrader.grade("perché", for: drill) == .correct)
     }
 
+    @Test func germanWithoutUmlautKeysOrEszettIsAnAccentSlip() {
+        let drill = gap(answers: ["Häuser", "Straße"])
+        #expect(DrillGrader.grade("haeuser", for: drill) == .accentSlip(expected: "Häuser"))
+        #expect(DrillGrader.grade("hauser", for: drill) == .accentSlip(expected: "Häuser"))
+        #expect(DrillGrader.grade("strasse", for: drill) == .accentSlip(expected: "Straße"))
+        #expect(DrillGrader.grade("häuser", for: drill) == .correct)
+    }
+
     @Test func nearMissesGetTheirOwnHint() {
         let drill = gap(answers: ["preso"], near: ["prenduto": "prendere has an irregular participle."])
         #expect(DrillGrader.grade("prenduto", for: drill) == .wrong(hint: "prendere has an irregular participle."))

@@ -6,7 +6,7 @@ import PackKit
 public enum Grade: Sendable, Equatable {
     /// Accepted as given.
     case correct
-    /// Accepted, but the accents differ from `expected` ("perche" for "perché").
+    /// Accepted, but the accents differ from `expected` ("perche" for "perché", "haeuser" for "Häuser").
     case accentSlip(expected: String)
     /// Not accepted; `hint` says what to look at.
     case wrong(hint: String)
@@ -35,6 +35,11 @@ public enum DrillGrader {
         let accepted = drill.answers ?? []
         if accepted.contains(where: { normalize($0) == given }) { return .correct }
         if let match = accepted.first(where: { key($0) == key(given) }) { return .accentSlip(expected: match) }
+        // German typed without umlaut keys: "haeuser" for "Häuser".
+        let spelled = Normalizer.umlauts(given)
+        if spelled != given, let match = accepted.first(where: { normalize($0) == spelled }) {
+            return .accentSlip(expected: match)
+        }
         if let hint = drill.near?[key(given)] { return .wrong(hint: hint) }
         return .wrong(hint: genericHint(given, expected: normalize(drill.answer)))
     }
