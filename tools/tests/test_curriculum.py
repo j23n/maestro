@@ -9,7 +9,7 @@ from maestro_content.registry import Registry
 HERE = os.path.dirname(__file__)
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 SAMPLE = os.path.join(HERE, "fixtures", "kaikki-sample.jsonl")
-GRAMMAR = os.path.join(ROOT, "content", "grammar")
+GRAMMAR = os.path.join(ROOT, "content", "it", "grammar")
 
 FREQ = """il 1000
 la 900
@@ -96,7 +96,7 @@ def test_frequency_ranks_lemmas_through_their_forms(conn):
 
 
 def test_repository_plans_parse():
-    plans = curriculum.load_plans(os.path.join(ROOT, "content", "curriculum"))
+    plans = curriculum.load_plans(os.path.join(ROOT, "content", "it", "curriculum"))
     assert sorted(plans) == curriculum.LEVELS
     for a, b in zip(curriculum.LEVELS, curriculum.LEVELS[1:]):
         assert plans[a].core_rank <= plans[b].known_rank, "a level's core is known at the next level"

@@ -1,6 +1,6 @@
-"""Grammar topics: content/grammar/<id>.md with a small key: value header, then Markdown.
+"""Grammar topics: content/it/grammar/<id>.md with a small key: value header, then Markdown.
 
-The grammar base, content/grammar/base.yaml, lists every syllabus point and the topic page that covers it."""
+The grammar base, content/it/grammar/base.yaml, lists every syllabus point and the topic page that covers it."""
 
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ def load_all(directory: str) -> list[Topic]:
 
 @dataclass
 class Point:
-    """One point of the grammar base (content/grammar/base.yaml)."""
+    """One point of the grammar base (content/it/grammar/base.yaml)."""
     id: str
     level: str
     category: str
@@ -91,5 +91,5 @@ def check_base(points: list[Point], topics: list[Topic]) -> list[str]:
         if p.level not in ("A0", "A1", "A2", "B1", "B2"):
             errors.append(f"grammar base: {p.id} has level {p.level!r}")
         if p.topic and p.topic not in topic_ids:
-            errors.append(f"grammar base: {p.id} names topic {p.topic!r}, which has no page in content/grammar")
+            errors.append(f"grammar base: {p.id} names topic {p.topic!r}, which has no page in content/it/grammar")
     return errors

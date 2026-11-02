@@ -1,10 +1,10 @@
 import SwiftData
 import SwiftUI
 import Translation
-import ItalianCore
+import LanguageCore
 import LexiconKit
 
-/// Dictionary search (HANDOFF.md 3.2): Italian through the lookup cascade, English over glosses,
+/// Dictionary search (HANDOFF.md 3.2): the target language through the lookup cascade, English over glosses,
 /// several words offer translation.
 struct DictionaryView: View {
     @Environment(AppModel.self) private var model
@@ -14,6 +14,9 @@ struct DictionaryView: View {
     @State private var query = ""
     @State private var englishToItalian = false
     @State private var showTranslation = false
+
+    /// The target language's name, for the search copy.
+    private var language: String { model.language.name }
 
     var body: some View {
         List {
@@ -34,7 +37,7 @@ struct DictionaryView: View {
         }
         .plainPage()
         .navigationTitle("Dictionary")
-        .searchable(text: $query, prompt: englishToItalian ? "English word" : "Italian word or form")
+        .searchable(text: $query, prompt: englishToItalian ? "English word" : "\(language) word or form")
         #if DEBUG
         .task { if query.isEmpty, let q = UITestLaunch.query { query = q } }
         #endif
@@ -53,7 +56,7 @@ struct DictionaryView: View {
                 englishToItalian.toggle()
             } label: {
                 HStack(spacing: 4) {
-                    Text(englishToItalian ? "English → Italian" : "Italian → English")
+                    Text(englishToItalian ? "English → \(language)" : "\(language) → English")
                     Image(systemName: "arrow.left.arrow.right").font(.caption2.weight(.semibold))
                 }
                 .font(.footnote)
@@ -63,7 +66,7 @@ struct DictionaryView: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Search direction")
-            .accessibilityValue(englishToItalian ? "English to Italian" : "Italian to English")
+            .accessibilityValue(englishToItalian ? "English to \(language)" : "\(language) to English")
         }
         .listRowSeparator(.hidden)
         .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
@@ -89,7 +92,7 @@ struct DictionaryView: View {
 
     private var uniqueHistory: [LookupEntry] {
         var seen = Set<String>()
-        return history.filter { !$0.lemmaID.isEmpty && seen.insert($0.lemmaID).inserted }.prefix(20).map { $0 }
+        return history.filter { $0.language == model.language.rawValue && !$0.lemmaID.isEmpty && seen.insert($0.lemmaID).inserted }.prefix(20).map { $0 }
     }
 
     @ViewBuilder private var results: some View {
@@ -116,7 +119,7 @@ struct DictionaryView: View {
                         .frame(minHeight: 44)
                 }
             } footer: {
-                Text("Several words: Apple's on-device translation, once its Italian model is downloaded.")
+                Text("Several words: Apple's on-device translation, once its \(language) model is downloaded.")
             }
         case .empty:
             Text("No match for “\(query)”.").foregroundStyle(.secondary)
@@ -126,7 +129,7 @@ struct DictionaryView: View {
     @ViewBuilder private var englishResults: some View {
         let lemmas = model.content?.englishMatches(query) ?? []
         if lemmas.isEmpty {
-            Text("No Italian word found for “\(query)”.").foregroundStyle(.secondary)
+            Text("No \(language) word found for “\(query)”.").foregroundStyle(.secondary)
         } else {
             Section {
                 ForEach(lemmas) { lemma in
@@ -150,7 +153,7 @@ struct LemmaRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(spacing: 6) {
-                Text(italian: lemma.headword).font(.system(.body, design: .serif).weight(.semibold))
+                Text(target: lemma.headword).font(.system(.body, design: .serif).weight(.semibold))
                 Text(lemma.posLabel).font(.caption).foregroundStyle(.secondary)
             }
             if !lemma.firstGloss.isEmpty {
@@ -174,14 +177,14 @@ struct ReadingRow: View {
             NavigationLink(value: destination) {
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
-                        Text(italian: reading.lemma.headword).font(.system(.title3, design: .serif).weight(.semibold))
+                        Text(target: reading.lemma.headword).font(.system(.title3, design: .serif).weight(.semibold))
                         Tag(text: reading.lemma.posLabel, colors: Theme.kind(.word))
                     }
                     if let form = formLine {
                         Text(form).font(.subheadline)
                     }
                     if case .clitics(let base, let clitics) = reading.via {
-                        Text(italian: "\(reading.surface) = \(([base] + clitics).joined(separator: " + "))")
+                        Text(target: "\(reading.surface) = \(([base] + clitics).joined(separator: " + "))")
                             .font(.subheadline).foregroundStyle(.secondary)
                     }
                     if !reading.lemma.firstGloss.isEmpty {

@@ -1,4 +1,5 @@
 import SwiftUI
+import LanguageCore
 import UserNotifications
 
 /// Settings (HANDOFF.md 3.8).
@@ -10,13 +11,20 @@ struct SettingsView: View {
     var body: some View {
         @Bindable var prefs = prefs
         List {
+            if model.languages.count > 1 {
+                LabeledSection("Language") {
+                    Picker("Learning", selection: Binding(get: { model.language }, set: { model.activate($0) })) {
+                        ForEach(model.languages) { Text($0.name).tag($0) }
+                    }
+                }
+            }
             LabeledSection("Sync") {
                 LabeledContent("iCloud", value: iCloudStatus)
             }
             LabeledSection("Offline") {
                 LabeledContent("Dictionary", value: model.hasDictionary ? "Built in (\(model.contentVersion))" : "Missing")
                 LabeledContent("Texts on this device", value: "\(model.entries.count)")
-                LabeledContent("Italian voice", value: SpeechPlayer.hasEnhancedVoice ? "Enhanced" : "Standard only")
+                LabeledContent("\(model.language.name) voice", value: SpeechPlayer.hasEnhancedVoice ? "Enhanced" : "Standard only")
             }
             LabeledSection("Reading") {
                 Picker("Level", selection: $prefs.level) {

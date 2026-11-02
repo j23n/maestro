@@ -1,6 +1,6 @@
 #if DEBUG
 import Foundation
-import ItalianCore
+import LanguageCore
 import PackKit
 
 /// Launch arguments the screenshot UI test (`make screenshots`) uses to open a screen directly,

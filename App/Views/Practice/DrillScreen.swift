@@ -1,5 +1,5 @@
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import PackKit
 import PracticeKit
 
@@ -92,7 +92,7 @@ struct DrillScreen: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("practice.sentence")
             if let cue = drill.cue {
-                Text(italian: "(\(cue))").font(.callout).foregroundStyle(.secondary)
+                Text(target: "(\(cue))").font(.callout).foregroundStyle(.secondary)
             }
             if let translation = text.sentence(drill.sentence)?.translation {
                 Text(translation).font(.footnote).foregroundStyle(.secondary)
@@ -119,7 +119,7 @@ struct DrillScreen: View {
                                 .frame(width: 22, height: 22)
                                 .background(Theme.chip, in: RoundedRectangle(cornerRadius: 6))
                                 .accessibilityHidden(true)
-                            Text(italian: option).font(.system(.title3, design: .serif))
+                            Text(target: option).font(.system(.title3, design: .serif))
                             Spacer()
                             if isRight {
                                 Image(systemName: "checkmark.circle.fill").accessibilityLabel("Right")
@@ -162,7 +162,7 @@ struct DrillScreen: View {
     private var gap: some View {
         VStack(alignment: .leading, spacing: 14) {
             stimulus(filled: feedback.isDone ? (feedback.outcome == .shown ? drill.answer : typedOrAnswer) : nil)
-            TextField("Type in Italian", text: $typed)
+            TextField("Type in \(TargetLanguage.current.name)", text: $typed)
                 .font(.system(.title3, design: .serif))
                 .autocorrectionDisabled()
                 #if os(iOS)
@@ -174,7 +174,7 @@ struct DrillScreen: View {
                 .background(RoundedRectangle(cornerRadius: 12).stroke(fieldBorder, lineWidth: 1.5))
                 .disabled(feedback.isDone)
                 .onSubmit(check)
-                .italian()
+                .targetLanguage()
                 .accessibilityIdentifier("practice.answer")
             if !feedback.isDone {
                 AccentKeys { typed += $0 }
@@ -401,7 +401,7 @@ struct DrillScreen: View {
             Text(panel.headline).font(.headline)
             if let detail = panel.detail {
                 if panel.kind == .shown {
-                    Text(italian: detail).font(.system(.body, design: .serif))
+                    Text(target: detail).font(.system(.body, design: .serif))
                     if let rule = drill.rule, drill.format != .build {
                         Text(markdown: rule).font(.callout)
                     }
@@ -421,13 +421,13 @@ struct DrillScreen: View {
 
 // MARK: Small controls
 
-/// à è é ì ò ù, appended to the answer.
+/// The target language's accent keys (à è é ì ò ù for Italian), appended to the answer.
 struct AccentKeys: View {
     let insert: (String) -> Void
 
     var body: some View {
         HStack(spacing: 6) {
-            ForEach(["à", "è", "é", "ì", "ò", "ù"], id: \.self) { c in
+            ForEach(TargetLanguage.current.accentKeys, id: \.self) { c in
                 Button { insert(c) } label: {
                     Text(c).font(.system(.title3, design: .serif))
                         .frame(width: 44, height: 40)
@@ -446,7 +446,7 @@ struct TileButton: View {
 
     var body: some View {
         Button(action: action) {
-            Text(italian: title)
+            Text(target: title)
                 .font(.system(.title3, design: .serif))
                 .padding(.horizontal, 12)
                 .frame(minHeight: 44)
@@ -471,7 +471,7 @@ struct MatchTile: View {
         case .wrong: (Theme.error.background, Theme.error.foreground, Theme.error.foreground)
         }
         Button(action: action) {
-            Text(italian: title)
+            Text(target: title)
                 .font(.system(.body, design: .serif))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 8)

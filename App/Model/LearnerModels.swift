@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import LanguageCore
 
 // Learner data (HANDOFF.md 5.1). CloudKit rules: no unique attributes, every property optional or
 // defaulted, never rename, delete or retype a property once the schema is in Production.
@@ -22,10 +23,13 @@ import SwiftData
     var createdAt: Date = Date.now
     var deletedAt: Date? = nil
     var restoredAt: Date? = nil
+    /// The item's language (HANDOFF.md 5.3), from its IDs. Records from before German default to Italian.
+    var language: String = "it"
 
     init(itemKey: String, kind: String) {
         self.itemKey = itemKey
         self.kind = kind
+        self.language = Language.of(itemKey: itemKey)?.rawValue ?? ""
     }
 
     var isActive: Bool {
@@ -68,9 +72,12 @@ import SwiftData
     var answersJSON: String = ""
     var updatedAt: Date = Date.now
     var createdAt: Date = Date.now      // the merge pass keeps the oldest record
+    /// The text's language, from its ID (HANDOFF.md 5.3).
+    var language: String = "it"
 
     init(textID: String) {
         self.textID = textID
+        self.language = Language.of(id: textID)?.rawValue ?? ""
     }
 }
 
@@ -80,10 +87,13 @@ import SwiftData
     var query: String = ""
     var lemmaID: String = ""
     var lookedUpAt: Date = Date.now
+    /// The dictionary it was looked up in (HANDOFF.md 5.3).
+    var language: String = "it"
 
-    init(query: String, lemmaID: String) {
+    init(query: String, lemmaID: String, language: Language) {
         self.query = query
         self.lemmaID = lemmaID
+        self.language = language.rawValue
     }
 }
 

@@ -50,28 +50,30 @@ test: swift-test test-tools
 test-tools:
 	@[ ! -d tools ] || { echo "$(PYTHON) -m pytest tools"; $(PYTHON) -m pytest tools || [ $$? -eq 5 ]; }
 
-# The dictionary database and the starter packs, into App/Resources/Content (git ignores them).
+# The dictionary database and the starter packs, into App/Resources/Content/<lang> (git ignores them).
 content:
 	$(PYTHON) tools/build_content.py --mode $(CONTENT)
 
-# Texts: level plans in content/curriculum, the checker, the coverage report and briefs
+# Texts: level plans in content/<lang>/curriculum, the checker, the coverage report and briefs
 # (tools/maestro_content/curriculum.py). They read the content database, so build it with
-# CONTENT=full first for real numbers; the sample dictionary links few words.
+# CONTENT=full first for real numbers; the sample dictionary links few words. LANGUAGE picks the
+# target language (HANDOFF.md 5.3).
+LANGUAGE ?= it
 CONTENT_TOOL := PYTHONPATH=tools $(PYTHON) -m maestro_content
 
 coverage: content
-	$(CONTENT_TOOL) coverage
+	$(CONTENT_TOOL) coverage --language $(LANGUAGE)
 
 check-texts: content
-	$(CONTENT_TOOL) check $(TEXTS)
+	$(CONTENT_TOOL) check --language $(LANGUAGE) $(TEXTS)
 
 brief: content
 	@[ -n "$(LEVEL)" ] && [ -n "$(COLLECTION)" ] || { echo "usage: make brief LEVEL=A2 COLLECTION=vita-quotidiana [TITLE=…] [WINDOW=12-01..01-06]"; exit 2; }
-	$(CONTENT_TOOL) brief --level $(LEVEL) --collection $(COLLECTION) $(if $(TITLE),--title "$(TITLE)") $(if $(WINDOW),--window $(WINDOW))
+	$(CONTENT_TOOL) brief --language $(LANGUAGE) --level $(LEVEL) --collection $(COLLECTION) $(if $(TITLE),--title "$(TITLE)") $(if $(WINDOW),--window $(WINDOW))
 
 draft: content
-	@[ -n "$(TEXT)" ] || { echo "usage: make draft TEXT=content/texts/<collection>/<id>.md"; exit 2; }
-	$(CONTENT_TOOL) draft $(TEXT)
+	@[ -n "$(TEXT)" ] || { echo "usage: make draft TEXT=content/it/texts/<collection>/<id>.md"; exit 2; }
+	$(CONTENT_TOOL) draft --language $(LANGUAGE) $(TEXT)
 
 # The main screens on an iPhone and an iPad simulator, as PNGs in .build/Screenshots, for checking
 # the UI against the mocks. The reader's UI tests run there too, so they also run on an iPad.
@@ -103,4 +105,5 @@ ci-linux: test
 ci-macos: swift-test build test-app
 
 clean:
-	rm -rf $(XCODEPROJ) .build Packages/*/.build App/Resources/Content/content.sqlite App/Resources/Content/packs
+	rm -rf $(XCODEPROJ) .build Packages/*/.build App/Resources/Content/content.sqlite App/Resources/Content/packs \
+	  $(filter-out App/Resources/Content/README.md,$(wildcard App/Resources/Content/*))

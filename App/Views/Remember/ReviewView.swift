@@ -1,6 +1,6 @@
 import SwiftData
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import SRSKit
 
 /// Flashcard review (HANDOFF.md 3.4): the sentence with the item highlighted and a prompt; the
@@ -110,7 +110,7 @@ struct ReviewView: View {
                 .font(.system(size: 26, design: .serif))
                 .lineSpacing(8)
         } else {
-            Text(italian: CardText.title(card, model: model))
+            Text(target: CardText.title(card, model: model))
                 .font(.system(size: 30, weight: .semibold, design: .serif))
         }
         Text(kind.prompt).font(.subheadline).foregroundStyle(.secondary)
@@ -121,14 +121,14 @@ struct ReviewView: View {
         VStack(alignment: .leading, spacing: 8) {
             switch kind {
             case .word:
-                Text(italian: CardText.title(card, model: model)).font(.system(.title2, design: .serif).weight(.semibold))
+                Text(target: CardText.title(card, model: model)).font(.system(.title2, design: .serif).weight(.semibold))
                 if let gloss = CardText.detail(card, model: model) { Text(gloss).font(.title3) }
             case .verbForm:
-                Text(italian: card.surface).font(.system(.title2, design: .serif).weight(.semibold))
+                Text(target: card.surface).font(.system(.title2, design: .serif).weight(.semibold))
                 if let tag = FormTag(card.formTag) {
                     Text("\(LemmaID.headword(of: card.lemmaID)) · \(tag.label)").font(.title3)
                     if let row = model.conjugator?.table(for: card.lemmaID)?.row(for: tag) {
-                        Text(italian: row).font(.system(.body, design: .serif)).foregroundStyle(.secondary)
+                        Text(target: row).font(.system(.body, design: .serif)).foregroundStyle(.secondary)
                     }
                 }
             case .grammar:
@@ -178,7 +178,7 @@ struct ReviewView: View {
 
     private func highlighted(_ card: Card) -> AttributedString {
         var a = AttributedString(card.sentenceText)
-        a.languageIdentifier = "it-IT"
+        a.languageIdentifier = TargetLanguage.current.bcp47
         for r in UTF16Range.list(from: card.highlightRanges) {
             if let range = Range(NSRange(location: r.start, length: r.length), in: a) {
                 a[range].backgroundColor = Theme.selectionFill

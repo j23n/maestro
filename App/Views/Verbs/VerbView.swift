@@ -1,5 +1,5 @@
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import GrammarKit
 import LexiconKit
 
@@ -60,7 +60,7 @@ struct VerbView: View {
     private func header(_ entry: Entry, table: ConjugationTable) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .firstTextBaseline) {
-                Text(italian: entry.headword).font(.system(size: 32, weight: .bold, design: .serif))
+                Text(target: entry.headword).font(.system(size: 32, weight: .bold, design: .serif))
                 Button {
                     model.speech.say(entry.headword)
                 } label: {
@@ -94,7 +94,7 @@ struct VerbView: View {
     private func labeled(_ label: String, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 1) {
             Text(label).font(.caption).foregroundStyle(.secondary)
-            Text(italian: value).font(.system(.body, design: .serif))
+            Text(target: value).font(.system(.body, design: .serif))
         }
     }
 
@@ -109,7 +109,7 @@ struct VerbView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(italian: form.text).font(.system(.title3, design: .serif).weight(.semibold))
+                    Text(target: form.text).font(.system(.title3, design: .serif).weight(.semibold))
                     Text(tag.label).font(.subheadline)
                 }
                 Spacer()
@@ -149,7 +149,7 @@ struct TenseBlockView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                         .frame(width: 58, alignment: .leading)
-                    Text(italian: form.text)
+                    Text(target: form.text)
                         .font(.system(.body, design: .serif).weight(form.isIrregular ? .bold : .regular))
                         .foregroundStyle(form.isIrregular ? Theme.irregularForm : Theme.ink)
                     Spacer(minLength: 0)

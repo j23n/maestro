@@ -1,5 +1,5 @@
 import Foundation
-import ItalianCore
+import LanguageCore
 
 /// Regular paradigms for -are, -ere and -ire verbs, used to mark irregular forms in verb tables
 /// (HANDOFF.md 3.3: irregular forms in bold orange). A form counts as regular if any regular

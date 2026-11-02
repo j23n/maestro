@@ -1,5 +1,5 @@
 import Foundation
-import ItalianCore
+import LanguageCore
 
 /// Pack format, HANDOFF.md 6.3 (formatVersion 1). Unknown keys such as "$note" are ignored.
 public struct PackManifest: Codable, Sendable, Hashable, Identifiable {

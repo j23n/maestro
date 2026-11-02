@@ -24,7 +24,7 @@ struct QuestionsView: View {
                     Section {
                         Text(english ? question.promptEN : question.prompt)
                             .font(.system(.body, design: .serif).weight(.semibold))
-                            .italianUnless(english)
+                            .targetLanguageUnless(english)
                         ForEach(Array(question.choices(english: english).enumerated()), id: \.offset) { i, choice in
                             choiceRow(question, index: i, label: choice)
                         }
@@ -69,7 +69,7 @@ struct QuestionsView: View {
                 .recordAnswer(textID: textID, questionID: q.id, choice: index)
         } label: {
             HStack {
-                Text(label).italianUnless(english)
+                Text(label).targetLanguageUnless(english)
                 Spacer()
                 if showCorrect {
                     Image(systemName: "checkmark.circle.fill").foregroundStyle(Theme.added.foreground)
@@ -91,7 +91,7 @@ struct QuestionsView: View {
             SectionLabel("The answer is in the text")
             ForEach(q.answerSentences, id: \.self) { sid in
                 if let s = text.sentence(sid) {
-                    Text(italian: s.text).font(.system(.callout, design: .serif))
+                    Text(target: s.text).font(.system(.callout, design: .serif))
                     if english { Text(s.translation).font(.footnote).foregroundStyle(.secondary) }
                 }
             }
@@ -110,7 +110,7 @@ struct QuestionsView: View {
 }
 
 extension View {
-    @ViewBuilder func italianUnless(_ english: Bool) -> some View {
-        if english { self } else { self.italian() }
+    @ViewBuilder func targetLanguageUnless(_ english: Bool) -> some View {
+        if english { self } else { self.targetLanguage() }
     }
 }

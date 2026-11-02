@@ -1,6 +1,6 @@
 import Foundation
 
-/// The small Markdown subset grammar topics use (content/grammar/*.md): "## " headings,
+/// The small Markdown subset grammar topics use (content/it/grammar/*.md): "## " headings,
 /// paragraphs, "- " lists and pipe tables. Inline markup (*italic*, **bold**) is left in the text
 /// for the app to render.
 public enum MarkdownBlock: Sendable, Hashable {

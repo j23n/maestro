@@ -1,5 +1,5 @@
 import Foundation
-import ItalianCore
+import LanguageCore
 
 /// The lookup cascade of HANDOFF.md 3.2, stopping at the first step that finds something:
 /// normalise and split elisions; exact headword and inflected form (every reading of an ambiguous

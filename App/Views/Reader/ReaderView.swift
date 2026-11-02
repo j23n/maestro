@@ -1,6 +1,6 @@
 import SwiftData
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import PackKit
 
 /// The reader (HANDOFF.md 3.1): clean serif text, nothing highlighted but the current selection.
@@ -85,7 +85,7 @@ struct ReaderView: View {
 
     private func header(_ text: ReadingText) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(italian: text.title)
+            Text(target: text.title)
                 .font(.system(size: 28, weight: .bold, design: .serif))
             HStack(spacing: 6) {
                 LevelTag(level: text.level)
@@ -293,7 +293,7 @@ struct BlockView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             if block.type == .dialogue, let speaker = block.speaker {
-                Text(italian: speaker)
+                Text(target: speaker)
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.secondary)
             }
@@ -308,7 +308,7 @@ struct BlockView: View {
 
     private var attributed: AttributedString {
         var a = AttributedString(block.text)
-        a.languageIdentifier = "it-IT"
+        a.languageIdentifier = TargetLanguage.current.bcp47
         for (j, sentence) in block.sentences.enumerated() {
             let si = startIndex + j
             if spokenSentence == si,

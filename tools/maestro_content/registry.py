@@ -1,6 +1,6 @@
 """The ID registry (HANDOFF.md 6.5).
 
-Lemma and sense IDs are minted once and never reused. content/ids/lemmas.tsv and senses.tsv map
+Lemma and sense IDs are minted once and never reused. content/it/ids/lemmas.tsv and senses.tsv map
 each ID to the fingerprint it was minted from, so a rebuild from a newer dump keeps old IDs.
 Sense codes are hash-derived, so the same dump always yields the same IDs.
 """

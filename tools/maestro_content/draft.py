@@ -1,6 +1,6 @@
 """Draft a text from its brief with Claude, then check it and send the findings back.
 
-    make draft TEXT=content/texts/inverno/inverno-01.md
+    make draft TEXT=content/it/texts/inverno/inverno-01.md
 
 The brief is the text file's front matter (curriculum.py). The draft replaces the file's body, keeps
 the brief, and sets status: draft. A native speaker reviews every draft before it is marked reviewed.
@@ -270,7 +270,7 @@ def _rounds(api, args, conn: sqlite3.Connection, path: str, brief_source: str, m
             messages.append({"role": "user", "content": "The checker found these problems. Fix them and return "
                                                         "the whole file again:\n" + "\n".join(f"- {p}" for p in problems)})
     finally:
-        # Also on an API error between rounds: a draft that doesn't build mustn't stay in content/texts.
+        # Also on an API error between rounds: a draft that doesn't build mustn't stay in content/it/texts.
         aside = set_aside(path, brief_source, source, problems) if source and not done else None
         if aside:
             print(f"the draft doesn't build, so {path} is the brief again and the draft is in {aside}; fix it "

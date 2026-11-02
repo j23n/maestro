@@ -1,6 +1,6 @@
 import SwiftData
 import SwiftUI
-import ItalianCore
+import LanguageCore
 
 /// One keepable item with its Remember / Added toggle (HANDOFF.md 3.1).
 struct RememberRow: View {
@@ -12,7 +12,7 @@ struct RememberRow: View {
         HStack(spacing: 10) {
             KindTag(kind: item.kind)
             VStack(alignment: .leading, spacing: 1) {
-                Text(italian: title).font(.body.weight(.semibold))
+                Text(target: title).font(.body.weight(.semibold))
                 if let detail {
                     Text(detail).font(.footnote).foregroundStyle(.secondary).lineLimit(2)
                 }

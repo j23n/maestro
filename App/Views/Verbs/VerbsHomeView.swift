@@ -1,6 +1,6 @@
 import SwiftData
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import LexiconKit
 
 /// Verbs and grammar home (HANDOFF.md 3.3): search accepting any form, recent verbs, common
@@ -76,7 +76,7 @@ struct VerbsHomeView: View {
             openRoute(.verb(lemmaID: lemma.id, formTag: nil))
         } label: {
             HStack(alignment: .firstTextBaseline, spacing: 6) {
-                Text(italian: lemma.headword)
+                Text(target: lemma.headword)
                     .font(.system(.body, design: .serif).weight(.semibold))
                     .foregroundStyle(Theme.ink)
                 Text(lemma.firstGloss).font(.caption).foregroundStyle(.secondary).lineLimit(1)
@@ -99,7 +99,7 @@ struct VerbsHomeView: View {
                 ForEach(readings) { reading in
                     NavigationLink(value: Route.verb(lemmaID: reading.lemma.id, formTag: reading.formTag?.description)) {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(italian: reading.lemma.headword).font(.system(.body, design: .serif).weight(.semibold))
+                            Text(target: reading.lemma.headword).font(.system(.body, design: .serif).weight(.semibold))
                             Text(reading.analysis).font(.subheadline).foregroundStyle(.secondary)
                         }
                     }
@@ -123,7 +123,7 @@ struct VerbsHomeView: View {
     private var recentVerbs: [LemmaSummary] {
         var seen = Set<String>()
         var out: [LemmaSummary] = []
-        for entry in history where seen.insert(entry.lemmaID).inserted {
+        for entry in history where entry.language == model.language.rawValue && seen.insert(entry.lemmaID).inserted {
             if let lemma = model.content?.lemma(entry.lemmaID), lemma.pos == "v" { out.append(lemma) }
             if out.count == 6 { break }
         }

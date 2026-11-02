@@ -1,5 +1,5 @@
 import Foundation
-import ItalianCore
+import LanguageCore
 
 /// The merge pass after each sync (HANDOFF.md 5.2), as pure functions over snapshots of the
 /// SwiftData records so it can be tested without CloudKit. The app applies the returned plan.

@@ -1,5 +1,5 @@
 import Foundation
-import ItalianCore
+import LanguageCore
 
 public enum PackError: Error, CustomStringConvertible {
     case unsupportedFormat(String, Int)

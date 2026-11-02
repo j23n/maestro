@@ -83,7 +83,7 @@ struct ListenRow: View {
                 .foregroundStyle(Color.accentColor)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
-                Text(italian: entry.title).font(.system(.body, design: .serif).weight(.semibold))
+                Text(target: entry.title).font(.system(.body, design: .serif).weight(.semibold))
                 HStack(spacing: 6) {
                     LevelTag(level: entry.level)
                     Text("about \(max(1, entry.words / 130)) min").font(.footnote).foregroundStyle(.secondary)

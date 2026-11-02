@@ -1,5 +1,5 @@
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import PackKit
 import PracticeKit
 
@@ -145,7 +145,7 @@ enum PracticeText {
     /// Italian text with one range in the accent colour, semibold.
     static func highlighted(_ string: String, range: UTF16Range?) -> AttributedString {
         var a = AttributedString(string)
-        a.languageIdentifier = "it-IT"
+        a.languageIdentifier = TargetLanguage.current.bcp47
         if let r = range, let span = Range(NSRange(location: r.start, length: r.length), in: a) {
             a[span].foregroundColor = Theme.accent
             a[span].inlinePresentationIntent = .stronglyEmphasized
@@ -162,7 +162,7 @@ enum PracticeText {
         gap.inlinePresentationIntent = .stronglyEmphasized
         a += gap
         a += AttributedString(after)
-        a.languageIdentifier = "it-IT"
+        a.languageIdentifier = TargetLanguage.current.bcp47
         return a
     }
 }

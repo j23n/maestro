@@ -1,7 +1,7 @@
 import Foundation
 import SwiftData
 import Testing
-import ItalianCore
+import LanguageCore
 import SRSKit
 @testable import Maestro
 
@@ -33,6 +33,16 @@ import SRSKit
         #expect(store.cards(for: item.key).count == 1)
     }
 
+    @Test func cardsKeepTheirLanguageAndTheQueueShowsTheActiveOne() throws {
+        prefs.language = .it
+        let german = RememberItem.word(lemmaID: "de:Haus:n", senseID: "de:Haus:n#abcd", surface: "Haus")
+        store.toggle(item())
+        store.toggle(german)
+        #expect(try #require(store.cards(for: german.key).first).language == "de")
+        #expect(try #require(store.cards(for: item().key).first).language == "it")
+        #expect(store.queue().map(\.itemKey) == [item().key])
+    }
+
     @Test func reviewWritesALogAndASchedule() throws {
         let item = item()
         store.toggle(item)
@@ -60,6 +70,40 @@ import SRSKit
         try? context.save()
         store.mergePass()
         #expect(store.cards(for: "word|it:nuovo:adj|it:nuovo:adj#zzzz").count == 2)
+    }
+
+    @Test func cardsInALanguageThisBuildDoesNotKnowStayHidden() {
+        prefs.language = .it
+        let french = RememberItem.word(lemmaID: "fr:maison:n", senseID: "fr:maison:n#aaaa", surface: "maison")
+        store.toggle(item())
+        store.toggle(french)
+        #expect(store.queue().map(\.itemKey) == [item().key])
+        store.mergePass()
+        #expect(store.cards(for: french.key).count == 1)
+    }
+
+    @Test func lookupHistoryIsCappedPerLanguage() {
+        let context = container.mainContext
+        let start = Date.now.addingTimeInterval(-10_000)
+        for i in 0..<(205) {
+            let entry = LookupEntry(query: "parola\(i)", lemmaID: "it:parola:n", language: .it)
+            entry.lookedUpAt = start.addingTimeInterval(Double(i))
+            context.insert(entry)
+        }
+        for i in 0..<3 {
+            context.insert(LookupEntry(query: "wort\(i)", lemmaID: "de:Wort:n", language: .de))
+        }
+        try? context.save()
+        store.mergePass()
+        let all = (try? context.fetch(FetchDescriptor<LookupEntry>())) ?? []
+        #expect(all.filter { $0.language == "it" }.count == 200)  // MergeRules.lookupCap
+        #expect(all.filter { $0.language == "de" }.count == 3)
+    }
+
+    @Test func italianKeepsThePreferenceKeysOlderBuildsRead() {
+        #expect(Preferences.key("level", .it) == "level")
+        #expect(Preferences.key("newItemsPerDay", .it) == "newItemsPerDay")
+        #expect(Preferences.key("level", .de) == "level.de")
     }
 
     @Test func answersAreRecorded() throws {

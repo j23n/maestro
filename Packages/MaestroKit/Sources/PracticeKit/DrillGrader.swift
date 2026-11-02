@@ -1,5 +1,5 @@
 import Foundation
-import ItalianCore
+import LanguageCore
 import PackKit
 
 /// How an answer to a drill came out (HANDOFF.md 3.9).

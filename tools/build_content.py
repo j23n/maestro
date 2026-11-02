@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-"""Builds what the app bundles: content.sqlite and the starter packs (make content).
+"""Builds what the app bundles: each language's content.sqlite and starter packs (make content).
 
     python3 tools/build_content.py --mode full|auto|sample --out App/Resources/Content
+
+Each language goes into its own folder, <out>/<lang>/content.sqlite and <out>/<lang>/packs/ (HANDOFF.md
+5.3). Only Italian has dictionary sources so far; German joins once its pipeline exists.
 
 full    downloads the kaikki.org Italian dump (tools/content-sources.txt) unless it's cached in
         .build/content-sources, and fails if it can't. TestFlight archives use this.
@@ -9,7 +12,7 @@ auto    uses the cached dump when there is one, else the small sample in tools/t
         so a quick build never waits for a 700 MB download.
 sample  always the sample.
 
-Skips the build when its inputs haven't changed since the last one (.build/content.stamp).
+Skips the build when its inputs haven't changed since the last one (.build/content-<lang>.stamp).
 """
 
 from __future__ import annotations
@@ -26,6 +29,8 @@ import urllib.request
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SAMPLE = os.path.join(ROOT, "tools", "tests", "fixtures", "kaikki-sample.jsonl")
+# The languages this script can build, each from content/<lang>/.
+LANGUAGES = ("it",)
 
 
 def sources() -> list[tuple[str, str]]:
@@ -98,12 +103,11 @@ def fetch(cache: str) -> str:
     raise SystemExit("could not download the dictionary dump:\n  " + "\n  ".join(errors))
 
 
-def inputs_hash(dump: str) -> str:
+def inputs_hash(dump: str, language: str) -> str:
     h = hashlib.sha256()
     h.update(dump.encode())
     h.update(str(os.path.getsize(dump)).encode())
-    for folder in ("content/texts", "content/grammar", "content/ids", "content/schema", "content/frequency",
-                   "tools/maestro_content"):
+    for folder in (f"content/{language}", "content/schema", "tools/maestro_content"):
         base = os.path.join(ROOT, folder)
         for dirpath, _, files in sorted(os.walk(base)):
             for f in sorted(files):
@@ -121,7 +125,9 @@ def main() -> int:
     ap.add_argument("--mode", choices=["full", "auto", "sample"], default="auto")
     ap.add_argument("--out", default=os.path.join(ROOT, "App", "Resources", "Content"))
     ap.add_argument("--cache", default=os.path.join(ROOT, ".build", "content-sources"))
+    ap.add_argument("--language", choices=LANGUAGES, default="it")
     args = ap.parse_args()
+    lang = args.language
 
     if args.mode == "full":
         dump = fetch(args.cache)
@@ -133,9 +139,17 @@ def main() -> int:
         print("warning: building the app's content from the small sample dictionary "
               "(make content CONTENT=full for the real one)", file=sys.stderr)
 
-    out = os.path.abspath(args.out)
-    stamp = os.path.join(ROOT, ".build", "content.stamp")
-    digest = inputs_hash(dump)
+    bundle = os.path.abspath(args.out)
+    # Content built before languages had folders sat at the top of the bundle; it would be bundled too.
+    for name in ("content.sqlite", "packs"):
+        path = os.path.join(bundle, name)
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        elif os.path.exists(path):
+            os.remove(path)
+    out = os.path.join(bundle, lang)
+    stamp = os.path.join(ROOT, ".build", f"content-{lang}.stamp")
+    digest = inputs_hash(dump, lang)
     if os.path.exists(os.path.join(out, "content.sqlite")) and os.path.exists(stamp):
         with open(stamp, encoding="utf-8") as fh:
             if fh.read().strip() == digest:
@@ -151,7 +165,7 @@ def main() -> int:
     os.makedirs(out, exist_ok=True)
 
     # A scratch copy of the registry: IDs are only written back by a deliberate --save-ids run.
-    cmd = [sys.executable, "-m", "maestro_content", "build", "--kaikki", dump, "--out", out]
+    cmd = [sys.executable, "-m", "maestro_content", "build", "--language", lang, "--kaikki", dump, "--out", out]
     if dump != SAMPLE:
         mtime = os.path.getmtime(dump)
         import datetime as _dt

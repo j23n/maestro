@@ -1,5 +1,5 @@
 import SwiftUI
-import ItalianCore
+import LanguageCore
 import LexiconKit
 
 /// A dictionary entry (HANDOFF.md 3.2): headword with article, IPA, gender, plural, numbered
@@ -24,7 +24,7 @@ struct EntryView: View {
                         ForEach(texts) { t in
                             NavigationLink(value: Route.text(t.id)) {
                                 HStack {
-                                    Text(italian: t.title)
+                                    Text(target: t.title)
                                     Spacer()
                                     LevelTag(level: t.level)
                                 }
@@ -51,7 +51,7 @@ struct EntryView: View {
     private func header(_ entry: Entry) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .firstTextBaseline) {
-                Text(italian: entry.headwordWithArticle)
+                Text(target: entry.headwordWithArticle)
                     .font(.system(size: 32, weight: .semibold, design: .serif))
                 Spacer(minLength: 8)
                 if let first = entry.senses.first(where: { !$0.retired }) {
@@ -67,7 +67,7 @@ struct EntryView: View {
                 if let plural = entry.plural, !plural.isEmpty {
                     HStack(spacing: 4) {
                         Text("plural").foregroundStyle(.secondary)
-                        Text(italian: plural)
+                        Text(target: plural)
                     }
                 }
                 Spacer(minLength: 0)
@@ -97,7 +97,7 @@ struct EntryView: View {
                 Text(sense.gloss).font(.body.weight(.semibold))
                 ForEach(sense.examples.prefix(2), id: \.italian) { ex in
                     VStack(alignment: .leading, spacing: 1) {
-                        Text(italian: ex.italian).font(.system(.body, design: .serif)).italic()
+                        Text(target: ex.italian).font(.system(.body, design: .serif)).italic()
                         if let en = ex.english { Text(en).font(.subheadline).foregroundStyle(.secondary) }
                     }
                 }

@@ -1,5 +1,5 @@
 import Testing
-@testable import ItalianCore
+@testable import LanguageCore
 
 @Suite struct FormTagTests {
     @Test func parsesFiniteAndNonFinite() throws {
@@ -75,5 +75,37 @@ import Testing
         #expect(LemmaID.headword(of: "it:essere_d'accordo:phr") == "essere d'accordo")
         #expect(LemmaID.pos(of: "it:pesca:n:2") == "n")
         #expect(LemmaID.of(senseID: "it:andare:v#k3fq") == "it:andare:v")
+    }
+}
+
+@Suite struct LanguageTests {
+    @Test func readsTheLanguageOfAnID() {
+        #expect(Language.of(id: "it:andare:v") == .it)
+        #expect(Language.of(id: "it:andare:v#k3fq") == .it)
+        #expect(Language.of(id: "de:Haus:n") == .de)
+        #expect(Language.of(id: "de:gehen:v#ab12") == .de)
+        #expect(Language.of(id: "de:dativ") == .de)
+        // No prefix means Italian: grammar slugs and text IDs shipped before German.
+        #expect(Language.of(id: "future-in-the-past") == .it)
+        #expect(Language.of(id: "racconti-brevi-03") == .it)
+        #expect(Language.of(id: "") == .it)
+        // A language this build doesn't know.
+        #expect(Language.of(id: "fr:maison:n") == nil)
+    }
+
+    @Test func readsTheLanguageOfAnItemKey() {
+        #expect(Language.of(itemKey: ItemKey.word(lemmaID: "it:casa:n", senseID: "it:casa:n#aaaa")) == .it)
+        #expect(Language.of(itemKey: ItemKey.verbForm(lemmaID: "de:gehen:v", formTag: "ind.prat.1s")) == .de)
+        #expect(Language.of(itemKey: ItemKey.grammar("de:dativ")) == .de)
+        #expect(Language.of(itemKey: ItemKey.grammar("articles")) == .it)
+        #expect(Language.of(itemKey: "nonsense") == .it)
+        #expect(Language.of(itemKey: ItemKey.word(lemmaID: "fr:maison:n", senseID: "fr:maison:n#aaaa")) == nil)
+    }
+
+    @Test func namesAndLocales() {
+        #expect(Language.it.bcp47 == "it-IT" && Language.it.localeIdentifier == "it_IT")
+        #expect(Language.de.bcp47 == "de-DE" && Language.de.name == "German")
+        #expect(Language.de.accentKeys.contains("ß"))
+        #expect(Language(rawValue: "de") == .de && Language(rawValue: "fr") == nil)
     }
 }

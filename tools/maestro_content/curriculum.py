@@ -1,7 +1,7 @@
 """Level plans, text analysis, the text checker, the coverage report and new briefs.
 
-Level plans live in content/curriculum/<level>.md: a key: value header, a line with ---, then notes.
-The grammar sequence itself comes from content/grammar (each topic's level and order).
+Level plans live in content/it/curriculum/<level>.md: a key: value header, a line with ---, then notes.
+The grammar sequence itself comes from content/it/grammar (each topic's level and order).
 
 A text's front matter can carry a brief for the checker (all optional):
 
@@ -340,7 +340,7 @@ def check_text(lib: Library, text: TextFacts) -> list[Finding]:
 
     plan = lib.plans.get(text.level)
     if plan is None:
-        add("plan", f"no level plan for {text.level} in content/curriculum")
+        add("plan", f"no level plan for {text.level} in content/it/curriculum")
         return out
     meta = text.meta
     if text.status not in STATUSES:
