@@ -7,6 +7,7 @@ Source format (content/it/texts/<collection>/<nn>-<slug>.md):
     collection: racconti-brevi
     order: 3
     topics: family, travel
+    speakers: Madre f
 
     Quando eravamo ragazzi, andavamo ogni estate dai nonni. || When we were kids, ...
     L'anno in cui compii sedici anni, però, mio padre decise ... || The year I turned ...
@@ -24,7 +25,8 @@ German sources live in content/de/texts/ and are linked by packs_de.py; their te
 slugs get the de: prefix (HANDOFF.md 6.5), so a source never writes it.
 
 One line is one sentence, written as Italian || English. Consecutive lines form a prose block and a
-blank line ends it. A line starting with "> Speaker:" is its own dialogue block. A word can carry a
+blank line ends it. A line starting with "> Speaker:" is its own dialogue block. "speakers:" gives each
+speaker's gender, m or f, so that text to speech reads the line in a matching voice. A word can carry a
 hint for the linker: la{pron}, estate{estate:n}; in German also a case, Frau{acc} or Haus{dat.ns}.
 Hints are removed from the text.
 """
@@ -133,6 +135,7 @@ class SourceText:
     questions: list[dict]
     introduces: list[str] = field(default_factory=list)
     meta: dict[str, str] = field(default_factory=dict)
+    speakers: dict[str, str] = field(default_factory=dict)  # dialogue speaker -> gender, "m" or "f"
     language: str = "it"
 
     @property
@@ -157,6 +160,24 @@ def _strip_hints(text: str) -> tuple[str, dict[int, str]]:
         pos = m.end()
     out.append(text[pos:])
     return "".join(out), hints
+
+
+GENDERS = ("m", "f")
+
+
+def parse_speakers(value: str, where: str) -> dict[str, str]:
+    """'Marta f, Barista m' -> {"Marta": "f", "Barista": "m"}."""
+    speakers: dict[str, str] = {}
+    for item in (x.strip() for x in value.split(",")):
+        if not item:
+            continue
+        name, _, gender = item.rpartition(" ")
+        if not name.strip() or gender not in GENDERS:
+            raise PackError(f"{where}: speakers must look like 'Marta f, Barista m', got {item!r}")
+        if name.strip() in speakers:
+            raise PackError(f"{where}: speakers names {name.strip()!r} twice")
+        speakers[name.strip()] = gender
+    return speakers
 
 
 def language_of(path: str) -> str:
@@ -271,7 +292,7 @@ def parse_source(path: str, language: str | None = None) -> SourceText:
         id=text_id, title=title, level=meta["level"], collection=meta["collection"], order=int(meta["order"]),
         topics=[t.strip() for t in meta.get("topics", "").split(",") if t.strip()], blocks=blocks,
         questions=questions, introduces=[prefix + t.strip() for t in meta.get("introduces", "").split(",") if t.strip()],
-        meta=meta, language=language,
+        meta=meta, language=language, speakers=parse_speakers(meta.get("speakers", ""), path),
     )
 
 
@@ -596,6 +617,7 @@ def build_text(lex: Lexicon, src: SourceText) -> tuple[dict, list[str]]:
         link = link_sentence
     warnings: list[str] = []
     blocks = []
+    unvoiced: list[str] = []
     n = 0
     for block in src.blocks:
         texts = [s.text for s in block.sentences]
@@ -615,7 +637,17 @@ def build_text(lex: Lexicon, src: SourceText) -> tuple[dict, list[str]]:
         b = {"type": block.type, "text": block_text, "sentences": sentences}
         if block.speaker:
             b["speaker"] = block.speaker
+            if block.speaker in src.speakers:
+                b["gender"] = src.speakers[block.speaker]
+            elif block.speaker not in unvoiced:
+                unvoiced.append(block.speaker)
         blocks.append(b)
+    for speaker in unvoiced:
+        warnings.append(f"{src.id}: speaker {speaker!r} has no gender in 'speakers:', so text to speech "
+                        "can't match the voice")
+    for speaker in src.speakers:
+        if not any(b.speaker == speaker for b in src.blocks):
+            warnings.append(f"{src.id}: 'speakers:' names {speaker!r}, who has no dialogue line")
     text = {"id": src.id, "title": src.title, "level": src.level, "collection": src.collection,
             "blocks": blocks, "questions": src.questions}
     return text, warnings
@@ -658,6 +690,8 @@ def validate_text(text: dict, lex: Lexicon | None = None) -> list[str]:
             errors.append(f"{text['id']}: block text is not NFC")
         if b["type"] == "dialogue" and not b.get("speaker"):
             errors.append(f"{text['id']}: dialogue block without speaker")
+        if b.get("gender") not in (None, *GENDERS):
+            errors.append(f"{text['id']}: block gender {b['gender']!r} must be m or f")
         for s in b["sentences"]:
             sentence_ids.add(s["id"])
             if utf16_slice(b["text"], *s["r"]) != s["text"]:
