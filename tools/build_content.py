@@ -102,7 +102,8 @@ def inputs_hash(dump: str) -> str:
     h = hashlib.sha256()
     h.update(dump.encode())
     h.update(str(os.path.getsize(dump)).encode())
-    for folder in ("content/texts", "content/grammar", "content/ids", "content/schema", "tools/maestro_content"):
+    for folder in ("content/texts", "content/grammar", "content/ids", "content/schema", "content/frequency",
+                   "tools/maestro_content"):
         base = os.path.join(ROOT, folder)
         for dirpath, _, files in sorted(os.walk(base)):
             for f in sorted(files):

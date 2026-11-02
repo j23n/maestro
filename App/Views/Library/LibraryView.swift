@@ -39,6 +39,20 @@ struct LibraryView: View {
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                     .listRowSeparator(.hidden)
 
+                let featuredIDs = model.featuredIDs()
+                let featured = filtered.filter { featuredIDs.contains($0.id) }
+                if !featured.isEmpty && search.isEmpty {
+                    Section {
+                        ForEach(featured) { entry in
+                            row(entry, known: known, progress: progressByText[entry.id])
+                        }
+                    } header: {
+                        SectionLabel("Right now")
+                    } footer: {
+                        Text("Texts for this time of year.")
+                    }
+                }
+
                 let continuing = filtered.filter {
                     guard let p = progressByText[$0.id] else { return false }
                     return p.finishedAt == nil && p.position > 0.02
@@ -152,6 +166,12 @@ struct TextRow: View {
                     Text("\(entry.collection) · \(entry.words) words")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
+                    if entry.isDraft {
+                        Text("Draft")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .accessibilityLabel("Draft, not yet reviewed by a native speaker")
+                    }
                 }
             }
             Spacer(minLength: 8)

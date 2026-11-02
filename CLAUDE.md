@@ -51,7 +51,7 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 - `Packages/SyncStore`: SwiftData models, merge pass
 - `App/`: SwiftUI screens per platform
 - `tools/`: content database and pack build scripts
-- `content/`: pack sources (Markdown + front matter), `ids/` registry, `schema/`, `fixtures/`
+- `content/`: pack sources (Markdown + front matter), `curriculum/` level plans, `frequency/` word list, `ids/` registry, `schema/`, `fixtures/`
 
 ## Conventions
 
