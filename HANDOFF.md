@@ -325,7 +325,7 @@ The database built from Wiktionary and Morph-it! must be offered under CC BY-SA;
 5. **Text variety and register.** Dialogues (two voices), messages, emails, signs, menus, articles; *tu* vs *Lei*. Narrative alone over-weights the passato remoto.
 6. **Placement and progress.** Short placement (calibrated passages, mark unknown words); per-level progress (texts read, core words known, grammar points met).
 
-Smaller: Phrase as a fourth Remember kind; cultural notes. The full A0 to B2 grammar list is `content/it/grammar/base.yaml`: 351 points from the *Profilo*, 37 of them mapped to the 20 topic pages so far; the unmapped ones are the pages still to write.
+Smaller: Phrase as a fourth Remember kind; cultural notes. The full A0 to B2 grammar list is `content/it/grammar/base.yaml`: 351 points from the *Profilo*, 37 of them mapped to the 20 topic pages so far; the unmapped ones are the pages still to write. German's is `content/de/grammar/base.yaml`: 209 points with *Profile deutsch* as the reference, 96 of them mapped to its first 20 pages.
 
 ### 6.5 Content IDs and form tags
 
