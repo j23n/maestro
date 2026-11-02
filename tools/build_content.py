@@ -4,11 +4,12 @@
     python3 tools/build_content.py --mode full|auto|sample --out App/Resources/Content
 
 Each language goes into its own folder, <out>/<lang>/content.sqlite and <out>/<lang>/packs/ (HANDOFF.md
-5.3). Only Italian has dictionary sources so far; German joins once its pipeline exists.
+5.3), and --language picks it (Italian by default). The app bundles every language folder it finds, so
+German appears in a build only after someone runs this with --language de.
 
-full    downloads the kaikki.org Italian dump (tools/content-sources.txt) unless it's cached in
+full    downloads the language's kaikki.org dump (tools/content-sources.txt) unless it's cached in
         .build/content-sources, and fails if it can't. TestFlight archives use this.
-auto    uses the cached dump when there is one, else the small sample in tools/tests/fixtures,
+auto    uses the cached dump when there is one, else the language's small sample in tools/tests/fixtures,
         so a quick build never waits for a 700 MB download.
 sample  always the sample.
 
@@ -28,9 +29,13 @@ import sys
 import urllib.request
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-SAMPLE = os.path.join(ROOT, "tools", "tests", "fixtures", "kaikki-sample.jsonl")
-# The languages this script can build, each from content/<lang>/.
-LANGUAGES = ("it",)
+FIXTURES = os.path.join(ROOT, "tools", "tests", "fixtures")
+# The languages this script can build, each from content/<lang>/, with the sample dictionary each falls
+# back to, the name its dump is cached under, and the kaikki.org source names it downloads from.
+SAMPLES = {"it": os.path.join(FIXTURES, "kaikki-sample.jsonl"), "de": os.path.join(FIXTURES, "kaikki-sample-de.jsonl")}
+CACHE_NAMES = {"it": "kaikki-italian", "de": "kaikki-german"}
+SOURCE_NAMES = {"it": "kaikki", "de": "kaikki-de"}
+LANGUAGES = tuple(SAMPLES)
 
 
 def sources() -> list[tuple[str, str]]:
@@ -52,50 +57,50 @@ def download(url: str, dest: str) -> None:
     os.replace(tmp, dest)
 
 
-def filter_italian(url: str, dest: str) -> None:
-    """Streams the all-languages wiktextract dump and keeps the Italian entries."""
-    print(f"streaming {url} (Italian entries only)", flush=True)
+def filter_language(url: str, dest: str, lang: str) -> None:
+    """Streams the all-languages wiktextract dump and keeps the language's entries."""
+    print(f"streaming {url} ({lang} entries only)", flush=True)
     tmp = dest + ".part"
     kept = 0
     with urllib.request.urlopen(url, timeout=120) as resp, gzip.open(resp, "rt", encoding="utf-8") as src, \
             gzip.open(tmp, "wt", encoding="utf-8") as out:
         for line in src:
-            if '"lang_code": "it"' not in line and '"lang_code":"it"' not in line:
+            if f'"lang_code": "{lang}"' not in line and f'"lang_code":"{lang}"' not in line:
                 continue
             try:
-                if json.loads(line).get("lang_code") != "it":
+                if json.loads(line).get("lang_code") != lang:
                     continue
             except ValueError:
                 continue
             out.write(line)
             kept += 1
-    print(f"kept {kept} Italian entries", flush=True)
+    print(f"kept {kept} {lang} entries", flush=True)
     os.replace(tmp, dest)
 
 
-def cached_dump(cache: str) -> str | None:
-    for name in ("kaikki-italian.jsonl", "kaikki-italian.jsonl.gz"):
+def cached_dump(cache: str, lang: str) -> str | None:
+    for name in (f"{CACHE_NAMES[lang]}.jsonl", f"{CACHE_NAMES[lang]}.jsonl.gz"):
         path = os.path.join(cache, name)
         if os.path.exists(path) and os.path.getsize(path) > 1_000_000:
             return path
     return None
 
 
-def fetch(cache: str) -> str:
+def fetch(cache: str, lang: str) -> str:
     os.makedirs(cache, exist_ok=True)
-    found = cached_dump(cache)
+    found = cached_dump(cache, lang)
     if found:
         return found
     errors = []
     for name, url in sources():
         try:
-            if name == "kaikki":
-                dest = os.path.join(cache, "kaikki-italian.jsonl")
+            if name == SOURCE_NAMES[lang]:
+                dest = os.path.join(cache, f"{CACHE_NAMES[lang]}.jsonl")
                 download(url, dest)
                 return dest
             if name == "kaikki-all":
-                dest = os.path.join(cache, "kaikki-italian.jsonl.gz")
-                filter_italian(url, dest)
+                dest = os.path.join(cache, f"{CACHE_NAMES[lang]}.jsonl.gz")
+                filter_language(url, dest, lang)
                 return dest
         except Exception as exc:  # noqa: BLE001 - report and try the next source
             errors.append(f"{url}: {exc}")
@@ -129,13 +134,14 @@ def main() -> int:
     args = ap.parse_args()
     lang = args.language
 
+    sample = SAMPLES[lang]
     if args.mode == "full":
-        dump = fetch(args.cache)
+        dump = fetch(args.cache, lang)
     elif args.mode == "auto":
-        dump = cached_dump(args.cache) or SAMPLE
+        dump = cached_dump(args.cache, lang) or sample
     else:
-        dump = SAMPLE
-    if dump == SAMPLE:
+        dump = sample
+    if dump == sample:
         print("warning: building the app's content from the small sample dictionary "
               "(make content CONTENT=full for the real one)", file=sys.stderr)
 
@@ -166,7 +172,7 @@ def main() -> int:
 
     # A scratch copy of the registry: IDs are only written back by a deliberate --save-ids run.
     cmd = [sys.executable, "-m", "maestro_content", "build", "--language", lang, "--kaikki", dump, "--out", out]
-    if dump != SAMPLE:
+    if dump != sample:
         mtime = os.path.getmtime(dump)
         import datetime as _dt
         cmd += ["--dump-date", _dt.date.fromtimestamp(mtime).isoformat()]

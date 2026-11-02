@@ -1,8 +1,9 @@
-"""Read kaikki.org (wiktextract) Italian JSONL into plain records.
+"""Read kaikki.org (wiktextract) Italian or German JSONL into plain records.
 
 Only what the app uses is kept: headword, part of speech, gender, plural, IPA, auxiliary,
 senses (gloss, tags, examples, wiktextract senseid, Wikidata QID) and inflected forms.
 Entries whose senses are all form-of become form records pointing at their lemma.
+German entries keep their capitals and get German form tags and case tags (tags.py, HANDOFF.md 6.5).
 """
 
 from __future__ import annotations
@@ -43,6 +44,10 @@ class Entry:
     auxiliary: str | None = None
     senses: list[Sense] = field(default_factory=list)
     forms: list[tuple[str, str]] = field(default_factory=list)  # (form, tag)
+
+
+UNTAGGED = "?"
+"""A German form-of row whose tags name no case or form: build_db skips it rather than store it as a headword."""
 
 
 @dataclass
@@ -117,7 +122,9 @@ def _clean_form(form: str) -> str | None:
     return form
 
 
-def parse(raw: dict) -> tuple[Entry | None, list[FormOf]]:
+def parse(raw: dict, language: str = "it") -> tuple[Entry | None, list[FormOf]]:
+    if language == "de":
+        return parse_de(raw)
     if raw.get("lang_code", "it") != "it":
         return None, []
     pos = POS.get(raw.get("pos", ""))
@@ -188,11 +195,119 @@ def parse(raw: dict) -> tuple[Entry | None, list[FormOf]]:
     return entry, form_of
 
 
-def read(lines: Iterable[dict]) -> tuple[list[Entry], list[FormOf]]:
+# --- German ------------------------------------------------------------------------------
+
+def _gender_de(raw: dict) -> str | None:
+    """m, f, n, or several letters (mn) for a noun with more than one gender."""
+    found: list[str] = []
+    for ht in raw.get("head_templates", []):
+        if not ht.get("name", "").startswith("de-"):
+            continue
+        args = ht.get("args", {})
+        for key in ("g", "g2", "1"):
+            g = (args.get(key) or "").split(",")[0].strip()
+            g = g.split("-")[0]
+            if g in ("m", "f", "n") and g not in found:
+                found.append(g)
+    if not found:
+        tags = set(raw.get("tags", []))
+        found = [g for x, g in (("masculine", "m"), ("feminine", "f"), ("neuter", "n")) if x in tags]
+    return "".join(found) or None
+
+
+_AUX_DE_RE = re.compile(r"auxiliary (haben|sein)(?: or (haben|sein))?")
+
+
+def _auxiliary_de(raw: dict) -> str | None:
+    found = {f["form"] for f in raw.get("forms", [])
+             if "auxiliary" in f.get("tags", []) and f.get("form") in ("haben", "sein")}
+    for ht in raw.get("head_templates", []):
+        m = _AUX_DE_RE.search(ht.get("expansion", ""))
+        if m:
+            found.update(x for x in m.groups() if x)
+    if not found:
+        return None
+    return "both" if len(found) == 2 else found.pop()
+
+
+def _form_tags_de(stags: list[str], pos: str, gender: str | None) -> list[str]:
+    if pos == "v":
+        return tagmap.kaikki_verb_tags_de(stags)
+    if pos in ("n", "adj", "art", "det", "pron", "num"):
+        return tagmap.kaikki_case_tags_de(stags, gender, pos)
+    return []
+
+
+def parse_de(raw: dict) -> tuple[Entry | None, list[FormOf]]:
+    if raw.get("lang_code") != "de":
+        return None, []
+    pos = POS.get(raw.get("pos", ""))
+    word = raw.get("word")
+    if not pos or not word:
+        return None, []
+    word = nfc(word)
+    gender = _gender_de(raw) if pos in ("n", "propn") else None
+
+    senses: list[Sense] = []
+    form_of: list[FormOf] = []
+    for s in raw.get("senses", []):
+        stags = s.get("tags", [])
+        targets = s.get("form_of") or s.get("alt_of")
+        if targets and ("form-of" in stags or "alt-of" in stags or s.get("form_of")):
+            lemma = targets[0].get("word")
+            if lemma:
+                # The lemma's gender isn't known here: "?" leaves it to build_db (gen.s becomes gen.ns).
+                found = _form_tags_de([t for t in stags if t != "form-of"], pos, "?")
+                if not found:
+                    # A spelling variant is the headword again. A form-of sense whose tags name no form
+                    # (dem tagged only "definite") is UNTAGGED, which build_db counts and skips.
+                    found = [UNTAGGED if s.get("form_of") and pos != "v" else ""]
+                form_of.extend(FormOf(form=word, lemma=nfc(lemma), pos=pos, tag=tag) for tag in found)
+            continue
+        glosses = s.get("glosses") or s.get("raw_glosses")
+        if not glosses:
+            continue
+        examples = [
+            (nfc(e["text"]), e.get("english") or e.get("translation"))
+            for e in s.get("examples", [])
+            if e.get("text") and (e.get("english") or e.get("translation"))
+        ][:3]
+        senses.append(Sense(gloss=glosses[-1].strip(), tags=[t for t in stags if t != "form-of"],
+                            examples=examples, senseid=(s.get("senseid") or [None])[0],
+                            wikidata=(s.get("wikidata") or [None])[0]))
+    if not senses:
+        return None, form_of
+
+    entry = Entry(headword=word, pos=pos, etymology=str(raw.get("etymology_number", "") or ""),
+                  gender=gender, ipa=_ipa(raw), senses=senses)
+    if pos == "v":
+        entry.auxiliary = _auxiliary_de(raw)
+    seen: set[tuple[str, str]] = set()
+    for f in raw.get("forms", []):
+        form = _clean_form(f.get("form", ""))
+        if not form:
+            continue  # separated forms (rufe an) and compound tenses have a space; the app joins them
+        for tag in _form_tags_de(f.get("tags", []), pos, gender):
+            if pos == "n" and tag.startswith("nom.pl") and entry.plural is None:
+                entry.plural = form
+            if (form, tag) not in seen:
+                seen.add((form, tag))
+                entry.forms.append((form, tag))
+    if pos == "n" and entry.plural is None:
+        # A head-line plural with tags the case mapping rejects (plural, uncommon) still names the plural.
+        entry.plural = next((_clean_form(f.get("form", "")) for f in raw.get("forms", [])
+                             if "plural" in f.get("tags", []) and not set(f.get("tags", [])) & _CASES), None)
+    return entry, form_of
+
+
+_CASES = {"nominative", "accusative", "dative", "genitive"}
+
+
+def read(lines: Iterable[dict], language: str = "it") -> tuple[list[Entry], list[FormOf]]:
     entries: list[Entry] = []
     forms: list[FormOf] = []
     for raw in lines:
-        entry, fo = parse(raw)
+        entry, fo = parse(raw, language)
         if entry:
             entries.append(entry)
         forms.extend(fo)

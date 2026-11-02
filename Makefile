@@ -50,15 +50,20 @@ test: swift-test test-tools
 test-tools:
 	@[ ! -d tools ] || { echo "$(PYTHON) -m pytest tools"; $(PYTHON) -m pytest tools || [ $$? -eq 5 ]; }
 
+# The target language of the content targets below (HANDOFF.md 5.3): it or de, from the command line
+# (make content LANGUAGE=de). The shell's LANGUAGE is gettext's locale list, so it never counts.
+ifneq ($(origin LANGUAGE),command line)
+LANGUAGE := it
+endif
+
 # The dictionary database and the starter packs, into App/Resources/Content/<lang> (git ignores them).
+# The app bundles every language folder there, so LANGUAGE=de adds German to the next app build.
 content:
-	$(PYTHON) tools/build_content.py --mode $(CONTENT)
+	$(PYTHON) tools/build_content.py --mode $(CONTENT) --language $(LANGUAGE)
 
 # Texts: level plans in content/<lang>/curriculum, the checker, the coverage report and briefs
 # (tools/maestro_content/curriculum.py). They read the content database, so build it with
-# CONTENT=full first for real numbers; the sample dictionary links few words. LANGUAGE picks the
-# target language (HANDOFF.md 5.3).
-LANGUAGE ?= it
+# CONTENT=full first for real numbers; the sample dictionary links few words.
 CONTENT_TOOL := PYTHONPATH=tools $(PYTHON) -m maestro_content
 
 coverage: content

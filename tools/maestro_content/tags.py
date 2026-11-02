@@ -149,3 +149,150 @@ def morphit_pos(analysis: str) -> str | None:
         if cat.startswith(prefix):
             return pos
     return None
+
+
+# --- German (HANDOFF.md 6.5, "German form tags") -------------------------------------------
+# Verb forms: mood.tense[.person][+aux], German codes. Nouns, adjectives, articles and pronouns get a
+# case tag instead: [comp.|sup.][decl.]case[.gn], such as gen.ns (Hauses), dat.pl (Häusern),
+# str.nom.ms (guter), wk.dat.fs (guten); comp and sup alone are the bare comparative and superlative.
+
+DE_MOODS = {"ind", "k1", "k2", "imp", "inf", "part"}
+DE_TENSES = {"pres", "prat", "perf", "pqp", "fut1", "fut2", "wuerde", "zu", "pass"}
+DE_FINITE = {"ind", "k1", "k2", "imp"}
+DE_CASES = {"nom", "acc", "dat", "gen"}
+DE_GN = {"ms", "fs", "ns", "pl"}
+DE_DECL = {"str", "wk", "mix"}
+
+
+def is_valid_de(tag: str) -> bool:
+    """True for a German verb form tag (ind.prat.1s, inf.zu, ind.perf.3s+s)."""
+    core, _, aux = tag.partition("+")
+    if aux and aux not in ("h", "s"):
+        return False
+    parts = core.split(".")
+    if len(parts) not in (2, 3) or parts[0] not in DE_MOODS or parts[1] not in DE_TENSES:
+        return False
+    mood, tense = parts[0], parts[1]
+    if mood == "inf":
+        return len(parts) == 2 and tense in ("pres", "zu", "perf")
+    if mood == "part":
+        return len(parts) == 2 and tense in ("pres", "pass")
+    if tense in ("zu", "pass") or (tense == "wuerde" and mood != "k2"):
+        return False
+    if mood == "imp":
+        return len(parts) == 3 and tense == "pres" and parts[2] in ("2s", "1p", "2p", "3p")
+    return len(parts) == 3 and parts[2] in PERSONS
+
+
+def is_valid_de_case(tag: str) -> bool:
+    """True for a German case tag (gen.ns, str.nom.ms, comp, comp.wk.dat.pl, acc)."""
+    parts = tag.split(".")
+    if parts[0] in ("comp", "sup"):
+        parts = parts[1:]
+        if not parts:
+            return True
+    if parts and parts[0] in DE_DECL:
+        parts = parts[1:]
+    if not parts or parts[0] not in DE_CASES:
+        return False
+    return len(parts) == 1 or (len(parts) == 2 and parts[1] in DE_GN)
+
+
+_DE_PERSON = {"first-person": "1", "second-person": "2", "third-person": "3"}
+_DE_CASE = {"nominative": "nom", "accusative": "acc", "dative": "dat", "genitive": "gen"}
+_DE_DECL = {"strong": "str", "weak": "wk", "mixed": "mix"}
+_DE_GENDER = {"masculine": "m", "feminine": "f", "neuter": "n"}
+# Compound and periphrastic forms (bin gegangen, werde gehen, würde gehen): the app builds them.
+_DE_SKIP = {"perfect", "pluperfect", "future", "future-i", "future-ii", "multiword-construction", "passive",
+            "progressive", "compound"}
+# Tags that never change which form this is.
+_DE_IGNORE_VERB = {"subordinate-clause", "dependent", "main-clause", "error-unknown-tag", "colloquial",
+                   "archaic", "rare", "dated", "nonstandard", "regional"}
+
+
+def kaikki_verb_tags_de(tags: list[str]) -> list[str]:
+    """Our form tags for a kaikki German verb form; empty when it isn't a simple form we keep.
+
+    One source row can name several persons (gehen is 1p and 3p), so this returns every tag it covers."""
+    t = set(tags) - _DE_IGNORE_VERB
+    if "participle" in t and not t & {"multiword-construction", "auxiliary", "canonical"}:
+        # Checked before the compound tenses: a past participle may be tagged perfect.
+        if "past" in t or "perfect" in t:
+            return ["part.pass"]
+        return ["part.pres"] if "present" in t else []
+    if t & _DE_SKIP or "auxiliary" in t or "canonical" in t or "table-tags" in t or "inflection-template" in t:
+        return []
+    persons = sorted(_DE_PERSON[x] for x in t if x in _DE_PERSON)
+    numbers = [n for x, n in (("singular", "s"), ("plural", "p")) if x in t]
+
+    if "infinitive" in t or "zu-infinitive" in t:
+        return ["inf.zu"] if ("zu" in t or "zu-infinitive" in t) else ["inf.pres"]
+    if "imperative" in t:
+        if persons and persons != ["2"]:
+            return []
+        return [f"imp.pres.2{n}" for n in numbers]
+    if not persons or not numbers:
+        return []
+    tense = "prat" if t & {"past", "preterite", "imperfect"} else "pres"
+    if "subjunctive-ii" in t:
+        mood = "k2"
+        tense = "prat"
+    elif "subjunctive-i" in t or "subjunctive" in t:
+        mood = "k1"
+        tense = "pres"
+    else:
+        mood = "ind"
+    return [f"{mood}.{tense}.{p}{n}" for p in persons for n in numbers]
+
+
+_DE_IGNORE_NOMINAL = {"error-unknown-tag", "archaic", "rare", "dated", "colloquial", "nonstandard", "regional",
+                      "predicative", "attributive", "table-tags", "inflection-template", "class"}
+_DE_NOT_A_FORM = {"diminutive", "augmentative", "feminine-equivalent", "masculine-equivalent", "abbreviation",
+                  "canonical", "romanization", "article", "adverbial", "alternative"}
+# Rows of a noun's or adjective's table that name the article they go with; an article's own rows may carry them.
+_DE_ARTICLE_KIND = {"definite", "indefinite"}
+
+
+def kaikki_case_tags_de(tags: list[str], gender: str | None = None, pos: str = "n") -> list[str]:
+    """Our case tags for a kaikki German noun, adjective, article or pronoun form; empty to skip it.
+
+    A noun's singular forms take the lemma's gender (gen.ns); plurals have none (dat.pl). With gender "?"
+    (a form-of entry, which doesn't know its lemma's gender) a singular gets "s" (gen.s). One row can name
+    several cases (nominative/accusative/genitive plural), so this returns every tag it covers."""
+    t = set(tags) - _DE_IGNORE_NOMINAL
+    if t & _DE_NOT_A_FORM or (t & _DE_ARTICLE_KIND and pos not in ("art", "det")):
+        return []
+    degree = "comp." if "comparative" in t else "sup." if "superlative" in t else ""
+    cases = [c for x, c in _DE_CASE.items() if x in t]
+    decls = [d for x, d in _DE_DECL.items() if x in t]
+    if not cases and pos == "n" and "plural" in t and t <= {"plural"} | set(_DE_GENDER):
+        cases = ["nom", "acc", "gen"]  # a head line's plural (Bäume) names no case; the dative often differs
+    if not cases:
+        if degree and len(t - {"comparative", "superlative"}) == 0:
+            return [degree[:-1]]
+        return []
+    if pos == "n":
+        decls = []  # strong and weak describe the noun's class, not this form
+    genders = [g for x, g in _DE_GENDER.items() if x in t]
+    if pos == "n" and "feminine" in t and "f" not in (gender or "") and gender != "?":
+        return []  # a female-equivalent listed among a masculine noun's forms
+    gns: list[str] = []
+    if "plural" in t:
+        gns.append("pl")
+    # A head line's genitive (Baumes) names no number: it is the singular.
+    if "singular" in t or ("plural" not in t and (genders or pos == "n")):
+        if pos == "n":
+            # A two-gender noun's row may name which of its genders it is (die/der Joghurt).
+            g = next((x for x in genders if x in (gender or "")), (gender or "")[:1])
+            if g in ("m", "f", "n"):
+                gns.append(g + "s")
+            elif gender == "?":
+                gns.append("s")  # a form-of entry: build_db fills in the lemma's gender
+        else:
+            gns.extend(g + "s" for g in genders)
+    if not gns and pos == "n":
+        return []
+    prefixes = [degree + d + "." for d in decls] if decls and pos == "adj" else [degree]
+    if not gns:
+        return [f"{prefix}{c}" for prefix in prefixes for c in cases]
+    return [f"{prefix}{c}.{gn}" for prefix in prefixes for c in cases for gn in gns]
