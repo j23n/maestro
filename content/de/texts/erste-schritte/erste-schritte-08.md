@@ -6,6 +6,7 @@ status: draft
 topics: everyday, family
 introduces: trennbare-verben
 register: du
+speakers: Jonas m, Lena f
 
 Lena steht um sieben Uhr auf. || Lena gets up at seven.
 Sie macht das Fenster auf. || She opens the window.

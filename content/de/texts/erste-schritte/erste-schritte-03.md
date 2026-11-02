@@ -6,6 +6,7 @@ status: draft
 topics: people
 introduces: sein-haben
 register: du
+speakers: Tom m, Lena f
 
 > Tom: Hallo, ich bin Tom. || Hi, I'm Tom.
 > Tom: Bist du auch neu hier? || Are you new here too?

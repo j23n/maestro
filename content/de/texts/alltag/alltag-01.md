@@ -6,6 +6,7 @@ status: draft
 topics: family, shopping
 introduces: dativ
 register: du
+speakers: Max m, Lena f
 
 Lenas Oma hat bald Geburtstag. || Lena's grandma's birthday is soon.
 Lena sucht ein Geschenk für sie. || Lena is looking for a present for her.

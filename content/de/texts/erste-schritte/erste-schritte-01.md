@@ -6,6 +6,7 @@ status: draft
 topics: home
 introduces: artikel
 register: du
+speakers: Jonas m, Lena f
 
 Lena ist neu in Leipzig. || Lena is new in Leipzig.
 Die Wohnung ist klein, aber hell. || The flat is small but bright.

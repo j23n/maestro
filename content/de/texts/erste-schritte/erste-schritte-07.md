@@ -6,6 +6,7 @@ status: draft
 topics: free time
 introduces: modalverben
 register: du
+speakers: Jonas m, Lena f
 
 Lena und Jonas planen das Wochenende. || Lena and Jonas plan the weekend.
 

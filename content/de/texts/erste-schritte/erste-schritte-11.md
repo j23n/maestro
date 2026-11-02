@@ -6,6 +6,7 @@ status: draft
 topics: free time, family
 introduces: perfekt
 register: du
+speakers: Jonas m, Lena f
 
 > Jonas: Was hast du am Wochenende gemacht? || What did you do at the weekend?
 > Lena: Ich habe meine Mutter besucht. || I visited my mother.

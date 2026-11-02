@@ -6,6 +6,7 @@ status: draft
 topics: everyday, study
 introduces: praepositionen-zeit
 register: du
+speakers: Jonas m, Lena f
 
 Lenas Woche ist voll. || Lena's week is full.
 Am Montag hat sie um neun Uhr einen Kurs. || On Monday she has a class at nine.

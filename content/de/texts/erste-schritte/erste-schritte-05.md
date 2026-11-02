@@ -6,6 +6,7 @@ status: draft
 topics: food, shopping
 introduces: akkusativ
 register: Sie
+speakers: Verkäufer m, Lena f
 
 Es ist Samstag. || It's Saturday.
 Lena braucht Obst und Gemüse. || Lena needs fruit and vegetables.

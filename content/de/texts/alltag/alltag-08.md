@@ -6,6 +6,7 @@ status: draft
 topics: travel, dreams
 introduces: konjunktiv-2
 register: du
+speakers: Jonas m, Lena f
 
 > Jonas: Was würdest du machen, wenn du ein Jahr frei hättest? || What would you do if you had a year off?
 > Lena: Ich würde eine lange Reise machen. || I'd go on a long trip.

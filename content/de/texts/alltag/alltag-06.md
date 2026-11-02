@@ -6,6 +6,7 @@ status: draft
 topics: shopping, clothes
 introduces: adjektivdeklination
 register: Sie
+speakers: Verkäuferin f, Lena f, Jonas m
 
 Es ist kalt in Leipzig. || It's cold in Leipzig.
 Lena braucht einen warmen Mantel. || Lena needs a warm coat.

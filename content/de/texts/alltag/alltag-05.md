@@ -6,6 +6,7 @@ status: draft
 topics: places
 introduces: komparation
 register: du
+speakers: Jonas m, Lena f
 
 Lena kommt aus einem Dorf. || Lena comes from a village.
 Jonas ist in Berlin aufgewachsen. || Jonas grew up in Berlin.

@@ -6,6 +6,7 @@ status: draft
 topics: everyday
 introduces: negation
 register: du
+speakers: Lena f, Jonas m
 
 Jonas hat heute kein Glück. || Jonas has no luck today.
 Der Wecker klingelt nicht. || The alarm clock doesn't ring.

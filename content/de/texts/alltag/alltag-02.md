@@ -6,6 +6,7 @@ status: draft
 topics: home, friends
 introduces: wechselpraepositionen
 register: du
+speakers: Tom m, Jonas m, Lena f
 
 Tom zieht um. || Tom is moving house.
 Lena und Jonas helfen ihm. || Lena and Jonas are helping him.

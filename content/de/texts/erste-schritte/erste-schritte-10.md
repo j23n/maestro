@@ -6,6 +6,7 @@ status: draft
 topics: food
 introduces: imperativ
 register: du
+speakers: Lena f, Jonas m
 
 Heute kochen Lena und Jonas zusammen. || Today Lena and Jonas are cooking together.
 

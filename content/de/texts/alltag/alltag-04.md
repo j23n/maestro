@@ -6,6 +6,7 @@ status: draft
 topics: study, people
 introduces: nebensaetze
 register: du
+speakers: Lena f, Sofia f
 
 > Lena: Warum lernst du Deutsch, Sofia? || Why are you learning German, Sofia?
 > Sofia: Ich lerne Deutsch, weil ich in Leipzig studieren will. || I'm learning German because I want to study in Leipzig.

@@ -6,6 +6,7 @@ status: draft
 topics: food
 introduces: praesens
 register: Sie
+speakers: Kellnerin f, Lena f, Jonas m
 
 Lena und Jonas sitzen im Café. || Lena and Jonas are sitting in a café.
 Sie trinken gern Kaffee. || They like drinking coffee.
