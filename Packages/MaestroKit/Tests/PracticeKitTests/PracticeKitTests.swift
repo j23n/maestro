@@ -101,15 +101,24 @@ private func gap(answers: [String], near: [String: String] = [:]) -> Drill {
 }
 
 @Suite struct PracticeSetTests {
-    @Test func shuffleIsStableAndNeverTheGivenOrder() {
-        let options = ["sono", "ho"]
+    @Test func shuffleIsStableForASeed() {
+        let options = ["ho", "sono"]
         let a = SeededShuffle.shuffled(options, seed: "vita-quotidiana-01.d1")
         #expect(a == SeededShuffle.shuffled(options, seed: "vita-quotidiana-01.d1"))
-        #expect(a == ["ho", "sono"])
-        let four = ["andato", "andata", "andati", "andate"]
-        for n in 0..<20 {
-            let s = SeededShuffle.shuffled(four, seed: "t.d\(n)")
-            #expect(s != four && Set(s) == Set(four))
+        #expect(Set(a) == Set(options))
+    }
+
+    @Test func eitherOptionCanComeFirst() {
+        // The answer's place must not be predictable: across seeds, both orders of two options appear.
+        let orders = Set((0..<40).map { SeededShuffle.shuffled(["ho", "sono"], seed: "t.d\($0)") })
+        #expect(orders == [["ho", "sono"], ["sono", "ho"]])
+    }
+
+    @Test func tilesNeverStartInTheAnswerOrder() {
+        let tiles = ["il", "nonno", "ha", "mangiato"]
+        for n in 0..<40 {
+            let s = SeededShuffle.shuffled(tiles, seed: "t.d\(n)", avoidingGivenOrder: true)
+            #expect(s != tiles && Set(s) == Set(tiles))
         }
     }
 

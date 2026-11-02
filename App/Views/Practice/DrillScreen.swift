@@ -198,7 +198,7 @@ struct DrillScreen: View {
     // MARK: Build
 
     private var tileBank: [String] {
-        SeededShuffle.shuffled((drill.tiles ?? []) + (drill.distractors ?? []), seed: seed)
+        SeededShuffle.shuffled((drill.tiles ?? []) + (drill.distractors ?? []), seed: seed, avoidingGivenOrder: true)
     }
 
     private var build: some View {

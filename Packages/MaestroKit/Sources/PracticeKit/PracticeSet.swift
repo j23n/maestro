@@ -26,9 +26,12 @@ public enum SeededShuffle {
         }
     }
 
-    /// The items in a stable order for this seed. With more than one item, never the order given,
-    /// so an answer is never shown in its place by accident.
-    public static func shuffled<T: Equatable>(_ items: [T], seed: String) -> [T] {
+    /// The items in a stable order for this seed (Fisher-Yates). Every order is possible, the given
+    /// one included, so an option's place says nothing about whether it's the answer.
+    ///
+    /// With `avoidingGivenOrder`, an order equal to the given one is rotated by one: for word tiles,
+    /// which are given in the answer's order.
+    public static func shuffled<T: Equatable>(_ items: [T], seed: String, avoidingGivenOrder: Bool = false) -> [T] {
         guard items.count > 1 else { return items }
         var rng = SplitMix64(seed: fnv1a(seed))
         var out = items
@@ -36,7 +39,7 @@ public enum SeededShuffle {
             let j = Int(rng.next() % UInt64(i + 1))
             out.swapAt(i, j)
         }
-        if out == items {
+        if avoidingGivenOrder && out == items {
             out.append(out.removeFirst())
         }
         return out
