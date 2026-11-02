@@ -86,7 +86,7 @@ PRONOUNS: dict[str, tuple[str, str | None]] = {
     "er": ("er", "nom"), "ihn": ("er", "acc"), "ihm": ("er", "dat"),
     "es": ("es", None), "sie": ("sie", None), "ihnen": ("sie", "dat"),
     "wir": ("wir", "nom"), "uns": ("wir", None), "euch": ("ihr", None),
-    "man": ("man", "nom"), "sich": ("sich", None),
+    "man": ("man", "nom"), "sich": ("sich", None), "ihr": ("ihr", None),
 }
 # Subject pronoun -> the persons its verb can have. Sie inside a sentence is the polite you (3p).
 SUBJECT_PERSONS = {"ich": {"1s"}, "du": {"2s"}, "er": {"3s"}, "es": {"3s"}, "man": {"3s"}, "sie": {"3s", "3p"},
@@ -198,6 +198,29 @@ def _link(tok: dict, lex: packs.Lexicon, lemma_id: str | None, upos: str, sense:
                 tok["senseID"] = sid
 
 
+def _reads_as_determiner(lex: packs.Lexicon, surface: str, following: tuple[str, int, int, str],
+                         before: list[Info]) -> bool:
+    """Whether a word spelled like a determiner is one. sein, ihr and verb look-alikes (meinen) are
+    only before a noun, an adjective or a number, and ihr after a verb for ihr (habt ihr) is the pronoun."""
+    lower = surface.lower()
+    previous = next((x for x in reversed(before) if x.pos is not None), None)
+    if lower == "ihr" and previous is not None and previous.pos == "v":
+        persons = {person(t) for t in previous.tags}
+        if "2p" in persons and "3s" not in persons:
+            return False
+    if lower not in AMBIGUOUS_DETERMINERS and not _is_verb_form(lex, surface):
+        return True
+    word = following[0]
+    if word.lower() in PRONOUNS or word.lower() in SUBJECT_PERSONS:
+        return False
+    return word[:1].isupper() or following[3] == "n" or _is_adjective(lex, word)
+
+
+def _is_verb_form(lex: packs.Lexicon, surface: str) -> bool:
+    return lex.conn.execute("SELECT 1 FROM form f JOIN lemma l ON l.id = f.lemma_id WHERE f.form = ? AND l.pos = 'v' "
+                            "AND l.retired = 0 LIMIT 1", (surface.lower(),)).fetchone() is not None
+
+
 def _is_adjective(lex: packs.Lexicon, surface: str) -> bool:
     return lex.conn.execute("SELECT 1 FROM form f JOIN lemma l ON l.id = f.lemma_id WHERE f.form = ? AND l.pos = 'adj' "
                             "AND l.retired = 0 LIMIT 1", (surface,)).fetchone() is not None
@@ -258,14 +281,12 @@ def link_sentence(lex: packs.Lexicon, sentence: packs.SourceSentence) -> tuple[l
             info.slots = frozenset(s for s in DEFINITE[art] if s[0] in PREP_CASES[prep])
             if prep in TWO_WAY:
                 tok["grammar"] = [TWO_WAY_TOPIC]
-        elif (det := determiner(lower)) and following and (
-                lower not in AMBIGUOUS_DETERMINERS or following[0][:1].isupper()
-                or _is_adjective(lex, following[0])):
+        elif (det := determiner(lower)) and following and _reads_as_determiner(lex, surface, following, infos):
             headword, det_kind, slots = det
             lemma_id, pos = _lemma(lex, headword, "art", "det", "pron")
             _link(tok, lex, lemma_id, "DET", sense=pos != "art")
             info.pos, info.lemma, info.headword, info.det, info.slots = pos, lemma_id, headword, det_kind, slots
-        elif lower in PREP_CASES and following:
+        elif lower in PREP_CASES and following and not (lower in SCONJ and following[0].lower() in SUBJECT_PERSONS):
             lemma_id, _ = _lemma(lex, lower, "prep")
             _link(tok, lex, lemma_id, "ADP", sense=False)
             info.pos, info.lemma, info.headword, info.prep = "prep", lemma_id, lower, set(PREP_CASES[lower])
@@ -343,8 +364,24 @@ def _clauses(raw: list[tuple[str, int, int, str]], infos: list[Info]) -> list[Cl
         out.append(Clause(current, False))
     for c in out:
         first = raw[c.words[0]][0].lower()
-        c.subordinate = first in SCONJ and infos[c.words[0]].pos == "conj"
+        c.subordinate = first in SCONJ and infos[c.words[0]].pos == "conj" or _opens_relative_clause(raw, infos, c)
     return out
+
+
+RELATIVE = {"der", "die", "das", "dem", "den", "denen", "dessen", "deren"}
+
+
+def _opens_relative_clause(raw: list[tuple[str, int, int, str]], infos: list[Info], clause: Clause) -> bool:
+    """das Buch, das ich lese: a der-word after a comma, not followed by its noun or adjective."""
+    first = clause.words[0]
+    if raw[first][0].lower() not in RELATIVE or first < 2 or raw[first - 1][0] != ",":
+        return False
+    if infos[first - 2].pos != "n" and not raw[first - 2][0][:1].isupper():
+        return False  # ich weiß, das ist gut: no noun for it to refer to
+    if len(clause.words) < 2:
+        return False
+    nxt = clause.words[1]
+    return not raw[nxt][0][:1].isupper() and infos[nxt].pos not in ("adj", "num") or raw[nxt][0] == "Sie"
 
 
 def _subject_persons(tokens: list[dict], infos: list[Info], clause: Clause, at: int) -> set[str] | None:
@@ -374,25 +411,41 @@ def _verb_forms(tokens: list[dict], infos: list[Info], clauses: list[Clause]) ->
     """Pick each verb's form from its place in the clause.
 
     In a main clause the first verb is finite and the others are infinitives or participles; after a
-    subordinator the last verb is finite. A verb right after und or oder starts again."""
+    subordinator the last verb is finite. A verb right after zu is an infinitive (um Brot zu kaufen), so
+    a clause of zu-infinitives has no finite verb. A verb right after und or oder takes the form of the
+    verb before it: finite in "ich esse und trinke", an infinitive in "ich möchte essen und trinken"."""
     for clause in clauses:
         verbs = [i for i in clause.words if infos[i].pos == "v" and infos[i].tags]
         if not verbs:
             continue
-        finite_at = verbs[-1] if clause.subordinate else verbs[0]
-        lead = infos[finite_at].headword
-        order = ("inf.pres", "inf.zu", "part.pass", "part.pres") if lead in TAKES_INFINITIVE else \
+
+        def before(i: int) -> str:
+            pos_in = clause.words.index(i)
+            return tokens[clause.words[pos_in - 1]]["t"].lower() if pos_in > 0 else ""
+
+        candidates = [i for i in verbs if before(i) != "zu"]
+        finite_at = (candidates[-1] if clause.subordinate else candidates[0]) if candidates else None
+        lead = infos[finite_at].headword if finite_at is not None else None
+        order = ("inf.pres", "inf.zu", "part.pass", "part.pres") if lead in TAKES_INFINITIVE or lead is None else \
             ("part.pass", "inf.pres", "inf.zu", "part.pres")
+        previous: str | None = None
         for i in verbs:
             tags = infos[i].tags
             pos_in = clause.words.index(i)
-            after_coordinator = pos_in > 0 and tokens[clause.words[pos_in - 1]]["t"].lower() in CCONJ
             nonfinite = [t for t in tags if not is_finite(t)]
             finite = [t for t in tags if is_finite(t)]
-            if (i != finite_at and not after_coordinator and nonfinite) or not finite:
-                chosen = min(nonfinite, key=lambda t: order.index(t) if t in order else 9)
+            if before(i) in CCONJ and previous is not None:
+                wants_finite = is_finite(previous)
+                like = previous if previous in nonfinite else None
+            else:
+                wants_finite = i == finite_at
+                like = None
+            if nonfinite and (not wants_finite or not finite):
+                chosen = like or min(nonfinite, key=lambda t: order.index(t) if t in order else 9)
             else:
                 persons = _subject_persons(tokens, infos, clause, i)
+                if not persons and before(i) in CCONJ and previous and is_finite(previous):
+                    persons = {person(previous)}  # wir kaufen und essen: the same subject
                 pool = [t for t in finite if person(t) in persons] if persons else finite
                 if not persons:
                     imperative = [t for t in finite if t.startswith("imp.")]
@@ -401,6 +454,7 @@ def _verb_forms(tokens: list[dict], infos: list[Info], clauses: list[Clause]) ->
                 chosen = min(pool or finite, key=_rank)
             tokens[i]["form"] = chosen
             infos[i].tags = [chosen] + [t for t in tags if t != chosen]
+            previous = chosen
 
 
 # --- cases ---------------------------------------------------------------------------------
@@ -449,10 +503,13 @@ def _noun_phrases(lex: packs.Lexicon, tokens: list[dict], infos: list[Info], wor
                   clauses: list[Clause]) -> None:
     """Agree each noun with its adjectives, determiner and preposition (in dem neuen Haus: dat.ns).
 
-    Where that leaves nominative or accusative, a phrase that opens the sentence is the subject,
-    and once a clause has its subject the other phrases are objects. Determiners that end up in
+    Where that leaves nominative or accusative, a phrase that opens the sentence is the subject
+    unless a subject pronoun follows, and once a clause has its subject the other phrases are objects. Determiners that end up in
     no phrase stand alone (Das ist gut) and become pronouns."""
     phrases: list[Phrase] = []
+    # Die Suppe esse ich: with a subject pronoun in its clause, the opening phrase is the object.
+    opening_has_subject_pronoun = bool(clauses) and any(
+        infos[x].pos == "pron" and tokens[x].get("case") == "nom" for x in clauses[0].words)
     for n, i in enumerate(words):
         info = infos[i]
         if info.pos != "n":
@@ -486,7 +543,8 @@ def _noun_phrases(lex: packs.Lexicon, tokens: list[dict], infos: list[Info], wor
             parts = hint.split(".")
             options = {s for s in options if s[0] == parts[0] and (len(parts) == 1 or s[1] == parts[1])}
         first = det if det is not None else (adjectives[-1] if adjectives else i)
-        if not hint and governor is None and first == words[0] and any(c == "nom" for c, _ in options):
+        if not hint and governor is None and first == words[0] and any(c == "nom" for c, _ in options) \
+                and not opening_has_subject_pronoun:
             options = {s for s in options if s[0] == "nom"}
         phrases.append(Phrase(i, det, adjectives, governor is not None, options))
 

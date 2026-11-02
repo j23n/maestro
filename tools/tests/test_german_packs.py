@@ -177,3 +177,49 @@ def test_build_all_writes_a_german_pack(lex, tmp_path):
     counts = packs.text_lemmas(text)
     assert counts["de:anrufen:v"] == 1, "the separable verb counts once"
     assert lex.conn.execute("SELECT id FROM catalog_text").fetchone()[0] == "de:alltag-01"
+
+
+def test_verbs_after_zu_and_coordinators(lex):
+    tokens, _, _ = link(lex, "Wir wollen Brot kaufen und essen.")
+    assert tokens["wollen"]["form"] == "ind.pres.1p"
+    assert tokens["kaufen"]["form"] == "inf.pres" and tokens["essen"]["form"] == "inf.pres", \
+        "after und, a verb takes the form of the verb before it"
+    tokens, _, _ = link(lex, "Wir kaufen Brot und essen.")
+    assert tokens["essen"]["form"] == "ind.pres.1p"
+    tokens, _, _ = link(lex, "Ich gehe in die Stadt, um Brot zu kaufen.")
+    assert tokens["gehe"]["form"] == "ind.pres.1s"
+    assert tokens["kaufen"]["form"] == "inf.pres", "a clause of zu-infinitives has no finite verb"
+
+
+def test_the_auxiliary_counts_wherever_it_stands(lex):
+    for text, aux in (("Ich esse, weil ich Brot gegessen habe.", "de:haben:v"),
+                      ("Ich gehe, weil ich essen werde.", "de:werden:v"),
+                      ("Ich habe Brot gegessen.", "de:haben:v")):
+        clean, hints = packs._strip_hints(text)
+        tokens, units, _ = packs_de.link_sentence(lex, packs.SourceSentence(text=clean, translation="", hints=hints))
+        counts = packs.text_lemmas({"blocks": [{"sentences": [{"tokens": tokens, "units": units}]}]})
+        assert counts[aux] == 1, text
+        assert units and counts[units[-1]["lemmaID"]] >= 1
+
+
+def test_words_spelled_like_determiners(lex):
+    tokens, _, _ = link(lex, "Habt ihr Hunger?")
+    assert tokens["ihr"]["pos"] == "PRON" and tokens["Habt"]["form"] == "ind.pres.2p"
+    tokens, _, _ = link(lex, "Seid ihr gut?")
+    assert tokens["ihr"]["pos"] == "PRON"
+    tokens, _, _ = link(lex, "Ich kaufe mein Brot.")
+    assert tokens["mein"]["pos"] == "DET"
+
+
+def test_an_object_that_opens_the_sentence(lex):
+    tokens, _, _ = link(lex, "Das Brot esse ich.")
+    assert tokens["Brot"]["case"] == "acc" and "de:akkusativ" in tokens["Das"]["grammar"]
+
+
+def test_subordinators_that_are_also_prepositions_and_relative_clauses(lex):
+    tokens, _, _ = link(lex, "Bis du kommst, esse ich.")
+    assert tokens["Bis"]["pos"] == "SCONJ" and tokens["kommst"]["form"] == "ind.pres.2s"
+    tokens, _, _ = link(lex, "Ich esse bis morgen.")
+    assert tokens["bis"]["pos"] == "ADP"
+    tokens, _, _ = link(lex, "Das ist das Brot, das ich essen will.")
+    assert tokens["essen"]["form"] == "inf.pres" and tokens["will"]["form"] == "ind.pres.1s"

@@ -628,10 +628,15 @@ def text_lemmas(text: dict) -> Counter:
             for u in s.get("units", []):
                 if u.get("lemmaID"):
                     counts[u["lemmaID"]] += 1
-                    # The participle, and any token linked to the unit's own verb (rufe … an);
-                    # the auxiliary still counts.
-                    covered.update(u["tokens"][1:])
-                    covered.update(i for i in u["tokens"] if s["tokens"][i].get("lemmaID") == u["lemmaID"])
+                    # The auxiliary still counts, wherever it stands (ho mangiato, weil ich gegessen habe);
+                    # in a unit without one, its first word does. The rest are the unit, and so is any
+                    # token linked to the unit's own verb (rufe … an).
+                    tokens = s["tokens"]
+                    aux = {i for i in u["tokens"] if tokens[i].get("pos") == "AUX"
+                           and tokens[i].get("lemmaID") != u["lemmaID"]}
+                    counted = aux or {u["tokens"][0]}
+                    covered.update(i for i in u["tokens"]
+                                   if i not in counted or tokens[i].get("lemmaID") == u["lemmaID"])
             for i, tok in enumerate(s["tokens"]):
                 if i in covered:
                     continue
