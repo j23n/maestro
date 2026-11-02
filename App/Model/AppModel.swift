@@ -108,6 +108,7 @@ enum AppTab: Hashable {
 enum Route: Hashable {
     case text(String)
     case questions(String)
+    case practice(String)
     case entry(String)
     case verb(lemmaID: String, formTag: String?)
     case grammar(String)

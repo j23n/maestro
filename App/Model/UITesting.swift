@@ -36,7 +36,7 @@ enum UITestLaunch {
     static var seed: Bool { arguments.contains("-uiSeed") }
     static var review: Bool { arguments.contains("-uiReview") }
 
-    /// "text:<id>", "questions:<id>", "entry:<lemmaID>", "verb:<lemmaID>[@<formTag>]",
+    /// "text:<id>", "questions:<id>", "practice:<id>", "entry:<lemmaID>", "verb:<lemmaID>[@<formTag>]",
     /// "grammar:<id>", "grammarIndex" or "settings".
     static func route(_ string: String) -> Route? {
         let parts = string.split(separator: ":", maxSplits: 1).map(String.init)
@@ -44,6 +44,7 @@ enum UITestLaunch {
         switch parts.first {
         case "text": return .text(arg)
         case "questions": return .questions(arg)
+        case "practice": return .practice(arg)
         case "entry": return .entry(arg)
         case "verb":
             let verb = arg.split(separator: "@", maxSplits: 1).map(String.init)

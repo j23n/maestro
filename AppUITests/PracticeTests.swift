@@ -1,0 +1,57 @@
+import XCTest
+
+/// Practice after a text (HANDOFF.md 3.9): the reader offers it, every drill can be answered or
+/// revealed, and the summary offers a Grammar card for what needed help.
+final class PracticeTests: XCTestCase {
+    private let base = ["-uiTesting", "-onboarded", "YES", "-uiTab", "read"]
+
+    @MainActor
+    func testReaderOffersPractice() {
+        let app = XCUIApplication()
+        app.launchArguments = base + ["-uiRoute", "text:vita-quotidiana-01"]
+        app.launch()
+        XCTAssertTrue(app.scrollViews["reader"].waitForExistence(timeout: 30), "The reader didn't open")
+        let practise = app.buttons["reader.practice"]
+        for _ in 0..<8 where !practise.isHittable { app.scrollViews["reader"].swipeUp() }
+        XCTAssertTrue(practise.isHittable, "The reader doesn't offer practice")
+        practise.tap()
+        XCTAssertTrue(app.buttons["practice.start"].waitForExistence(timeout: 10), "Practice didn't open")
+    }
+
+    @MainActor
+    func testEveryDrillEndsInTheSummary() {
+        let app = XCUIApplication()
+        app.launchArguments = base + ["-uiRoute", "practice:vita-quotidiana-01"]
+        app.launch()
+        let start = app.buttons["practice.start"]
+        XCTAssertTrue(start.waitForExistence(timeout: 30), "Practice didn't open")
+        start.tap()
+
+        // The first drill: a wrong pick or answer gives a hint and another try.
+        if app.buttons["practice.option.0"].waitForExistence(timeout: 5) {
+            app.buttons["practice.option.0"].tap()
+            let answered = app.buttons["practice.continue"].waitForExistence(timeout: 5)
+                || app.staticTexts["Not quite."].exists
+            XCTAssertTrue(answered, "A pick gave no feedback")
+        }
+
+        var drills = 0
+        while drills < 12 {
+            if app.staticTexts["Practice done"].waitForExistence(timeout: 2) { break }
+            let reveal = app.buttons["practice.showAnswer"]
+            if reveal.waitForExistence(timeout: 5) && reveal.isHittable { reveal.tap() }
+            let next = app.buttons["practice.continue"]
+            XCTAssertTrue(next.waitForExistence(timeout: 5), "Drill \(drills + 1) didn't finish")
+            next.tap()
+            drills += 1
+        }
+        XCTAssertGreaterThanOrEqual(drills, 3, "A practice set has at least three drills")
+        XCTAssertTrue(app.staticTexts["Practice done"].waitForExistence(timeout: 5), "The summary didn't show")
+
+        let keep = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Remember '")).firstMatch
+        XCTAssertTrue(keep.waitForExistence(timeout: 5), "The summary offers nothing to keep")
+        keep.tap()
+        let added = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Added to Remember'")).firstMatch
+        XCTAssertTrue(added.waitForExistence(timeout: 5), "Keeping a topic didn't work")
+    }
+}

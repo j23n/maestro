@@ -42,6 +42,14 @@ struct QuestionsView: View {
                             .font(.headline)
                     }
                 }
+                if let topic = PracticeEntry.topic(of: text) {
+                    Section {
+                        NavigationLink(value: Route.practice(text.id)) {
+                            Label("Practise: \(model.grammarTitle(topic))", systemImage: "pencil.and.list.clipboard")
+                                .frame(minHeight: 44)
+                        }
+                    }
+                }
             }
             .plainPage()
             .navigationTitle("Questions")

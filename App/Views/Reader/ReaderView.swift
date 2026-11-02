@@ -106,6 +106,13 @@ struct ReaderView: View {
                 }
                 .buttonStyle(PrimaryButtonStyle())
             }
+            if let topic = PracticeEntry.topic(of: text) {
+                NavigationLink(value: Route.practice(text.id)) {
+                    Text("Practise: \(model.grammarTitle(topic))")
+                }
+                .buttonStyle(SecondaryButtonStyle())
+                .accessibilityIdentifier("reader.practice")
+            }
             Button {
                 RememberStore(context: context, prefs: prefs, content: model.content).updateProgress(textID: textID, position: 1)
             } label: {

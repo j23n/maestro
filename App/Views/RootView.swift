@@ -120,6 +120,7 @@ struct RouteView: View {
         switch route {
         case .text(let id): ReaderView(textID: id)
         case .questions(let id): QuestionsView(textID: id)
+        case .practice(let id): PracticeView(textID: id)
         case .entry(let id): EntryView(lemmaID: id)
         case .verb(let id, let tag): VerbView(lemmaID: id, highlightTag: tag)
         case .grammar(let id): GrammarTopicView(topicID: id)
