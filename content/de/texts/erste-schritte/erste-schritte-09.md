@@ -21,7 +21,7 @@ Ich besuche sie oft am Wochenende. || I often visit them at the weekend.
 Und deine Familie? || And your family?
 Wie heißen deine Eltern? || What are your parents called?
 
-?? Was ist Lenas Vater von Beruf? || What does Lena's father do? @s3
+?? Was ist der Vater von Beruf? || What does the father do? @s3
 - Arzt || Doctor
 * Lehrer || Teacher
 - Koch || Cook
