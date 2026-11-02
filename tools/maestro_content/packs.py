@@ -163,6 +163,8 @@ def parse_speakers(value: str, where: str) -> dict[str, str]:
         name, _, gender = item.rpartition(" ")
         if not name.strip() or gender not in GENDERS:
             raise PackError(f"{where}: speakers must look like 'Marta f, Barista m', got {item!r}")
+        if name.strip() in speakers:
+            raise PackError(f"{where}: speakers names {name.strip()!r} twice")
         speakers[name.strip()] = gender
     return speakers
 

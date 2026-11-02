@@ -50,9 +50,11 @@ struct SpeechSegment: Hashable {
             && voice.voiceTraits.isDisjoint(with: [.isNoveltyVoice, .isPersonalVoice])
     }
 
-    /// The best installed it-IT voice: premium, then enhanced, then the default.
+    /// The narrator's voice: the best installed it-IT voice, premium, then enhanced, then the default,
+    /// with ties broken as `VoiceCasting` breaks them, so that a narrator who also speaks keeps one voice.
     static var bestVoice: AVSpeechSynthesisVoice? {
-        italianVoices.max { $0.quality.rawValue < $1.quality.rawValue } ?? AVSpeechSynthesisVoice(language: "it-IT")
+        VoiceCasting.narrator(italianVoices.map { VoiceCasting.Voice($0) })
+            .flatMap { AVSpeechSynthesisVoice(identifier: $0.id) } ?? AVSpeechSynthesisVoice(language: "it-IT")
     }
 
     static var hasEnhancedVoice: Bool {

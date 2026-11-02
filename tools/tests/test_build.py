@@ -112,6 +112,8 @@ def test_speakers_parse_names_with_spaces_and_reject_bad_genders():
         packs.parse_speakers("Marta female", "x")
     with pytest.raises(packs.PackError):
         packs.parse_speakers("f", "x")
+    with pytest.raises(packs.PackError):
+        packs.parse_speakers("Marta f, Marta m", "x")
 
 
 def test_validation_catches_bad_ranges():
