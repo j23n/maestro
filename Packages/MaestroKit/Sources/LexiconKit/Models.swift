@@ -169,12 +169,15 @@ public struct Reading: Sendable, Hashable, Identifiable {
     /// What the form is, without repeating the headword and part of speech: "indicativo presente · tu",
     /// "feminine plural", "Dativ Plural". Nil when the form has no analysis, and for the headword's own
     /// gender and number ("nostro" isn't "masculine singular", "Haus" isn't "Nominativ neutral Singular").
-    /// A German plural in the nominative is just "Plural".
+    /// A German plural in the nominative is just "Plural". Another nominative singular keeps its label
+    /// (the article "die" is "Nominativ feminin Singular" of "der").
     public var formLine: String? {
         if let formTag { return formTag.label(in: language) }
         if let caseTag {
             guard caseTag.grammaticalCase == .nom, caseTag.degree == nil, caseTag.declension == nil else { return caseTag.label }
-            return caseTag.number == .pl ? CaseTag.Number.pl.germanName : nil
+            if caseTag.number == .pl { return CaseTag.Number.pl.germanName }
+            let isHeadword = surface.compare(lemma.headword, options: .caseInsensitive) == .orderedSame
+            return isHeadword ? nil : caseTag.label
         }
         let isHeadword = surface.compare(lemma.headword, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
         if let genderNumber, !isHeadword { return genderNumber.label }

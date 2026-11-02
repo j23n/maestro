@@ -61,10 +61,12 @@ func germanDatabase() throws -> ContentDatabase {
 
     @Test func formLinesNameOnlyWhatTheHeadwordDoesNot() throws {
         let lemma = try #require(try germanDatabase().lemmas(headword: "Haus").first)
-        func line(_ tag: String) -> String? {
-            Reading(lemma: lemma, formTag: nil, genderNumber: nil, surface: "Haus", via: .form, caseTag: CaseTag(tag)).formLine
+        func line(_ tag: String, _ surface: String = "Haus") -> String? {
+            Reading(lemma: lemma, formTag: nil, genderNumber: nil, surface: surface, via: .form, caseTag: CaseTag(tag)).formLine
         }
         #expect(line("nom.ns") == nil)
+        #expect(line("nom.ns", "haus") == nil)
+        #expect(line("nom.fs", "die") == "Nominativ feminin Singular")
         #expect(line("acc.ns") == "Akkusativ neutral Singular")
         #expect(line("nom.pl") == "Plural")
         #expect(line("wk.nom.ms") == "schwach, Nominativ maskulin Singular")
