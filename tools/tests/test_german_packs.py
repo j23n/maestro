@@ -271,6 +271,10 @@ def test_grammar_points_a_token_shows_by_itself(lex):
     assert "de:verbstellung" in tokens["kaufe"]["grammar"], "a leading aber stands outside the clause"
     tokens, _, _ = link(lex, "Wenn du kommst, esse ich Brot.")
     assert "de:verbstellung" in tokens["esse"]["grammar"], "after a subordinate clause"
+    tokens, _, _ = link(lex, "Die Frau, die ich kenne, kauft sie.")
+    assert "de:verbstellung" not in tokens["kauft"].get("grammar", []), "a relative clause inside the subject"
+    tokens, _, _ = link(lex, "Doch kauft er Brot.")
+    assert "de:verbstellung" in tokens["kauft"]["grammar"], "doch as an adverb takes the first place"
 
 
 def test_a_positive_spelled_like_a_comparative():

@@ -709,16 +709,20 @@ def _topic_tags(tokens: list[dict], infos: list[Info], clauses: list[Clause]) ->
             if any(t["t"] in TIME_WORDS or t.get("pos") == "NUM" for t in ahead[:3]):
                 _tag(tok, TIME_TOPIC)
     for n, clause in enumerate(clauses):
-        # A leading und or aber stands outside the clause (aber heute gehe ich).
-        words = clause.words[1:] if tokens[clause.words[0]]["t"].lower() in CCONJ else clause.words
+        # A leading und or aber stands outside the clause (aber heute gehe ich). doch right before the
+        # verb is an adverb in the first place (Doch kommt er nicht).
+        w0, lead = clause.words[0], tokens[clause.words[0]]["t"].lower()
+        adverb = lead == "doch" and len(clause.words) > 1 and is_finite(tokens[clause.words[1]].get("form", ""))
+        words = clause.words[1:] if lead in CCONJ and infos[w0].pos == "conj" and not adverb else clause.words
         if clause.subordinate or len(words) < 2:
             continue
         verb = next((i for i in words if is_finite(tokens[i].get("form", ""))), None)
         if verb is None or tokens[verb]["form"].startswith("imp."):
             continue  # Dann kauf ihr Blumen: an imperative has no subject to invert
         at = words.index(verb)
-        # Wenn ich Zeit habe, gehe ich: the subordinate clause takes the first place.
-        if at == 0 and n > 0 and clauses[n - 1].subordinate:
+        # Wenn ich Zeit habe, gehe ich: the subordinate clause takes the first place. A relative clause
+        # inside the subject doesn't (Die Frau, die ich kenne, besucht sie).
+        if at == 0 and n > 0 and all(c.subordinate for c in clauses[:n]):
             at = 1
         elif at == 0 or len(words) < 3:
             continue
