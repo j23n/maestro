@@ -33,6 +33,16 @@ import SRSKit
         #expect(store.cards(for: item.key).count == 1)
     }
 
+    @Test func cardsKeepTheirLanguageAndTheQueueShowsTheActiveOne() throws {
+        prefs.language = .it
+        let german = RememberItem.word(lemmaID: "de:Haus:n", senseID: "de:Haus:n#abcd", surface: "Haus")
+        store.toggle(item())
+        store.toggle(german)
+        #expect(try #require(store.cards(for: german.key).first).language == "de")
+        #expect(try #require(store.cards(for: item().key).first).language == "it")
+        #expect(store.queue().map(\.itemKey) == [item().key])
+    }
+
     @Test func reviewWritesALogAndASchedule() throws {
         let item = item()
         store.toggle(item)

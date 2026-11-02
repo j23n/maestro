@@ -169,9 +169,14 @@ struct RememberItem: Hashable, Identifiable {
         try? context.save()
     }
 
-    /// How many new items were first reviewed today.
+    /// Whether an item key belongs to the active language (HANDOFF.md 5.3).
+    func isActiveLanguage(_ itemKey: String) -> Bool {
+        Language.of(itemKey: itemKey) == prefs.language
+    }
+
+    /// How many new items of the active language were first reviewed today.
     func newReviewedToday(now: Date = .now) -> Int {
-        let allLogs = (try? context.fetch(FetchDescriptor<ReviewLog>())) ?? []
+        let allLogs = ((try? context.fetch(FetchDescriptor<ReviewLog>())) ?? []).filter { isActiveLanguage($0.itemKey) }
         var first: [String: Date] = [:]
         for log in allLogs where first[log.itemKey].map({ log.reviewedAt < $0 }) ?? true {
             first[log.itemKey] = log.reviewedAt
@@ -181,9 +186,10 @@ struct RememberItem: Hashable, Identifiable {
         return first.values.filter { scheduler.dayNumber($0, tzOffsetMinutes: tz) == today }.count
     }
 
-    /// Today's queue: due cards, then new ones up to the daily limit.
+    /// Today's queue in the active language: due cards, then new ones up to the language's daily limit.
     func queue(now: Date = .now) -> [Card] {
-        let all = ((try? context.fetch(FetchDescriptor<Card>(sortBy: [SortDescriptor(\.createdAt)]))) ?? []).filter(\.isActive)
+        let all = ((try? context.fetch(FetchDescriptor<Card>(sortBy: [SortDescriptor(\.createdAt)]))) ?? [])
+            .filter { $0.isActive && isActiveLanguage($0.itemKey) }
         var seen = Set<String>()
         let unique = all.filter { seen.insert($0.itemKey).inserted }
         let items = unique.map { card in
@@ -263,13 +269,14 @@ struct RememberItem: Hashable, Identifiable {
     // MARK: Lookups
 
     func recordLookup(query: String, lemmaID: String) {
-        context.insert(LookupEntry(query: query, lemmaID: lemmaID))
+        context.insert(LookupEntry(query: query, lemmaID: lemmaID, language: prefs.language))
         try? context.save()
     }
 
     // MARK: Merge pass
 
-    /// Dedupes after sync (HANDOFF.md 5.2). Never touches review logs.
+    /// Dedupes after sync (HANDOFF.md 5.2). Never touches review logs. `content` is the active
+    /// language's database, so cards of other languages resolve to nothing and are left alone.
     func mergePass() {
         let cards = (try? context.fetch(FetchDescriptor<Card>())) ?? []
         let snapshots = cards.map {
@@ -278,10 +285,13 @@ struct RememberItem: Hashable, Identifiable {
         }
         let content = self.content
         let grammarIDs = Set(content?.grammarTopics().map(\.id) ?? [])
+        let language = prefs.language
         let plan = MergeRules.planCards(snapshots) { id in
-            guard let content else { return nil }
-            if !id.contains(":") { return grammarIDs.contains(id) ? id : nil }
-            return content.known(id)
+            guard let content, Language.of(id: id) == language else { return nil }
+            if grammarIDs.contains(id) { return id }
+            // Lemma and sense IDs have a colon; an Italian ID without one is a grammar slug this
+            // database doesn't know.
+            return id.contains(":") ? content.known(id) : nil
         }
         for card in cards {
             if plan.delete.contains(card.id) {
@@ -309,9 +319,12 @@ struct RememberItem: Hashable, Identifiable {
             for record in group where merged.delete.contains(record.id) { context.delete(record) }
         }
 
+        // The history cap holds per language.
         let lookups = (try? context.fetch(FetchDescriptor<LookupEntry>())) ?? []
-        let trim = Set(MergeRules.trimLookups(lookups.map { (id: $0.id, at: $0.lookedUpAt) }))
-        for entry in lookups where trim.contains(entry.id) { context.delete(entry) }
+        for (_, group) in Dictionary(grouping: lookups, by: \.language) {
+            let trim = Set(MergeRules.trimLookups(group.map { (id: $0.id, at: $0.lookedUpAt) }))
+            for entry in group where trim.contains(entry.id) { context.delete(entry) }
+        }
         try? context.save()
     }
 }

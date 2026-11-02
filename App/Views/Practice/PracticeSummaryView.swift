@@ -31,7 +31,7 @@ struct PracticeSummaryView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("\(n + 1). \(model.grammarTitle(drill.topic))").font(.subheadline)
                             if let sentence = text.sentence(drill.sentence) {
-                                Text(italian: sentence.text)
+                                Text(target: sentence.text)
                                     .font(.system(.footnote, design: .serif))
                                     .foregroundStyle(.secondary)
                                     .lineLimit(2)

@@ -159,7 +159,7 @@ struct TextRow: View {
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text(italian: entry.title)
+                Text(target: entry.title)
                     .font(.system(.body, design: .serif).weight(.semibold))
                 HStack(spacing: 6) {
                     LevelTag(level: entry.level)

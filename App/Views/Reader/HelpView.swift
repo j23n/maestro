@@ -25,7 +25,7 @@ struct HelpView: View {
                 if !help.splits.isEmpty {
                     VStack(alignment: .leading, spacing: 4) {
                         ForEach(help.splits, id: \.self) { split in
-                            Text(italian: split).font(.system(.body, design: .serif))
+                            Text(target: split).font(.system(.body, design: .serif))
                         }
                     }
                 }
@@ -82,7 +82,7 @@ struct HelpView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline) {
-                Text(italian: help.surface)
+                Text(target: help.surface)
                     .font(.system(size: 26, weight: .semibold, design: .serif))
                 Button {
                     model.speech.say(help.surface)
@@ -98,7 +98,7 @@ struct HelpView: View {
                 Text(gloss).font(.title3)
             }
             if let headword = help.headword {
-                Text("\(Text(italian: headword).bold())\(help.analysis.map { " · \($0)" } ?? "")")
+                Text("\(Text(target: headword).bold())\(help.analysis.map { " · \($0)" } ?? "")")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }

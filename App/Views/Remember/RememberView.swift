@@ -15,7 +15,7 @@ struct RememberView: View {
 
     private var active: [Card] {
         var seen = Set<String>()
-        return cards.filter { $0.isActive && (filter == nil || $0.kind == filter?.rawValue) && seen.insert($0.itemKey).inserted }
+        return cards.filter { $0.isActive && inLanguage($0) && (filter == nil || $0.kind == filter?.rawValue) && seen.insert($0.itemKey).inserted }
     }
 
     var body: some View {
@@ -86,7 +86,7 @@ struct RememberView: View {
 
     private func filterChip(_ kind: ItemKind?, _ title: String) -> some View {
         var seen = Set<String>()
-        let count = cards.filter { $0.isActive && (kind == nil || $0.kind == kind?.rawValue) && seen.insert($0.itemKey).inserted }.count
+        let count = cards.filter { $0.isActive && inLanguage($0) && (kind == nil || $0.kind == kind?.rawValue) && seen.insert($0.itemKey).inserted }.count
         return Button {
             filter = kind
         } label: {
@@ -97,6 +97,11 @@ struct RememberView: View {
     }
 
     @ViewBuilder
+    /// The deck is per language (HANDOFF.md 5.3).
+    private func inLanguage(_ card: Card) -> Bool {
+        Language.of(itemKey: card.itemKey) == model.language
+    }
+
     private func group(_ title: String, _ cards: [Card], stateByKey: [String: ScheduleState]) -> some View {
         if !cards.isEmpty {
             LabeledSection(title) {
@@ -154,7 +159,7 @@ struct CardRow: View {
     private func line(_ kind: ItemKind) -> Text {
         let title = CardText.title(card, model: model)
         var head = AttributedString(title)
-        head.languageIdentifier = kind == .grammar ? nil : "it-IT"
+        head.languageIdentifier = kind == .grammar ? nil : TargetLanguage.current.bcp47
         let t = Text(head).font(kind == .grammar ? .body.weight(.semibold) : .system(.body, design: .serif).weight(.semibold))
         guard let detail = CardText.detail(card, model: model) else { return t }
         return Text("\(t) — \(detail)")

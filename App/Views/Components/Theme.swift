@@ -136,16 +136,24 @@ struct SectionLabel: View {
 }
 
 extension View {
-    /// Italian text for VoiceOver.
-    func italian() -> some View { environment(\.locale, Locale(identifier: "it_IT")) }
+    /// Text in the target language, for VoiceOver.
+    func targetLanguage() -> some View {
+        environment(\.locale, Locale(identifier: TargetLanguage.current.localeIdentifier))
+    }
 }
 
 extension Text {
-    /// Marks the text as Italian so VoiceOver reads it with an Italian voice.
-    init(italian string: String) {
-        var attributed = AttributedString(string)
-        attributed.languageIdentifier = "it-IT"
-        self.init(attributed)
+    /// Marks the text as the target language, so VoiceOver reads it with that language's voice.
+    init(target string: String) {
+        self.init(AttributedString(target: string))
+    }
+}
+
+extension AttributedString {
+    /// A string in the target language, marked so VoiceOver reads it with that language's voice.
+    init(target string: String) {
+        self.init(string)
+        languageIdentifier = TargetLanguage.current.bcp47
     }
 }
 

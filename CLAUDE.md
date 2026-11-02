@@ -58,7 +58,7 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian, and next German (HA
 
 ## Conventions
 
-- UI copy in English; Italian strings marked with the `it-IT` language for VoiceOver.
+- UI copy in English; target-language strings marked with their language (`it-IT`, `de-DE`) for VoiceOver, through `Text(target:)` and `AttributedString(target:)`.
 - Touch targets ≥ 44 pt on iOS. Every icon-only button has an accessibility label.
 - Colours and type come from `design/tokens.json`. Use New York for Italian reading text, SF Pro for UI.
 - Write tests for the lookup cascade, conjugation generation, FSRS replay, the sync merge pass, drill generation and drill grading.

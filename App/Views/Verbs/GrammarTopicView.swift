@@ -65,7 +65,7 @@ struct GrammarTopicView: View {
 
         var attributed: AttributedString {
             var a = AttributedString(sentence.text)
-            a.languageIdentifier = "it-IT"
+            a.languageIdentifier = TargetLanguage.current.bcp47
             for r in ranges {
                 if let range = Range(NSRange(location: r.start, length: r.length), in: a) {
                     a[range].inlinePresentationIntent = .stronglyEmphasized

@@ -83,7 +83,7 @@ struct PlayerView: View {
 
     private func sentence(_ segment: SpeechSegment, current: Bool) -> AttributedString {
         var a = AttributedString(segment.text)
-        a.languageIdentifier = "it-IT"
+        a.languageIdentifier = TargetLanguage.current.bcp47
         if current, let word = speech.wordRange, let r = Range(word, in: a) {
             a[r].backgroundColor = Theme.selectionFill
         }

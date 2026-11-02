@@ -1,6 +1,8 @@
 import SwiftUI
+import LanguageCore
 
-/// First launch (HANDOFF.md 3.8): what's already on the device, and a level pick.
+/// First launch (HANDOFF.md 3.8): what's already on the device, the language to learn when the app
+/// has more than one (5.3), and a level pick.
 struct OnboardingView: View {
     let onDone: () -> Void
     @Environment(AppModel.self) private var model
@@ -15,9 +17,9 @@ struct OnboardingView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(italian: "Benvenuto!")
+                    Text(target: welcome)
                         .font(.system(size: 36, weight: .regular, design: .serif))
-                    Text("Read graded Italian, tap any word for help, and keep what you want to remember. Everything works offline.")
+                    Text("Read graded \(model.language.name), tap any word for help, and keep what you want to remember. Everything works offline.")
                         .font(.body)
                         .foregroundStyle(.secondary)
                 }
@@ -29,9 +31,9 @@ struct OnboardingView: View {
                     Divider()
                     check(!model.entries.isEmpty, "Reading library", detail: "\(model.entries.count) starter texts included")
                     Divider()
-                    check(true, "Sentence translation", detail: "Apple's translation downloads Italian the first time you use it")
+                    check(true, "Sentence translation", detail: "Apple's translation downloads \(model.language.name) the first time you use it")
                     Divider()
-                    check(SpeechPlayer.hasEnhancedVoice, "Natural Italian voice",
+                    check(SpeechPlayer.hasEnhancedVoice, "Natural \(model.language.name) voice",
                           detail: SpeechPlayer.hasEnhancedVoice ? "Installed" : "Optional, installed from Settings") {
                         if !SpeechPlayer.hasEnhancedVoice {
                             Button("Show me") { showVoiceGuide = true }
@@ -50,6 +52,15 @@ struct OnboardingView: View {
                 }
                 .background(RoundedRectangle(cornerRadius: 14).fill(Theme.background))
                 .overlay(RoundedRectangle(cornerRadius: 14).stroke(Theme.hairline))
+
+                if model.languages.count > 1 {
+                    Text("What are you learning?").font(.headline)
+                    HStack(spacing: 8) {
+                        ForEach(model.languages) { language in
+                            languageTile(language)
+                        }
+                    }
+                }
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Where should we start?").font(.headline)
@@ -76,6 +87,33 @@ struct OnboardingView: View {
         }
         .background(Theme.background)
         .sheet(isPresented: $showVoiceGuide) { VoiceGuideView() }
+    }
+
+    private var welcome: String {
+        switch model.language {
+        case .it: "Benvenuto!"
+        case .de: "Willkommen!"
+        }
+    }
+
+    private func languageTile(_ language: Language) -> some View {
+        let selected = model.language == language
+        return Button {
+            model.activate(language)
+        } label: {
+            VStack(spacing: 2) {
+                Text(language.name).font(.headline)
+                Text(target: language.endonym).font(.caption2).lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, minHeight: 60)
+            .foregroundStyle(selected ? Theme.background : Theme.ink)
+            .background(RoundedRectangle(cornerRadius: 10).fill(selected ? Theme.ink : Color.clear))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(selected ? Color.clear : Theme.borderInput))
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(language.name)
+        .accessibilityAddTraits(selected ? .isSelected : [])
     }
 
     private func levelTile(_ level: String, _ name: String) -> some View {
