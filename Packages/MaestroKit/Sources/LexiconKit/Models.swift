@@ -178,7 +178,7 @@ public struct Reading: Sendable, Hashable, Identifiable {
             guard caseTag.grammaticalCase == .nom, caseTag.degree == nil, caseTag.declension == nil else { return caseTag.label }
             if caseTag.number == .pl { return CaseTag.Number.pl.germanName }
             let isHeadword = surface.compare(lemma.headword, options: .caseInsensitive) == .orderedSame
-            return isHeadword ? nil : caseTag.number?.germanName
+            return isHeadword ? nil : caseTag.number?.germanName ?? caseTag.label
         }
         let isHeadword = surface.compare(lemma.headword, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
         if let genderNumber, !isHeadword { return genderNumber.label }
