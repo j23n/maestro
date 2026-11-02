@@ -52,8 +52,8 @@ def test_compound_tense_drills_come_from_the_text(db, tmp_path):
     main = [d for d in ds if not d.get("recycled")]
     assert {d["topic"] for d in main} == {"passato-prossimo"}
     aux = next(d for d in ds if d["recipe"] == "aux")
-    assert aux["options"][0] in aux["answers"] and len(aux["options"]) == 2
-    assert set(aux["options"]) in ({"siamo", "abbiamo"}, {"ha", "è"})
+    assert len(aux["options"]) == 2 and set(aux["answers"]) <= set(aux["options"])
+    assert aux["options"] in (["abbiamo", "siamo"], ["ha", "è"])  # avere first, whichever is right
     wrong = next(o for o in aux["options"] if o not in aux["answers"])
     assert "takes" in aux["near"][wrong]
     build = next(d for d in ds if d["recipe"] == "order")
@@ -135,7 +135,7 @@ def test_form_choice_names_the_wrong_tense():
                        ("andò", "ind.prem.3s"), ("vai", "ind.pres.2s"), ("andava", "ind.impf.3s")])
     cands = drills.form_candidates(sentence, set(), forms)
     choice = next(c.drill for c in cands if c.recipe == "form-choice")
-    assert choice["options"][0] == "Va" and len(choice["options"]) == 3
+    assert "Va" in choice["options"] and len(choice["options"]) == 3
     gap = next(c.drill for c in cands if c.recipe == "form").copy()
     assert gap["near"]["vada"] == "That's the congiuntivo presente. We need the presente."
     assert gap["near"]["vai"] == "Check the person: we need lui, lei."
@@ -157,3 +157,74 @@ def test_grammar_base_points_at_real_topics():
     covered = {p.topic for p in points if p.topic}
     assert {"passato-prossimo", "articles", "si-impersonale"} <= covered
     assert next(p for p in points if p.id == "art_un_una").label == "Articoli indeterminativi singolari un una un'"
+
+
+def test_the_answer_is_not_always_in_the_same_place(db, tmp_path):
+    text = built(db, tmp_path)
+    fixture = fixture_text()
+    choices = [d for d in text["drills"] + drills.generate(fixture, ["future-in-the-past"], TOPICS)
+               if d["kind"] == "choice"]
+    places = {d["options"].index(d["answers"][0]) for d in choices}
+    assert len(choices) >= 3 and len(places) >= 2
+    s1 = fixture["blocks"][0]["sentences"][0]
+    sentence = {"id": "s9", "text": "Va bene.", "tokens": [
+        {"t": "Va", "r": [0, 2], "pos": "VERB", "lemmaID": "it:andare:v", "form": "ind.pres.3s"},
+        {"t": "bene", "r": [3, 4], "pos": "ADV"}, {"t": ".", "r": [7, 1], "pos": "PUNCT"}]}
+    forms = FakeForms([("va", "ind.pres.3s"), ("andò", "ind.prem.3s"), ("andava", "ind.impf.3s")])
+    choice = next(c.drill for c in drills.form_candidates(sentence, set(), forms) if c.recipe == "form-choice")
+    contraction = drills.contraction_candidates(s1)[0].drill
+    for d, sid in ((choice, "s9"), (contraction, s1["id"])):
+        assert d["options"] == sorted(d["options"], key=lambda o: drills._seed(sid, drills.fold(o)))
+
+
+BUSY = """# Busy
+level: A2
+collection: test-pack
+order: 1
+introduces: passato-prossimo
+
+Sabato sono andata al mercato con la mamma. || On Saturday I went to the market with Mum.
+Abbiamo preso il pane dal fornaio. || We got bread from the baker.
+Poi sono passata dal formaggiaio. || Then I stopped at the cheesemonger's.
+Il nonno ha mangiato con noi. || Grandpa ate with us.
+La zia è arrivata alle dieci. || My aunt arrived at ten.
+Noi siamo andati a Bologna in treno. || We went to Bologna by train.
+Ho fatto la spesa nel negozio. || I did the shopping in the shop.
+Hanno visto il mare dalla finestra. || They saw the sea from the window.
+Abbiamo dato un libro ai bambini. || We gave the children a book.
+"""
+
+
+def test_a_busy_text_still_gets_at_most_eight_drills(db, tmp_path):
+    text = built(db, tmp_path, BUSY)
+    ds = text["drills"]
+    assert drills.MIN_DRILLS <= len(ds) <= drills.MAX_DRILLS
+    assert drills.validate(text, ds) == []
+    assert drills.validate(text, ds * 2)[0].endswith(f"more than {drills.MAX_DRILLS}")
+
+
+def test_the_cap_holds_when_every_recipe_has_material(monkeypatch):
+    # The sample dictionary knows too few verbs to fill every recipe, so the pool is faked:
+    # two own drills per sentence, a match, a build and three earlier topics to recycle.
+    sentences = [{"id": f"s{n}", "text": "x", "translation": "x", "tokens": []} for n in range(1, 11)]
+    text = {"id": "busy-01", "level": "A2", "blocks": [{"sentences": sentences}]}
+
+    def fake(recipe, topic, sid, kind="gap"):
+        return drills.Candidate(recipe, topic, sid, {"kind": kind})
+
+    pool = [fake(r, "passato-prossimo", s["id"]) for s in sentences for r in ("aux", "participle")]
+    pool += [fake("article", t, s["id"]) for t in ("articles", "presente-indicativo", "preposition-contractions")
+             for s in sentences]
+    monkeypatch.setattr(drills, "candidates", lambda *_: pool)
+    monkeypatch.setattr(drills, "participles_match", lambda t, topic: fake("participles", topic, "s1", "match"))
+    monkeypatch.setattr(drills, "order_candidate", lambda s, topic: fake("order", topic, s["id"], "build"))
+    ds = drills.generate(text, ["passato-prossimo"], TOPICS)
+    assert len(ds) == drills.MAX_DRILLS
+    assert sum(1 for d in ds if d.get("recycled")) == drills.RECYCLED_DRILLS
+    assert {"participles", "order"} <= {d["recipe"] for d in ds}
+
+
+def test_match_pairs_never_repeat_a_participle():
+    for d in fixture_text()["drills"]:
+        if d["kind"] == "match":
+            assert len({b for _, b in d["pairs"]}) == len(d["pairs"])

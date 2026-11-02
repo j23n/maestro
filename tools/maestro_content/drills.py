@@ -88,7 +88,8 @@ CONTRACTION_FAMILY = {
 ARTICLE_ORDER = ["il", "lo", "la", "l'", "i", "gli", "le"]
 
 MIN_DRILLS = 3
-MAIN_DRILLS = 6
+MAX_DRILLS = 8
+MAIN_DRILLS = 6  # drills of the text's own topic, including its match and build drills
 RECYCLED_DRILLS = 2
 PER_RECIPE = 3
 BUILD_WORDS = (4, 9)
@@ -169,6 +170,11 @@ def _next_noun(sentence: dict, index: int) -> dict | None:
 
 def _seed(*parts: str) -> int:
     return int.from_bytes(hashlib.sha256("|".join(parts).encode()).digest()[:8], "big")
+
+
+def _neutral(options: list[str], seed: str) -> list[str]:
+    """Options in an order that doesn't depend on which one is the answer."""
+    return sorted(options, key=lambda o: _seed(seed, fold(o)))
 
 
 class Forms:
@@ -263,7 +269,8 @@ def compound_candidates(text: dict, sentence: dict, topics: dict[str, TopicInfo]
                 g = _gap(sentence, *aux_tok["r"])
                 out.append(Candidate("aux", topic, sentence["id"], {
                     "kind": "choice", "prompt": "Pick the auxiliary.", **g, "cue": infinitive,
-                    "options": [right, wrong], "answers": [right], "near": {fold(wrong): why},
+                    "options": [right, wrong] if aux_lemma == "avere" else [wrong, right],  # avere first, always
+                    "answers": [right], "near": {fold(wrong): why},
                     "rule": f"{why[:-1]}: {right.lower()} {participle}."}))
 
         # participle: type it
@@ -334,7 +341,7 @@ def form_candidates(sentence: dict, covered: set[int], forms: Forms) -> list[Can
         others = sorted(set(others), key=lambda f: _seed(sentence["id"], f))[:2]
         if len(others) == 2:
             out.append(Candidate("form-choice", topic, sentence["id"], {
-                "kind": "choice", "prompt": "Pick the form.", **g, "cue": cue, "options": [surface] + others,
+                "kind": "choice", "prompt": "Pick the form.", **g, "cue": cue, "options": _neutral([surface] + others, sentence["id"]),
                 "answers": [surface], "near": {k: v for k, v in near.items() if k in {fold(o) for o in others}},
                 "rule": rule}))
         out.append(Candidate("form", topic, sentence["id"], {
@@ -386,7 +393,7 @@ def contraction_candidates(sentence: dict) -> list[Candidate]:
         plural = idx >= 4
         pool = [f for n, f in enumerate(family) if n != idx and (n >= 4) == plural]
         pool = sorted(pool, key=lambda f: _seed(sentence["id"], f))[:3]
-        options = [match_case(o, right) for o in [family[idx]] + pool]
+        options = _neutral([match_case(o, right) for o in [family[idx]] + pool], sentence["id"])
         noun = _next_noun(sentence, i)
         why = f"{noun['t']} takes {ARTICLE_ORDER[idx] if idx < len(ARTICLE_ORDER) else art}." if noun else \
             f"{prep} + {art} → {right.lower()}."
@@ -426,7 +433,7 @@ def order_candidate(sentence: dict, topic: str) -> Candidate | None:
     tiles = []
     for n, tok in enumerate(words):
         w = tok["t"]
-        if n == 0 and tok.get("pos") != "PROPN" and not w.isupper():
+        if n == 0 and tok.get("pos") != "PROPN" and not (len(w) > 1 and w.isupper()):
             w = w[:1].lower() + w[1:]
         tiles.append(w)
     distractors: list[str] = []
@@ -461,7 +468,9 @@ def participles_match(text: dict, topic: str) -> Candidate | None:
             participle = s["tokens"][found[1]]["t"].lower()
             if found[2] == "essere" and participle[-1:] in "aie":
                 participle = participle[:-1] + "o"
-            seen.add(infinitive)
+            if participle in seen:  # è stato (essere) and sono stata (stare) both give stato
+                continue
+            seen.update((infinitive, participle))
             pairs.append([infinitive, participle])
             sentences.append(s["id"])
             if len(pairs) == 4:
@@ -545,6 +554,9 @@ def generate(text: dict, introduces: list[str], topics: dict[str, TopicInfo],
 
     sentences = {s["id"]: s for b in text["blocks"] for s in b["sentences"]}
     for topic in main:
+        room = min(MAIN_DRILLS, MAX_DRILLS - RECYCLED_DRILLS - len(chosen))
+        if room <= 0:
+            break
         own = [c for c in pool if c.topic == topic]
         # One word-order drill, on the last sentence that carries the topic and is short enough.
         build = None
@@ -552,24 +564,25 @@ def generate(text: dict, introduces: list[str], topics: dict[str, TopicInfo],
             for sid in reversed(list(dict.fromkeys(c.sentence for c in own))):
                 build = order_candidate(sentences[sid], topic)
                 if build:
-                    used.add(sid)
                     break
-        reserved = frozenset({build.sentence}) if build else frozenset()
-        picked = _pick(own, MAIN_DRILLS - (1 if build else 0), used, seed, allow_reuse=True, reserved=reserved)
-        chosen += [(c, False) for c in picked]
-        if topic in COMPOUND_TOPICS:
-            match = participles_match(text, topic)
-            if match:
-                chosen.append((match, False))
+        match = participles_match(text, topic) if topic in COMPOUND_TOPICS else None
+        extras = [x for x in (match, build) if x][:max(room - 1, 0)]
+        if build and build not in extras:
+            build = None
         if build:
-            chosen.append((build, False))
+            used.add(build.sentence)
+        reserved = frozenset({build.sentence}) if build else frozenset()
+        picked = _pick(own, room - len(extras), used, seed, allow_reuse=True, reserved=reserved)
+        chosen += [(c, False) for c in picked]
+        chosen += [(c, False) for c in extras]
 
     main_order = max(topics[t].order for t in main)
     earlier = sorted({c.topic for c in pool if c.topic not in main and topics[c.topic].order < main_order},
                      key=lambda t: (-topics[t].order, t))
     recycled: list[Candidate] = []
+    room = min(RECYCLED_DRILLS, MAX_DRILLS - len(chosen))
     for topic in earlier:
-        if len(recycled) >= RECYCLED_DRILLS:
+        if len(recycled) >= room:
             break
         recycled += _pick([c for c in pool if c.topic == topic], 1, used, seed)
     chosen += [(c, True) for c in recycled]
@@ -592,6 +605,8 @@ def generate(text: dict, introduces: list[str], topics: dict[str, TopicInfo],
 def validate(text: dict, drills: list[dict]) -> list[str]:
     """Errors that fail the build: every drill must point into its text and be answerable."""
     errors = []
+    if len(drills) > MAX_DRILLS:
+        errors.append(f"{text['id']}: {len(drills)} drills, more than {MAX_DRILLS}")
     sentences = {s["id"]: s for b in text["blocks"] for s in b["sentences"]}
     for d in drills:
         where = f"{text['id']} {d['id']}"
