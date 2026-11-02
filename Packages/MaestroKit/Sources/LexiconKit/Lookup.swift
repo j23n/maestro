@@ -101,10 +101,11 @@ public struct Lookup: Sendable {
         }
     }
 
-    /// A German noun spells several cases alike (Haus is nominative, accusative and dative). Where one of
-    /// them is the nominative, the dictionary shows the form once, as the nominative, and not at all when
-    /// it is the headword's own nominative singular, which the plain headword reading already shows. Forms
-    /// that aren't a nominative keep every case (Menschen: Akkusativ, Dativ and Genitiv Singular).
+    /// German nouns, articles and pronouns spell several cases alike (Haus is nominative, accusative and
+    /// dative). Where one of them is the nominative, the dictionary shows the form once, as the nominative,
+    /// and not at all when it is the headword's own nominative singular, which the plain headword reading
+    /// already shows. Forms that aren't a nominative keep every case (Menschen: Akkusativ, Dativ and
+    /// Genitiv Singular; der: Dativ and Genitiv feminin Singular).
     static func collapsingCases(_ readings: [Reading]) -> [Reading] {
         func plain(_ r: Reading) -> CaseTag? {
             guard let tag = r.caseTag, tag.degree == nil, tag.declension == nil, tag.grammaticalCase != nil else { return nil }
