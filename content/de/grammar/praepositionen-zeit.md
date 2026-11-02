@@ -22,7 +22,7 @@ Every day for times, dates and travel: *Am Samstag fahren wir um neun Uhr nach M
 | Home | nach Hause / zu Hause | Ich gehe nach Hause. Ich bin zu Hause. |
 | People, shops, events | zu / bei | zum Arzt, beim Arzt |
 
-*am, im, zum, zur, beim* are contractions: *an dem, in dem, zu dem, zu der, bei dem*.
+*am, im, ins, zum, zur, beim, vom* are contractions: *an dem, in dem, in das, zu dem, zu der, bei dem, von dem*.
 
 ## Watch out
 

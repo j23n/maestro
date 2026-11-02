@@ -380,7 +380,7 @@ points:
   level: A2
   category: satz
   label: "Stellung von Dativ und Akkusativ im Mittelfeld"
-  topic: verbstellung
+  topic: dativ
 - id: poss_dat
   level: A2
   category: artikel
@@ -770,7 +770,7 @@ points:
   level: B1
   category: satz
   label: "Stellung der Pronomen im Mittelfeld"
-  topic: verbstellung
+  topic: dativ
 - id: tekamolo
   level: B1
   category: satz
