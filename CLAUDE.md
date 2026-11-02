@@ -10,7 +10,7 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 - **Offline first.** Every feature works in airplane mode. No runtime network calls except CloudKit sync and Background Assets pack downloads.
 - **No backend.** No accounts, analytics servers or APIs of our own.
 - **Text first.** The reader shows clean text. No highlighting layers, colour coding or inline glosses. Help appears only when the learner taps or selects.
-- **Reference, not drills.** No conjugation drills or grammar quizzes. Practice happens only through Remember flashcards the learner chose to keep.
+- **Practice comes from the text.** No standalone conjugation drills or grammar quizzes. After a text, an optional practice set drills its grammar point in the text's own sentences (HANDOFF.md 3.9), with no scores; anything else is practised through Remember flashcards the learner chose to keep.
 
 ## Stack
 
@@ -37,7 +37,7 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 
 ## Content IDs and form tags (HANDOFF.md 6.5)
 
-- Lemma, sense and grammar IDs come only from the ID registry in `content/ids/`, written by the pipeline. Never edit or invent them by hand.
+- Lemma and sense IDs come only from the ID registry in `content/ids/`, written by the pipeline. Never edit or invent them by hand. Grammar topic slugs are the file names in `content/grammar/`; the grammar base (`content/grammar/base.yaml`) lists every syllabus point and the topic that covers it.
 - Verb forms use only the form tags in HANDOFF.md 6.5 (`cond.pass.1p`); labels are rendered from tags, never stored.
 - Pack text is NFC; token and sentence ranges are UTF-16 `[start, length]`. Pack files must validate against `content/schema/`.
 
@@ -49,6 +49,7 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 - `Packages/PackKit`: pack loading, `PackStore`, downloads
 - `Packages/SpeechKit`: TTS, sentence and word highlighting
 - `Packages/SyncStore`: SwiftData models, merge pass
+- `Packages/MaestroKit/Sources/PracticeKit`: drill grading, stepped feedback, seeded shuffles
 - `App/`: SwiftUI screens per platform
 - `tools/`: content database and pack build scripts
 - `content/`: pack sources (Markdown + front matter), `curriculum/` level plans, `frequency/` word list, `ids/` registry, `schema/`, `fixtures/`
@@ -58,4 +59,4 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian through graded readi
 - UI copy in English; Italian strings marked with the `it-IT` language for VoiceOver.
 - Touch targets ≥ 44 pt on iOS. Every icon-only button has an accessibility label.
 - Colours and type come from `design/tokens.json`. Use New York for Italian reading text, SF Pro for UI.
-- Write tests for the lookup cascade, conjugation generation, FSRS replay and the sync merge pass.
+- Write tests for the lookup cascade, conjugation generation, FSRS replay, the sync merge pass, drill generation and drill grading.

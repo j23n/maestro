@@ -13,6 +13,7 @@ let package = Package(
         .library(name: "PackKit", targets: ["PackKit"]),
         .library(name: "SRSKit", targets: ["SRSKit"]),
         .library(name: "SyncLogic", targets: ["SyncLogic"]),
+        .library(name: "PracticeKit", targets: ["PracticeKit"]),
     ],
     targets: [
         // The SDK's SQLite on Apple platforms, libsqlite3-dev on Linux. No pkg-config: on a Mac it
@@ -24,12 +25,14 @@ let package = Package(
         .target(name: "PackKit", dependencies: ["ItalianCore"]),
         .target(name: "SRSKit"),
         .target(name: "SyncLogic", dependencies: ["ItalianCore"]),
+        .target(name: "PracticeKit", dependencies: ["ItalianCore", "PackKit"]),
         .testTarget(name: "ItalianCoreTests", dependencies: ["ItalianCore"]),
         .testTarget(name: "LexiconKitTests", dependencies: ["LexiconKit"], resources: [.copy("Fixtures")]),
         .testTarget(name: "GrammarKitTests", dependencies: ["GrammarKit", "LexiconKit"], resources: [.copy("Fixtures")]),
         .testTarget(name: "PackKitTests", dependencies: ["PackKit"], resources: [.copy("Fixtures")]),
         .testTarget(name: "SRSKitTests", dependencies: ["SRSKit"]),
         .testTarget(name: "SyncLogicTests", dependencies: ["SyncLogic", "ItalianCore"]),
+        .testTarget(name: "PracticeKitTests", dependencies: ["PracticeKit", "PackKit"]),
     ],
     swiftLanguageModes: [.v6]
 )

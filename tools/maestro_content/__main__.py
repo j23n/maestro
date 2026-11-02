@@ -80,11 +80,15 @@ def main(argv: list[str] | None = None) -> int:
     topics = grammar.load_all(args.grammar)
     build_db.add_grammar(conn, topics)
     print(f"grammar topics {len(topics)}")
+    base_path = os.path.join(args.grammar, "base.yaml")
+    base_errors = grammar.check_base(grammar.load_base(base_path), topics) if os.path.exists(base_path) else []
 
     content_version = conn.execute("SELECT value FROM meta WHERE key = 'content_version'").fetchone()[0]
-    warnings, errors = packs.build_all(conn, args.texts, os.path.join(out, "packs"), content_version)
+    warnings, errors = packs.build_all(conn, args.texts, os.path.join(out, "packs"), content_version,
+                                     topics=topics)
     for w in warnings:
         print(f"warning: {w}")
+    errors = base_errors + errors
     for e in errors:
         print(f"error: {e}", file=sys.stderr)
     print(f"texts: {conn.execute('SELECT count(*) FROM catalog_text').fetchone()[0]}, "

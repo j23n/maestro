@@ -7,7 +7,7 @@ Related artifacts (private until shared):
 - Mocks canvas (iPhone, iPad, Mac): https://claude.ai/artifact/BGAkN5oybVfToot5mK8efQ
 - Spec fixes proposal, approved 2026-10-31 (content IDs, form tags, learner model, pack format, minimum OS): https://claude.ai/artifact/6W2dzw9WVXqJAZuJY2buaE. Its decisions are folded into sections 3.4, 5, 5.1, 5.2, 6.2, 6.3, 6.5 and 9 below.
 
-Where this file and the plan doc disagree, this file wins. The plan doc still describes grammar highlight layers, conjugation drills and a "vocab trainer"; all three were replaced by the decisions below.
+Where this file and the plan doc disagree, this file wins. The plan doc still describes grammar highlight layers, conjugation drills and a "vocab trainer"; all three were replaced by the decisions below. Practice drills came back in a different shape on 2026-11-02: only after a text, built from its own sentences (section 3.9).
 
 ---
 
@@ -23,7 +23,7 @@ A native app for iPhone, iPad and Mac that teaches Italian through reading and l
 | Offline | Every feature works in airplane mode. The network is used only for iCloud sync and optional text-pack downloads. |
 | Backend | None. The learner's Apple ID is the identity; CloudKit private database is the only cloud. |
 | Reading | Text first. The reader shows clean text with no highlighting, colour coding or grammar layers. Help appears only on tap: in a sheet (iPhone) or in an inspector panel beside the text (iPad and Mac). |
-| Grammar | Reference only: explicit lookup, verb tables, grammar pages. No drills, no quizzes. |
+| Grammar | Reference (lookup, verb tables, grammar pages), plus optional practice after each text: 3 to 8 drills on the text's grammar point, in the text's own sentences, with stepped hints and no scores (3.9). No standalone drills or quizzes. The grammar base lists every A0 to B2 point and the page that covers it. |
 | Remember | Replaces the "vocab trainer". Three kinds of item: Word, Verb form, Grammar point. Reviewed as flashcards (FSRS scheduling), front shows the original sentence with the item highlighted. |
 | Library | 100 texts across A1 to B2, grouped by level and collection, ranked by "good fit" (share of words the learner already knows). |
 | Navigation (iPhone) | Tabs: Read, Dictionary, Verbs, Remember, Listen. Settings is reached from Read. "Today" was dropped. |
@@ -108,6 +108,19 @@ Multiple choice and yes/no/not stated per text, in Italian with an English toggl
 - First launch: checklist (dictionary built in; starter texts included; sentence translation download; enhanced voice guide; iCloud sync on) and a level pick (A1 to B2).
 - Settings: iCloud sync and last sync; offline status (translation downloaded, voice quality, downloaded texts); level, text size, sentence translation in help; Remember new items per day and reminder; acknowledgements (Wiktionary, Morph-it!, Tatoeba); version.
 
+### 3.9 Practice after a text
+
+Decided 2026-11-02, from a mock of text → drills. The reader stays clean; practice is a separate screen the learner opens after reading.
+
+- **Where.** The reader's footer, under Questions, offers "Practise: <topic>"; so does the end of the questions. It is optional and never gates anything. A text without a practice set shows neither.
+- **What.** 3 to 8 drills. Most practise the grammar topic the text introduces (`introduces:`); up to two bring back an earlier topic the text also uses, marked Review. A text that introduces nothing practises the highest topic it uses at its level. Every drill uses one of the text's sentences (the participle match uses several), shown with its English translation.
+- **Formats.** `choice` (2 to 4 options, keys 1 to 4 on a keyboard), `gap` (typed, with accent keys à è é ì ò ù), `match` (2 to 4 pairs), `build` (word tiles in order, one distractor at most). Options appear in a seeded shuffle (FNV-1a 64 + SplitMix64 over text, drill and round) of an order the build makes independent of the answer. Word tiles and match pairs are given in answer order, so they never appear in that order.
+- **Recipes.** Compound tenses: pick avere or essere; type the participle; pick the agreement ending after essere; match verbs to participles. Simple tenses: pick or type the form, with the infinitive and person as the cue. Articles and articulated prepositions: pick from the same family (il lo la l', al allo alla all'…). Hand-marked units with a topic (si impersonale, pronouns, future in the past): type the unit, with its gloss as the cue. One word-order drill per set.
+- **Feedback.** Stepped: a first miss shows the drill's hint for that answer (a near miss such as *prenduto* gets "prendere has an irregular participle"), or a generic one ("Check the ending."), and allows one more try; a second miss shows the sentence and the rule. "Show a hint" before answering, when the drill has one, and "Show answer" at any time. An answer that differs only in accents is accepted with "Watch the accent". No scores, lives or streaks.
+- **Summary.** Each drill with First try / After a hint / Answer shown, then one Remember button per topic that needed help: a Grammar card (`grammar|<topicID>`) shown in the drill's sentence with the gap highlighted. "Practise again" reruns the set.
+- **Data.** Drills are generated when packs are built (`tools/maestro_content/drills.py`), from the tokens' form tags, units and agreement, and stored in the text's JSON (section 6.3). Outcomes are not stored or synced; only kept cards are. Drill IDs (`d<n>`) are regenerated on every build, so nothing may depend on them.
+- **Not yet.** Speaking and dictation formats, practice outcomes feeding Remember automatically, drills on texts the learner hasn't opened.
+
 ## 4. Screen inventory (mocks)
 
 | Screen | Platform | Mock file |
@@ -127,6 +140,7 @@ Multiple choice and yes/no/not stated per text, in Italian with an English toggl
 | First launch setup | iPhone | Onboarding.dc.html |
 | Settings | iPhone | Settings.dc.html |
 | Reader with popover help | iPad | iPadReader.dc.html |
+| Practice after a text (intro, drills, summary) | iPhone | Text drills mock: https://claude.ai/artifact/6KZ1DhjeUgSCZCMzLpnihQ |
 | Library | Mac | MacLibrary.dc.html |
 | Reader with inspector | Mac | Mac.dc.html |
 | Dictionary and full verb table | Mac | MacDictionary.dc.html |
@@ -278,6 +292,7 @@ The database built from Wiktionary and Morph-it! must be offered under CC BY-SA;
 - Free text on a token is limited to `gloss` (meaning in this context) and `note` (a remark for the learner).
 - **Units** (`units[]`) cover multi-token forms and phrases: `tokens` are 0-based token indices and need not be adjacent (*non l'**ho** mai **visto***). A token belongs to at most one unit; tapping any token in a unit opens the unit's help.
 - Each sentence has an English translation. Each text has questions with `optionsEN` for the English toggle and `answerSentences` (one or more sentence IDs).
+- Each text has `drills` (section 3.9), written by the build: `id` (`d<n>`), `kind` (`choice`, `gap`, `match`, `build`; the app skips kinds it doesn't know), `recipe`, `topic`, `sentence`, `prompt`, and per kind `before`/`after`/`r` (the gap and its UTF-16 range in the sentence), `cue`, `options`, `answers`, `near` (wrong answers keyed by their folded form, each with a hint), `hint`, `rule`, `pairs`, `tiles`, `distractors`, `translation` and `recycled`. The build fails when a gap doesn't rebuild its sentence, an answer is missing from the options, or a build drill's answer doesn't use exactly its tiles.
 - Manifest: `formatVersion` (schema version, separate from the pack's content `version`), `minContentDB` (lowest content DB that resolves the pack's IDs), and per text its lemma set so a pack newer than the app can still be ranked.
 - Each app release bundles a catalog (`catalog_text`, `text_lemma`) of every text, downloaded or not, for library ranking, "Good fit" and Known %.
 - Pack builds fail when an ID doesn't resolve, a range doesn't match, text isn't NFC, or units overlap.
@@ -294,7 +309,7 @@ The database built from Wiktionary and Morph-it! must be offered under CC BY-SA;
 5. **Text variety and register.** Dialogues (two voices), messages, emails, signs, menus, articles; *tu* vs *Lei*. Narrative alone over-weights the passato remoto.
 6. **Placement and progress.** Short placement (calibrated passages, mark unknown words); per-level progress (texts read, core words known, grammar points met).
 
-Smaller: Phrase as a fourth Remember kind; full A1 to B2 grammar topic list; cultural notes.
+Smaller: Phrase as a fourth Remember kind; cultural notes. The full A0 to B2 grammar list is `content/grammar/base.yaml`: 351 points from the *Profilo*, 37 of them mapped to the 20 topic pages so far; the unmapped ones are the pages still to write.
 
 ### 6.5 Content IDs and form tags
 

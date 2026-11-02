@@ -34,6 +34,7 @@ import sqlite3
 from collections import Counter
 from dataclasses import dataclass, field
 
+from . import drills as drillgen
 from .normalize import apostrophes, nfc, utf16_len, utf16_slice
 
 # --- linguistic tables --------------------------------------------------------------------
@@ -669,9 +670,12 @@ def window_valid(window: str) -> bool:
 
 
 def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_content_db: str,
-              bundled: bool = True) -> tuple[list[str], list[str]]:
-    """Build every pack under source_dir into out_dir/<collection>/. Returns (warnings, errors)."""
+              bundled: bool = True, topics: list | None = None) -> tuple[list[str], list[str]]:
+    """Build every pack under source_dir into out_dir/<collection>/. Returns (warnings, errors).
+
+    With grammar topics, each text also gets its practice drills (drills.py, HANDOFF.md 3.9)."""
     lex = Lexicon(conn)
+    topic_info = {t.id: drillgen.TopicInfo(t.id, t.title, t.level, t.order, t.summary) for t in topics or []}
     warnings: list[str] = []
     errors: list[str] = []
     collections: dict[str, list[tuple[SourceText, dict]]] = {}
@@ -690,6 +694,12 @@ def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_conte
             text, w = build_text(lex, src)
             warnings.extend(w)
             errors.extend(validate_text(text, lex))
+            unknown = [t for t in src.introduces if topic_info and t not in topic_info]
+            if unknown:
+                errors.append(f"{src.id}: introduces unknown grammar topic {', '.join(unknown)}")
+            if topic_info:
+                text["drills"] = drillgen.generate(text, src.introduces, topic_info, conn)
+                errors.extend(drillgen.validate(text, text["drills"]))
             collections.setdefault(src.collection, []).append((src, text))
 
     for collection, items in sorted(collections.items()):
