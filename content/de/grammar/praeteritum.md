@@ -9,7 +9,7 @@ In written narration, news and reports: *Es war einmal ein König. Er hatte drei
 
 ## How it's formed
 
-**Weak verbs**: stem + *-te* and the endings.
+The endings, for two weak verbs, a modal, an irregular and a strong verb:
 
 | | machen | arbeiten | können | sein | gehen |
 | --- | --- | --- | --- | --- | --- |
@@ -19,6 +19,8 @@ In written narration, news and reports: *Es war einmal ein König. Er hatte drei
 | wir | machten | arbeiteten | konnten | waren | gingen |
 | ihr | machtet | arbeitetet | konntet | wart | gingt |
 | sie, Sie | machten | arbeiteten | konnten | waren | gingen |
+
+**Weak verbs** add *-te* to the stem, with an *e* before it after *-t* and *-d*: *machen → machte*, *arbeiten → arbeitete*.
 
 **Strong verbs** change their vowel and take no *-te*; *ich* and *er* have no ending: *fahren → fuhr*, *kommen → kam*, *sehen → sah*, *geben → gab*, *finden → fand*, *gehen → ging*, *bleiben → blieb*.
 

@@ -9,7 +9,7 @@ Modal verbs add ability, necessity, wishes or permission to another verb: *Ich k
 
 ## How it's formed
 
-The modal is conjugated in second position; the other verb stays in the infinitive at the end. *ich* and *er* have no ending, and most change their vowel in the singular.
+The modal is conjugated in second position; the other verb stays in the infinitive at the end. *ich* and *er* have no ending (except *möchte*), and most change their vowel in the singular.
 
 | | können | müssen | wollen | dürfen | sollen | möchten |
 | --- | --- | --- | --- | --- | --- | --- |

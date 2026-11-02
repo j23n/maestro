@@ -22,7 +22,7 @@ To compare: *Berlin ist größer als München.* (Berlin is bigger than Munich.) 
 | nah | **näher** | am **nächsten** |
 
 - Komparativ: *-er*; many one-syllable adjectives add an umlaut (*alt, jung, kurz, lang, warm, kalt*).
-- Superlativ: *am … -sten*; after *-d, -t, -s, -ß, -z* it is *-esten* (*am ältesten, am kürzesten*).
+- Superlativ: *am … -sten*; after *-d, -t, -s, -z* it is usually *-esten* (*am ältesten, am kürzesten*; but *am größten*).
 - Before a noun both take the usual adjective endings: *das größere Zimmer, der schnellste Weg*.
 
 ## Comparing

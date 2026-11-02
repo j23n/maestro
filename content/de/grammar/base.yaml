@@ -189,7 +189,7 @@ points:
   level: A1
   category: verben
   label: "Präteritum von sein und haben: war, hatte"
-  topic: praeteritum
+  topic: sein-haben
 - id: es_gibt
   level: A1
   category: verben
@@ -224,7 +224,6 @@ points:
   level: A1
   category: nomen
   label: "Pluralformen der Nomen: -e, -(e)n, -er, -s, ohne Endung, mit Umlaut"
-  topic: artikel
 - id: komposita_genus
   level: A1
   category: nomen
@@ -284,7 +283,7 @@ points:
   level: A1
   category: praepositionen
   label: "Verschmelzungen: am, im, zum, zur, ins, beim, vom"
-  topic: dativ
+  topic: praepositionen-zeit
 - id: v2
   level: A1
   category: satz
@@ -406,7 +405,6 @@ points:
   level: A2
   category: praepositionen
   label: "Zeitangaben mit seit, vor, nach, bis, ab, in"
-  topic: praepositionen-zeit
 - id: ort_zu_nach_in
   level: A2
   category: praepositionen
@@ -427,7 +425,7 @@ points:
   category: verben
   label: "Perfekt aller Verbgruppen, haben oder sein"
   topic: perfekt
-- id: perf_modal
+- id: praet_modal
   level: A2
   category: verben
   label: "Präteritum der Modalverben: konnte, musste, wollte, durfte, sollte"
@@ -551,12 +549,10 @@ points:
   level: A2
   category: artikel
   label: "Demonstrativartikel dieser, diese, dieses"
-  topic: artikel
 - id: jeder
   level: A2
   category: artikel
   label: "jeder, alle, viele, einige, manche"
-  topic: artikel
 - id: indef_pron
   level: A2
   category: pronomen
@@ -694,12 +690,10 @@ points:
   level: B1
   category: adjektive
   label: "Adjektivendungen in allen Kasus, auch im Genitiv"
-  topic: adjektivdeklination
 - id: adj_nominal
   level: B1
   category: adjektive
   label: "Nominalisierte Adjektive: der Deutsche, die Bekannte, etwas Neues"
-  topic: adjektivdeklination
 - id: n_dekl
   level: B1
   category: nomen
@@ -724,32 +718,26 @@ points:
   level: B1
   category: satzverbindungen
   label: "Temporalsätze mit als und wenn"
-  topic: nebensaetze
 - id: bevor_waehrend
   level: B1
   category: satzverbindungen
   label: "Temporalsätze mit bevor, während, seit, bis, sobald"
-  topic: nebensaetze
 - id: obwohl
   level: B1
   category: satzverbindungen
   label: "Konzessivsätze mit obwohl"
-  topic: nebensaetze
 - id: da_konj
   level: B1
   category: satzverbindungen
   label: "Kausalsätze mit da"
-  topic: nebensaetze
 - id: sodass
   level: B1
   category: satzverbindungen
   label: "Konsekutivsätze mit sodass und so … dass"
-  topic: nebensaetze
 - id: indem
   level: B1
   category: satzverbindungen
   label: "Modalsätze mit indem und dadurch, dass"
-  topic: nebensaetze
 - id: zweiteilig
   level: B1
   category: satzverbindungen
@@ -766,7 +754,6 @@ points:
   level: B1
   category: verben
   label: "Modalverben im Perfekt mit Ersatzinfinitiv: Ich habe kommen müssen."
-  topic: modalverben
 - id: verb_praep_alle
   level: B1
   category: verben
@@ -779,7 +766,6 @@ points:
   level: B1
   category: pronomen
   label: "reziprokes sich und einander"
-  topic: reflexive-verben
 - id: pron_stellung
   level: B1
   category: satz
@@ -789,7 +775,6 @@ points:
   level: B1
   category: satz
   label: "Reihenfolge der Angaben: temporal, kausal, modal, lokal"
-  topic: verbstellung
 - id: nicht_stellung
   level: B1
   category: satz
@@ -865,22 +850,18 @@ points:
   level: B2
   category: verben
   label: "Subjektive Modalverben: Er soll reich sein. Sie muss krank sein. Das dürfte stimmen."
-  topic: modalverben
 - id: modal_verben_ersatz
   level: B2
   category: verben
   label: "Modalitätsverben: scheinen zu, brauchen zu, haben zu, sein zu"
-  topic: modalverben
 - id: k2_als_ob
   level: B2
   category: satzverbindungen
   label: "Vergleichssätze mit als ob und als wenn"
-  topic: konjunktiv-2
 - id: k2_beinahe
   level: B2
   category: verben
   label: "Konjunktiv II bei Fast-Ereignissen: Beinahe hätte ich den Zug verpasst."
-  topic: konjunktiv-2
 - id: partizip_attribut
   level: B2
   category: adjektive
@@ -949,12 +930,10 @@ points:
   level: B2
   category: satz
   label: "Vorfeldbesetzung und Informationsstruktur"
-  topic: verbstellung
 - id: ausklammerung
   level: B2
   category: satz
   label: "Ausklammerung im gesprochenen und geschriebenen Deutsch"
-  topic: verbstellung
 - id: wortbildung_b2
   level: B2
   category: wortbildung
