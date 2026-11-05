@@ -29,6 +29,11 @@ blank line ends it. A line starting with "> Speaker:" is its own dialogue block.
 speaker's gender, m or f, so that text to speech reads the line in a matching voice. A word can carry a
 hint for the linker: la{pron}, estate{estate:n}; in German also a case, Frau{acc} or Haus{dat.ns}.
 Hints are removed from the text.
+
+`@fn` names what a sentence does, from the language's functions.yaml (functions.py), and `@accept` adds
+more ways to say it for the Say it strand's open answers, as a pattern with `(optional)` words and
+`{a|b}` choices, such as `@accept {Volentieri|Con piacere}!`. The sentence itself always counts, and
+the build checks that every pattern parses (patterns.py).
 """
 
 from __future__ import annotations
@@ -42,6 +47,7 @@ from dataclasses import dataclass, field
 
 from . import drills as drillgen
 from . import grammar
+from . import patterns
 from .normalize import apostrophes, nfc, utf16_len, utf16_slice
 
 # --- linguistic tables --------------------------------------------------------------------
@@ -114,6 +120,8 @@ class SourceSentence:
     hints: dict[int, str] = field(default_factory=dict)  # char offset of the hinted word -> hint
     units: list[dict] = field(default_factory=list)
     glosses: dict[str, str] = field(default_factory=dict)
+    functions: list[str] = field(default_factory=list)  # @fn: what the sentence does (functions.yaml)
+    accept: list[str] = field(default_factory=list)     # @accept: other ways to say it, as patterns
 
 
 @dataclass
@@ -268,6 +276,16 @@ def parse_source(path: str, language: str | None = None) -> SourceText:
             elif kind == "gloss":
                 word, _, gloss = rest.partition("=")
                 last_sentence.glosses[word.strip()] = gloss.strip()
+            elif kind == "fn":
+                last_sentence.functions += [prefix + f.strip() for f in rest.split(",") if f.strip()]
+            elif kind == "accept":
+                if not rest.strip():
+                    raise PackError(f"{where}: @accept needs a pattern")
+                try:
+                    patterns.expand(rest.strip())
+                except patterns.PatternError as e:
+                    raise PackError(f"{where}: @accept {rest.strip()!r}: {e}") from None
+                last_sentence.accept.append(rest.strip())
             else:
                 raise PackError(f"{where}: unknown annotation @{kind}")
             continue
@@ -632,6 +650,10 @@ def build_text(lex: Lexicon, src: SourceText) -> tuple[dict, list[str]]:
                      "translation": s.translation, "tokens": tokens}
             if units:
                 entry["units"] = units
+            if s.functions:
+                entry["fn"] = s.functions
+            if s.accept:
+                entry["accept"] = s.accept  # read by the drill builder, then removed
             sentences.append(entry)
             offset += utf16_len(s.text) + 1
         b = {"type": block.type, "text": block_text, "sentences": sentences}
@@ -735,12 +757,23 @@ def window_valid(window: str) -> bool:
 
 
 def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_content_db: str,
-              bundled: bool = True, topics: list | None = None, language: str = "it") -> tuple[list[str], list[str]]:
+              bundled: bool = True, topics: list | None = None, language: str = "it",
+              known_ranks: dict[str, int] | None = None, inventory: dict | None = None) -> tuple[list[str], list[str]]:
     """Build every pack under source_dir into out_dir/<collection>/. Returns (warnings, errors).
 
     `language` is the packs' target language (HANDOFF.md 5.3), written into each manifest.
 
-    With grammar topics, each text also gets its practice drills (drills.py, HANDOFF.md 3.9)."""
+    With grammar topics, each text also gets its session's drills (drills.py, HANDOFF.md 3.9). The new
+    words follow each level's `knownRank` (`known_ranks`, by default from the curriculum folder next to
+    source_dir) and Say it follows the functions (`inventory`, by default functions.yaml next to it)."""
+    from . import curriculum, functions
+
+    content_dir = os.path.dirname(os.path.abspath(source_dir))
+    if known_ranks is None:
+        known_ranks = {lvl: p.known_rank for lvl, p in
+                       curriculum.load_plans(os.path.join(content_dir, "curriculum")).items()}
+    if inventory is None:
+        inventory = functions.load(os.path.join(content_dir, "functions.yaml"), language)
     lex = Lexicon(conn)
     topic_info = {t.id: drillgen.TopicInfo(t.id, t.title, t.level, t.order, t.summary) for t in topics or []}
     warnings: list[str] = []
@@ -764,8 +797,12 @@ def build_all(conn: sqlite3.Connection, source_dir: str, out_dir: str, min_conte
             unknown = [t for t in src.introduces if topic_info and t not in topic_info]
             if unknown:
                 errors.append(f"{src.id}: introduces unknown grammar topic {', '.join(unknown)}")
+            unknown_fns = sorted({f for b in src.blocks for x in b.sentences for f in x.functions} - set(inventory))
+            if unknown_fns:
+                errors.append(f"{src.id}: @fn names unknown function {', '.join(unknown_fns)}")
             if topic_info:
-                text["drills"] = drillgen.generate(text, src.introduces, topic_info, conn)
+                text["drills"] = drillgen.generate(text, src.introduces, topic_info, conn,
+                                                   known_rank=known_ranks.get(src.level), inventory=inventory)
                 errors.extend(drillgen.validate(text, text["drills"]))
             collections.setdefault(src.collection, []).append((src, text))
 

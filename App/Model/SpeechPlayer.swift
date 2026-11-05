@@ -81,11 +81,14 @@ struct SpeechSegment: Hashable {
 
     // MARK: Playback
 
-    /// Speaks a word or phrase once, interrupting whatever is playing.
-    func say(_ text: String) {
+    /// Speaks a word or phrase once, interrupting whatever is playing; `slow` at the lowest rate.
+    func say(_ text: String, slow: Bool = false) {
         stop()
         oneShot = true
+        let saved = rate
+        if slow { rate = 0.5 }
         speak(text, voice: Self.bestVoice(for: language))
+        rate = saved
     }
 
     func load(_ segments: [SpeechSegment], startAt: Int = 0) {

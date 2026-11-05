@@ -130,6 +130,11 @@ struct LanguageContent {
         Set(library.featured(on: date).map(\.text.id))
     }
 
+    /// The grammar topics a text introduces, from its pack's manifest.
+    func introduces(_ id: String) -> [String] {
+        library.entries.first { $0.text.id == id }?.text.grammar?.introduces ?? []
+    }
+
     func grammarTopic(_ id: String) -> GrammarTopicRow? {
         grammarTopics.first { $0.id == id } ?? content?.grammarTopic(id)
     }

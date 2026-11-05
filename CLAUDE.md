@@ -10,7 +10,7 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian, and next German (HA
 - **Offline first.** Every feature works in airplane mode. No runtime network calls except CloudKit sync and Background Assets pack downloads.
 - **No backend.** No accounts, analytics servers or APIs of our own.
 - **Text first.** The reader shows clean text. No highlighting layers, colour coding or inline glosses. Help appears only when the learner taps or selects.
-- **Practice comes from the text.** No standalone conjugation drills or grammar quizzes. After a text, an optional practice set drills its grammar point in the text's own sentences (HANDOFF.md 3.9), with no scores; anything else is practised through Remember flashcards the learner chose to keep.
+- **Practice comes from the text.** No standalone conjugation drills or grammar quizzes. After a text, an optional session (HANDOFF.md 3.9) drills its words, grammar point, verbs and conversation in the text's own sentences, with no scores; anything else is practised through Remember flashcards the learner chose to keep.
 
 ## Stack
 
@@ -50,10 +50,10 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian, and next German (HA
 - `Packages/PackKit`: pack loading, `PackStore`, downloads
 - `Packages/SpeechKit`: TTS, sentence and word highlighting
 - `Packages/SyncStore`: SwiftData models, merge pass
-- `Packages/MaestroKit/Sources/PracticeKit`: drill grading, stepped feedback, seeded shuffles
+- `Packages/MaestroKit/Sources/PracticeKit`: sessions, drill grading, stepped feedback, role-play, seeded shuffles
 - `App/`: SwiftUI screens per platform
 - `tools/`: content database and pack build scripts
-- `content/<lang>/` (`it`, `de`): pack sources in `texts/` (Markdown + front matter), `grammar/` topics and base, `curriculum/` level plans, `frequency/` word list, `ids/` registry
+- `content/<lang>/` (`it`, `de`): pack sources in `texts/` (Markdown + front matter), `grammar/` topics and base, `functions.yaml` communicative functions, `curriculum/` level plans, `frequency/` word list, `ids/` registry
 - `content/schema/`, `content/fixtures/`: shared by every language
 
 ## Conventions
@@ -61,4 +61,4 @@ Native SwiftUI app (iPhone, iPad, Mac) for learning Italian, and next German (HA
 - UI copy in English; target-language strings marked with their language (`it-IT`, `de-DE`) for VoiceOver, through `Text(target:)` and `AttributedString(target:)`.
 - Touch targets ≥ 44 pt on iOS. Every icon-only button has an accessibility label.
 - Colours and type come from `design/tokens.json`. Use New York for Italian reading text, SF Pro for UI.
-- Write tests for the lookup cascade, conjugation generation, FSRS replay, the sync merge pass, drill generation and drill grading.
+- Write tests for the lookup cascade, conjugation generation, FSRS replay, the sync merge pass, drill generation, session building and drill grading.

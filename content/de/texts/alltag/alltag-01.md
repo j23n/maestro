@@ -13,12 +13,19 @@ Lena sucht ein Geschenk für sie. || Lena is looking for a present for her.
 Sie fragt ihren Bruder. || She asks her brother.
 
 > Max: Schenk ihr doch ein Buch! || Why not give her a book?
+@fn suggest
 > Lena: Sie hat schon so viele Bücher. || She already has so many books.
+@fn object
 > Max: Dann kauf ihr Blumen. || Then buy her flowers.
+@fn suggest
 > Lena: Blumen gefallen ihr, aber das ist langweilig. || She likes flowers, but that's boring.
+@fn object
 > Max: Und ein Kochkurs? || And a cooking class?
+@fn suggest
 > Max: Oma kocht doch so gern. || Grandma loves cooking, after all.
 > Lena: Die Idee gefällt mir! || I like that idea!
+@fn praise
+@accept {Die Idee gefällt mir|Gute Idee|Das gefällt mir}!
 
 Lena kauft der Oma{dat} einen Gutschein für einen Kochkurs. || Lena buys grandma a voucher for a cooking class.
 Am Sonntag gibt sie ihr den Gutschein. || On Sunday she gives her the voucher.

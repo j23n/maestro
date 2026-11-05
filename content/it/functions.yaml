@@ -1,0 +1,257 @@
+# Communicative functions, A1 to B1, after the Profilo della lingua italiana (Spinelli & Parizzi), the
+# "funzioni" of each level. HANDOFF.md 3.9 and tools/maestro_content/functions.py. IDs are frozen once
+# shipped, like grammar topic slugs. Texts tag sentences with `@fn <id>`.
+#
+# id       stable short ID
+# level    the first level that uses it
+# name     what the learner does, in English, as drills show it
+# goal     the same as a role-play goal, an imperative
+# label    the function's name in Italian
+# source   the Profilo's area
+# phrases  a few common ways to say it, separated by " | "
+functions:
+- id: greet
+  level: A1
+  name: Greeting someone
+  goal: Say hello
+  label: salutare
+  source: Profilo A1, funzioni sociali
+  phrases: Ciao! | Buongiorno! | Buonasera! | Salve!
+- id: say-goodbye
+  level: A1
+  name: Saying goodbye
+  goal: Say goodbye
+  label: congedarsi
+  source: Profilo A1, funzioni sociali
+  phrases: Ciao, a presto! | Arrivederci! | Buona giornata! | A domani!
+- id: thank
+  level: A1
+  name: Thanking someone
+  goal: Say thank you
+  label: ringraziare
+  source: Profilo A1, funzioni sociali
+  phrases: Grazie! | Grazie mille! | Grazie, molto gentile.
+- id: reply-thanks
+  level: A1
+  name: Answering thanks
+  goal: Answer the thanks
+  label: rispondere a un ringraziamento
+  source: Profilo A1, funzioni sociali
+  phrases: Prego! | Di niente. | Figurati!
+- id: order
+  level: A1
+  name: Ordering food or drink
+  goal: Order
+  label: ordinare
+  source: Profilo A1, funzioni pratiche
+  phrases: Un caffè, per favore. | Vorrei un cornetto. | Per me un'acqua, grazie.
+- id: offer-service
+  level: A1
+  name: Asking what someone would like
+  goal: Ask what they'd like
+  label: offrire un servizio
+  source: Profilo A1, funzioni pratiche
+  phrases: Cosa prende? | Desidera? | Posso aiutarla?
+- id: ask-price
+  level: A1
+  name: Asking the price
+  goal: Ask the price
+  label: chiedere il prezzo
+  source: Profilo A1, funzioni pratiche
+  phrases: Quanto costa? | Quanto viene? | Quant'è?
+- id: say-price
+  level: A1
+  name: Saying the price
+  goal: Say the price
+  label: dire il prezzo
+  source: Profilo A1, funzioni pratiche
+  phrases: Sono tre euro. | Costa dieci euro. | Fa cinque euro e venti.
+- id: give-something
+  level: A1
+  name: Handing something over
+  goal: Hand it over
+  label: porgere qualcosa
+  source: Profilo A1, funzioni pratiche
+  phrases: Ecco a lei. | Ecco qua. | Tenga.
+- id: ask-choice
+  level: A1
+  name: Offering a choice
+  goal: Offer a choice
+  label: proporre una scelta
+  source: Profilo A1, funzioni pratiche
+  phrases: Normale o macchiato? | Rosso o bianco? | Qui o da portare via?
+- id: state-preference
+  level: A1
+  name: Saying what you prefer
+  goal: Say what you prefer
+  label: esprimere una preferenza
+  source: Profilo A1, funzioni personali
+  phrases: Preferisco il tè. | Per me rosso, grazie. | Meglio di no.
+- id: ask-plans
+  level: A1
+  name: Asking about someone's plans
+  goal: Ask about their plans
+  label: chiedere dei programmi
+  source: Profilo A1, funzioni sociali
+  phrases: Che cosa fai stasera? | Sei libero domani? | Hai programmi per sabato?
+- id: say-unsure
+  level: A1
+  name: Saying you're not sure
+  goal: Say you're not sure
+  label: esprimere incertezza
+  source: Profilo A1, funzioni personali
+  phrases: Non so ancora. | Forse. | Non lo so.
+- id: invite
+  level: A1
+  name: Inviting someone
+  goal: Invite them
+  label: invitare
+  source: Profilo A1, funzioni sociali
+  phrases: Vieni con me? | Ti va di venire? | Perché non vieni anche tu? | Vieni alla festa?
+- id: accept
+  level: A1
+  name: Accepting
+  goal: Accept
+  label: accettare
+  source: Profilo A1, funzioni sociali
+  phrases: Volentieri! | Sì, certo! | Con piacere! | Perché no?
+- id: decline
+  level: A1
+  name: Saying no politely
+  goal: Say no politely
+  label: rifiutare
+  source: Profilo A1, funzioni sociali
+  phrases: Mi dispiace, non posso. | Grazie, ma sono impegnato. | Purtroppo no.
+- id: ask-time
+  level: A1
+  name: Asking when something happens
+  goal: Ask what time
+  label: chiedere l'ora
+  source: Profilo A1, funzioni pratiche
+  phrases: A che ora comincia? | A che ora ci vediamo? | Quando apre?
+- id: say-time
+  level: A1
+  name: Saying when something happens
+  goal: Say what time
+  label: dire l'ora
+  source: Profilo A1, funzioni pratiche
+  phrases: Alle nove. | Verso le otto. | A mezzanotte.
+- id: ask-why
+  level: A1
+  name: Asking why
+  goal: Ask why
+  label: chiedere il perché
+  source: Profilo A1, funzioni personali
+  phrases: Perché? | Come mai? | Perché me lo chiedi?
+- id: explain
+  level: A1
+  name: Explaining a reason
+  goal: Explain why
+  label: spiegare
+  source: Profilo A1, funzioni personali
+  phrases: Perché è tradizione. | Porta fortuna. | Perché mi piace.
+- id: agree
+  level: A1
+  name: Agreeing to a plan
+  goal: Agree
+  label: essere d'accordo
+  source: Profilo A1, funzioni sociali
+  phrases: Va bene. | Perfetto! | D'accordo. | Affare fatto!
+- id: ask-help
+  level: A1
+  name: Asking for help or a favour
+  goal: Ask for a favour
+  label: chiedere un favore
+  source: Profilo A1, funzioni pratiche
+  phrases: Puoi portare il dolce? | Mi aiuti? | Mi puoi dare una mano?
+- id: offer-help
+  level: A1
+  name: Offering to bring or do something
+  goal: Offer to help
+  label: offrire aiuto
+  source: Profilo A1, funzioni sociali
+  phrases: Che cosa porto? | Posso portare qualcosa? | Ti aiuto io.
+- id: say-wish
+  level: A1
+  name: Saying what you'd like
+  goal: Say what you'd like
+  label: esprimere un desiderio
+  source: Profilo A1, funzioni personali
+  phrases: Vorrei vedere la sciarpa. | Mi piacerebbe andarci. | Cerco un regalo.
+- id: suggest
+  level: A2
+  name: Suggesting something
+  goal: Suggest something
+  label: proporre
+  source: Profilo A2, funzioni sociali
+  phrases: Ci vediamo prima? | Potremmo andare a piedi. | Che ne dici di una pizza?
+- id: confirm
+  level: A2
+  name: Confirming a plan
+  goal: Confirm the plan
+  label: confermare
+  source: Profilo A2, funzioni sociali
+  phrases: Allora a venerdì! | Ci vediamo lì. | Allora siamo d'accordo.
+- id: ask-permission
+  level: A2
+  name: Checking that it's all right
+  goal: Check it's all right
+  label: chiedere il permesso
+  source: Profilo A2, funzioni sociali
+  phrases: Se va bene. | Posso? | Ti dispiace se vengo anch'io?
+- id: ask-what-if
+  level: A2
+  name: Asking what happens if
+  goal: Ask what happens if
+  label: chiedere un'ipotesi
+  source: Profilo A2, funzioni personali
+  phrases: Se piove, cosa facciamo? | E se è chiuso? | E se non c'è posto?
+- id: reassure
+  level: A2
+  name: Reassuring someone
+  goal: Reassure them
+  label: rassicurare
+  source: Profilo A2, funzioni sociali
+  phrases: Non ti preoccupare. | Si farà comunque. | Tranquillo, c'è tempo.
+- id: describe-wish
+  level: A2
+  name: Saying what someone likes
+  goal: Say what they like
+  label: descrivere i gusti
+  source: Profilo A2, funzioni personali
+  phrases: Gli piace camminare. | Le piace leggere. | Ama la musica.
+- id: give-opinion
+  level: A2
+  name: Giving an opinion
+  goal: Give your opinion
+  label: esprimere un'opinione
+  source: Profilo A2, funzioni personali
+  phrases: È morbida, ma il colore non mi convince. | Secondo me è troppo caro. | Mi sembra bello.
+- id: wish-well
+  level: A2
+  name: Wishing someone well
+  goal: Wish them well
+  label: fare gli auguri
+  source: Profilo A2, funzioni sociali
+  phrases: Buone feste! | Buon anno! | Buon viaggio!
+- id: ask-availability
+  level: A2
+  name: Asking if something is available
+  goal: Ask if they have it
+  label: chiedere la disponibilità
+  source: Profilo A2, funzioni pratiche
+  phrases: Ce l'avete in blu? | C'è anche più grande? | Avete un tavolo per tre?
+- id: propose-politely
+  level: B1
+  name: Proposing politely
+  goal: Propose it politely
+  label: proporre con cortesia
+  source: Profilo B1, funzioni sociali
+  phrases: Ti andrebbe di venire? | Che ne diresti di partire venerdì? | Potremmo dormire da mia cugina.
+- id: express-doubt
+  level: B1
+  name: Raising a doubt
+  goal: Raise a doubt
+  label: esprimere un dubbio
+  source: Profilo B1, funzioni personali
+  phrases: Mi piacerebbe, ma costerà troppo. | Non so se ce la faccio. | Sarà difficile trovare posto.

@@ -106,9 +106,9 @@ struct ReaderView: View {
                 }
                 .buttonStyle(PrimaryButtonStyle())
             }
-            if let topic = PracticeEntry.topic(of: text) {
+            if PracticeEntry.hasPractice(text) {
                 NavigationLink(value: Route.practice(text.id)) {
-                    Text("Practise: \(model.grammarTitle(topic))")
+                    Text("Practise this text")
                 }
                 .buttonStyle(SecondaryButtonStyle())
                 .accessibilityIdentifier("reader.practice")

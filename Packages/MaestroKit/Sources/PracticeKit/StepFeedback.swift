@@ -1,6 +1,7 @@
 import Foundation
 
-/// How a drill ended. Only the practice summary uses it; nothing is stored or synced.
+/// How a drill ended. The wrap-up shows it, and the session stores it on the device for Review
+/// (`DrillRecord`, the app's `DrillLog`).
 public enum Outcome: String, Sendable, Hashable, CaseIterable {
     case firstTry, afterHint, shown
 

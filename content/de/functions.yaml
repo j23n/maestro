@@ -1,0 +1,160 @@
+# Communicative functions, A1 to B1, after Profile deutsch (Glaboniat et al.), the "Sprachhandlungen" of
+# each level. HANDOFF.md 3.9 and tools/maestro_content/functions.py. The pipeline adds the de: prefix to
+# each ID; they match the Italian inventory's where the function is the same. Texts tag sentences with
+# `@fn <id>`.
+#
+# id       stable short ID
+# level    the first level that uses it
+# name     what the learner does, in English, as drills show it
+# goal     the same as a role-play goal, an imperative
+# label    the function's name in German
+# source   the Profile deutsch area
+# phrases  a few common ways to say it, separated by " | "
+functions:
+- id: greet
+  level: A1
+  name: Greeting someone
+  goal: Say hello
+  label: begrüßen
+  source: Profile deutsch A1, Soziale Kontakte
+  phrases: Hallo! | Guten Tag! | Guten Morgen! | Grüß dich!
+- id: say-goodbye
+  level: A1
+  name: Saying goodbye
+  goal: Say goodbye
+  label: sich verabschieden
+  source: Profile deutsch A1, Soziale Kontakte
+  phrases: Tschüss! | Auf Wiedersehen! | Bis morgen! | Schönen Tag noch!
+- id: thank
+  level: A1
+  name: Thanking someone
+  goal: Say thank you
+  label: sich bedanken
+  source: Profile deutsch A1, Soziale Kontakte
+  phrases: Danke! | Vielen Dank! | Danke schön!
+- id: introduce
+  level: A1
+  name: Introducing yourself
+  goal: Introduce yourself
+  label: sich vorstellen
+  source: Profile deutsch A1, Soziale Kontakte
+  phrases: Ich bin Tom. | Ich heiße Lena. | Mein Name ist Max.
+- id: ask-origin
+  level: A1
+  name: Asking where someone is from
+  goal: Ask where they're from
+  label: nach der Herkunft fragen
+  source: Profile deutsch A1, Informationsaustausch
+  phrases: Woher kommst du? | Woher kommen Sie? | Wo wohnst du?
+- id: say-origin
+  level: A1
+  name: Saying where you're from
+  goal: Say where you're from
+  label: die Herkunft angeben
+  source: Profile deutsch A1, Informationsaustausch
+  phrases: Ich komme aus Bremen. | Ich bin aus Wien. | Ich wohne in Berlin.
+- id: ask-about
+  level: A1
+  name: Asking about someone
+  goal: Ask about them
+  label: nach Personen fragen
+  source: Profile deutsch A1, Informationsaustausch
+  phrases: Hast du Geschwister? | Wie heißt dein Bruder? | Wie alt bist du?
+- id: tell-about
+  level: A1
+  name: Telling about yourself or others
+  goal: Tell about yourself
+  label: über Personen berichten
+  source: Profile deutsch A1, Informationsaustausch
+  phrases: Ich habe einen Bruder. | Er ist zwölf Jahre alt. | Ich habe einen Hund.
+- id: ask-where
+  level: A1
+  name: Asking where something is
+  goal: Ask where it is
+  label: nach dem Ort fragen
+  source: Profile deutsch A1, Informationsaustausch
+  phrases: Wo ist das Bad? | Wo ist der Bahnhof? | Wo finde ich die Küche?
+- id: say-where
+  level: A1
+  name: Saying where something is
+  goal: Say where it is
+  label: den Ort angeben
+  source: Profile deutsch A1, Informationsaustausch
+  phrases: Das Bad ist dort. | Hier ist die Küche. | Es ist im Auto.
+- id: order
+  level: A1
+  name: Ordering food or drink
+  goal: Order
+  label: bestellen
+  source: Profile deutsch A1, Einkaufen und Essen
+  phrases: Einen Kaffee, bitte. | Ich nehme einen Tee. | Ich möchte ein Wasser.
+- id: offer-service
+  level: A1
+  name: Asking what someone would like
+  goal: Ask what they'd like
+  label: etwas anbieten
+  source: Profile deutsch A1, Einkaufen und Essen
+  phrases: Was trinken Sie? | Was möchten Sie? | Kann ich Ihnen helfen?
+- id: ask-price
+  level: A1
+  name: Asking the price
+  goal: Ask the price
+  label: nach dem Preis fragen
+  source: Profile deutsch A1, Einkaufen und Essen
+  phrases: Was kostet das? | Wie viel kostet das? | Was macht das?
+- id: say-price
+  level: A1
+  name: Saying the price
+  goal: Say the price
+  label: den Preis nennen
+  source: Profile deutsch A1, Einkaufen und Essen
+  phrases: Das kostet drei Euro. | Das macht zehn Euro. | Fünf Euro, bitte.
+- id: decline
+  level: A1
+  name: Saying no politely
+  goal: Say no politely
+  label: ablehnen
+  source: Profile deutsch A1, Soziale Kontakte
+  phrases: Nein, danke. | Leider kann ich nicht. | Ich esse nichts, danke.
+- id: confirm
+  level: A1
+  name: Confirming
+  goal: Confirm
+  label: bestätigen
+  source: Profile deutsch A1, Informationsaustausch
+  phrases: Ja, genau. | Ja, das ist richtig. | Ja, das stimmt.
+- id: praise
+  level: A1
+  name: Saying you like something
+  goal: Say you like it
+  label: Gefallen ausdrücken
+  source: Profile deutsch A1, Gefühle
+  phrases: Das ist wirklich schön. | Die Idee gefällt mir! | Toll!
+- id: suggest
+  level: A2
+  name: Suggesting something
+  goal: Suggest something
+  label: einen Vorschlag machen
+  source: Profile deutsch A2, Handlungsregulierung
+  phrases: Schenk ihr doch ein Buch! | Wie wäre es mit einem Kochkurs? | Wir können ins Kino gehen.
+- id: object
+  level: A2
+  name: Objecting to an idea
+  goal: Object to the idea
+  label: einen Einwand machen
+  source: Profile deutsch A2, Meinungen
+  phrases: Das ist langweilig. | Sie hat schon so viele Bücher. | Das ist zu teuer.
+- id: ask-help
+  level: A1
+  name: Asking someone to do something
+  goal: Ask them to do it
+  label: um etwas bitten
+  source: Profile deutsch A1, Handlungsregulierung
+  phrases: Stellt den Tisch bitte in die Küche. | Kannst du mir helfen? | Hilf mir bitte!
+- id: offer-help
+  level: A1
+  name: Offering to do something
+  goal: Offer to do it
+  label: Hilfe anbieten
+  source: Profile deutsch A1, Handlungsregulierung
+  phrases: Ich hole ihn. | Ich mache das. | Soll ich dir helfen?

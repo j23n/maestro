@@ -1,4 +1,5 @@
 import Foundation
+import LanguageCore
 import PackKit
 
 /// Seeded shuffles, so options and tiles appear in the same order on every device and every time:
@@ -60,24 +61,67 @@ public enum SeededShuffle {
     }
 }
 
-/// What the summary offers to keep: one Grammar card per topic the learner needed help with, shown
-/// in the sentence of the first drill that needed it.
+/// What the wrap-up offers to keep in Remember, in the sentence of the first drill that needed help:
+/// a Grammar card for a grammar topic, a Word card for a new word, a Verb form card for a verb form.
 public struct KeepSuggestion: Sendable, Hashable, Identifiable {
-    public let topic: String
+    public enum Item: Sendable, Hashable {
+        case grammar(topic: String)
+        case word(lemmaID: String, senseID: String, surface: String)
+        case verbForm(lemmaID: String, formTag: String, surface: String)
+    }
+
+    public let item: Item
     public let drill: Drill
-    public var id: String { topic }
+    /// Where the item is in the drill's sentence.
+    public let range: UTF16Range?
+
+    public var id: String {
+        switch item {
+        case .grammar(let topic): "grammar|\(topic)"
+        case .word(let lemma, let sense, _): "word|\(lemma)|\(sense)"
+        case .verbForm(let lemma, let tag, _): "verbForm|\(lemma)|\(tag)"
+        }
+    }
+
+    /// The grammar topic, for a Grammar suggestion.
+    public var topic: String {
+        if case .grammar(let topic) = item { return topic }
+        return ""
+    }
 }
 
 public enum PracticeSummary {
-    /// Topics to offer in Remember, in drill order: those with a drill not right on the first try.
-    public static func keepSuggestions(_ drills: [Drill], outcomes: [String: Outcome]) -> [KeepSuggestion] {
+    /// What to offer in Remember, in drill order, one per item: grammar topics with a drill not right on
+    /// the first try, and the words and verb forms of Words and Verbs drills that weren't. `text` finds the
+    /// token a word or verb drill is about; without it only grammar is offered. Say it has nothing to keep yet.
+    public static func keepSuggestions(_ drills: [Drill], outcomes: [String: Outcome],
+                                       text: ReadingText? = nil) -> [KeepSuggestion] {
         var seen: Set<String> = []
         var out: [KeepSuggestion] = []
-        for drill in drills where (outcomes[drill.id] ?? .firstTry) != .firstTry && !seen.contains(drill.topic) {
-            seen.insert(drill.topic)
-            out.append(KeepSuggestion(topic: drill.topic, drill: drill))
+        for drill in drills where (outcomes[drill.id] ?? .firstTry) != .firstTry {
+            guard let suggestion = suggestion(for: drill, text: text), seen.insert(suggestion.id).inserted else { continue }
+            out.append(suggestion)
         }
         return out
+    }
+
+    static func suggestion(for drill: Drill, text: ReadingText?) -> KeepSuggestion? {
+        let range = drill.r ?? drill.focus
+        switch drill.strandKind {
+        case .grammar:
+            return KeepSuggestion(item: .grammar(topic: drill.topic), drill: drill, range: drill.r)
+        case .words, .verbs:
+            guard let text, let range, let sentence = text.sentence(drill.sentence),
+                  let token = sentence.tokens.first(where: { $0.r == range }), let lemma = token.lemmaID ?? drill.lemma
+            else { return nil }
+            if drill.strandKind == .verbs, let tag = token.form {
+                return KeepSuggestion(item: .verbForm(lemmaID: lemma, formTag: tag, surface: token.t), drill: drill, range: range)
+            }
+            guard drill.strandKind == .words, let sense = token.senseID else { return nil }
+            return KeepSuggestion(item: .word(lemmaID: lemma, senseID: sense, surface: token.t), drill: drill, range: range)
+        case .say:
+            return nil
+        }
     }
 
     public static func firstTries(_ drills: [Drill], outcomes: [String: Outcome]) -> Int {
