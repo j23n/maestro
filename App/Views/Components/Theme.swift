@@ -39,7 +39,8 @@ enum Theme {
         }
     }
 
-    /// A session stage's colours: Words, Grammar and Verbs share their Remember kind's.
+    /// A session stage's colours (tokens.json `color.stage`): Words, Grammar and Verbs share their
+    /// Remember kind's, Review uses warning's.
     static func stage(_ stage: StageKind) -> Pair {
         switch stage {
         case .words: kind(.word)
