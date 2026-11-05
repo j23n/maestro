@@ -21,8 +21,8 @@ struct SessionView: View {
     @State private var minutes = 1
     @State private var round = 0
     @State private var review: [SessionDrill]?
-    /// Whether the session opens with the text. On unless the learner switches it off for this session,
-    /// for a text they have just read.
+    /// Whether the session opens with the text: on when the text is opened, off for "Practise again",
+    /// and switchable on the plan either way.
     @State private var readText = true
 
     enum Step: Hashable {
@@ -73,7 +73,7 @@ struct SessionView: View {
                 .id("intro.\(round).\(s)")
             }
         case .questions(let s):
-            QuestionsView(textID: text.id, inSession: true)
+            QuestionsView(textID: text.id)
                 .safeAreaInset(edge: .bottom) {
                     Button("Continue") { begin(s + 1) }
                         .buttonStyle(PrimaryButtonStyle())
@@ -101,6 +101,7 @@ struct SessionView: View {
             SessionSummaryView(text: text, stages: stages, outcomes: outcomes, minutes: minutes) {
                 round += 1
                 review = loadReview()
+                readText = false   // the text was just read; the plan can switch it back on
                 step = .plan
             }
         }
@@ -231,7 +232,7 @@ struct SessionPlanView: View {
         Toggle(isOn: $readText) {
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 8) {
-                    Tag(text: "Read", colors: Theme.stage(.questions))
+                    Tag(text: "Read", colors: Theme.read)
                     Text("\(text.wordCount) words").font(.footnote.monospacedDigit()).foregroundStyle(.secondary)
                 }
                 Text("The text, with help on any word you tap.").font(.subheadline).foregroundStyle(.secondary)

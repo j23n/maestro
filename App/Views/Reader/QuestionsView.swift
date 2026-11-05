@@ -8,8 +8,6 @@ import SyncLogic
 /// sentence that answers it.
 struct QuestionsView: View {
     let textID: String
-    /// Shown as a session's Questions stage, which has its own way on.
-    var inSession = false
 
     @Environment(AppModel.self) private var model
     @Environment(Preferences.self) private var prefs
@@ -43,14 +41,6 @@ struct QuestionsView: View {
                     Section {
                         Text("\(correct) of \(text.questions.count) right")
                             .font(.headline)
-                    }
-                }
-                if !inSession {
-                    Section {
-                        NavigationLink(value: Route.practice(text.id)) {
-                            Label("Practise this text", systemImage: "pencil.and.list.clipboard")
-                                .frame(minHeight: 44)
-                        }
                     }
                 }
             }
