@@ -7,7 +7,7 @@ Related artifacts (private until shared):
 - Mocks canvas (iPhone, iPad, Mac): https://claude.ai/artifact/BGAkN5oybVfToot5mK8efQ
 - Spec fixes proposal, approved 2026-10-31 (content IDs, form tags, learner model, pack format, minimum OS): https://claude.ai/artifact/6W2dzw9WVXqJAZuJY2buaE. Its decisions are folded into sections 3.4, 5, 5.1, 5.2, 6.2, 6.3, 6.5 and 9 below.
 
-Where this file and the plan doc disagree, this file wins. The plan doc still describes grammar highlight layers, conjugation drills and a "vocab trainer"; all three were replaced by the decisions below. Practice drills came back in a different shape on 2026-11-02: only after a text, built from its own sentences (section 3.9).
+Where this file and the plan doc disagree, this file wins. The plan doc still describes grammar highlight layers, conjugation drills and a "vocab trainer"; all three were replaced by the decisions below. Practice drills came back in a different shape on 2026-11-02: only after a text, built from its own sentences, and grew into sessions on 2026-11-05 (section 3.9).
 
 ---
 
@@ -25,7 +25,7 @@ German comes next, in the same app, as a second target language (section 5.3). E
 | Offline | Every feature works in airplane mode. The network is used only for iCloud sync and optional text-pack downloads. |
 | Backend | None. The learner's Apple ID is the identity; CloudKit private database is the only cloud. |
 | Reading | Text first. The reader shows clean text with no highlighting, colour coding or grammar layers. Help appears only on tap: in a sheet (iPhone) or in an inspector panel beside the text (iPad and Mac). |
-| Grammar | Reference (lookup, verb tables, grammar pages), plus optional practice after each text: 3 to 8 drills on the text's grammar point, in the text's own sentences, with stepped hints and no scores (3.9). No standalone drills or quizzes. The grammar base lists every A0 to B2 point and the page that covers it. |
+| Grammar | Reference (lookup, verb tables, grammar pages), plus an optional session after each text: its questions, new words, grammar point, verbs and, for dialogues, what its people say, all in the text's own sentences, with stepped hints and no scores (3.9). No standalone drills or quizzes. The grammar base lists every A0 to B2 point and the page that covers it. |
 | Remember | Replaces the "vocab trainer". Three kinds of item: Word, Verb form, Grammar point. Reviewed as flashcards (FSRS scheduling), front shows the original sentence with the item highlighted. |
 | Library | 100 texts across A1 to B2, grouped by level and collection, ranked by "good fit" (share of words the learner already knows). |
 | Navigation (iPhone) | Tabs: Read, Dictionary, Verbs, Remember, Listen. Settings is reached from Read. "Today" was dropped. |
@@ -119,19 +119,22 @@ Multiple choice and yes/no/not stated per text, in Italian with an English toggl
 - First launch: checklist (dictionary built in; starter texts included; sentence translation download; enhanced voice guide; iCloud sync on) and a level pick (A1 to B2).
 - Settings: iCloud sync and last sync; offline status (translation downloaded, voice quality, downloaded texts); level, text size, sentence translation in help; Remember new items per day and reminder; acknowledgements (Wiktionary, Morph-it!, Tatoeba); version.
 
-### 3.9 Practice after a text
+### 3.9 Sessions after a text
 
-Decided 2026-11-02, from a mock of text → drills. The reader stays clean; practice is a separate screen the learner opens after reading.
+Decided 2026-11-02 as a grammar practice set; widened to sessions on 2026-11-05, from the session mocks (section 4). The reader stays clean; a session is a separate screen the learner opens after reading. Every drill uses the text's own sentences.
 
-- **Where.** The reader's footer, under Questions, offers "Practise: <topic>"; so does the end of the questions. It is optional and never gates anything. A text without a practice set shows neither.
-- **What.** 3 to 8 drills. Most practise the grammar topic the text introduces (`introduces:`); up to two bring back an earlier topic the text also uses, marked Review. A text that introduces nothing practises the highest topic it uses at its level. Every drill uses one of the text's sentences (the participle match uses several), shown with its English translation.
-- **Formats.** `choice` (2 to 4 options, keys 1 to 4 on a keyboard), `gap` (typed, with accent keys à è é ì ò ù), `match` (2 to 4 pairs), `build` (word tiles in order, one distractor at most). Options appear in a seeded shuffle (FNV-1a 64 + SplitMix64 over text, drill and round) of an order the build makes independent of the answer. Word tiles and match pairs are given in answer order, so they never appear in that order.
-- **Recipes.** Compound tenses: pick avere or essere; type the participle; pick the agreement ending after essere; match verbs to participles. Simple tenses: pick or type the form, with the infinitive and person as the cue. Articles and articulated prepositions: pick from the same family (il lo la l', al allo alla all'…). Hand-marked units with a topic (si impersonale, pronouns, future in the past): type the unit, with its gloss as the cue. One word-order drill per set.
-- **Feedback.** Stepped: a first miss shows the drill's hint for that answer (a near miss such as *prenduto* gets "prendere has an irregular participle"), or a generic one ("Check the ending."), and allows one more try; a second miss shows the sentence and the rule. "Show a hint" before answering, when the drill has one, and "Show answer" at any time. An answer that differs only in accents is accepted with "Watch the accent". No scores, lives or streaks.
-- **Summary.** Each drill with First try / After a hint / Answer shown, then one Remember button per topic that needed help: a Grammar card (`grammar|<topicID>`) shown in the drill's sentence with the gap highlighted. "Practise again" reruns the set.
-- **German.** German texts use their own recipes (`tools/maestro_content/drills_de.py`): haben or sein, the participle, the verb form, the article in the case its phrase needs, *im* or *ins*, and a separable verb's particle. Answers typed with *ae*, *oe*, *ue* or *ss* for *ä*, *ö*, *ü* or *ß* (*haeuser*) count, like a missing accent; an answer that just drops an umlaut doesn't, since it is often another form (*hatte* for *hätte*).
-- **Data.** Drills are generated when packs are built (`tools/maestro_content/drills.py`), from the tokens' form tags, units and agreement, and stored in the text's JSON (section 6.3). Outcomes are not stored or synced; only kept cards are. Drill IDs (`d<n>`) are regenerated on every build, so nothing may depend on them.
-- **Not yet.** Speaking and dictation formats, practice outcomes feeding Remember automatically, drills on texts the learner hasn't opened. German recipes for negation, word order (Verbstellung), reflexive verbs, comparison, adjective endings and time prepositions, and for the würde-Form as a unit: a German text that introduces one of these gets a set on another topic it uses, or none. Futur I has no grammar topic yet, so no text introduces it and its units get no drills.
+- **Where.** The reader's footer, under Questions, offers "Practise this text"; so does the end of the questions. It is optional and never gates anything. A text without drills shows neither.
+- **Plan.** Short (each stage's `core` drills, or its first two) or Full (every drill), and a switch per stage. Both choices sync like the other preferences (`sessionShort`, `sessionOff`), and a stage the text has nothing for isn't listed.
+- **Stages,** in this order: Questions (the comprehension questions, section 3.7), Words (up to six new words: their sense in context, matching to English, recall from an English cue, dictation), Grammar (the point the text introduces, then up to two earlier points marked Review), Verbs (find the verbs of a tense, fill a tense's row, switch the person, recall the infinitive), Say it (dialogue texts: pick or type what to say for a communicative function, then a role-play), Review (up to three drills from earlier texts whose latest outcome needed help; never a role-play). Each stage opens with a short intro: the Grammar stage's shows the point's summary and the text's sentences that carry it.
+- **Grammar comes first.** No drill on the introduced point comes before its intro. Such a drill in the Words stage moves to Verbs, and when Grammar is switched off, the first stage that drills the point opens with the point's intro instead.
+- **Formats.** `choice` (2 to 4 options, keys 1 to 4 on a keyboard; English options for meanings), `gap` (typed, with accent keys à è é ì ò ù), `listen` (hear a word and type it, with a slower replay), `match` (2 to 4 pairs), `build` (word tiles in order, one distractor at most), `find` (tap every token of a kind in a few lines), `row` (type the missing cells of a tense's row), `say` (an open answer to an English cue), `roleplay` (the learner takes one speaker's turns, picking a reply chip or typing one, with the turns' goals ticked off). Options appear in a seeded shuffle (FNV-1a 64 + SplitMix64 over text, drill and round) of an order the build makes independent of the answer. Word tiles and match pairs are given in answer order, so they never appear in that order.
+- **Grammar recipes.** Compound tenses: pick avere or essere; type the participle; pick the agreement ending after essere; match verbs to participles. Simple tenses: pick or type the form, with the infinitive and person as the cue. Articles and articulated prepositions: pick from the same family (il lo la l', al allo alla all'…). Hand-marked units with a topic (si impersonale, pronouns, future in the past): type the unit, with its gloss as the cue. One word-order drill per set. A set needs at least three grammar drills, or the stage is left out.
+- **Open answers.** Sentences tagged `@fn <function>` feed Say it; `@accept <pattern>` adds accepted answers, with `(optional)` words and `{a|b}` choices, nestable. Functions come from `content/<lang>/functions.yaml`: for Italian the Profilo della lingua italiana's functions, A1 to B1. Their IDs are frozen once shipped. A role-play's wrong chips come from the opposite kind of turn (a price for a greeting), never from formulas that fit any turn.
+- **Feedback.** Stepped: a first miss shows the drill's hint for that answer (a near miss such as *prenduto* gets "prendere has an irregular participle"), or a generic one ("Check the ending.", "There's one more."), and allows one more try; a second miss shows the answer and the rule. "Show a hint" before answering, when the drill has one, and "Show answer" at any time. A role-play's second miss shows the text's line and the conversation goes on. An answer that differs only in accents is accepted with "Watch the accent". Open answers show other ways to say it. No scores, lives or streaks.
+- **Wrap-up.** What to keep in Remember, each in the sentence it came from: a Grammar card for a point that needed help, a Word card for a new word, a Verb form card for a verb form. Then each stage's first tries, the drills that needed help (First try / After a hint / Answer shown) and the time taken. "Practise again" reruns the session.
+- **German.** German texts use their own grammar recipes (`tools/maestro_content/drills_de.py`): haben or sein, the participle, the verb form, the article in the case its phrase needs, *im* or *ins*, and a separable verb's particle. Answers typed with *ae*, *oe*, *ue* or *ss* for *ä*, *ö*, *ü* or *ß* (*haeuser*) count, like a missing accent; an answer that just drops an umlaut doesn't, since it is often another form (*hatte* for *hätte*).
+- **Data.** Drills are generated when packs are built (`tools/maestro_content/drills.py` and `strands.py`), from the tokens' form tags, units and agreement, the frequency list and the function tags, and stored in the text's JSON (section 6.3). Each drill has a stable `key`, a hash of its text, recipe and content, so Review finds it again after a rebuild; drill IDs (`d<n>`) are regenerated on every build, so nothing may depend on them. Each drill's outcome is stored in `DrillLog` (section 5.1) for Review.
+- **Not yet.** Phrase cards from Say it (needs the Phrase kind, 3.4, and its CloudKit record), reading numbers and prices aloud, speaking (speech recognition), practice outcomes feeding Remember automatically, drills on texts the learner hasn't opened. German recipes for negation, word order (Verbstellung), reflexive verbs, comparison, adjective endings and time prepositions, and for the würde-Form as a unit: a German text that introduces one of these gets a set on another topic it uses, or none. Futur I has no grammar topic yet, so no text introduces it and its units get no drills.
 
 ## 4. Screen inventory (mocks)
 
@@ -153,6 +156,7 @@ Decided 2026-11-02, from a mock of text → drills. The reader stays clean; prac
 | Settings | iPhone | Settings.dc.html |
 | Reader with popover help | iPad | iPadReader.dc.html |
 | Practice after a text (intro, drills, summary) | iPhone | Text drills mock: https://claude.ai/artifact/6KZ1DhjeUgSCZCMzLpnihQ |
+| Session after a text (plan, stages, role-play, wrap-up) | iPhone | Session mock: https://claude.ai/artifact/6kALag6nSurdFnWaBizgXA; a full text, Bologna: https://claude.ai/artifact/K2kYHeto19doGsChioPvGu |
 | Library | Mac | MacLibrary.dc.html |
 | Reader with inspector | Mac | Mac.dc.html |
 | Dictionary and full verb table | Mac | MacDictionary.dc.html |
@@ -253,7 +257,25 @@ Only facts sync: what the learner kept and every review they did. The FSRS sched
 
 `ScheduleState` mirrors SRSKit's `Schedule` (FSRS-6, written in-house rather than taken from a package so replay stays deterministic and Linux-testable).
 
-Preferences (level, text size, new items per day, reminder) and the FSRS parameters go in `NSUbiquitousKeyValueStore`.
+A session's drill outcomes (section 3.9) go in the local store too, for now:
+
+```swift
+@Model final class DrillLog {           // append-only
+    var id: UUID = UUID()
+    var textID: String = ""
+    var drillKey: String = ""           // the drill's stable key, never its d<n> ID
+    var strand: String = ""             // words, grammar, verbs, say
+    var outcome: String = ""            // firstTry, afterHint, shown
+    var at: Date = Date.now
+    var tzOffsetMinutes: Int = 0
+    var deviceID: String = ""
+    var language: String = "it"
+}
+```
+
+`DrillLog` follows the synced models' rules, so it can move to the synced store once its record type is deployed to CloudKit's Production schema. Until then each device has its own Review stage.
+
+Preferences (level, text size, new items per day, reminder, session length and the stages switched off) and the FSRS parameters go in `NSUbiquitousKeyValueStore`.
 
 **Known words** are derived, not stored. A lemma counts as known if any of these hold: it is in the core vocabulary of a level below the learner's (needs the frequency or core list, section 9); it has an active Word or Verb form card; it appears in at least two texts the learner finished. Known % uses the bundled catalog (section 6.3), so it works for texts not yet downloaded. If placement lands in v1, it adds a small `LemmaMark` model.
 
@@ -316,7 +338,7 @@ The database built from Wiktionary and Morph-it! must be offered under CC BY-SA;
 - Free text on a token is limited to `gloss` (meaning in this context) and `note` (a remark for the learner).
 - **Units** (`units[]`) cover multi-token forms and phrases: `tokens` are 0-based token indices and need not be adjacent (*non l'**ho** mai **visto***). A token belongs to at most one unit; tapping any token in a unit opens the unit's help.
 - Each sentence has an English translation. Each text has questions with `optionsEN` for the English toggle and `answerSentences` (one or more sentence IDs).
-- Each text has `drills` (section 3.9), written by the build: `id` (`d<n>`), `kind` (`choice`, `gap`, `match`, `build`; the app skips kinds it doesn't know), `recipe`, `topic`, `sentence`, `prompt`, and per kind `before`/`after`/`r` (the gap and its UTF-16 range in the sentence), `cue`, `options`, `answers`, `near` (wrong answers keyed by their folded form, each with a hint), `hint`, `rule`, `pairs`, `tiles`, `distractors`, `translation` and `recycled`. The build fails when a gap doesn't rebuild its sentence, an answer is missing from the options, or a build drill's answer doesn't use exactly its tiles.
+- Each text has `drills` (section 3.9), written by the build: `id` (`d<n>`), `key` (stable across builds), `strand` (`words`, `grammar`, `verbs`, `say`), `core` (kept in a Short session), `kind` (`choice`, `gap`, `listen`, `match`, `build`, `find`, `row`, `say`, `roleplay`; the app skips kinds it doesn't know), `recipe`, `topic`, `sentence`, `prompt`, and per kind `before`/`after`/`r` (the gap and its UTF-16 range in the sentence), `focus` (the word to look at when there's no gap), `cue`, `options`, `optionLang`, `answers`, `accept` (open-answer patterns), `also` (other ways to say it), `near` (wrong answers keyed by their folded form, each with a hint), `hint`, `rule`, `pairs`, `tiles`, `distractors`, `translation`, `recycled`, `lemma`, `function`, `label`, `speak`, `sentences` and `targets` (a find drill's lines and tokens), `cells` and `tense` (a row), and `speaker`, `other`, `goals` and `turns` (a role-play). Texts also list their `newWords`, `verbs` and `functions` for the stage intros. The build fails when a gap doesn't rebuild its sentence, an answer is missing from the options, a build drill's answer doesn't use exactly its tiles, two drills share a key, or a sentence's `@fn` names an unknown function.
 - Manifest: `formatVersion` (schema version, separate from the pack's content `version`), `minContentDB` (lowest content DB that resolves the pack's IDs), and per text its lemma set so a pack newer than the app can still be ranked.
 - Each app release bundles a catalog (`catalog_text`, `text_lemma`) of every text, downloaded or not, for library ranking, "Good fit" and Known %.
 - Pack builds fail when an ID doesn't resolve, a range doesn't match, text isn't NFC, or units overlap.
