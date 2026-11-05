@@ -77,8 +77,14 @@ struct SessionSummaryView: View {
 
     private func lead(keep: [KeepEntry]) -> String {
         let time = minutes == 1 ? "about a minute" : "about \(minutes) minutes"
-        let base = all.isEmpty ? "You answered the questions, in \(time)."
-            : "\(firstTries(all)) of \(all.count) on the first try, in \(time)."
+        let base: String
+        if !all.isEmpty {
+            base = "\(firstTries(all)) of \(all.count) on the first try, in \(time)."
+        } else if stages.contains(where: { $0.kind == .questions }) {
+            base = "You answered the questions, in \(time)."
+        } else {
+            base = "You read the text, in \(time)."
+        }
         return keep.isEmpty ? base : base + " Keep what you needed help with, and it comes back in Remember."
     }
 
