@@ -60,7 +60,7 @@ public struct ReadingText: Codable, Sendable, Hashable, Identifiable {
     public var practice: [Drill] { (drills ?? []).filter { $0.format != nil } }
 
     /// A drill by its stable key.
-    public func drill(key: String) -> Drill? { drills?.first { $0.stableKey == key } }
+    public func drill(key: String) -> Drill? { drills?.first { $0.key == key } }
 
     public func sentence(_ id: String) -> Sentence? { sentences.first { $0.id == id } }
 

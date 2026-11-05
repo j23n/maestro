@@ -85,7 +85,7 @@ public struct SessionStage: Sendable, Hashable, Identifiable {
 ///
 /// Order: Questions, Words, Grammar, Verbs, Say it, Review. A drill on a form of the topic the text
 /// introduces never comes before that topic's intro: such a drill in an earlier stage moves to the
-/// Verbs stage, and when Grammar is off, the first stage after it that drills the topic opens with the
+/// Verbs stage (or is left out when Verbs is off), and when Grammar is off, the first stage after it that drills the topic opens with the
 /// intro instead.
 public enum SessionBuilder {
     public static let reviewLimit = 3
@@ -116,7 +116,7 @@ public enum SessionBuilder {
         if !moved.isEmpty {
             if let v = plan.firstIndex(where: { $0.0 == .verbs }) {
                 plan[v].1 = moved + plan[v].1
-            } else {
+            } else if settings.strands.contains(.verbs) {
                 plan.insert((.verbs, moved), at: grammarAt.map { $0 + 1 } ?? cut)
             }
         }
@@ -190,7 +190,9 @@ public enum ReviewPicker {
     }
 
     /// Whether a drill can come back in Review: a role-play is too long to.
+    /// A drill without a stable `key` (from a pack built before keys) can't either: its `d<n>` ID may
+    /// name another drill after a rebuild.
     public static func canReview(_ drill: Drill) -> Bool {
-        drill.format != nil && drill.format != .roleplay
+        drill.key != nil && drill.format != nil && drill.format != .roleplay
     }
 }

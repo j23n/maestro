@@ -64,6 +64,17 @@ private func drill(_ id: String, _ strand: Strand, topic: String = "x", core: Bo
         #expect(stages.allSatisfy { !$0.introducesGrammar })
     }
 
+    @Test func aMovedDrillIsLeftOutWhenVerbsIsOff() {
+        let mixed = [drill("w1", .words, topic: "words"), drill("w2", .words, topic: "futuro-semplice"),
+                     drill("g1", .grammar, topic: "futuro-semplice")]
+        var settings = SessionSettings()
+        settings.strands = [.words, .grammar]
+        let stages = SessionBuilder.stages(textID: "t", drills: mixed, hasQuestions: false,
+                                           introduces: ["futuro-semplice"], settings: settings)
+        #expect(stages.map(\.kind) == [.words, .grammar])
+        #expect(stages.flatMap(\.drills).map(\.drill.id) == ["w1", "g1"])
+    }
+
     @Test func withoutGrammarTheFirstStageOnTheTopicIntroducesIt() {
         var settings = SessionSettings()
         settings.strands = [.words, .verbs, .say]
@@ -120,6 +131,13 @@ private func drill(_ id: String, _ strand: Strand, topic: String = "x", core: Bo
     @Test func atMostThree() {
         let records = (0..<6).map { DrillRecord(textID: "a", drillKey: "k\($0)", outcome: .shown, at: t0.addingTimeInterval(Double($0))) }
         #expect(ReviewPicker.pick(records, excluding: "x").map(\.drillKey) == ["k5", "k4", "k3"])
+    }
+
+    @Test func onlyKeyedDrillsOtherThanRoleplaysComeBack() {
+        #expect(ReviewPicker.canReview(drill("d1", .grammar)))
+        #expect(!ReviewPicker.canReview(drill("d2", .say, kind: "roleplay")))
+        let unkeyed = Drill(id: "d3", kind: "gap", recipe: "form", topic: "imperfetto", sentence: "s1", prompt: "")
+        #expect(!ReviewPicker.canReview(unkeyed))
     }
 }
 

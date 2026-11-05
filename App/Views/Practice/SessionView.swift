@@ -124,6 +124,8 @@ struct SessionView: View {
     private func record(_ item: SessionDrill, _ outcome: Outcome) {
         guard outcomes[item.id] == nil else { return }
         outcomes[item.id] = outcome
+        // Only drills with a stable key can be found again for Review.
+        guard item.drill.key != nil else { return }
         RememberStore(context: context, prefs: prefs, content: model.content)
             .recordDrill(textID: item.textID, drill: item.drill, outcome: outcome)
     }
