@@ -4,9 +4,10 @@ import LanguageCore
 import PackKit
 import PracticeKit
 
-/// A session after a text (HANDOFF.md 3.9): a plan, then Questions, Words, Grammar, Verbs, Say it and
-/// Review, each stage with a short intro and its drills, then a wrap-up. Every drill's outcome is kept on
-/// this device (`DrillLog`) so that what needed help comes back in Review. No scores.
+/// A text's session (HANDOFF.md 3.9), which is how the library opens a text: a plan, then the text
+/// itself, then Questions, Words, Grammar, Verbs, Say it and Review, each stage with a short intro and its
+/// drills, then a wrap-up. Every drill's outcome is kept on this device (`DrillLog`) so that what needed
+/// help comes back in Review. No scores.
 struct SessionView: View {
     let textID: String
 
@@ -20,9 +21,13 @@ struct SessionView: View {
     @State private var minutes = 1
     @State private var round = 0
     @State private var review: [SessionDrill]?
+    /// Whether the session opens with the text. On unless the learner switches it off for this session,
+    /// for a text they have just read.
+    @State private var readText = true
 
     enum Step: Hashable {
         case plan
+        case read
         case intro(Int)
         case questions(Int)
         case drill(Int, Int)
@@ -31,10 +36,11 @@ struct SessionView: View {
 
     var body: some View {
         Group {
-            if let text = model.text(textID), !text.practice.isEmpty || !text.questions.isEmpty {
+            if let text = model.text(textID) {
                 content(text)
             } else {
-                EmptyState(title: "No practice for this text", message: "", systemImage: "pencil.and.list.clipboard")
+                EmptyState(title: "Text not available", message: "This text isn't in the packs on this device.",
+                           systemImage: "doc.questionmark")
             }
         }
         .background(Theme.background)
@@ -50,12 +56,15 @@ struct SessionView: View {
     @ViewBuilder private func content(_ text: ReadingText) -> some View {
         switch step {
         case .plan:
-            SessionPlanView(text: text, review: review ?? [], build: { build(text, settings: $0) }) {
+            SessionPlanView(text: text, review: review ?? [], readText: $readText,
+                            build: { build(text, settings: $0) }) {
                 stages = build(text, settings: Self.settings(prefs))
                 outcomes = [:]
                 startedAt = .now
-                begin(0)
+                if readText { step = .read } else { begin(0) }
             }
+        case .read:
+            ReaderView(textID: text.id) { begin(0) }
         case .intro(let s):
             if stages.indices.contains(s) {
                 StageIntroView(text: text, stage: stages[s], introduces: model.introduces(text.id)) {
@@ -146,13 +155,16 @@ struct SessionView: View {
 
 // MARK: Plan
 
-/// What the session holds: Short or Full, and a switch for each stage. The choices are remembered.
+/// The first page of a text: what the session holds. The text itself (on unless switched off for this
+/// session), Short or Full, and a switch for each stage, remembered.
 struct SessionPlanView: View {
     let text: ReadingText
     let review: [SessionDrill]
+    @Binding var readText: Bool
     let build: (SessionSettings) -> [SessionStage]
     let start: () -> Void
 
+    @Environment(AppModel.self) private var model
     @Environment(Preferences.self) private var prefs
 
     var body: some View {
@@ -162,22 +174,30 @@ struct SessionPlanView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 VStack(alignment: .leading, spacing: 6) {
-                    LevelTag(level: text.level)
-                    Text("Practise this text").font(.system(size: 26, weight: .bold))
-                    Text(target: text.title).font(.system(.body, design: .serif)).foregroundStyle(.secondary)
+                    Text(target: text.title).font(.system(size: 28, weight: .bold, design: .serif))
+                    HStack(spacing: 6) {
+                        LevelTag(level: text.level)
+                        Text("\(model.library.entry(for: text.id)?.pack.manifest.title ?? text.collection) · \(text.wordCount) words")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
                 }
-                Picker("Length", selection: Binding(get: { prefs.sessionShort }, set: { prefs.sessionShort = $0 })) {
-                    Text("Short").tag(true)
-                    Text("Full").tag(false)
+                if !counts.isEmpty {
+                    Picker("Length", selection: Binding(get: { prefs.sessionShort }, set: { prefs.sessionShort = $0 })) {
+                        Text("Short").tag(true)
+                        Text("Full").tag(false)
+                    }
+                    .pickerStyle(.segmented)
+                    .accessibilityIdentifier("session.length")
+                    Text(prefs.sessionShort ? "The core drills of each stage, a few minutes."
+                         : "Every drill the text has.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
-                .pickerStyle(.segmented)
-                .accessibilityIdentifier("session.length")
-                Text(prefs.sessionShort ? "The core drills of each stage, a few minutes."
-                     : "Every drill the text has.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
                 SectionLabel("Stages")
                 VStack(spacing: 0) {
+                    readRow
+                    Divider()
                     ForEach(StageKind.allCases) { kind in
                         if let count = stageCount(kind, counts: counts) {
                             stageRow(kind, count: count)
@@ -196,7 +216,7 @@ struct SessionPlanView: View {
             }
             .buttonStyle(PrimaryButtonStyle())
             .keyboardShortcut(.defaultAction)
-            .disabled(planned.isEmpty)
+            .disabled(planned.isEmpty && !readText)
             .accessibilityIdentifier("practice.start")
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
@@ -204,6 +224,22 @@ struct SessionPlanView: View {
             .frame(maxWidth: .infinity)
             .background(Theme.background)
         }
+    }
+
+    /// The text itself. Its switch holds for this session only: the next one opens with the text again.
+    private var readRow: some View {
+        Toggle(isOn: $readText) {
+            VStack(alignment: .leading, spacing: 3) {
+                HStack(spacing: 8) {
+                    Tag(text: "Read", colors: Theme.stage(.questions))
+                    Text("\(text.wordCount) words").font(.footnote.monospacedDigit()).foregroundStyle(.secondary)
+                }
+                Text("The text, with help on any word you tap.").font(.subheadline).foregroundStyle(.secondary)
+            }
+        }
+        .frame(minHeight: 56)
+        .padding(.vertical, 4)
+        .accessibilityIdentifier("session.stage.read")
     }
 
     /// What a stage row says it holds, or nil when the text has nothing for the stage.
@@ -413,10 +449,4 @@ enum PracticeText {
         a.languageIdentifier = TargetLanguage.current.bcp47
         return a
     }
-}
-
-/// Where the reader and the questions offer a session.
-enum PracticeEntry {
-    /// Whether a text has drills to practise.
-    static func hasPractice(_ text: ReadingText) -> Bool { !text.practice.isEmpty }
 }

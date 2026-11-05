@@ -60,7 +60,7 @@ struct SessionSummaryView: View {
                 }
             }
             Section {
-                Button("Back to the text") { dismiss() }
+                Button("Done") { dismiss() }
                     .buttonStyle(PrimaryButtonStyle())
                     .accessibilityIdentifier("practice.done")
                 Button("Practise again", action: again)

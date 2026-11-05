@@ -45,7 +45,7 @@ struct QuestionsView: View {
                             .font(.headline)
                     }
                 }
-                if !inSession && PracticeEntry.hasPractice(text) {
+                if !inSession {
                     Section {
                         NavigationLink(value: Route.practice(text.id)) {
                             Label("Practise this text", systemImage: "pencil.and.list.clipboard")
