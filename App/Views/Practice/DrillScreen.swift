@@ -67,9 +67,13 @@ struct DrillScreen: View {
         }
         .safeAreaInset(edge: .bottom) { actions }
         .onAppear {
-            if [.gap, .listen, .say].contains(drill.format) { fieldFocused = true }
+            if isFormat(.gap, .listen, .say) { fieldFocused = true }
             if drill.format == .listen, let word = drill.speak { model.speech.say(word) }
         }
+    }
+
+    private func isFormat(_ formats: DrillFormat...) -> Bool {
+        drill.format.map { formats.contains($0) } ?? false
     }
 
     private var isDone: Bool { drill.format == .roleplay ? roleplayDone != nil : feedback.isDone }
@@ -90,10 +94,15 @@ struct DrillScreen: View {
     /// The topic, verb or function the drill is about, beside the stage tag.
     private var tagDetail: String? {
         switch drill.strandKind {
-        case .grammar: (drill.isRecycled ? "Review: " : "") + model.grammarTitle(drill.topic)
-        case .verbs: drill.lemma.map(LemmaID.headword(of:))
-        case .words: nil
-        case .say: drill.label ?? text.functions?.first { $0.id == drill.function }?.name
+        case .grammar:
+            return (drill.isRecycled ? "Review: " : "") + model.grammarTitle(drill.topic)
+        case .verbs:
+            return drill.lemma.map { LemmaID.headword(of: $0) }
+        case .words:
+            return nil
+        case .say:
+            if let label = drill.label { return label }
+            return text.functions?.first(where: { $0.id == drill.function })?.name
         }
     }
 
@@ -510,7 +519,7 @@ struct DrillScreen: View {
                     .keyboardShortcut(.defaultAction)
                     .accessibilityIdentifier("practice.continue")
             } else {
-                if [.gap, .listen, .say, .build, .find, .row].contains(drill.format) {
+                if isFormat(.gap, .listen, .say, .build, .find, .row) {
                     Button("Check", action: check)
                         .buttonStyle(PrimaryButtonStyle())
                         .keyboardShortcut(.defaultAction)
@@ -641,7 +650,7 @@ struct DrillScreen: View {
                     } else {
                         Text(target: detail).font(.system(.body, design: .serif))
                     }
-                    if let rule = drill.rule, ![.build, .find, .row, .say].contains(drill.format) {
+                    if let rule = drill.rule, !isFormat(.build, .find, .row, .say) {
                         Text(markdown: rule).font(.callout)
                     }
                 } else {
