@@ -17,12 +17,15 @@ Recipes, by what the sentence holds:
     order        the sentence's words in order                   (build)
 
 The first drills practise the topic the text introduces; up to two bring back an earlier topic the
-text also uses (`recycled`).
+text also uses (`recycled`). These make the session's Grammar strand; strands.py adds the find drill
+and the Words, Verbs and Say it strands. Every drill carries its `strand`, `core` (in a Short
+session) and `key`, a hash of what it asks that stays the same from build to build.
 """
 
 from __future__ import annotations
 
 import hashlib
+import json
 import sqlite3
 import sys
 from dataclasses import dataclass, field
@@ -92,6 +95,7 @@ MIN_DRILLS = 3
 MAX_DRILLS = 8
 MAIN_DRILLS = 6  # drills of the text's own topic, including its match and build drills
 RECYCLED_DRILLS = 2
+CORE_GRAMMAR = 3  # main-topic drills in a Short session, after the find drill
 PER_RECIPE = 3
 BUILD_WORDS = (4, 9)
 
@@ -536,10 +540,18 @@ def _pick(pool: list[Candidate], limit: int, used: set[str], seed: int, allow_re
 
 
 def generate(text: dict, introduces: list[str], topics: dict[str, TopicInfo],
-             conn: sqlite3.Connection | None = None) -> list[dict]:
-    """The practice set for one built text, or [] when it can't fill a set.
+             conn: sqlite3.Connection | None = None, known_rank: int | None = None,
+             inventory: dict | None = None) -> list[dict]:
+    """The session's drills for one built text, every strand, or [] when it has none.
+
+    The grammar strand needs at least MIN_DRILLS drills or has none. `known_rank` is the frequency rank
+    the text's level knows (its curriculum plan), which decides the new words; `inventory` is the
+    language's functions (functions.py) for Say it. Also writes the strands' intros into the text:
+    `newWords`, `verbs` and `functions`.
 
     A German text (its ID starts with de:) takes its recipes from drills_de."""
+    from . import strands
+
     forms = Forms(conn)
     if text["id"].startswith("de:"):
         from . import drills_de as recipes
@@ -553,8 +565,6 @@ def generate(text: dict, introduces: list[str], topics: dict[str, TopicInfo],
     if not main:
         fitting = [t for t in present if level_rank.get(topics[t].level, 9) <= text_rank]
         main = sorted(fitting, key=lambda t: -topics[t].order)[:1]
-    if not main:
-        return []
     seed = _seed(text["id"])
     used: set[str] = set()
     chosen: list[tuple[Candidate, bool]] = []
@@ -583,7 +593,7 @@ def generate(text: dict, introduces: list[str], topics: dict[str, TopicInfo],
         chosen += [(c, False) for c in picked]
         chosen += [(c, False) for c in extras]
 
-    main_order = max(topics[t].order for t in main)
+    main_order = max((topics[t].order for t in main), default=-1)
     earlier = sorted({c.topic for c in pool if c.topic not in main and topics[c.topic].order < main_order},
                      key=lambda t: (-topics[t].order, t))
     recycled: list[Candidate] = []
@@ -595,44 +605,119 @@ def generate(text: dict, introduces: list[str], topics: dict[str, TopicInfo],
     chosen += [(c, True) for c in recycled]
 
     if len(chosen) < MIN_DRILLS:
-        return []
+        chosen = []
+    find = None
+    if chosen and main:
+        find = strands.find_forms(text, main[0], topics[main[0]].title, recipes)
+
+    grammar: list[tuple[Candidate, dict]] = []
+    if find:
+        grammar.append((find, {"core": True}))
+    core_left = CORE_GRAMMAR
+    for c, is_recycled in chosen:
+        extra = {"recycled": True} if is_recycled else {}
+        if not is_recycled and core_left:
+            extra["core"] = True
+            core_left -= 1
+        grammar.append((c, extra))
+
+    lex = strands.Lexicon(conn)
+    words = strands.new_words(text, lex, known_rank)
+    word_drills = strands.words_strand(text, words, lex)[:strands.LIMITS["words"]]
+    verb_drills, verbs = strands.verbs_strand(text, recipes, forms, introduces, topics)
+    say_drills, functions = strands.say_strand(text, inventory or {})
+    plan = grammar + _strand(word_drills, "words") + _strand(verb_drills[:strands.LIMITS["verbs"]], "verbs") \
+        + _strand(say_drills[:strands.LIMITS["say"]], "say")
+    for key, value in (("newWords", words), ("verbs", verbs), ("functions", functions)):
+        if value and plan:
+            text[key] = value
+    for _, s in (x for b in text["blocks"] for x in [(b, s) for s in b["sentences"]]):
+        s.pop("accept", None)  # read by the Say it recipes; not part of the pack
+
     drills = []
-    for n, (c, is_recycled) in enumerate(chosen, start=1):
-        d = {"id": f"d{n}", "kind": c.drill["kind"], "recipe": c.recipe, "topic": c.topic, "sentence": c.sentence}
+    keys: set[str] = set()
+    for n, (c, extra) in enumerate(plan, start=1):
+        d = {"id": f"d{n}", "kind": c.drill["kind"], "recipe": c.recipe, "topic": c.topic, "sentence": c.sentence,
+             "strand": extra.pop("strand", "grammar")}
         for key, value in c.drill.items():
             if key in ("kind", "surface") or value is None or value == {} and key == "near":
                 continue
             d[key] = value
-        if is_recycled:
-            d["recycled"] = True
+        d.update(extra)
+        d["key"] = drill_hash(text["id"], d, keys)
         drills.append(d)
     return drills
 
 
+def _strand(cands: list[Candidate], strand: str) -> list[tuple[Candidate, dict]]:
+    """A strand's drills, its first few marked for the Short session; a role-play always is."""
+    from . import strands
+
+    out = []
+    for n, c in enumerate(cands):
+        extra = {"strand": strand}
+        if n < strands.CORE or c.recipe == "roleplay":
+            extra["core"] = True
+        out.append((c, extra))
+    return out
+
+
+def drill_hash(text_id: str, drill: dict, taken: set[str]) -> str:
+    """A drill's stable key: its text, recipe, sentence and what it asks, hashed. Unlike `id`, it stays
+    the same when other drills of the text come and go, so stored outcomes can find the drill again."""
+    target = drill.get("r") or drill.get("focus") or drill.get("answers") or drill.get("pairs") \
+        or drill.get("targets") or drill.get("cells") or drill.get("turns")
+    basis = json.dumps([text_id, drill["recipe"], drill["sentence"], target], ensure_ascii=False, sort_keys=True)
+    key = hashlib.sha256(basis.encode()).hexdigest()[:12]
+    n = 1
+    while key in taken:
+        n += 1
+        key = hashlib.sha256(f"{basis}#{n}".encode()).hexdigest()[:12]
+    taken.add(key)
+    return key
+
+
+STRANDS = ("grammar", "words", "verbs", "say")
+
+
 def validate(text: dict, drills: list[dict]) -> list[str]:
     """Errors that fail the build: every drill must point into its text and be answerable."""
+    from . import strands
+
     errors = []
-    if len(drills) > MAX_DRILLS:
-        errors.append(f"{text['id']}: {len(drills)} drills, more than {MAX_DRILLS}")
+    grammar = [d for d in drills if d.get("strand", "grammar") == "grammar" and d["kind"] != "find"]
+    keys = [d.get("key", d["id"]) for d in drills]
+    if len(grammar) > MAX_DRILLS:
+        errors.append(f"{text['id']}: {len(grammar)} grammar drills, more than {MAX_DRILLS}")
+    if len(set(keys)) != len(keys):
+        errors.append(f"{text['id']}: two drills share a key")
     sentences = {s["id"]: s for b in text["blocks"] for s in b["sentences"]}
     for d in drills:
         where = f"{text['id']} {d['id']}"
         if d["sentence"] not in sentences:
             errors.append(f"{where}: sentence {d['sentence']} not in text")
             continue
+        if d.get("strand", "grammar") not in STRANDS:
+            errors.append(f"{where}: unknown strand {d.get('strand')!r}")
         s = sentences[d["sentence"]]
-        if d["kind"] in ("choice", "gap"):
+        key_of = d.get("lemma") or d.get("topic", "")
+        if d["kind"] in ("choice", "gap", "listen") and "r" in d:
             start, length = d["r"]
             if d["before"] + utf16_slice(s["text"], start, length) + d["after"] != s["text"]:
                 errors.append(f"{where}: gap does not rebuild the sentence")
             if utf16_slice(s["text"], start, length) not in d["answers"]:
                 errors.append(f"{where}: the sentence's own words are not an accepted answer")
+        if d["kind"] in ("choice", "gap") and "r" not in d and "focus" not in d:
+            errors.append(f"{where}: neither a gap nor a word to look at")
+        if "focus" in d and utf16_len(s["text"]) < sum(d["focus"]):
+            errors.append(f"{where}: focus outside the sentence")
         if d["kind"] == "choice" and not set(d["answers"]) <= set(d["options"]):
             errors.append(f"{where}: answer missing from options")
-        if d["kind"] == "choice" and len({drill_key(o, d["topic"]) for o in d["options"]}) != len(d["options"]):
+        if d["kind"] == "choice" and len({drill_key(o, key_of) for o in d["options"]}) != len(d["options"]):
             errors.append(f"{where}: duplicate options")
         if d["kind"] == "build" and sorted(d["answers"][0].split(" ")) != sorted(d["tiles"]):
             errors.append(f"{where}: answer doesn't use exactly the tiles")
         if d["kind"] == "match" and len(d["pairs"]) < 2:
             errors.append(f"{where}: fewer than two pairs")
+        errors += strands.validate(text, d)
     return errors

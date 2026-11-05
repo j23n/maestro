@@ -35,6 +35,11 @@ Il nonno ha mangiato con noi. || Grandpa ate with us.
 """
 
 
+def grammar_drills(ds):
+    """The grammar strand's recipe drills, without its find drill."""
+    return [d for d in ds if d.get("strand", "grammar") == "grammar" and d["kind"] != "find"]
+
+
 def built(db, tmp_path, source=SOURCE):
     src_dir = tmp_path / "texts"
     src_dir.mkdir(exist_ok=True)
@@ -49,7 +54,7 @@ def test_compound_tense_drills_come_from_the_text(db, tmp_path):
     text = built(db, tmp_path)
     ds = text["drills"]
     assert ds and [d["id"] for d in ds] == [f"d{n}" for n in range(1, len(ds) + 1)]
-    main = [d for d in ds if not d.get("recycled")]
+    main = [d for d in grammar_drills(ds) if not d.get("recycled")]
     assert {d["topic"] for d in main} == {"passato-prossimo"}
     aux = next(d for d in ds if d["recipe"] == "aux")
     assert len(aux["options"]) == 2 and set(aux["answers"]) <= set(aux["options"])
@@ -198,7 +203,7 @@ Abbiamo dato un libro ai bambini. || We gave the children a book.
 def test_a_busy_text_still_gets_at_most_eight_drills(db, tmp_path):
     text = built(db, tmp_path, BUSY)
     ds = text["drills"]
-    assert drills.MIN_DRILLS <= len(ds) <= drills.MAX_DRILLS
+    assert drills.MIN_DRILLS <= len(grammar_drills(ds)) <= drills.MAX_DRILLS
     assert drills.validate(text, ds) == []
     assert drills.validate(text, ds * 2)[0].endswith(f"more than {drills.MAX_DRILLS}")
 

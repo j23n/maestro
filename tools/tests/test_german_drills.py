@@ -52,12 +52,12 @@ def sentence(text, n):
 
 def test_a_perfekt_text_gets_a_perfekt_set(built):
     _, text = built
-    set_ = text["drills"]
+    set_ = [d for d in text["drills"] if d["strand"] == "grammar" and d["kind"] != "find"]
     assert 3 <= len(set_) <= drills.MAX_DRILLS
     main = [d for d in set_ if not d.get("recycled")]
     assert {d["topic"] for d in main} == {"de:perfekt"}
     assert {"aux", "participle", "participles", "order"} <= {d["recipe"] for d in main}
-    assert drills.validate(text, set_) == []
+    assert drills.validate(text, text["drills"]) == []
 
 
 def test_aux_offers_haben_first(built):

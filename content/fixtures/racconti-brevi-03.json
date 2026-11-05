@@ -445,7 +445,10 @@
         "andata": "With essere, the participle agrees with the subject.",
         "andate": "With essere, the participle agrees with the subject."
       },
-      "rule": "With essere, the participle agrees with the subject (masculine plural)."
+      "rule": "With essere, the participle agrees with the subject (masculine plural).",
+      "strand": "grammar",
+      "core": true,
+      "key": "81841cb2c519"
     },
     {
       "id": "d2",
@@ -471,7 +474,10 @@
       "near": {
         "avremmo": "andare takes essere."
       },
-      "rule": "andare takes essere: saremmo andati."
+      "rule": "andare takes essere: saremmo andati.",
+      "strand": "grammar",
+      "core": true,
+      "key": "69d110b61e89"
     },
     {
       "id": "d3",
@@ -490,7 +496,10 @@
       "answers": [
         "saremmo andati"
       ],
-      "rule": "Future in the past: after a past verb (decise che), Italian uses the condizionale passato where English says \"would\"."
+      "rule": "Future in the past: after a past verb (decise che), Italian uses the condizionale passato where English says \"would\".",
+      "strand": "grammar",
+      "core": true,
+      "key": "94803dc0f825"
     },
     {
       "id": "d4",
@@ -510,7 +519,9 @@
         "andavamo"
       ],
       "rule": "andare, imperfetto, noi → andavamo.",
-      "recycled": true
+      "recycled": true,
+      "strand": "grammar",
+      "key": "0635703c5a97"
     }
   ]
 }
