@@ -63,8 +63,11 @@ struct SessionSummaryView: View {
                 Button("Done") { dismiss() }
                     .buttonStyle(PrimaryButtonStyle())
                     .accessibilityIdentifier("practice.done")
-                Button("Practise again", action: again)
-                    .buttonStyle(SecondaryButtonStyle())
+                // After a session of the text alone there is nothing to practise again.
+                if !stages.isEmpty {
+                    Button("Practise again", action: again)
+                        .buttonStyle(SecondaryButtonStyle())
+                }
             }
             .listRowSeparator(.hidden)
         }
