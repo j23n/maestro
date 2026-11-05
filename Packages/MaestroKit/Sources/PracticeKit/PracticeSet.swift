@@ -1,4 +1,5 @@
 import Foundation
+import LanguageCore
 import PackKit
 
 /// Seeded shuffles, so options and tiles appear in the same order on every device and every time:

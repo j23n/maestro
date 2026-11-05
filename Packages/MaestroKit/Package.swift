@@ -32,7 +32,7 @@ let package = Package(
         .testTarget(name: "PackKitTests", dependencies: ["PackKit", "LanguageCore"], resources: [.copy("Fixtures")]),
         .testTarget(name: "SRSKitTests", dependencies: ["SRSKit"]),
         .testTarget(name: "SyncLogicTests", dependencies: ["SyncLogic", "LanguageCore"]),
-        .testTarget(name: "PracticeKitTests", dependencies: ["PracticeKit", "PackKit"]),
+        .testTarget(name: "PracticeKitTests", dependencies: ["PracticeKit", "PackKit", "LanguageCore"]),
     ],
     swiftLanguageModes: [.v6]
 )
