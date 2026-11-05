@@ -46,7 +46,7 @@ German comes next, in the same app, as a second target language (section 5.3). E
   - A short "why this form" note when there is a grammar point (e.g. "future in the past: condizionale passato after a past verb, where English says *would*").
   - **Remember** rows, one per item that can be kept: Word (`andare`, to go), Verb form (`saremmo andati`, cond. passato, noi), Grammar (`Future in the past`). Each toggles Remember / Added.
   - Links: open the verb page, open the dictionary entry.
-- Read aloud and text-size controls in the reader toolbar. Questions are reachable at the end of the text and from the toolbar on iPad/Mac.
+- Read aloud and text-size controls in the reader toolbar. The questions are a session stage after the text (3.9); the end of the text has one button, Continue in a session or "Practise this text" elsewhere.
 
 ### 3.2 Dictionary
 
