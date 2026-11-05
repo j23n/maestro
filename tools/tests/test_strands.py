@@ -125,6 +125,13 @@ def test_verbs_strand_rows_and_switches(db, tmp_path):
     assert switch["answers"] and "before" not in switch
 
 
+def test_text_verbs_carry_form_tags(db, tmp_path):
+    from maestro_content import tags
+    text = built(db, tmp_path, PROSE)
+    assert text["verbs"]
+    assert all(tags.is_valid(v["form"]) for v in text["verbs"])
+
+
 def test_find_drill_marks_every_compound(db, tmp_path):
     text = built(db, tmp_path, PROSE)
     find = next(d for d in text["drills"] if d["kind"] == "find")
@@ -170,6 +177,14 @@ def test_an_unknown_function_fails_the_build(db, tmp_path):
     (src / "test-01.md").write_text(DIALOGUE.replace("@fn invite", "@fn invitare"), encoding="utf-8")
     _, errors = packs.build_all(db, str(src), str(tmp_path / "packs"), "1", topics=[], inventory=INVENTORY)
     assert any("unknown function invitare" in e for e in errors)
+
+
+def test_a_malformed_accept_fails_with_its_place(tmp_path):
+    path = tmp_path / "test-01.md"
+    line = next(l for l in DIALOGUE.splitlines() if l.startswith("@accept"))
+    path.write_text(DIALOGUE.replace(line, "@accept {Volentieri|Con piacere!"), encoding="utf-8")
+    with pytest.raises(packs.PackError, match="test-01.md.*@accept"):
+        packs.parse_source(str(path))
 
 
 def test_no_say_it_without_tags(db, tmp_path):

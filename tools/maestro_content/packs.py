@@ -47,6 +47,7 @@ from dataclasses import dataclass, field
 
 from . import drills as drillgen
 from . import grammar
+from . import patterns
 from .normalize import apostrophes, nfc, utf16_len, utf16_slice
 
 # --- linguistic tables --------------------------------------------------------------------
@@ -280,6 +281,10 @@ def parse_source(path: str, language: str | None = None) -> SourceText:
             elif kind == "accept":
                 if not rest.strip():
                     raise PackError(f"{where}: @accept needs a pattern")
+                try:
+                    patterns.expand(rest.strip())
+                except patterns.PatternError as e:
+                    raise PackError(f"{where}: @accept {rest.strip()!r}: {e}") from None
                 last_sentence.accept.append(rest.strip())
             else:
                 raise PackError(f"{where}: unknown annotation @{kind}")
