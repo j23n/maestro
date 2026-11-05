@@ -178,12 +178,28 @@ private func gap(answers: [String], near: [String: String] = [:], topic: String 
            "near": {"ho": "andare takes essere."}, "rule": "andare takes essere: sono andata."},
           {"id": "d2", "kind": "match", "recipe": "participles", "topic": "passato-prossimo", "sentence": "s2",
            "prompt": "Match each verb to its participle.", "pairs": [["prendere", "preso"], ["dare", "dato"]]},
-          {"id": "d3", "kind": "speak", "recipe": "future", "topic": "x", "sentence": "s1", "prompt": "?"}
-         ]}
+          {"id": "d3", "kind": "speak", "recipe": "future", "topic": "x", "sentence": "s1", "prompt": "?"},
+          {"id": "d4", "kind": "row", "recipe": "tense-row", "topic": "futuro-semplice", "sentence": "s1",
+           "prompt": "Fill in the futuro of portare.", "strand": "verbs", "core": true, "key": "abc123",
+           "focus": [10, 7], "cue": "portare", "tense": "futuro",
+           "cells": [{"p": "1s", "label": "io", "forms": ["porterò"], "given": true},
+                     {"p": "2s", "label": "tu", "forms": ["porterai"], "given": false}]},
+          {"id": "d5", "kind": "find", "recipe": "find-forms", "topic": "futuro-semplice", "sentence": "s1",
+           "prompt": "Tap every word of the futuro semplice.", "strand": "grammar", "key": "def456",
+           "sentences": ["s1", "s2"], "targets": [{"s": "s1", "t": 2}]}
+         ],
+         "newWords": [{"lemmaID": "it:tendone:n", "senseID": "it:tendone:n#ab12", "word": "tendone",
+                       "surface": "tendone", "gloss": "marquee", "pos": "NOUN", "sentence": "s9", "r": [36, 7]}],
+         "functions": [{"id": "invite", "name": "Inviting someone", "label": "invitare"}]}
         """
         let text = try JSONDecoder().decode(ReadingText.self, from: Data(json.utf8))
-        #expect(text.drills?.count == 3)
-        #expect(text.practice.map(\.id) == ["d1", "d2"])
+        #expect(text.drills?.count == 5)
+        #expect(text.practice.map(\.id) == ["d1", "d2", "d4", "d5"])
+        let row = try #require(text.drill(key: "abc123"))
+        #expect(row.format == .row && row.strandKind == .verbs && row.isCore && row.focus?.length == 7)
+        #expect(row.cells?.map(\.given) == [true, false])
+        #expect(text.drill(key: "def456")?.targets == [DrillTarget(s: "s1", t: 2)])
+        #expect(text.newWords?.first?.gloss == "marquee" && text.functions?.first?.id == "invite")
         let first = try #require(text.practice.first)
         #expect(first.format == .choice && first.r?.start == 20 && first.answer == "sono")
         #expect(text.practice[1].pairs?.first == ["prendere", "preso"])

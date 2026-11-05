@@ -38,10 +38,38 @@ public enum DrillGrader {
 
     /// The key a drill's answers and `near` are compared with: German drills keep umlauts.
     public static func key(_ text: String, for drill: Drill) -> String {
-        drill.topic.hasPrefix("de:") ? germanKey(text) : key(text)
+        drill.isGerman ? germanKey(text) : key(text)
     }
 
-    /// A typed answer to a `gap` drill, or a typed version of a `choice` answer.
+    /// A typed answer against any accepted spelling, with the same accent tolerance as a gap.
+    public static func grade(_ answer: String, accepting accepted: [String], german: Bool) -> Grade {
+        let given = normalize(answer)
+        if accepted.contains(where: { normalize($0) == given }) { return .correct }
+        let k: (String) -> String = german ? { germanKey($0) } : { key($0) }
+        if let match = accepted.first(where: { k($0) == k(given) }) { return .accentSlip(expected: match) }
+        return .wrong(hint: genericHint(given, expected: normalize(accepted.first ?? "")))
+    }
+
+    /// One blank cell of a `row` drill.
+    public static func grade(_ answer: String, cell: RowCell, for drill: Drill) -> Grade {
+        if normalize(answer).isEmpty { return .wrong(hint: "Type an answer first.") }
+        return grade(answer, accepting: cell.forms, german: drill.isGerman)
+    }
+
+    /// The tokens picked in a `find` drill, against its targets.
+    public static func grade(selection: Set<DrillTarget>, for drill: Drill) -> Grade {
+        let targets = Set(drill.targets ?? [])
+        if selection == targets { return .correct }
+        let wrong = selection.subtracting(targets).count
+        let missing = targets.subtracting(selection).count
+        if wrong > 0 && missing > 0 {
+            return .wrong(hint: wrong == 1 ? "One of those isn't one, and some are missing." : "Some of those aren't, and some are missing.")
+        }
+        if wrong > 0 { return .wrong(hint: wrong == 1 ? "One of those isn't one." : "\(wrong) of those aren't.") }
+        return .wrong(hint: missing == 1 ? "There's one more." : "There are \(missing) more.")
+    }
+
+    /// A typed answer to a `gap` or `listen` drill, or a typed version of a `choice` answer.
     public static func grade(_ answer: String, for drill: Drill) -> Grade {
         let given = normalize(answer)
         let accepted = drill.answers ?? []
