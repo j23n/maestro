@@ -136,7 +136,7 @@ struct LibraryView: View {
     }
 
     private func row(_ entry: LibraryEntry, known: KnownWordsModel, progress: TextProgress?) -> some View {
-        NavigationLink(value: Route.text(entry.id)) {
+        NavigationLink(value: Route.practice(entry.id)) {
             TextRow(entry: entry, knownPercent: known.percent(entry.id), progress: progress)
         }
     }

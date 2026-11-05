@@ -4,9 +4,10 @@ import LanguageCore
 import PackKit
 
 /// The reader (HANDOFF.md 3.1): clean serif text, nothing highlighted but the current selection.
-/// Tapping a word opens help.
+/// Tapping a word opens help. In a session it's the Read stage, and `onDone` moves the session on.
 struct ReaderView: View {
     let textID: String
+    var onDone: (() -> Void)? = nil
 
     @Environment(AppModel.self) private var model
     @Environment(Preferences.self) private var prefs
@@ -97,28 +98,28 @@ struct ReaderView: View {
         .padding(.bottom, 4)
     }
 
-    private func footer(_ text: ReadingText) -> some View {
+    /// One way on: the session's next stage, or from a text opened elsewhere (a dictionary example), the
+    /// session's plan. Reaching the end of the text in a session marks it read.
+    @ViewBuilder private func footer(_ text: ReadingText) -> some View {
         VStack(spacing: 12) {
             Divider().padding(.vertical, 8)
-            if !text.questions.isEmpty {
-                NavigationLink(value: Route.questions(text.id)) {
-                    Text("Questions (\(text.questions.count))")
+            if let onDone {
+                Button {
+                    RememberStore(context: context, prefs: prefs, content: model.content)
+                        .updateProgress(textID: textID, position: 1)
+                    onDone()
+                } label: {
+                    Text("Continue")
                 }
                 .buttonStyle(PrimaryButtonStyle())
-            }
-            if PracticeEntry.hasPractice(text) {
+                .accessibilityIdentifier("session.readDone")
+            } else {
                 NavigationLink(value: Route.practice(text.id)) {
                     Text("Practise this text")
                 }
-                .buttonStyle(SecondaryButtonStyle())
+                .buttonStyle(PrimaryButtonStyle())
                 .accessibilityIdentifier("reader.practice")
             }
-            Button {
-                RememberStore(context: context, prefs: prefs, content: model.content).updateProgress(textID: textID, position: 1)
-            } label: {
-                Label("Mark as read", systemImage: "checkmark")
-            }
-            .buttonStyle(SecondaryButtonStyle())
         }
     }
 
@@ -144,13 +145,6 @@ struct ReaderView: View {
                 Image(systemName: "textformat.size")
             }
             .accessibilityLabel("Text size")
-
-            if sizeClass == .regular && !text.questions.isEmpty {
-                NavigationLink(value: Route.questions(text.id)) {
-                    Image(systemName: "questionmark.bubble")
-                }
-                .accessibilityLabel("Questions")
-            }
         }
     }
 

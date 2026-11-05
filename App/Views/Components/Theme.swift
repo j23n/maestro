@@ -19,6 +19,8 @@ enum Theme {
     static let added = Pair(dynamic(0xE7F3EC, 0x163222), dynamic(0x1D5A35, 0x9CD8B1))
     static let error = Pair(dynamic(0xFDECEA, 0x3A1715), dynamic(0x8E1B1B, 0xFFB4AB))
     static let warning = Pair(dynamic(0xFFF4E5, 0x3A2A10), dynamic(0x6B3A00, 0xFFCF8A))
+    /// A session's Read stage (tokens.json `color.stage.read`).
+    static let read = Pair(dynamic(0xF4EFE6, 0x2E2818), dynamic(0x5A4A2E, 0xE3D3B0))
     static let irregularForm = dynamic(0x9A4300, 0xFFA05C)
     static let irregularBadge = Pair(dynamic(0xFFF0E3, 0x3A2412), dynamic(0x8A3D00, 0xFFB57A))
 

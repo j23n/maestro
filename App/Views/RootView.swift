@@ -119,6 +119,7 @@ struct RouteView: View {
     var body: some View {
         switch route {
         case .text(let id): ReaderView(textID: id)
+        // Nothing in the app pushes the questions on their own; the route opens them for -uiRoute (screenshots).
         case .questions(let id): QuestionsView(textID: id)
         case .practice(let id): SessionView(textID: id)
         case .entry(let id): EntryView(lemmaID: id)

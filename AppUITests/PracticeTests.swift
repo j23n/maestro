@@ -1,7 +1,7 @@
 import XCTest
 
-/// Sessions after a text (HANDOFF.md 3.9): the reader offers one, every stage and drill can be answered or
-/// revealed, and the wrap-up offers a card for what needed help.
+/// A text's session (HANDOFF.md 3.9): it opens with the text, every stage and drill can be answered or
+/// revealed, and the wrap-up offers a card for what needed help. A text opened elsewhere offers one.
 final class PracticeTests: XCTestCase {
     private let base = ["-uiTesting", "-onboarded", "YES", "-uiTab", "read"]
 
@@ -26,6 +26,14 @@ final class PracticeTests: XCTestCase {
         let start = app.buttons["practice.start"]
         XCTAssertTrue(start.waitForExistence(timeout: 30), "The session plan didn't open")
         start.tap()
+
+        // The text comes first, and its end moves the session on.
+        let reader = app.scrollViews["reader"]
+        XCTAssertTrue(reader.waitForExistence(timeout: 10), "The session didn't open with the text")
+        let readDone = app.buttons["session.readDone"]
+        for _ in 0..<10 where !readDone.isHittable { reader.swipeUp() }
+        XCTAssertTrue(readDone.isHittable, "The text has no way on")
+        readDone.tap()
 
         let done = app.staticTexts["Session done"]
         let stageStart = app.buttons["session.stageStart"]
