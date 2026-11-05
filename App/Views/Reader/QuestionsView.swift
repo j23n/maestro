@@ -8,6 +8,8 @@ import SyncLogic
 /// sentence that answers it.
 struct QuestionsView: View {
     let textID: String
+    /// Shown as a session's Questions stage, which has its own way on.
+    var inSession = false
 
     @Environment(AppModel.self) private var model
     @Environment(Preferences.self) private var prefs
@@ -43,10 +45,10 @@ struct QuestionsView: View {
                             .font(.headline)
                     }
                 }
-                if let topic = PracticeEntry.topic(of: text) {
+                if !inSession && PracticeEntry.hasPractice(text) {
                     Section {
                         NavigationLink(value: Route.practice(text.id)) {
-                            Label("Practise: \(model.grammarTitle(topic))", systemImage: "pencil.and.list.clipboard")
+                            Label("Practise this text", systemImage: "pencil.and.list.clipboard")
                                 .frame(minHeight: 44)
                         }
                     }

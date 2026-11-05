@@ -4,6 +4,8 @@ import LanguageCore
 import LexiconKit
 import SRSKit
 import SyncLogic
+import PackKit
+import PracticeKit
 
 /// Something the learner can keep, with the snapshot its card shows (HANDOFF.md 3.4).
 struct RememberItem: Hashable, Identifiable {
@@ -264,6 +266,27 @@ struct RememberItem: Hashable, Identifiable {
         p.answersJSON = MergeRules.encodeAnswers(answers)
         p.updatedAt = .now
         try? context.save()
+    }
+
+    // MARK: Drill outcomes
+
+    /// Stores how a session's drill ended, for Review (HANDOFF.md 3.9).
+    func recordDrill(textID: String, drill: Drill, outcome: Outcome, at date: Date = .now) {
+        context.insert(DrillLog(textID: textID, drillKey: drill.stableKey, strand: drill.strandKind.rawValue,
+                                outcome: outcome.rawValue, at: date, deviceID: prefs.deviceID))
+        try? context.save()
+    }
+
+    /// The active language's drill outcomes, oldest first.
+    func drillRecords(language: Language) -> [DrillRecord] {
+        let code = language.rawValue
+        let descriptor = FetchDescriptor<DrillLog>(predicate: #Predicate { $0.language == code },
+                                                   sortBy: [SortDescriptor(\.at)])
+        return ((try? context.fetch(descriptor)) ?? []).compactMap { log in
+            Outcome(rawValue: log.outcome).map {
+                DrillRecord(textID: log.textID, drillKey: log.drillKey, outcome: $0, at: log.at)
+            }
+        }
     }
 
     // MARK: Lookups

@@ -49,6 +49,11 @@ import SRSKit
         }
     }
 
+    /// Sessions after a text (HANDOFF.md 3.9): Short or Full, and the stages switched off, such as
+    /// "say,review". Synced like the other preferences; a new stage is on until switched off.
+    var sessionShort: Bool { didSet { save("sessionShort", sessionShort) } }
+    var sessionOff: Set<String> { didSet { save("sessionOff", sessionOff.sorted().joined(separator: ",")) } }
+
     var onboarded: Bool { didSet { local.set(onboarded, forKey: "onboarded") } }
     let deviceID: String
 
@@ -75,6 +80,9 @@ import SRSKit
         } else {
             fsrs = .default
         }
+        sessionShort = value("sessionShort") ?? true
+        let off: String = value("sessionOff") ?? ""
+        sessionOff = Set(off.split(separator: ",").map(String.init))
         onboarded = UserDefaults.standard.bool(forKey: "onboarded")
         if let id = UserDefaults.standard.string(forKey: "deviceID") {
             deviceID = id
@@ -114,6 +122,11 @@ import SRSKit
         }
         if let v = cloud.object(forKey: "textScale") as? Double, v != textScale { textScale = v }
         if let v = cloud.object(forKey: "translationInHelp") as? Bool, v != translationInHelp { translationInHelp = v }
+        if let v = cloud.object(forKey: "sessionShort") as? Bool, v != sessionShort { sessionShort = v }
+        if let v = cloud.string(forKey: "sessionOff") {
+            let off = Set(v.split(separator: ",").map(String.init))
+            if off != sessionOff { sessionOff = off }
+        }
         if let data = cloud.data(forKey: "fsrs"), let p = try? JSONDecoder().decode(FSRSParameters.self, from: data), p != fsrs {
             fsrs = p
         }

@@ -118,12 +118,40 @@ import LanguageCore
     }
 }
 
+/// How one drill of a session ended (HANDOFF.md 3.9), for the Review stage. Append-only, and kept on
+/// this device for now (cloudKitDatabase: .none): syncing it needs its record type in CloudKit's
+/// Production schema first. Drills are found again by their stable `drillKey`, never their `d<n>` ID.
+@Model final class DrillLog {
+    var id: UUID = UUID()
+    var textID: String = ""
+    var drillKey: String = ""
+    var strand: String = ""
+    /// firstTry, afterHint or shown (PracticeKit's `Outcome`).
+    var outcome: String = ""
+    var at: Date = Date.now
+    var tzOffsetMinutes: Int = 0
+    var deviceID: String = ""
+    var language: String = "it"
+
+    init(textID: String, drillKey: String, strand: String, outcome: String, at: Date, deviceID: String) {
+        self.textID = textID
+        self.drillKey = drillKey
+        self.strand = strand
+        self.outcome = outcome
+        self.at = at
+        self.tzOffsetMinutes = TimeZone.current.secondsFromGMT(for: at) / 60
+        self.deviceID = deviceID
+        self.language = Language.of(id: textID)?.rawValue ?? "it"
+    }
+}
+
 enum LearnerSchema {
     static var synced: [any PersistentModel.Type] { [Card.self, ReviewLog.self, TextProgress.self, LookupEntry.self] }
-    static var local: [any PersistentModel.Type] { [ScheduleState.self] }
+    static var local: [any PersistentModel.Type] { [ScheduleState.self, DrillLog.self] }
 
     /// Two stores: the synced one in the CloudKit private database (when the app is signed with the
-    /// iCloud entitlement; otherwise local), and the schedule cache, never synced.
+    /// iCloud entitlement; otherwise local), and a local one for the schedule cache and drill logs,
+    /// never synced.
     @MainActor static func makeContainer(inMemory: Bool = false) -> ModelContainer {
         let all = Schema(synced + local)
         let syncedStore = ModelConfiguration("Learner", schema: Schema(synced), isStoredInMemoryOnly: inMemory,

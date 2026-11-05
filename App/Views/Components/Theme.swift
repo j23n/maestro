@@ -1,5 +1,6 @@
 import SwiftUI
 import LanguageCore
+import PracticeKit
 
 /// Colours and type from design/tokens.json. The mocks are light only; dark values are first guesses.
 enum Theme {
@@ -35,6 +36,18 @@ enum Theme {
         case .word: Pair(dynamic(0xF1F2F4, 0x2A2B2F), dynamic(0x2B2E33, 0xE2E3E6))
         case .verbForm: Pair(dynamic(0xDDF1EB, 0x15302A), dynamic(0x1F5F52, 0x8FD6C3))
         case .grammar: Pair(dynamic(0xE3EAFF, 0x1B2440), dynamic(0x1E3F99, 0xA9BEFF))
+        }
+    }
+
+    /// A session stage's colours: Words, Grammar and Verbs share their Remember kind's.
+    static func stage(_ stage: StageKind) -> Pair {
+        switch stage {
+        case .words: kind(.word)
+        case .grammar: kind(.grammar)
+        case .verbs: kind(.verbForm)
+        case .say: Pair(dynamic(0xF3E6FA, 0x33203F), dynamic(0x5B2378, 0xE2B8F5))
+        case .review: warning
+        case .questions: Pair(chip, dynamic(0x3B3F45, 0xC9CCD2))
         }
     }
 
