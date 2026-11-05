@@ -16,12 +16,21 @@ Die Lampe ist neu. || The lamp is new.
 Das Bett ist alt, aber gut. || The bed is old but good.
 
 > Jonas: Hallo, Lena! || Hi, Lena!
+@fn greet
 > Jonas: Ist das die Wohnung? || Is this the flat?
+@fn ask-where
 > Lena: Ja, das ist die Wohnung. || Yes, this is the flat.
+@fn confirm
 > Lena: Hier ist die Küche. || Here is the kitchen.
+@fn say-where
 > Jonas: Und wo ist das Bad? || And where is the bathroom?
+@fn ask-where
+@accept (Und) wo ist das {Bad|Badezimmer}?
 > Lena: Das Bad ist dort. || The bathroom is over there.
+@fn say-where
 > Jonas: Die Wohnung ist wirklich schön. || The flat is really nice.
+@fn praise
+@accept Die Wohnung ist {wirklich|sehr} schön.
 
 ?? Wo wohnt Lena? || Where does Lena live? @s1
 - In Berlin || In Berlin

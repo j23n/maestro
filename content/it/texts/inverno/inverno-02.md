@@ -9,18 +9,32 @@ window: 12-26..01-01
 speakers: Luca m, Anna f
 
 > Luca: Ciao Anna, che cosa fai a Capodanno? || Hi Anna, what are you doing for New Year's Eve?
+@fn ask-plans
 > Anna: Non so ancora. E tu? || I don't know yet. And you?
+@fn say-unsure
+@accept {Non so ancora|Non lo so ancora|Non lo so}. E tu?
 > Luca: Faccio una festa a casa mia. Vieni anche tu? || I'm having a party at my place. Are you coming too?
+@fn invite
 > Anna: Sì, volentieri! Che cosa porto? || Yes, gladly! What shall I bring?
+@fn accept
+@accept {Sì, volentieri|Volentieri|Sì, certo}! {Che cosa|Cosa} porto?
 > Luca: Puoi portare il dolce? || Can you bring dessert?
+@fn ask-help
 > Anna: Va bene, compro un panettone. || OK, I'll buy a panettone.
+@fn agree
 > Luca: Perfetto. Io preparo le lenticchie. || Perfect. I'm making the lentils.
 > Anna: Le lenticchie? Perché? || Lentils? Why?
+@fn ask-why
+@accept (Le lenticchie?) {Perché|Come mai}?
 > Luca: A Capodanno in Italia mangiamo le lenticchie. || At New Year in Italy we eat lentils.
+@fn explain
 > Luca: Portano soldi per tutto l'anno! || They bring money for the whole year!
 > Anna: Allora mangio tre piatti! || Then I'll eat three plates!
 > Anna: A che ora comincia la festa? || What time does the party start?
+@fn ask-time
+@accept A che ora {comincia|inizia} (la festa)?
 > Luca: Alle nove. A mezzanotte guardiamo i fuochi d'artificio dal balcone. || At nine. At midnight we watch the fireworks from the balcony.
+@fn say-time
 
 ?? Dov'è la festa? || Where is the party? @s3
 * A casa di Luca || At Luca's place
