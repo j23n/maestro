@@ -267,9 +267,8 @@ def verbs_strand(text: dict, recipes, forms: Forms, introduces: list[str],
     out: list[Candidate] = []
     intro: list[dict] = []
     for s, i, tok in verbs:
-        key, person = form_key(tok["form"]), form_person(tok["form"])
         intro.append({"lemmaID": tok["lemmaID"], "word": headword(tok["lemmaID"]), "surface": tok["t"],
-                      "form": _label(recipes, key, person), "sentence": s["id"], "r": tok["r"]})
+                      "form": tok["form"], "sentence": s["id"], "r": tok["r"]})
     for s, i, tok in verbs:
         if sum(1 for c in out if c.recipe == "form-identify") == 2:
             break
